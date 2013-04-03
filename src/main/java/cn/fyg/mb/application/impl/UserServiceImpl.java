@@ -11,7 +11,7 @@ import cn.fyg.mb.domain.user.UserRepository;
 @Service
 public class UserServiceImpl implements UserService {
 
-//	@Autowired
+	@Autowired
 	UserRepository userRepository;
 	
 	@Override
