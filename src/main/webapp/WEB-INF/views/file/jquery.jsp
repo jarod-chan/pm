@@ -5,13 +5,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Insert title here</title>
-    <link href="/ct/resources/css/default.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="/ct/resources/demo/swfupload.js"></script>
-    <script type="text/javascript" src="/ct/resources/demo/swfupload.queue.js"></script>
-    <script type="text/javascript" src="/ct/resources/demo/fileprogress.js"></script>
-    <script type="text/javascript" src="/ct/resources/demo/handlers.js"></script>
-    <script type="text/javascript" src="/ct/resources/demo/jquery-1.4.3.js"></script>
-    <script type="text/javascript" src="/ct/resources/demo/jquery.swfupload.js"></script>
+    <link href="/pm/resources/css/default.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="/pm/resources/demo/swfupload.js"></script>
+    <script type="text/javascript" src="/pm/resources/demo/swfupload.queue.js"></script>
+    <script type="text/javascript" src="/pm/resources/demo/fileprogress.js"></script>
+    <script type="text/javascript" src="/pm/resources/demo/handlers.js"></script>
+    <script type="text/javascript" src="/pm/resources/demo/jquery-1.4.3.js"></script>
+    <script type="text/javascript" src="/pm/resources/demo/jquery.swfupload.js"></script>
 
     <style type="text/css">
         #swfupload-control p {
@@ -65,25 +65,25 @@
             right: 5px;
             width: 20px;
             height: 20px;
-            background: url('/ct/resources/demo/cancel.png') no-repeat;
+            background: url('/pm/resources/demo/cancel.png') no-repeat;
             cursor: pointer;
         }
 
         #img span.cancel {
-            background: url('/ct/resources/demo/cancel.png') no-repeat;
+            background: url('/pm/resources/demo/cancel.png') no-repeat;
         }
     </style>
 
     <script type="text/javascript">
         $(function () {
             $('#swfupload-control').swfupload({
-                upload_url:"/ct/jquery/doupload4",
+                upload_url:"/pm/jquery/doupload4",
                 file_post_name:'uploadfile',
                 file_size_limit:"20000 MB",
                 file_types:"*.*",
                 file_types_description:"All files",
-                flash_url:"/ct/resources/demo/swfupload.swf",
-                button_image_url:'/ct/resources/demo/wdp_buttons_upload_114x29.png',
+                flash_url:"/pm/resources/demo/swfupload.swf",
+                button_image_url:'/pm/resources/demo/wdp_buttons_upload_114x29.png',
                 button_width:114,
                 button_height:29,
                 button_placeholder:$('#button')[0]

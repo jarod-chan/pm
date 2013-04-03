@@ -77,10 +77,10 @@ body, td, th {
 
 </style>
 
-<script type="text/javascript" src="/ct/resources/js/jquery.js"></script>
-<script type="text/javascript" src="/ct/resources/plugin/swfupload3/swfupload.js"></script>
-<script type="text/javascript" src="/ct/resources/plugin/swfupload3/swfupload.queue.js"></script>
-<script type="text/javascript" src="/ct/resources/plugin/swfupload3/handlers.js"></script>
+<script type="text/javascript" src="/pm/resources/js/jquery.js"></script>
+<script type="text/javascript" src="/pm/resources/plugin/swfupload3/swfupload.js"></script>
+<script type="text/javascript" src="/pm/resources/plugin/swfupload3/swfupload.queue.js"></script>
+<script type="text/javascript" src="/pm/resources/plugin/swfupload3/handlers.js"></script>
 
 
 
@@ -89,8 +89,8 @@ var swfu;
 
 window.onload = function() {
 	var settings = {
-		flash_url : "/ct/resources/plugin/swfupload3/swfupload.swf",
-		upload_url: "/ct/prototype/upload",
+		flash_url : "/pm/resources/plugin/swfupload3/swfupload.swf",
+		upload_url: "/pm/prototype/upload",
 		post_params: {"PHPSESSID" : ""},
 		file_size_limit : "0",
 		file_types : "*.*",
@@ -104,7 +104,7 @@ window.onload = function() {
 		debug: false,
 
 		// Button settings		
-		button_image_url: "/ct/resources/plugin/swfupload2/XPButtonNoText_61x22.png",
+		button_image_url: "/pm/resources/plugin/swfupload2/XPButtonNoText_61x22.png",
 		button_width: "61",
 		button_height: "22",
 		button_placeholder_id: "spanButtonPlaceHolder",

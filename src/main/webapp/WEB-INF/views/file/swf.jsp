@@ -7,19 +7,19 @@
 <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
 <meta http-equiv="pragma" content="no-cache" />
 
-<link href="/ct/resources/css/default.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="/ct/resources/plugin/swfupload/swfupload.js"></script>
-<script type="text/javascript" src="/ct/resources/plugin/swfupload/swfupload.queue.js"></script>
-<script type="text/javascript" src="/ct/resources/plugin/swfupload/handlers.js"></script>
-<script type="text/javascript" src="/ct/resources/plugin/swfupload/fileprogress.js"></script>
+<link href="/pm/resources/css/default.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/pm/resources/plugin/swfupload/swfupload.js"></script>
+<script type="text/javascript" src="/pm/resources/plugin/swfupload/swfupload.queue.js"></script>
+<script type="text/javascript" src="/pm/resources/plugin/swfupload/handlers.js"></script>
+<script type="text/javascript" src="/pm/resources/plugin/swfupload/fileprogress.js"></script>
 
 <script type="text/javascript">
 		var swfu;
 
 		window.onload = function() {
 			var settings = {
-				flash_url : "/ct/resources/plugin/swfupload/swfupload.swf",
-				upload_url: "/ct/swf/upload",
+				flash_url : "/pm/resources/plugin/swfupload/swfupload.swf",
+				upload_url: "/pm/swf/upload",
 				post_params: {"PHPSESSID" : ""},
 				file_size_limit : "0",
 				file_types : "*.*",
@@ -33,7 +33,7 @@
 				debug: false,
 
 				// Button settings
-				button_image_url: "/ct/resources/images/TestImageNoText_65x29.png",
+				button_image_url: "/pm/resources/images/TestImageNoText_65x29.png",
 				button_width: "65",
 				button_height: "29",
 				button_placeholder_id: "spanButtonPlaceHolder",
@@ -66,7 +66,7 @@
 
 <div id="content">
 	<h2>Simple Demo</h2>
-	<form id="form1" action="/ct/swf/upload" method="post" enctype="multipart/form-data">
+	<form id="form1" action="/pm/swf/upload" method="post" enctype="multipart/form-data">
 		<p>This page demonstrates a simple usage of SWFUpload.  It uses the Queue Plugin to simplify uploading or cancelling all queued files.</p>
 
 			<div class="fieldset flash" id="fsUploadProgress">

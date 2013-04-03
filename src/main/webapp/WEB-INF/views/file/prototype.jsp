@@ -137,12 +137,12 @@ body, td, th {
 -->
 </style>
 
-<script type="text/javascript" src="/ct/resources/js/jquery.js"></script>
-<script type="text/javascript" src="/ct/resources/js/drag.js"></script>
-<script type="text/javascript" src="/ct/resources/plugin/swfupload2/swfupload.js"></script>
-<script type="text/javascript" src="/ct/resources/plugin/swfupload2/swfupload.queue.js"></script>
-<script type="text/javascript" src="/ct/resources/plugin/swfupload2/handlers.js"></script>
-<script type="text/javascript" src="/ct/resources/plugin/swfupload2/fileprogress.js"></script>
+<script type="text/javascript" src="/pm/resources/js/jquery.js"></script>
+<script type="text/javascript" src="/pm/resources/js/drag.js"></script>
+<script type="text/javascript" src="/pm/resources/plugin/swfupload2/swfupload.js"></script>
+<script type="text/javascript" src="/pm/resources/plugin/swfupload2/swfupload.queue.js"></script>
+<script type="text/javascript" src="/pm/resources/plugin/swfupload2/handlers.js"></script>
+<script type="text/javascript" src="/pm/resources/plugin/swfupload2/fileprogress.js"></script>
 
 
 
@@ -152,9 +152,9 @@ var upLoadBox = {
 		init: function(options) {
 			var self = this;
 			var defaults = {
-				flash_url: "/ct/resources/plugin/swfupload2/swfupload.swf",
+				flash_url: "/pm/resources/plugin/swfupload2/swfupload.swf",
 				flash9_url: "../swfupload/swfupload_fp9.swf",
-				upload_url: "/ct/resources/plugin/swfupload2/upload",                               //asp上传程序
+				upload_url: "/pm/resources/plugin/swfupload2/upload",                               //asp上传程序
 				post_params: {
 					"PHPSESSID": ""
 				},
@@ -166,7 +166,7 @@ var upLoadBox = {
 				debug: false,
 
 				// Button settings
-				button_image_url: "/ct/resources/plugin/swfupload2/XPButtonNoText_61x22.png",
+				button_image_url: "/pm/resources/plugin/swfupload2/XPButtonNoText_61x22.png",
 				button_width: "61",
 				button_height: "22",
 				button_placeholder_id: "spanButtonPlaceHolder",
@@ -392,7 +392,7 @@ var upLoadBox = {
 			if (file.filestatus != -5) {
 				$.ajax({
 					type: "POST",
-					url: "/ct/prototype/uploadAjax",
+					url: "/pm/prototype/uploadAjax",
 					data: file,
 					success: function(ret) {
 						if (ret != "" && self.getStats().files_queued !== 0) {
@@ -412,9 +412,9 @@ var upLoadBox = {
 	 window.onload = function() {
 		       //swfupload 设置
 				var settings = {
-					flash_url : "/ct/resources/plugin/swfupload2/swfupload.swf",
+					flash_url : "/pm/resources/plugin/swfupload2/swfupload.swf",
 					flash9_url : "../swfupload/swfupload_fp9.swf",
-					upload_url: "/ct/prototype/upload",
+					upload_url: "/pm/prototype/upload",
 					post_params: {"PHPSESSID" : ""},
 					file_size_limit :0,
 					file_types : "*.*",
@@ -424,7 +424,7 @@ var upLoadBox = {
 					debug:false,
 
 					// Button settings
-					button_image_url: "/ct/resources/plugin/swfupload2/XPButtonNoText_61x22.png",
+					button_image_url: "/pm/resources/plugin/swfupload2/XPButtonNoText_61x22.png",
 					button_width: "61",
 					button_height: "22",
 					button_placeholder_id: "spanButtonPlaceHolder",

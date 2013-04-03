@@ -10,13 +10,13 @@
 </head>
 <body>
 ${message}
-<form action="/ct/general/upload" method="post" enctype="multipart/form-data">
+<form action="/pm/general/upload" method="post" enctype="multipart/form-data">
 	<input type="text" name="name"><br>
 	<input type="file" name="file"><br>
 	<input type="submit" value="upload">
 </form>
 
-<form action="/ct/general/save" method="post">
+<form action="/pm/general/save" method="post">
 	<input type="text" name="name"><br>
 	<input type="submit" value="submit">
 </form>
