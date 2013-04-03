@@ -19,11 +19,11 @@ public class TestUserService {
 	@Test
 	public void testSave(){
 		User user = new User();
-		user.setKey_("test4");
+		user.setKey("test4");
 		user.setRealname("realname4");
 		this.userService.save(user);
 		
-		this.userService.delete(user.getKey_());
+		this.userService.delete(user.getKey());
 	}
 
 }

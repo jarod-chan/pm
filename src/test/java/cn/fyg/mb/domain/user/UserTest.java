@@ -1,4 +1,4 @@
-package test;
+package cn.fyg.mb.domain.user;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -16,7 +16,7 @@ import cn.fyg.mb.domain.user.UserRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext.xml")
-public class SpringTest {
+public class UserTest {
 	
 	@Autowired
 	UserRepository userMapper;
@@ -32,11 +32,11 @@ public class SpringTest {
 	}
 	
 
-	
+	//TODO: 用户保存方有问题
 	@Test
 	public void testSave(){
 		User user=new User();
-		user.setKey_("key3");
+		user.setKey("key3");
 		user.setRealname("realname3");
 		userMapper.save(user);
 		

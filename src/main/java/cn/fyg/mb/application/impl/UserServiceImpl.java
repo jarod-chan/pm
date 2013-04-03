@@ -18,13 +18,13 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public User save(User user) {
 		this.userRepository.save(user);
-		return userRepository.find(user.getKey_());
+		return userRepository.find(user.getKey());
 	}
 
 	@Override
 	@Transactional
-	public void delete(String key_) {
-		this.userRepository.delete(key_);
+	public void delete(String key) {
+		this.userRepository.delete(key);
 	}
 
 }

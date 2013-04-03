@@ -16,18 +16,18 @@
 
 	<insert id="save" parameterType="User">
 		insert into userentity
-		(key_,realname) values(#{key_},#{realname})
+		(key,realname) values(#{key},#{realname})
 	</insert>
 	
 	<select id="find" resultType="User" parameterType="string" >
 	    select uuid, realname FROM
 		userentity
-		where key_=#{key_}
+		where key=#{key}
 	</select>
 	
 	<delete id="delete" parameterType="string" >
 		delete from userentity
-		where key_=#{key_}
+		where key=#{key}
 	</delete>
 
 </mapper>
