@@ -15,7 +15,7 @@
 		</tr>
 		<c:forEach var="map" items="${userMap}">
 			<tr>
-				<td>${map.uuid}</td><td>${map.realname}</td>
+				<td>${map.key}</td><td>${map.realname}</td>
 			</tr>
 		</c:forEach>
 	</table>

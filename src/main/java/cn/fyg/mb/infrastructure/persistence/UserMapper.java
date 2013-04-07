@@ -1,18 +1,17 @@
 package cn.fyg.mb.infrastructure.persistence;
 
-import java.util.HashMap;
 import java.util.List;
 
 import cn.fyg.mb.domain.user.User;
 
 public interface UserMapper {
 	
-	public List<HashMap<String,Object>> getAll();
+	void insert(User user);
 	
-	public void save(User user);
+	 List<User> findAll();
 	
-	public User find(String key_);
+	 User find(String key);
 	
-	public void delete(String key_);
+	 void delete(String key);
 
 }

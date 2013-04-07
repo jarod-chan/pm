@@ -4,30 +4,37 @@
 
 <mapper namespace="cn.fyg.mb.infrastructure.persistence.UserMapper">
 
-	<resultMap id="hashmap" type="java.util.HashMap">
-		<result property="uuid" column="uuid" />
-		<result property="realname" column="realname" />
+	<resultMap id="userMap" type="User">
+		<id column="key_" jdbcType="VARCHAR" property="key" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="cellphone" jdbcType="VARCHAR" property="cellphone" />
+		<result column="realname" jdbcType="VARCHAR" property="realname" />
+		<result column="password" jdbcType="VARCHAR" property="password" />
+		<result column="salt" jdbcType="VARCHAR" property="salt" />
+		<result column="enabled" jdbcType="BIT" property="enabled" />
 	</resultMap>
 
-	<select id="getAll" resultMap="hashmap">
-		select uuid, realname FROM
-		userentity
+	<select id="findAll" resultMap="userMap">
+		select key_, realname FROM
+		pm_user
 	</select>
 
-	<insert id="save" parameterType="User">
-		insert into userentity
-		(key,realname) values(#{key},#{realname})
+	<insert id="insert" parameterType="User">
+    insert into pm_user (key_, email, cellphone, realname, password, salt, enabled)
+    values (#{key,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{cellphone,jdbcType=VARCHAR}, 
+    #{realname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
+    #{enabled,jdbcType=BIT})
 	</insert>
 	
 	<select id="find" resultType="User" parameterType="string" >
-	    select uuid, realname FROM
-		userentity
-		where key=#{key}
+	    select key_, realname FROM
+		pm_user
+		where key_=#{key}
 	</select>
 	
 	<delete id="delete" parameterType="string" >
-		delete from userentity
-		where key=#{key}
+		delete from pm_user
+		where key_=#{key}
 	</delete>
 
 </mapper>

@@ -1,6 +1,5 @@
 package cn.fyg.mb.domain.user;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,20 +13,21 @@ public class UserRepository {
 	@Autowired
 	UserMapper userMapper;
 	
-	public List<HashMap<String,Object>> getAll(){
-		return userMapper.getAll();
+	public List<User> findAll(){
+		return userMapper.findAll();
 	}
 	
-
 	public void save(User user){
-		userMapper.save(user);
+		userMapper.insert(user);
 	}
 	
-	public User find(String key_){
-		return userMapper.find(key_);
+	public User find(String key){
+		return userMapper.find(key);
 	}
 	
-	public void delete(String key_){
-		userMapper.delete(key_);
+	public void delete(String key){
+		userMapper.delete(key);
 	}
+	
+	
 }

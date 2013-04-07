@@ -1,8 +1,10 @@
 package cn.fyg.mb.domain.user;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+
 public class User {
 	
-	private String key;
+	private String key;	//作为主键
 	private String email;	//邮箱
 	private String cellphone; //手机
 	private String realname;	//用户姓名
@@ -54,6 +56,9 @@ public class User {
 		this.enabled = enabled;
 	}
 
-
+	@Override
+	public String toString() {
+		 return ReflectionToStringBuilder.toString(this); 
+	}
 
 }
