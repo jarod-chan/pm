@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import cn.fyg.mb.domain.user.User;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:applicationContext.xml")
 public class ProjectRepositoryTest {
@@ -19,6 +21,9 @@ public class ProjectRepositoryTest {
 		project.setNo("no");
 		project.setName("name");
 		
+		User user=new User();
+		user.setKey("chenzw");
+		project.setUser(user);
 		projectRepository.save(project);
 		
 		System.out.println(project);

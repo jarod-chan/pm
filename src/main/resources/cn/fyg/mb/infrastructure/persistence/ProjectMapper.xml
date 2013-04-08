@@ -8,8 +8,9 @@
 		<selectKey resultType="long" order="AFTER" keyProperty="id">
 			select last_insert_id() as id
 		</selectKey>
-		insert into pm_project
-		(no,name) values(#{no},#{name})
+		 insert into pm_project (id, no, name,user_id)
+   		 values (#{id,jdbcType=BIGINT}, #{no,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      	#{user.key,jdbcType=VARCHAR})
 	</insert>
 	
 	

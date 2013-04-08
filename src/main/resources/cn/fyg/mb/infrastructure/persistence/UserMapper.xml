@@ -15,8 +15,7 @@
 	</resultMap>
 
 	<select id="findAll" resultMap="userMap">
-		select key_, realname FROM
-		pm_user
+		select * from pm_user
 	</select>
 
 	<insert id="insert" parameterType="User">
@@ -27,14 +26,13 @@
 	</insert>
 	
 	<select id="find" resultType="User" parameterType="string" >
-	    select key_, realname FROM
+	    select * from
 		pm_user
 		where key_=#{key}
 	</select>
 	
 	<delete id="delete" parameterType="string" >
-		delete from pm_user
-		where key_=#{key}
+		delete from pm_user where key_=#{key}
 	</delete>
 
 </mapper>
