@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import cn.fyg.pm.application.UserService;
 import cn.fyg.pm.domain.user.User;
-import cn.fyg.pm.domain.user.UserRepository;
 
 @Controller
 public class HelloCtl {
@@ -19,14 +19,14 @@ public class HelloCtl {
 		String HELLO = PATH + "hello";
 	}
 	
-/*	@Autowired
-	UserRepository userMapper;
+	@Autowired
+	UserService userService;
 	
 	@RequestMapping(value="/hello",method=RequestMethod.GET)
 	public String toHello(Map<String,Object> map){
-		List<User> userMap = userMapper.findAll();
-		map.put("userMap", userMap);
+		List<User> userList = userService.findAll();
+		map.put("userList", userList);
 		return Page.HELLO;
-	}*/
+	}
 
 }

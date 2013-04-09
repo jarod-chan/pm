@@ -1,14 +1,15 @@
 package cn.fyg.pm.domain.project;
 
+import java.util.List;
 
+import org.springframework.data.repository.Repository;
 
-public class ProjectRepository {
+public interface ProjectRepository extends Repository<Project,Long> {
 	
-/*	@Autowired
-	ProjectMapper projectMapper;
+	Project save(Project project);
+
+	List<Project> findAll();
 	
-	public void save(Project project){
-		projectMapper.save(project);
-	}
-*/
+	void delete(Long id);
+
 }

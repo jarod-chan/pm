@@ -1,5 +1,7 @@
 package cn.fyg.pm.domain.user;
 
+import java.util.List;
+
 import org.springframework.data.repository.Repository;
 
 public interface UserRepository extends Repository<User, String>{
@@ -8,4 +10,5 @@ public interface UserRepository extends Repository<User, String>{
 	
 	void delete(String key);
 	
+	List<User> findAll();
 }

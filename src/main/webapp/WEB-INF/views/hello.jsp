@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
+
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta http-equiv="cache-control" content="no-cache" />
 <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
@@ -13,7 +14,7 @@
 		<tr>
 			<td>uuid</td><td>reanlname</td>
 		</tr>
-		<c:forEach var="map" items="${userMap}">
+		<c:forEach var="map" items="${userList}">
 			<tr>
 				<td>${map.key}</td><td>${map.realname}</td>
 			</tr>

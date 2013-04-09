@@ -1,5 +1,6 @@
 package cn.fyg.pm.domain.user;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -11,6 +12,7 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 public class User {
 	
 	@Id
+	@Column(name="key_")
 	private String key;	//作为主键
 	private String email;	//邮箱
 	private String cellphone; //手机

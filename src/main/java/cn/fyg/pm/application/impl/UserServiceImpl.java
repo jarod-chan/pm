@@ -1,5 +1,7 @@
 package cn.fyg.pm.application.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,11 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public void delete(String key) {
 		this.userRepository.delete(key);
+	}
+
+	@Override
+	public List<User> findAll() {
+		return this.userRepository.findAll();
 	}
 
 }
