@@ -21,25 +21,34 @@
 </head>
 
 <body>
-	<h2>项目</h2>
+	<h2>合同</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<form action="${ctx}/project" method="post">
+	<form action="${ctx}/contract" method="post">
 		编号：
 		<input type="text" name="no" value=""/>
 		
 		<br>
-		项目名称：
+		合同名称：
 		<input type="text" name="name" value=""/>
 		
 		<br>
-		项目负责人:
-		<select name="user.key">
-			<c:forEach var="user" items="${userList}">
-				<option value="${user.key}">${user.name}</option>
+		所属项目:
+		<select name="project.id">
+			<c:forEach var="project" items="${projectList}">
+				<option value="${project.id}">${project.name}</option>
 			</c:forEach>
 		</select>
 		<br>
+		供应商:
+		<select name="supplier.id">
+			<c:forEach var="supplier" items="${supplierList}">
+				<option value="${supplier.id}">${supplier.name}</option>
+			</c:forEach>
+		</select>
+		<br>
+		
+		
 		<input type="button" value="保存"  id="btn_save">
 		
 	</form>

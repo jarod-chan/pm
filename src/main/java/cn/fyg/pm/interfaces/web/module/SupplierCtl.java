@@ -46,7 +46,7 @@ public class SupplierCtl {
 	}
 	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
-	public String save(@RequestParam("supplierId") Long supplierId){
+	public String delete(@RequestParam("supplierId") Long supplierId){
 		supplierService.delete(supplierId);
 		return "redirect:list";
 	}

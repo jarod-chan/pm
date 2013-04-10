@@ -21,7 +21,7 @@ public class TestUserService {
 	public void testSave(){
 		User user = new User();
 		user.setKey("test4");
-		user.setRealname("realname4");
+		user.setName("realname4");
 		this.userService.save(user);
 		
 		this.userService.delete(user.getKey());

@@ -16,12 +16,18 @@ public class User {
 	private String key;	//作为主键
 	private String email;	//邮箱
 	private String cellphone; //手机
-	private String realname;	//用户姓名
+	private String name;	//用户姓名
 	private String password;	//密码
 	private String salt;	//加密字串
 	private String enabled;	//有效
 	
 
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public String getKey() {
 		return key;
 	}
@@ -39,12 +45,6 @@ public class User {
 	}
 	public void setCellphone(String cellphone) {
 		this.cellphone = cellphone;
-	}
-	public String getRealname() {
-		return realname;
-	}
-	public void setRealname(String realname) {
-		this.realname = realname;
 	}
 	public String getPassword() {
 		return password;
