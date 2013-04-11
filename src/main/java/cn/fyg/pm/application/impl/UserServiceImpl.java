@@ -33,4 +33,9 @@ public class UserServiceImpl implements UserService {
 		return this.userRepository.findAll();
 	}
 
+	@Override
+	public User find(String key) {
+		return this.userRepository.findOne(key);
+	}
+
 }

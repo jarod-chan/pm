@@ -11,4 +11,6 @@ public interface UserRepository extends Repository<User, String>{
 	void delete(String key);
 	
 	List<User> findAll();
+
+	User findOne(String key);
 }

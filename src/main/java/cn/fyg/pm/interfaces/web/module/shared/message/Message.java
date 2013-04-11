@@ -10,23 +10,20 @@ public class Message {
 	private String message;
 	
 	
-	public static Message info() {
+	public static Message info(String str,Object...args) {
 		Message message = new Message();
 		message.level = Level.info;
+		message.message = String.format(str, args);
 		return message;
 	}
 	
-	public static Message error() {
+	public static Message error(String str,Object...args) {
 		Message message = new Message();
 		message.level = Level.error;
+		message.message = String.format(str, args);
 		return message;
 	}
-	
-	public Message message(String message,Object...args) {
-		this.message = String.format(message, args);
-		return this;
-	}
-	
+
 	public Level getLevel() {
 		return level;
 	}

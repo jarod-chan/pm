@@ -8,6 +8,8 @@ public interface ContractService {
 	
 	List<Contract> findAll();
 	
+	Contract find(Long id);
+	
 	Contract save(Contract contract);
 	
 	void delete(Long id);

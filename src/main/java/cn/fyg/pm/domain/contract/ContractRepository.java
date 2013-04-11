@@ -11,4 +11,6 @@ public interface ContractRepository extends Repository<Contract,Long> {
 	List<Contract> findAll();
 	
 	void delete(Long id);
+
+	Contract findOne(Long id);
 }
