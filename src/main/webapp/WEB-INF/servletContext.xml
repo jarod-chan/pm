@@ -16,7 +16,7 @@
 	<mvc:default-servlet-handler />
 
 	<!-- 定义首页 -->
-	<mvc:view-controller path="/" view-name="redirect:/hello" />
+	<mvc:view-controller path="/" view-name="redirect:/home" />
 
 	
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
