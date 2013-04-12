@@ -37,4 +37,9 @@ public class ConstructContServiceImpl implements ConstructContService {
 		this.constructContRepository.delete(id);
 	}
 
+	@Override
+	public ConstructCont find(Long id) {
+		return this.constructContRepository.findOne(id);
+	}
+
 }

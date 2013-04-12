@@ -12,5 +12,6 @@ public interface ConstructContService {
 	ConstructCont save(ConstructCont constructCont);
 	
 	void delete(Long id);
-
+	
+	ConstructCont find(Long id);
 }

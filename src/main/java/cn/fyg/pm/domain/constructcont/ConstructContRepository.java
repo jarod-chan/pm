@@ -11,4 +11,6 @@ public interface ConstructContRepository extends Repository<ConstructCont, Long>
 	List<ConstructCont> findAll();
 	
 	void delete(Long id);
+
+	ConstructCont findOne(Long id);
 }
