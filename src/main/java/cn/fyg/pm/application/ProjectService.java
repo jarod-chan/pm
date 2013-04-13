@@ -10,6 +10,8 @@ public interface ProjectService {
 	
 	Project save(Project project);
 	
+	Project find(Long id);
+	
 	void delete(Long id);
 
 }

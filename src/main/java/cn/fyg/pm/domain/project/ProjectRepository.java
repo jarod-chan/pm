@@ -12,4 +12,6 @@ public interface ProjectRepository extends Repository<Project,Long> {
 	
 	void delete(Long id);
 
+	Project findOne(Long id);
+
 }

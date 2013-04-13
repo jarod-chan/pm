@@ -24,6 +24,12 @@
 				.appendTo($("body"))
 			.submit();
     	});
+    	
+    	$('.btn_pjmember').click(function(){
+    		var param=jQuery.parseJSON($(this).attr("param"));
+    		window.open('${ctx}/project/'+param.id+'/pjmember','_self');
+			return false;
+    	});
     });
     </script>
 </head>
@@ -40,7 +46,10 @@
 		<c:forEach var="project" items="${projectList}">
 			<tr>
 				<td>${project.no}</td><td>${project.name}</td><td>${project.user.name}</td>
-				<td><input type="button" param='{"id":"${project.id}"}' value="删除"  class="btn_delete"></td>
+				<td>
+					<input type="button" param='{"id":"${project.id}"}' value="删除"  class="btn_delete">
+					<input type="button" param='{"id":"${project.id}"}' value="项目成员"  class="btn_pjmember">
+				</td>
 			</tr>
 		</c:forEach>
 		
