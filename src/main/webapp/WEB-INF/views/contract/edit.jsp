@@ -48,6 +48,9 @@
 		</select>
 		<br>
 		
+		结算对象：
+		<input type="text" name="payname" value=""/>
+		
 		
 		<input type="button" value="保存"  id="btn_save">
 		

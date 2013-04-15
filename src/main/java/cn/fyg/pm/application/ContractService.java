@@ -3,6 +3,7 @@ package cn.fyg.pm.application;
 import java.util.List;
 
 import cn.fyg.pm.domain.contract.Contract;
+import cn.fyg.pm.domain.project.Project;
 
 public interface ContractService {
 	
@@ -13,5 +14,7 @@ public interface ContractService {
 	Contract save(Contract contract);
 	
 	void delete(Long id);
+	
+	List<Contract> findByProject(Project project);
 
 }

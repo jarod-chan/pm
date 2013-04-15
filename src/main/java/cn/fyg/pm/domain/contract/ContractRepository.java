@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.data.repository.Repository;
 
+import cn.fyg.pm.domain.project.Project;
+
 public interface ContractRepository extends Repository<Contract,Long> {
 	
 	Contract save(Contract contract);
@@ -13,4 +15,6 @@ public interface ContractRepository extends Repository<Contract,Long> {
 	void delete(Long id);
 
 	Contract findOne(Long id);
+	
+	List<Contract> findByProject(Project project);
 }

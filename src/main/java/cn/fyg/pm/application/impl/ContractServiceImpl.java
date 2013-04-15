@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.fyg.pm.application.ContractService;
 import cn.fyg.pm.domain.contract.Contract;
 import cn.fyg.pm.domain.contract.ContractRepository;
+import cn.fyg.pm.domain.project.Project;
 
 @Service
 public class ContractServiceImpl implements ContractService {
@@ -36,6 +37,11 @@ public class ContractServiceImpl implements ContractService {
 	@Override
 	public Contract find(Long id) {
 		return contractRepository.findOne(id);
+	}
+
+	@Override
+	public List<Contract> findByProject(Project project) {
+		return contractRepository.findByProject(project);
 	}
 
 }

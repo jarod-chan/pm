@@ -24,6 +24,7 @@ public class Contract {
 	private Long id;	//id
 	private String no;	//编号
 	private String name;//项目名称
+	private String payname;//结算对象
 	@ManyToOne(targetEntity=Project.class)
 	@JoinColumn(name="project_id")
 	private Project project;	//项目
@@ -61,6 +62,12 @@ public class Contract {
 	}
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
+	}
+	public String getPayname() {
+		return payname;
+	}
+	public void setPayname(String payname) {
+		this.payname = payname;
 	}
 
 	
