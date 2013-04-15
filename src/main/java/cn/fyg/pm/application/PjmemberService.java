@@ -11,6 +11,6 @@ public interface PjmemberService {
 	
 	List<Pjmember> findByProject(Project project);
 	
-	
+	void deleteByProject(Project project);
 
 }

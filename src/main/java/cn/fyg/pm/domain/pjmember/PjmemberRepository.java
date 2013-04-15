@@ -12,4 +12,5 @@ public interface PjmemberRepository extends Repository<Pjmember,Long> {
 	
 	List<Pjmember> findByProject(Project project);
 
+	void delete(Iterable<Pjmember> entities);
 }

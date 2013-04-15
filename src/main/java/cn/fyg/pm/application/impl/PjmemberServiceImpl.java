@@ -28,4 +28,10 @@ public class PjmemberServiceImpl implements PjmemberService {
 		return pjmemberRepository.findByProject(project);
 	}
 
+	@Override
+	@Transactional
+	public void deleteByProject(Project project) {
+		List<Pjmember> pjmemberList = pjmemberRepository.findByProject(project);
+		pjmemberRepository.delete(pjmemberList);
+	}
 }

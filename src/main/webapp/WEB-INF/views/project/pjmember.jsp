@@ -24,6 +24,11 @@
 				$(this).next().val(false);
 			}
 		});
+		
+		$("#btn_back").click(function(){
+			window.open('${ctx}/project/list','_self');
+			return false;
+		});
     });
     </script>
 </head>
@@ -36,14 +41,15 @@
 	<c:forEach var="pjmemberDto" items="${pjmemberPage.plt}">
 	<span>
 		<input type="checkbox" class="chk_plt" <c:if test="${pjmemberDto.checked}">checked="checked"</c:if> />
-		<input type="text" name="plt_checked" value="${pjmemberDto.checked}">
-		<input type="text" name="plt_pjmember.user.key" value="${pjmemberDto.pjmember.user.key}">
-		<input type="text" name="plt_pjmember.project.id" value="${pjmemberDto.pjmember.project.id}">
+		<input type="hidden" name="plt_checked" value="${pjmemberDto.checked}">
+		<input type="hidden" name="plt_pjmember.user.key" value="${pjmemberDto.pjmember.user.key}">
+		<input type="hidden" name="plt_pjmember.project.id" value="${pjmemberDto.pjmember.project.id}">
 		${pjmemberDto.pjmember.user.name}
 	</span>
 	<br/>
 	</c:forEach>
 	<input type="button" value="保存"  id="btn_save">	
+	<input type="button" value="返回"  id="btn_back">
 	</form>
 	
 </body>

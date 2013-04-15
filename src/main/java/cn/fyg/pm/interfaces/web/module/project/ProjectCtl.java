@@ -99,8 +99,16 @@ public class ProjectCtl {
 	}
 	
 	@RequestMapping(value="{projectId}/pjmember/save",method=RequestMethod.POST)
-	public String savePjmember(PjmemberPage pjmemberPage){
-		//TODO  项目保存未完成
+	public String savePjmember(@PathVariable("projectId")Long projectId,PjmemberPage pjmemberPage){
+		Project project=projectService.find(projectId);
+		pjmemberService.deleteByProject(project);
+		ArrayList<Pjmember> pjmemberList = new ArrayList<Pjmember>();
+		for(PjmemberDto pjmemberDto:pjmemberPage.getPlt()){
+			if(pjmemberDto.isChecked()){				
+				pjmemberList.add(pjmemberDto.getPjmember());
+			}
+		}
+		pjmemberService.save(pjmemberList);
 		return "redirect:/project/list";
 	}
 }
