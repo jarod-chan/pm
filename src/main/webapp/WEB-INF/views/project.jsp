@@ -46,7 +46,7 @@
 	<br/>
 	<div>
 	功能操作：<br/>
-	<a href="">施工签证</a><br/>
+	<a href="${ctx}/project/${project.id}/constructcont/list">施工签证</a><br/>
 	<a href="">技术签证</a><br/>
 	<a href="">采购签证</a><br/>
 	<a href="">合同结算</a><br/>

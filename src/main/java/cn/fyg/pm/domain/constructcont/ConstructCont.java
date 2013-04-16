@@ -23,6 +23,9 @@ import cn.fyg.pm.domain.contract.Contract;
 import cn.fyg.pm.domain.project.Project;
 import cn.fyg.pm.domain.user.User;
 
+/**
+ *施工联系单
+ */
 @Entity
 @Table(name="pm_constructcont")
 public class ConstructCont {

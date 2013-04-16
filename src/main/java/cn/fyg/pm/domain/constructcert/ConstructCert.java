@@ -24,6 +24,9 @@ import cn.fyg.pm.domain.contract.Contract;
 import cn.fyg.pm.domain.project.Project;
 import cn.fyg.pm.domain.user.User;
 
+/**
+ *施工签证单
+ */
 @Entity
 @Table(name="pm_constructcert")
 public class ConstructCert {
