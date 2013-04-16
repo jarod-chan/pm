@@ -34,4 +34,9 @@ public class ConstructKeyServiceImpl implements ConstructKeyService {
 		constructKeyRepository.delete(constructKeyID);
 	}
 
+	@Override
+	public ConstructKey find(Long constructKeyId) {
+		return constructKeyRepository.findOne(constructKeyId);
+	}
+
 }

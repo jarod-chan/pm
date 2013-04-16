@@ -10,6 +10,7 @@ import cn.fyg.pm.application.ConstructContService;
 import cn.fyg.pm.domain.constructcont.ConstructCont;
 import cn.fyg.pm.domain.constructcont.ConstructContItem;
 import cn.fyg.pm.domain.constructcont.ConstructContRepository;
+import cn.fyg.pm.domain.constructkey.ConstructKey;
 
 @Service
 public class ConstructContServiceImpl implements ConstructContService {
@@ -40,6 +41,11 @@ public class ConstructContServiceImpl implements ConstructContService {
 	@Override
 	public ConstructCont find(Long id) {
 		return this.constructContRepository.findOne(id);
+	}
+
+	@Override
+	public ConstructCont findByConstructKey(ConstructKey constructKey) {
+		return this.constructContRepository.findByConstructKey(constructKey);
 	}
 
 }

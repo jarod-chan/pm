@@ -19,10 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import cn.fyg.pm.domain.constructcont.ConstructCont;
 import cn.fyg.pm.domain.constructkey.ConstructKey;
-import cn.fyg.pm.domain.contract.Contract;
-import cn.fyg.pm.domain.project.Project;
 import cn.fyg.pm.domain.user.User;
 
 /**

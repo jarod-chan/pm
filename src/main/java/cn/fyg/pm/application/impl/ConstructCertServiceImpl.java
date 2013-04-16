@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.fyg.pm.application.ConstructCertService;
 import cn.fyg.pm.domain.constructcert.ConstructCert;
 import cn.fyg.pm.domain.constructcert.ConstructCertRepository;
+import cn.fyg.pm.domain.constructkey.ConstructKey;
 
 @Service
 public class ConstructCertServiceImpl implements ConstructCertService {
@@ -31,6 +32,16 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 	@Transactional
 	public void delete(Long id) {
 		this.constructCertRepository.delete(id);
+	}
+
+	@Override
+	public ConstructCert findByConstructKey(ConstructKey constructKey) {
+		return this.constructCertRepository.findByConstructKey(constructKey);
+	}
+
+	@Override
+	public ConstructCert find(Long certid) {
+		return this.constructCertRepository.findOne(certid);
 	}
 
 }

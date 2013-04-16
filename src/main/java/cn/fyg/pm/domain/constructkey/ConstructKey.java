@@ -1,6 +1,7 @@
 package cn.fyg.pm.domain.constructkey;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -8,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import cn.fyg.pm.domain.constructcert.ConstructCert;
+import cn.fyg.pm.domain.constructcont.ConstructCont;
 import cn.fyg.pm.domain.contract.Contract;
 import cn.fyg.pm.domain.project.Project;
 
@@ -34,6 +37,30 @@ public class ConstructKey {
 	private Contract contract;//合同
 	
 	private String reason;//原因
+	
+	@ManyToOne(targetEntity=ConstructCont.class,fetch=FetchType.LAZY)
+	private ConstructCont constructCont;
+	
+	@ManyToOne(targetEntity=ConstructCert.class,fetch=FetchType.LAZY)
+	private ConstructCert constructCert;
+	
+	
+
+	public ConstructCont getConstructCont() {
+		return constructCont;
+	}
+
+	public void setConstructCont(ConstructCont constructCont) {
+		this.constructCont = constructCont;
+	}
+
+	public ConstructCert getConstructCert() {
+		return constructCert;
+	}
+
+	public void setConstructCert(ConstructCert constructCert) {
+		this.constructCert = constructCert;
+	}
 
 	public long getId() {
 		return id;
