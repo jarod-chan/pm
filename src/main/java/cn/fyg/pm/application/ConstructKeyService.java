@@ -12,4 +12,6 @@ public interface ConstructKeyService {
 
 	ConstructKey save(ConstructKey constructKey);
 
+	void delete(Long constructKeyID);
+
 }

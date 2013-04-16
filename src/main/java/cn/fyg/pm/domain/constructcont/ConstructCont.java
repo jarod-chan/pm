@@ -19,8 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import cn.fyg.pm.domain.contract.Contract;
-import cn.fyg.pm.domain.project.Project;
+import cn.fyg.pm.domain.constructkey.ConstructKey;
 import cn.fyg.pm.domain.user.User;
 
 /**
@@ -36,13 +35,9 @@ public class ConstructCont {
 	
 	private String no;//编号
 	
-	@ManyToOne(targetEntity=Project.class)
-	@JoinColumn(name="project_id")
-	private Project project;//项目
-	
-	@ManyToOne(targetEntity=Contract.class)
-	@JoinColumn(name="contract_id")
-	private Contract contract;//合同
+	@ManyToOne(targetEntity=ConstructKey.class)
+	@JoinColumn(name="constructkey_id")
+	private ConstructKey constructKey;//施工签证线索
 	
 	private String reason;//原因
 	
@@ -78,22 +73,6 @@ public class ConstructCont {
 
 	public void setNo(String no) {
 		this.no = no;
-	}
-
-	public Project getProject() {
-		return project;
-	}
-
-	public void setProject(Project project) {
-		this.project = project;
-	}
-
-	public Contract getContract() {
-		return contract;
-	}
-
-	public void setContract(Contract contract) {
-		this.contract = contract;
 	}
 
 	public String getReason() {
@@ -134,6 +113,14 @@ public class ConstructCont {
 
 	public void setConstructContItems(List<ConstructContItem> constructContItems) {
 		this.constructContItems = constructContItems;
+	}
+
+	public ConstructKey getConstructKey() {
+		return constructKey;
+	}
+
+	public void setConstructKey(ConstructKey constructKey) {
+		this.constructKey = constructKey;
 	}
 	
 	

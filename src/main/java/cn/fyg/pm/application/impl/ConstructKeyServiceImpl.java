@@ -28,4 +28,10 @@ public class ConstructKeyServiceImpl implements ConstructKeyService {
 		return constructKeyRepository.save(constructKey);
 	}
 
+	@Override
+	@Transactional
+	public void delete(Long constructKeyID) {
+		constructKeyRepository.delete(constructKeyID);
+	}
+
 }

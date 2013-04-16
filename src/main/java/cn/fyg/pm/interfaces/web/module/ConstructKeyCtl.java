@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import cn.fyg.pm.application.ConstructKeyService;
 import cn.fyg.pm.application.ContractService;
@@ -54,6 +55,12 @@ public class ConstructKeyCtl {
 	public String save(ConstructKey constructKey){
 		constructKeyService.save(constructKey);
 		return String.format("redirect:/project/%s/constructkey/list",constructKey.getProject().getId());
+	}
+	
+	@RequestMapping(value="project/{projectId}/constructkey/delete",method=RequestMethod.POST)
+	public String delete(@PathVariable("projectId")Long projectId,@RequestParam("constructKeyId") Long constructKeyId){
+		constructKeyService.delete(constructKeyId);
+		return String.format("redirect:/project/%s/constructkey/list",projectId);
 	}
 
 }

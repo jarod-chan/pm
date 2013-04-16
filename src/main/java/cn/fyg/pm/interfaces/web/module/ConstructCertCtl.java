@@ -52,9 +52,9 @@ public class ConstructCertCtl {
 	@RequestMapping(value="save",method=RequestMethod.POST)
 	public String save(ConstructCert constructCert){
 		User user = sessionUtil.getValue("user");
-		ConstructCont constructCont = constructContService.find(constructCert.getConstructCont().getId());
+/*		ConstructCont constructCont = constructContService.find(constructCert.getConstructCont().getId());
 		constructCert.setProject(constructCont.getProject());
-		constructCert.setContract(constructCont.getContract());
+		constructCert.setContract(constructCont.getContract());*/
 		constructCert.setState(ConstructCertState.saved);
 		constructCert.setCreater(user);
 		constructCert.setCreateTime(new Date());

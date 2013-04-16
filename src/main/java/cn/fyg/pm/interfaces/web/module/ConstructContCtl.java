@@ -52,8 +52,8 @@ public class ConstructContCtl {
 	@RequestMapping(value="save",method=RequestMethod.POST)
 	public String save(ConstructCont constructCont){
 		User user = sessionUtil.getValue("user");
-		Contract contract = contractService.find(constructCont.getContract().getId());
-		constructCont.setProject(contract.getProject());
+/*		Contract contract = contractService.find(constructCont.getContract().getId());
+		constructCont.setProject(contract.getProject());*/
 		constructCont.setState(ConstructContState.saved);
 		constructCont.setCreater(user);
 		constructCont.setCreateTime(new Date());

@@ -20,6 +20,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import cn.fyg.pm.domain.constructcont.ConstructCont;
+import cn.fyg.pm.domain.constructkey.ConstructKey;
 import cn.fyg.pm.domain.contract.Contract;
 import cn.fyg.pm.domain.project.Project;
 import cn.fyg.pm.domain.user.User;
@@ -37,17 +38,9 @@ public class ConstructCert {
 	
 	private String no;//编号
 	
-	@ManyToOne(targetEntity=Project.class)
-	@JoinColumn(name="project_id")
-	private Project project;//项目
-	
-	@ManyToOne(targetEntity=Contract.class)
-	@JoinColumn(name="contract_id")
-	private Contract contract;//合同
-	
-	@ManyToOne(targetEntity=ConstructCont.class,fetch = FetchType.LAZY)
-	@JoinColumn(name="constructcont_id")
-	private ConstructCont constructCont;
+	@ManyToOne(targetEntity=ConstructKey.class)
+	@JoinColumn(name="constructkey_id")
+	private ConstructKey constructKey;//施工签证线索
 	
 	@Enumerated(EnumType.STRING)
 	private ConstructCertState state;//状态
@@ -83,28 +76,12 @@ public class ConstructCert {
 		this.no = no;
 	}
 
-	public Project getProject() {
-		return project;
+	public ConstructKey getConstructKey() {
+		return constructKey;
 	}
 
-	public void setProject(Project project) {
-		this.project = project;
-	}
-
-	public Contract getContract() {
-		return contract;
-	}
-
-	public void setContract(Contract contract) {
-		this.contract = contract;
-	}
-
-	public ConstructCont getConstructCont() {
-		return constructCont;
-	}
-
-	public void setConstructCont(ConstructCont constructCont) {
-		this.constructCont = constructCont;
+	public void setConstructKey(ConstructKey constructKey) {
+		this.constructKey = constructKey;
 	}
 
 	public ConstructCertState getState() {
