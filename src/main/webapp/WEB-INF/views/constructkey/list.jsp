@@ -13,14 +13,14 @@
     $(function() {
     	
     	$("#btn_new").click(function(){
-			window.open('${ctx}/constructcont/edit','_self');
+			window.open('${ctx}/project/${project.id}/constructkey/edit','_self');
 			return false;
 		});
     	
     	$('.btn_delete').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-        	$('<form/>',{action:'${ctx}/constructcont/delete',method:'post'})
-	    		.append($('<input/>',{type:'hidden',name:'constructContId',value:param.id}))
+        	$('<form/>',{action:'${ctx}/constructkey/delete',method:'post'})
+	    		.append($('<input/>',{type:'hidden',name:'constructKeyId',value:param.id}))
 				.appendTo($("body"))
 			.submit();
     	});
@@ -32,16 +32,16 @@
 	<h2>施工签证</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<div style="text-align: right;width: 400px;"><input type="button" value="新建"  id="btn_new"></div>
-
+	<div style="text-align: right;width: 400px;"><input type="button" value="新建施工签证事务"  id="btn_new"></div>
+	<br>
 	<table border="1">
 		<tr>
-			<td>编号</td><td>合同</td><td>原因</td><td>操作</td>
+			<td>编号</td><td>结算对象</td><td>原因</td><td>操作</td>
 		</tr>
-		<c:forEach var="constructCont" items="${constructContList}">
+		<c:forEach var="constructKey" items="${constructKeyList}">
 			<tr>
-				<td>${constructCont.no}</td><td>${constructCont.contract.name}</td><td>${constructCont.reason}</td>
-				<td><input type="button" param='{"id":"${constructCont.id}"}' value="删除"  class="btn_delete"></td>
+				<td>${constructKey.no}</td><td>${constructKey.contract.payname}</td><td>${constructKey.reason}</td>
+				<td><input type="button" param='{"id":"${constructKey.id}"}' value="删除"  class="btn_delete"></td>
 			</tr>
 		</c:forEach>
 		
