@@ -17,7 +17,7 @@
 	<!--过滤infterfaces 里任何一个ctl类 记录日志 -->
 	<aop:config>
 		<aop:aspect id="aspect" ref="logAdvice">
-			<aop:pointcut expression="execution(* cn.fyg.mb.interfaces..*Ctl.*(..))" id="pointCut" />
+			<aop:pointcut expression="execution(* cn.fyg.pm.interfaces..*Ctl.*(..))" id="pointCut" />
 			<aop:before method="before" pointcut-ref="pointCut" />
 		</aop:aspect>
 	</aop:config>

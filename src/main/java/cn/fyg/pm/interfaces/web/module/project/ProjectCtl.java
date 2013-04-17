@@ -59,6 +59,8 @@ public class ProjectCtl {
 	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
 	public String delete(@RequestParam("projectId") Long projectId){
+		Project project = projectService.find(projectId);
+		pjmemberService.deleteByProject(project);
 		projectService.delete(projectId);
 		return "redirect:list";
 	}
