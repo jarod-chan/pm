@@ -17,13 +17,13 @@ public class UserServiceImpl implements UserService {
 	UserRepository userRepository;
 	
 	@Override
-	@Transactional("transactionManager0")
+	@Transactional
 	public User save(User user) {
 		return this.userRepository.save(user);
 	}
 
 	@Override
-	@Transactional("transactionManager0")
+	@Transactional
 	public void delete(String key) {
 		this.userRepository.delete(key);
 	}

@@ -15,14 +15,14 @@ public class UserService2Impl implements UserService2 {
 	UserDao userDao;
 	
 	@Override
-	@Transactional("transactionManager1")
+	@Transactional
 	public User save(User user) {
 		this.userDao.save(user);
 		return userDao.find(user.getKey());
 	}
 
 	@Override
-	@Transactional("transactionManager1")
+	@Transactional
 	public void delete(String key) {
 		this.userDao.delete(key);
 	}
