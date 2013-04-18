@@ -39,12 +39,12 @@
 
 	
 	<!--spring 事务管理 -->
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+    <bean id="transactionManager0" class="org.springframework.orm.jpa.JpaTransactionManager"
         p:entityManagerFactory-ref="entityManagerFactory"
         p:dataSource-ref="dataSource"/>
 
 	<!-- 使用annotation定义事务 -->
-	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+	<tx:annotation-driven transaction-manager="transactionManager0" proxy-target-class="true" />
 	
 	
 	

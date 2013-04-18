@@ -11,9 +11,11 @@
   	
   	<import resource="infrastructure-email.xml" />
   	<import resource="infrastructure-persistence.xml"/>
+  	<import resource="infrastructure-mybatis.xml"/> 
   	
   	<context:component-scan base-package="cn.fyg.pm.infrastructure" />
   	<context:component-scan base-package="cn.fyg.pm.domain" />
+  	<context:component-scan base-package="cn.fyg.pm.domain2" /> 
   	<context:component-scan base-package="cn.fyg.pm.application" />
 	
 
