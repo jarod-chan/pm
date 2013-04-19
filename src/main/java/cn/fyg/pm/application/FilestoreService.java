@@ -1,0 +1,9 @@
+package cn.fyg.pm.application;
+
+import cn.fyg.pm.domain.filestore.Filestore;
+
+public interface FilestoreService {
+	
+	Filestore save(Filestore filestore);
+
+}
