@@ -24,19 +24,22 @@
 	 	float: left;
 	 }
 	 
-	 .fl_name {
+	 .fl_span{
+	 	padding-right: 5px;
+	 }
 	 
+	 .fl_name {
 	 	background-color: #5BADFF;
 	 }
 	 
 	 .fl_remove a {
-	    background-color: #8080FF;
+	    background-color: #FECF78;  
 	    text-decoration: none;
 	    color:#000000;
 	    white-space: nowrap;
 	}
 	.fl_remove a:hover {
-	    background-color: #FECF78;
+	    background-color:  #FF8080;
 	}
 	.fl_remove a:visited {
 	    color: #000000;
@@ -76,17 +79,26 @@
 		        },
 		        //上传到服务器，服务器返回相应信息到data里
 		        onUploadSuccess:function(file, data, response){
-		          	$("#uploadify_result").html(file.name);
+		          	$("#uploadify_result").append(mkSpan(file.name,data));
 		        }
 		    });
 		    
-		    function mkSpan(filename,file){
-		    	//todo :  make span and append;
-		    }
+ 		    var fileSpan=$("<span class='fl_span'></span");
+	    	$("<span class='fl_name'></span>").appendTo(fileSpan);
+	    	$("<span class='fl_remove'><a href='javascript:void(0);''>--</a></span>").appendTo(fileSpan);
+	    	$("<span class='fl_id'><input type='hidden' name='filestore_id' /></span>").appendTo(fileSpan);
 		    
-		    $(".fl_remove a").click(function(){
-		    	$(this).parent().parent().remove();
-		    })
+		    function mkSpan(filename,file_id){
+		    	var newspan=fileSpan.clone();
+		    	newspan.find(".fl_name").html(filename).end()
+		    		.find(".fl_remove a").click(function(){
+		    			$(this).parent().parent().remove();
+		    		}).end()
+		    		.find(".fl_id input").val(file_id).end();
+		    	return newspan;
+		    } 
+		    
+		   
 		});
 	 
 	 	 
@@ -128,15 +140,6 @@
 		<div style="float: left;width: 80px;">合同文件：</div>
 		<input id="file_upload" type="button" >
 		<div style="clear: both;"  id="uploadify_result">
-			<span>
-				<span class="fl_name">filename</span><span class="fl_remove"><a href="javascript:void(0);">--</a></span>
-				<span><input type="hidden" name="file_id" value="2"></span>
-			</span>
-			
-			<span>
-				<span class="fl_name">filename</span><span class="fl_remove"><a href="javascript:void(0);">--</a></span>
-				<span><input type="hidden" name="file_id" value="2"></span>
-			</span>
 		</div>
 		<div id="uploadify_queue">
 			

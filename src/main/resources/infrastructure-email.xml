@@ -22,5 +22,5 @@
 	<bean id="systemEmail" class="java.lang.String">
 		<constructor-arg value="${email.systemEmail}"/>
 	</bean>
-	
+
 </beans>

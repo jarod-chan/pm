@@ -19,7 +19,7 @@ public class Filestore {
 	
 	private String filename;//文件名
 	
-	private String suffiix;//后缀
+	private String suffix;//后缀
 
 	public Long getId() {
 		return id;
@@ -37,13 +37,15 @@ public class Filestore {
 		this.filename = filename;
 	}
 
-	public String getSuffiix() {
-		return suffiix;
+	public String getSuffix() {
+		return suffix;
 	}
 
-	public void setSuffiix(String suffiix) {
-		this.suffiix = suffiix;
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
 	}
+
+
 	
 	
 

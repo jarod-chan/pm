@@ -13,11 +13,24 @@ public class FilestoreServiceImpl implements FilestoreService {
 	
 	@Autowired
 	FilestoreRepository filestoreRepository;
-
+	
+	
 	@Override
 	@Transactional
 	public Filestore save(Filestore filestore) {
 		return filestoreRepository.save(filestore);
+	}
+
+
+	@Override
+	public Filestore create(String fullname) {
+		int len=fullname.lastIndexOf('.');
+		String filename=fullname.substring(0, len);
+		String suffix=fullname.substring(len+1);
+		Filestore filestore=new Filestore();
+		filestore.setFilename(filename);
+		filestore.setSuffix(suffix);
+		return filestore;
 	}
 
 }
