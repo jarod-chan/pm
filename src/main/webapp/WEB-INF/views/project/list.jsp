@@ -39,7 +39,7 @@
 	<%@ include file="/common/message.jsp" %>	
 	
 	<input type="button" value="新建"  id="btn_new">
-	<table border="1px;">
+	<table border="1">
 		<tr>
 			<td>编号</td><td>名称</td><td>项目负责人</td><td>操作</td>
 		</tr>

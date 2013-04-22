@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cn.fyg.pm.application.UserService;
 import cn.fyg.pm.domain.user.User;
-import cn.fyg.pm.interfaces.web.module.shared.constant.Constant;
+import cn.fyg.pm.interfaces.web.module.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.module.shared.message.Message;
 import cn.fyg.pm.interfaces.web.module.shared.session.SessionUtil;
 
@@ -37,7 +37,7 @@ public class SessionCtl {
 		sessionUtil.invalidate();
 		User user = userService.find(userKey);
 		sessionUtil.setValue("user", user);
-		redirectAttributes.addFlashAttribute(Constant.MESSAGE_NAME, Message.info("%s 设置为当前用户的",user.getName()));
+		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, Message.info("%s 设置为当前用户的",user.getName()));
 		return "redirect:list";
 	}
 

@@ -12,6 +12,7 @@
   	<import resource="infrastructure-email.xml" />
   	<import resource="infrastructure-persistence.xml"/>
   	<import resource="infrastructure-other.xml"/>
+  	<import resource="infrastructure-activiti.xml"/>
   	
   	<context:component-scan base-package="cn.fyg.pm.infrastructure" />
   	<context:component-scan base-package="cn.fyg.pm.domain" />

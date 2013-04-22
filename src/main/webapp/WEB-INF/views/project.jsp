@@ -16,10 +16,19 @@
     		window.open('${ctx}/first/project/'+$(this).val(),'_self');
     		return false;
     	});
+    	
+    	$('#btn_task').click(function(){
+    		window.open('${ctx}/task/list','_self');
+    		return false;
+    	});
     });
     </script>
 </head>
 <body>
+	<div style="width:800px;text-align: right;">
+		<input type="button" id="btn_project" value="我的项目" disabled="disabled">
+		<input type="button" id="btn_task" value="我的任务" >
+	</div>
 	<h2>项目:${project.name}</h2>
 	<%@ include file="/common/message.jsp" %>	
 	<div style="width:800px;text-align: right;">

@@ -1,6 +1,6 @@
 package cn.fyg.pm.interfaces.web.module.shared.constant;
 
-public interface Constant {
+public interface AppConstant {
 	
 	/**
 	 * 消息名称
