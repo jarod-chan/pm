@@ -1,5 +1,6 @@
 package cn.fyg.pm.interfaces.web.module;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,10 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import cn.fyg.pm.application.BusifileService;
 import cn.fyg.pm.application.ContractService;
 import cn.fyg.pm.application.ProjectService;
 import cn.fyg.pm.application.SupplierService;
+import cn.fyg.pm.domain.busifile.Busifile;
 import cn.fyg.pm.domain.contract.Contract;
+import cn.fyg.pm.domain.filestore.Filestore;
+import cn.fyg.pm.domain.shared.BusiCode;
 
 @Controller
 @RequestMapping("contract")
@@ -30,6 +35,8 @@ public class ContractCtl {
 	ProjectService projectService;
 	@Autowired
 	SupplierService supplierService;
+	@Autowired
+	BusifileService busifileService;
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String toList(Map<String,Object> map){
@@ -46,13 +53,35 @@ public class ContractCtl {
 	}
 	
 	@RequestMapping(value="save",method=RequestMethod.POST)
-	public String save(Contract contract){
-		contractService.save(contract);
+	public String save(Contract contract,@RequestParam("filestore_id")Long[] filestore_id){
+		contract=contractService.save(contract);
+		
+		BusiCode busiCode = BusiCode.HT;
+		Long busiId=contract.getId();
+		reSaveBusifile(contract, filestore_id, busiCode, busiId);
+		
 		return "redirect:list";
+	}
+
+	private void reSaveBusifile(Contract contract, Long[] filestore_id,
+			BusiCode busiCode, Long busiId) {
+		List<Busifile> busifileList=new ArrayList<Busifile>();
+		for (Long filestoreId : filestore_id) {
+			Busifile busifile=new Busifile();
+			busifile.setBusiCode(busiCode);
+			busifile.setBusiId(contract.getId());
+			Filestore filestore=new Filestore();
+			filestore.setId(filestoreId);
+			busifile.setFilestore(filestore);
+			busifileList.add(busifile);
+		}
+		this.busifileService.deleteByBusiCodeAndBusiId(busiCode, busiId);
+		this.busifileService.save(busifileList);
 	}
 	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
 	public String delete(@RequestParam("contractId") Long contractId){
+		this.busifileService.deleteByBusiCodeAndBusiId(BusiCode.HT, contractId);
 		contractService.delete(contractId);
 		return "redirect:list";
 	}
