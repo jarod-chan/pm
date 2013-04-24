@@ -1,12 +1,14 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<%@ include file="/common/setting.jsp" %>
 	<%@ include file="/common/meta.jsp" %>
-	<%@ include file="/common/include.jsp" %>	
+	<%@ include file="/common/include.jsp" %>
+	<%@ include file="/common/jqui.jsp" %>		
 
 
     <script type="text/javascript">
@@ -28,6 +30,27 @@
 		
 		$("<td>").append($("<input type='text' name='constructContItems_content' style='width:300px' />"))
 		  .appendTo(trdom);
+		
+		$("<td>").append($("<input type='text' name='constructContItems_price' style='width:50px' />"))
+		  .appendTo(trdom);
+		
+		$("<td>").append($("<input type='text' name='constructContItems_numb' style='width:50px' />"))
+		  .appendTo(trdom);
+		
+		$("<td>").append($("<input type='text' name='constructContItems_unit' style='width:50px' />"))
+		  .appendTo(trdom);
+		
+		$("<td>").append($("<input type='text' name='constructContItems_amount' style='width:100px' />"))
+		  .appendTo(trdom);
+		
+		$("<td>").append($("<input type='text' class='item_plandate' name='constructContItems_plandate' style='width:100px' />"))
+		  .appendTo(trdom);
+		
+		$("<td>").append($("<input type='text' class='item_realdate' name='constructContItems_realdate' style='width:100px' />"))
+		  .appendTo(trdom);
+		
+		$("<td>").append($("<input type='text' name='constructContItems_result' style='width:100px' />"))
+		  .appendTo(trdom);
 		  
 		 $("<td>")
 			.append($("<input type='button' class='add'  value='+'   />"))
@@ -48,6 +71,8 @@
 		
 		function cloneTR(){
 			var newtr=trdom.clone();
+			newtr.find(".item_plandate").datepicker().end()
+				.find(".item_realdate").datepicker().end();
 			newtr.find("td:last :button")
 			  .filter(".add").bind("click",add).end()
 			  .filter(".remove").bind("click",remove).end();
@@ -76,11 +101,22 @@
 			tbody.append(cloneTR()); 
 			reIndexTable(tbody);
 		});
-    });
+		
+    })
     
-    
-    
-    
+    $(function(){
+    	$("select:eq(0)").change(function(){
+    		var opt=$(this).find("option:selected").text();
+    		var idx=opt.lastIndexOf("-");
+    		$("#supplier_name").html(opt.substring(idx+1));
+    	})
+    	$("select:eq(0)").triggerHandler("change");
+    	
+    	$(".addLast").triggerHandler("click");
+    	
+    	
+    	$('#tabmain tr').find('td:eq(0)').css("text-align","right");
+    })
     
     </script>
 </head>
@@ -90,30 +126,55 @@
 	<%@ include file="/common/message.jsp" %>	
 	
 	<form action="${ctx}/constructcont" method="post">
-		编号：
-		<input type="text" name="no" value=""/>
-		<br>
-		合同：
-		<select name="contract.id">
-			<c:forEach var="contract" items="${contractList}">
-				<option value="${contract.id}">${contract.name}</option>
-			</c:forEach>
-		</select>
-		<br>
-		原因：
-		<input type="text" name="reason" value=""/>
-		<br>
-		用户：
-		${user.name}
-		<br>
-		
-		
-		<br>
+	<table id="tabmain">
+		<tr>
+			<td>编号：</td><td>${constructCont.no}<input type="hidden" name="no" value="${constructCont.no}"/></td>
+		</tr>
+		<tr>
+			<td>项目：</td><td><input type="hidden" name="constructKey.project.id" value="${project.id}"> ${project.name}</td>
+		</tr>
+		<tr>
+			<td>项目负责人：</td><td><input type="hidden" name="leader.key" value="${project.user.key}">${project.user.name}</td>
+		</tr>
+		<tr>
+			<td>合同：</td>
+			<td>
+				<select name="constructKey.contract.id">
+					<c:forEach var="contract" items="${contractList}">
+						<option value="${contract.id}">${contract.name}-${contract.supplier.name}</option>
+					</c:forEach>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>施工承包方：</td><td><span id="supplier_name"></span></td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top">原因：</td><td><textarea name="reason" rows="6" cols="30" style="vertical-align: top"></textarea></td>
+		</tr>
+		<tr>
+			<td>状态：</td><td>${constructCont.state.name}</td>
+		</tr>
+		<tr>
+			<td>制单人：</td><td>${constructCont.creater.name}</td>
+		</tr>
+		<tr>
+			<td>制单日期：</td><td><fmt:formatDate value="${constructCont.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+		</tr>
+		<tr>
+			<td>签发人：</td><td></td>
+		</tr>
+		<tr>
+			<td>签发日期：</td><td></td>
+		</tr>
+	</table>
+	<br>
+	<br>
 		联系项目
 		<table border="1">
 		<thead>
 			<tr>
-				<th>序号</th><th>内容</th><th>操作<input type="button" class="addLast" value="+"  /></th>
+				<th>序号</th><th>内容</th><th>暂定单价</th><th>暂定数量</th><th>单位</th><th>暂定结算价</th><th>计划完成日期</th><th>实际完成日期</th><th>实际执行结果</th><th>操作<input type="button" class="addLast" value="+"  /></th>
 			</tr>
 		</thead>
 		<tbody>

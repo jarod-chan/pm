@@ -35,7 +35,7 @@ public class ConstructCont {
 	
 	private String no;//编号
 	
-	@ManyToOne(targetEntity=ConstructKey.class)
+	@ManyToOne(targetEntity=ConstructKey.class,cascade={CascadeType.ALL})
 	@JoinColumn(name="constructkey_id")
 	private ConstructKey constructKey;//施工签证线索
 	
@@ -45,11 +45,22 @@ public class ConstructCont {
 	private ConstructContState state;//状态
 	
 	@ManyToOne(targetEntity=User.class)
+	@JoinColumn(name="leader_key")
+	private User leader;//当前项目负责人
+	
+	@ManyToOne(targetEntity=User.class)
 	@JoinColumn(name="creater_key")
 	private User creater;//制单人
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;//制单时间
+	
+	@ManyToOne(targetEntity=User.class)
+	@JoinColumn(name="signer_key")
+	private User signer;//签发人
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date signdate;//签发日期
 	
 	@OneToMany(mappedBy = "constructCont",
 			fetch = FetchType.EAGER, 
@@ -121,6 +132,30 @@ public class ConstructCont {
 
 	public void setConstructKey(ConstructKey constructKey) {
 		this.constructKey = constructKey;
+	}
+
+	public User getLeader() {
+		return leader;
+	}
+
+	public void setLeader(User leader) {
+		this.leader = leader;
+	}
+
+	public User getSigner() {
+		return signer;
+	}
+
+	public void setSigner(User signer) {
+		this.signer = signer;
+	}
+
+	public Date getSigndate() {
+		return signdate;
+	}
+
+	public void setSigndate(Date signdate) {
+		this.signdate = signdate;
 	}
 	
 	

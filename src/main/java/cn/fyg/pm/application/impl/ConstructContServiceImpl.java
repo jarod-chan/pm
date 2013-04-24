@@ -8,9 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ConstructContService;
 import cn.fyg.pm.domain.constructcont.ConstructCont;
+import cn.fyg.pm.domain.constructcont.ConstructContFactory;
 import cn.fyg.pm.domain.constructcont.ConstructContItem;
 import cn.fyg.pm.domain.constructcont.ConstructContRepository;
 import cn.fyg.pm.domain.constructkey.ConstructKey;
+import cn.fyg.pm.domain.user.User;
 
 @Service
 public class ConstructContServiceImpl implements ConstructContService {
@@ -46,6 +48,11 @@ public class ConstructContServiceImpl implements ConstructContService {
 	@Override
 	public ConstructCont findByConstructKey(ConstructKey constructKey) {
 		return this.constructContRepository.findByConstructKey(constructKey);
+	}
+
+	@Override
+	public ConstructCont create(User creater) {
+		return ConstructContFactory.create(creater);
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.fyg.pm.domain.constructcont.ConstructCont;
 import cn.fyg.pm.domain.constructkey.ConstructKey;
+import cn.fyg.pm.domain.user.User;
 
 
 public interface ConstructContService {
@@ -17,4 +18,6 @@ public interface ConstructContService {
 	ConstructCont find(Long id);
 
 	ConstructCont findByConstructKey(ConstructKey constructKey);
+
+	ConstructCont create(User creater);
 }

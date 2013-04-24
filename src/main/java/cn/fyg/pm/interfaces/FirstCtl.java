@@ -43,6 +43,7 @@ public class FirstCtl {
 		map.put("projectList", projectList);
 		Project project=projectService.find(projectId);
 		map.put("project", project);
+		sessionUtil.setValue("project", project);
 		List<Contract> contractList = contractService.findByProject(project);
 		map.put("contractList", contractList);
 		return "project";
