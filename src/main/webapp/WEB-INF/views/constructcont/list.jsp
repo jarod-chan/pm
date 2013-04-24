@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -32,8 +33,11 @@
 	<h2>施工联系单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<input type="button" value="新建"  id="btn_new">
-	<table border="1px;">
+	<div style="width: 800px;text-align: right;">
+		<input type="button" value="新建"  id="btn_new">
+	</div>
+	<br>
+	<table border="1">
 		<tr>
 			<td>编号</td><td>项目</td><td>项目负责人</td><td>合同</td><td>施工承包方</td><td>原因</td><td>状态</td><td>制单人</td><td>制单日期</td><td>签发人</td><td>签发日期</td><td>操作</td>
 		</tr>
@@ -47,9 +51,9 @@
 				<td>${constructCont.reason}</td>
 				<td>${constructCont.state.name}</td>
 				<td>${constructCont.creater.name}</td>
-				<td>${constructCont.createTime}</td>
+				<td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${constructCont.signer.name}</td>
-				<td>${constructCont.signdate}</td>
+				<td><fmt:formatDate value="${constructCont.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td><input type="button" param='{"id":"${constructCont.id}"}' value="删除"  class="btn_delete"></td>
 			</tr>
 		</c:forEach>

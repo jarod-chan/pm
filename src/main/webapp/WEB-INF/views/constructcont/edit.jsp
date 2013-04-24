@@ -159,7 +159,7 @@
 			<td>制单人：</td><td>${constructCont.creater.name}</td>
 		</tr>
 		<tr>
-			<td>制单日期：</td><td><fmt:formatDate value="${constructCont.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+			<td>制单日期：</td><td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
 		<tr>
 			<td>签发人：</td><td></td>

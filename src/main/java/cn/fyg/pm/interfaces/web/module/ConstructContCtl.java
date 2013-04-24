@@ -68,13 +68,10 @@ public class ConstructContCtl {
 	
 	@RequestMapping(value="save",method=RequestMethod.POST)
 	public String save(ConstructCont constructCont){
-		Project project = sessionUtil.getValue("project");
 		User user = sessionUtil.getValue("user");
-/*		Contract contract = contractService.find(constructCont.getContract().getId());
-		constructCont.setProject(contract.getProject());*/
 		constructCont.setState(ConstructContState.saved);
 		constructCont.setCreater(user);
-		constructCont.setCreateTime(new Date());
+		constructCont.setCreatedate(new Date());
 		constructContService.save(constructCont);
 		return "redirect:list";
 	}

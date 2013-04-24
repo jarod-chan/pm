@@ -109,7 +109,7 @@ public class ConstructKeyCtl {
 		User user = sessionUtil.getValue("user");
 		constructCont.setState(ConstructContState.saved);
 		constructCont.setCreater(user);
-		constructCont.setCreateTime(new Date());
+		constructCont.setCreatedate(new Date());
 		constructContService.save(constructCont);
 		return String.format("redirect:/project/%s/constructkey/list",projectId);
 	}

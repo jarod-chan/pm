@@ -12,7 +12,7 @@ public class ConstructContFactory {
 		constructCont.setNo(UUID.randomUUID().toString().toUpperCase().substring(0,4));
 		constructCont.setState(ConstructContState.new_);
 		constructCont.setCreater(creater);
-		constructCont.setCreateTime(new Date());
+		constructCont.setCreatedate(new Date());
 		return constructCont;
 	}
 

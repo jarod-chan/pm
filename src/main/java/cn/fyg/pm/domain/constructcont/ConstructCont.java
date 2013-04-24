@@ -53,7 +53,7 @@ public class ConstructCont {
 	private User creater;//制单人
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date createTime;//制单时间
+	private Date createdate;//制单日期
 	
 	@ManyToOne(targetEntity=User.class)
 	@JoinColumn(name="signer_key")
@@ -110,12 +110,12 @@ public class ConstructCont {
 		this.creater = creater;
 	}
 
-	public Date getCreateTime() {
-		return createTime;
+	public Date getCreatedate() {
+		return createdate;
 	}
 
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+	public void setCreatedate(Date createdate) {
+		this.createdate = createdate;
 	}
 
 	public List<ConstructContItem> getConstructContItems() {
