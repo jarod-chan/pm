@@ -14,10 +14,15 @@
     <script type="text/javascript">
     $(function() {
 		$("#btn_save").click(function(){
-			$("table tbody tr").formatName();
+			$("#tabitem tbody tr").formatName();
 			var actionFrom=$("form");
-			var oldAction=actionFrom.attr("action"); //return;
+			var oldAction=actionFrom.attr("action"); 
 			actionFrom.attr("action",oldAction+"/save").submit();
+		});
+		
+		$("#btn_back").click(function(){
+			window.open('${ctx}/constructcont/list','_self');
+			return false;
 		});
 		
 		var trdom = $("<tr>");
@@ -171,7 +176,7 @@
 	<br>
 	<br>
 		联系项目
-		<table border="1">
+		<table id="tabitem" border="1">
 		<thead>
 			<tr>
 				<th>序号</th><th>内容</th><th>暂定单价</th><th>暂定数量</th><th>单位</th><th>暂定结算价</th><th>计划完成日期</th><th>实际完成日期</th><th>实际执行结果</th><th>操作<input type="button" class="addLast" value="+"  /></th>
@@ -182,6 +187,7 @@
 		</table>
 		<br>
 		<input type="button" value="保存"  id="btn_save">
+		<input type="button" value="返回"  id="btn_back">
 		
 	</form>
 	

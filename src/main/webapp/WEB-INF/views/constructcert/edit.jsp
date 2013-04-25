@@ -13,9 +13,9 @@
     <script type="text/javascript">
     $(function() {
 		$("#btn_save").click(function(){
-			$("table tbody tr").formatName();
+			$("#tabitem tbody tr").formatName();
 			var actionFrom=$("form");
-			var oldAction=actionFrom.attr("action"); //return;
+			var oldAction=actionFrom.attr("action");// return;
 			actionFrom.attr("action",oldAction+"/save").submit();
 		});
 		
@@ -30,16 +30,16 @@
 		$("<td>").append($("<input type='text' name='constructCertItems_content' style='width:300px' />"))
 		  .appendTo(trdom);
 		
-		$("<td>").append($("<input type='text' name='constructContItems_price' style='width:50px' />"))
+		$("<td>").append($("<input type='text' name='constructCertItems_price' style='width:50px' />"))
 		  .appendTo(trdom);
 		
-		$("<td>").append($("<input type='text' name='constructContItems_numb' style='width:50px' />"))
+		$("<td>").append($("<input type='text' name='constructCertItems_numb' style='width:50px' />"))
 		  .appendTo(trdom);
 		
-		$("<td>").append($("<input type='text' name='constructContItems_unit' style='width:50px' />"))
+		$("<td>").append($("<input type='text' name='constructCertItems_unit' style='width:50px' />"))
 		  .appendTo(trdom);
 		
-		$("<td>").append($("<input type='text' name='constructContItems_amount' style='width:100px' />"))
+		$("<td>").append($("<input type='text' name='constructCertItems_amount' style='width:100px' />"))
 		  .appendTo(trdom);
 		  
 		 $("<td>")
@@ -89,6 +89,30 @@
 			tbody.append(cloneTR()); 
 			reIndexTable(tbody);
 		});
+		
+		var constructContIdList=[<c:forEach var="constructCont" items="${constructContList}" varStatus="status">${constructCont.id}<c:if test="${!status.last}">,</c:if></c:forEach>];
+    	
+    	$("#btn_cont").click(function(){
+    		window.open('${ctx}/constructcont/'+constructContIdList[$("select:eq(0)").get(0).selectedIndex]+'/view','_blank');
+			return false;
+    	})
+		
+	   	$("#btn_load").click(function(){
+    		var constructContId=constructContIdList[$("select:eq(0)").get(0).selectedIndex];
+    		$.getJSON('${ctx}/constructcont/'+constructContId+'/items',function(itemlist){
+    			var tbody=$("#tabitem tbody");
+    			for(i=0;i<itemlist.length;i++){
+    				var tr=cloneTR();
+    				tr.find("input[name=constructCertItems_content]").val(itemlist[0].content);
+    				tr.find("input[name=constructCertItems_price]").val(itemlist[0].price);
+    				tr.find("input[name=constructCertItems_numb]").val(itemlist[0].numb);
+    				tr.find("input[name=constructCertItems_unit]").val(itemlist[0].unit);
+    				tr.find("input[name=constructCertItems_amount]").val(itemlist[0].amount);
+    				tbody.append(tr); 
+    			}
+    			reIndexTable(tbody);
+    		})
+    	})
     });
     
     
@@ -103,6 +127,13 @@
     	$(".addLast").triggerHandler("click");
     	
     	$('#tabmain tr').find('td:eq(0)').css("text-align","right");
+    	
+    	
+		
+		
+    	
+ 
+    	
     })
     
     
@@ -132,6 +163,8 @@
 						<option value="${constructCont.constructKey.id}">${constructCont.no}-${constructCont.constructKey.contract.supplier.name}</option>
 					</c:forEach>
 				</select>
+				<input type="button" id="btn_cont" value="查看施工联系单"/>
+				<input type="button" id="btn_load" value="加载联系单内容到当前明细"/>
 			</td>
 		</tr>
 		<tr>
@@ -160,7 +193,7 @@
 		
 		<br>
 		签证项目
-		<table border="1">
+		<table border="1" id="tabitem">
 		<thead>
 			<tr>
 				<th>序号</th><th>内容</th><th>结算单价</th><th>结算数量</th><th>单位	</th><th>结算价格	</th><th>操作<input type="button" class="addLast" value="+"  /></th>

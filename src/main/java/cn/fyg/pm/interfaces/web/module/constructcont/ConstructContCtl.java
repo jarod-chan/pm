@@ -10,13 +10,16 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.fyg.pm.application.ConstructContService;
 import cn.fyg.pm.application.ContractService;
 import cn.fyg.pm.domain.constructcont.ConstructCont;
+import cn.fyg.pm.domain.constructcont.ConstructContItem;
 import cn.fyg.pm.domain.constructcont.ConstructContState;
 import cn.fyg.pm.domain.contract.Contract;
 import cn.fyg.pm.domain.project.Project;
@@ -31,6 +34,7 @@ public class ConstructContCtl {
 	private interface Page {
 		String LIST = PATH + "list";
 		String EDIT = PATH + "edit";
+		String VIEW = PATH + "view";
 	}
 	
 	@InitBinder
@@ -80,6 +84,20 @@ public class ConstructContCtl {
 	public String delete(@RequestParam("constructContId") Long constructContId){
 		constructContService.delete(constructContId);
 		return "redirect:list";
+	}
+	
+	@RequestMapping(value="{constructContId}/view",method=RequestMethod.GET)
+	public String toView(@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
+		ConstructCont constructCont = constructContService.find(constructContId);
+		map.put("constructCont", constructCont);
+		return Page.VIEW;
+	}
+	
+	@RequestMapping(value="{constructContId}/items",method=RequestMethod.GET)
+	@ResponseBody 
+	public List<ConstructContItem> loadConstructContItemList(@PathVariable("constructContId")Long constructContId){
+		ConstructCont constructCont = constructContService.find(constructContId);
+		return constructCont.getConstructContItems();
 	}
 
 	

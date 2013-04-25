@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 @Entity
 @Table(name="pm_constructcontitem")
 public class ConstructContItem {
@@ -24,6 +26,7 @@ public class ConstructContItem {
 
 	private Long sn;//序号
 	
+	@JsonIgnore//转化json是去掉，防止出现循环
 	@ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH }, optional = true)  
 	@JoinColumn(name="constructcont_id")
 	private ConstructCont constructCont;//主表
