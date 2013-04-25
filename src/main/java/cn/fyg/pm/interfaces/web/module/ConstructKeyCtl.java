@@ -135,7 +135,7 @@ public class ConstructKeyCtl {
 		User user = sessionUtil.getValue("user");
 		constructCert.setState(ConstructCertState.saved);
 		constructCert.setCreater(user);
-		constructCert.setCreateTime(new Date());
+		constructCert.setCreatedate(new Date());
 		constructCertService.save(constructCert);
 		return String.format("redirect:/project/%s/constructkey/list",projectId);
 	}

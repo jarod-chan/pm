@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module;
+package cn.fyg.pm.interfaces.web.module.consturctcert;
 
 import java.util.Date;
 import java.util.List;
@@ -15,6 +15,7 @@ import cn.fyg.pm.application.ConstructContService;
 import cn.fyg.pm.domain.constructcert.ConstructCert;
 import cn.fyg.pm.domain.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.constructcont.ConstructCont;
+import cn.fyg.pm.domain.project.Project;
 import cn.fyg.pm.domain.user.User;
 import cn.fyg.pm.interfaces.web.module.shared.session.SessionUtil;
 
@@ -33,31 +34,36 @@ public class ConstructCertCtl {
 	@Autowired
 	ConstructCertService constructCertService;
 	@Autowired
+	ConstructCertAssembler constructCertAssembler;
+	@Autowired
 	SessionUtil sessionUtil;
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String toList(Map<String,Object> map){
 		List<ConstructCert> constructCertList = constructCertService.findAll();
-		map.put("constructCertList", constructCertList);
+		List<ConstructCertDto> ConstructCertDtoList = constructCertAssembler.create(constructCertList);
+		map.put("ConstructCertDtoList", ConstructCertDtoList);
 		return Page.LIST;
 	}
 	
 	@RequestMapping(value="edit",method=RequestMethod.GET)
 	public String toEdit(Map<String,Object> map){
-		List<ConstructCont> constructContList = constructContService.findAll();
+		User user = sessionUtil.getValue("user");
+		Project project = sessionUtil.getValue("project");
+		map.put("project", project);
+		List<ConstructCont> constructContList = constructContService.findByProject(project);
 		map.put("constructContList", constructContList);
+		ConstructCert constructCert = constructCertService.create(user);
+		map.put("constructCert", constructCert);
 		return Page.EDIT;
 	}
 	
 	@RequestMapping(value="save",method=RequestMethod.POST)
 	public String save(ConstructCert constructCert){
 		User user = sessionUtil.getValue("user");
-/*		ConstructCont constructCont = constructContService.find(constructCert.getConstructCont().getId());
-		constructCert.setProject(constructCont.getProject());
-		constructCert.setContract(constructCont.getContract());*/
 		constructCert.setState(ConstructCertState.saved);
 		constructCert.setCreater(user);
-		constructCert.setCreateTime(new Date());
+		constructCert.setCreatedate(new Date());
 		constructCertService.save(constructCert);
 		return "redirect:list";
 	}

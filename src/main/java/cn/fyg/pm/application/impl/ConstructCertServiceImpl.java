@@ -8,8 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ConstructCertService;
 import cn.fyg.pm.domain.constructcert.ConstructCert;
+import cn.fyg.pm.domain.constructcert.ConstructCertFactory;
 import cn.fyg.pm.domain.constructcert.ConstructCertRepository;
 import cn.fyg.pm.domain.constructkey.ConstructKey;
+import cn.fyg.pm.domain.user.User;
 
 @Service
 public class ConstructCertServiceImpl implements ConstructCertService {
@@ -42,6 +44,11 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 	@Override
 	public ConstructCert find(Long certid) {
 		return this.constructCertRepository.findOne(certid);
+	}
+
+	@Override
+	public ConstructCert create(User user) {
+		return ConstructCertFactory.create(user);
 	}
 
 }

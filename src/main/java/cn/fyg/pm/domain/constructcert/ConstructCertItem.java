@@ -9,18 +9,24 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="pm_constructcertitem")
+@Table(name = "pm_constructcertitem")
 public class ConstructCertItem {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;//id
+	private Long id;// id
 
-	private Long sn;//序号
-	
-	private String content;//内容
-	
-	private BigDecimal cost;//费用
+	private Long sn;// 序号
+
+	private String content;// 内容
+
+	private BigDecimal price;// 单价
+
+	private BigDecimal numb;// 数量
+
+	private String unit;// 单位
+
+	private BigDecimal amount;// 结算价
 
 	public Long getId() {
 		return id;
@@ -46,14 +52,36 @@ public class ConstructCertItem {
 		this.content = content;
 	}
 
-	public BigDecimal getCost() {
-		return cost;
+	public BigDecimal getPrice() {
+		return price;
 	}
 
-	public void setCost(BigDecimal cost) {
-		this.cost = cost;
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
-	
-	
+
+	public BigDecimal getNumb() {
+		return numb;
+	}
+
+	public void setNumb(BigDecimal numb) {
+		this.numb = numb;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public BigDecimal getAmount() {
+		return amount;
+	}
+
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
 
 }

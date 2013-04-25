@@ -12,6 +12,7 @@ import cn.fyg.pm.domain.constructcont.ConstructContFactory;
 import cn.fyg.pm.domain.constructcont.ConstructContItem;
 import cn.fyg.pm.domain.constructcont.ConstructContRepository;
 import cn.fyg.pm.domain.constructkey.ConstructKey;
+import cn.fyg.pm.domain.project.Project;
 import cn.fyg.pm.domain.user.User;
 
 @Service
@@ -53,6 +54,11 @@ public class ConstructContServiceImpl implements ConstructContService {
 	@Override
 	public ConstructCont create(User creater) {
 		return ConstructContFactory.create(creater);
+	}
+
+	@Override
+	public List<ConstructCont> findByProject(Project project) {
+		return this.constructContRepository.findByConstructKey_Project(project);
 	}
 
 }

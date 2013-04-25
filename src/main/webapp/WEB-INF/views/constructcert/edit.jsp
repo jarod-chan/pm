@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -29,7 +30,16 @@
 		$("<td>").append($("<input type='text' name='constructCertItems_content' style='width:300px' />"))
 		  .appendTo(trdom);
 		
-		$("<td>").append($("<input type='text' name='constructCertItems_cost'/>"))
+		$("<td>").append($("<input type='text' name='constructContItems_price' style='width:50px' />"))
+		  .appendTo(trdom);
+		
+		$("<td>").append($("<input type='text' name='constructContItems_numb' style='width:50px' />"))
+		  .appendTo(trdom);
+		
+		$("<td>").append($("<input type='text' name='constructContItems_unit' style='width:50px' />"))
+		  .appendTo(trdom);
+		
+		$("<td>").append($("<input type='text' name='constructContItems_amount' style='width:100px' />"))
 		  .appendTo(trdom);
 		  
 		 $("<td>")
@@ -82,7 +92,18 @@
     });
     
     
-    
+    $(function(){
+    	
+    	$("select:eq(0)").change(function(){
+    		var opt=$(this).find("option:selected").text();
+    		var idx=opt.lastIndexOf("-");
+    		$("#supplier_name").html(opt.substring(idx+1));
+    	}).triggerHandler("change");
+		
+    	$(".addLast").triggerHandler("click");
+    	
+    	$('#tabmain tr').find('td:eq(0)').css("text-align","right");
+    })
     
     
     </script>
@@ -93,26 +114,56 @@
 	<%@ include file="/common/message.jsp" %>	
 	
 	<form action="${ctx}/constructcert" method="post">
-		编号：
-		<input type="text" name="no" value=""/>
-		<br>
-		施工联系单：
-		<select name="constructCont.id">
-			<c:forEach var="constructCont" items="${constructContList}">
-				<option value="${constructCont.id}">${constructCont.no}</option>
-			</c:forEach>
-		</select>
-		<br>
-		用户：
-		${user.name}
-		<br>
+	<table id="tabmain">
+		<tr>
+			<td>编号：</td><td>${constructCert.no}<input type="hidden" name="no" value="${constructCert.no}"/></td>
+		</tr>
+		<tr>
+			<td>项目：</td><td><input type="hidden" name="constructKey.project.id" value="${project.id}"> ${project.name}</td>
+		</tr>
+		<tr>
+			<td>项目负责人：</td><td><input type="hidden" name="leader.key" value="${project.user.key}">${project.user.name}</td>
+		</tr>
+		<tr>
+			<td>施工联系单：</td>
+			<td>
+				<select name="constructKey.id">
+					<c:forEach var="constructCont" items="${constructContList}">
+						<option value="${constructCont.constructKey.id}">${constructCont.no}-${constructCont.constructKey.contract.supplier.name}</option>
+					</c:forEach>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>施工承包方：</td>
+			<td><span id="supplier_name"></span></td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top">原因：</td><td><textarea name="reason" rows="6" cols="30" style="vertical-align: top"></textarea></td>
+		</tr>
+		<tr>
+			<td>状态：</td><td>${constructCert.state.name}</td>
+		</tr>
+		<tr>
+			<td>制单人：</td><td>${constructCert.creater.name}</td>
+		</tr>
+		<tr>
+			<td>制单日期：</td><td><fmt:formatDate value="${constructCert.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+		</tr>
+		<tr>
+			<td>签发人：</td><td></td>
+		</tr>
+		<tr>
+			<td>签发日期：</td><td></td>
+		</tr>
+	</table>
 		
 		<br>
 		签证项目
 		<table border="1">
 		<thead>
 			<tr>
-				<th>序号</th><th>内容</th><th>费用</th><th>操作<input type="button" class="addLast" value="+"  /></th>
+				<th>序号</th><th>内容</th><th>结算单价</th><th>结算数量</th><th>单位	</th><th>结算价格	</th><th>操作<input type="button" class="addLast" value="+"  /></th>
 			</tr>
 		</thead>
 		<tbody>

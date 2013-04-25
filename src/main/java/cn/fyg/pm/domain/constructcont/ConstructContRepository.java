@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.repository.Repository;
 
 import cn.fyg.pm.domain.constructkey.ConstructKey;
+import cn.fyg.pm.domain.project.Project;
 
 public interface ConstructContRepository extends Repository<ConstructCont, Long> {
 
@@ -17,4 +18,6 @@ public interface ConstructContRepository extends Repository<ConstructCont, Long>
 	ConstructCont findOne(Long id);
 
 	ConstructCont findByConstructKey(ConstructKey constructKey);
+
+	List<ConstructCont> findByConstructKey_Project(Project project);
 }
