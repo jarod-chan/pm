@@ -14,9 +14,16 @@
     $(function() {
     	
     	$("#btn_new").click(function(){
-			window.open('${ctx}/constructcont/edit','_self');
+			window.open('${ctx}/constructcont/new','_self');
 			return false;
 		});
+    	
+
+    	$('.btn_edit').click(function(){
+    		var param=jQuery.parseJSON($(this).attr("param"));
+    		window.open('${ctx}/constructcont/{id}/edit'.replace('{id}',param.id),'_self');
+        	return false;
+    	});
     	
     	$('.btn_delete').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
@@ -54,7 +61,7 @@
 				<td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${constructCont.signer.name}</td>
 				<td><fmt:formatDate value="${constructCont.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-				<td><input type="button" param='{"id":"${constructCont.id}"}' value="删除"  class="btn_delete"></td>
+				<td><input type="button" param='{"id":"${constructCont.id}"}' value="修改"  class="btn_edit"><input type="button" param='{"id":"${constructCont.id}"}' value="删除"  class="btn_delete"></td>
 			</tr>
 		</c:forEach>
 		

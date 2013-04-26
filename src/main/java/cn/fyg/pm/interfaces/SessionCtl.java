@@ -12,9 +12,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cn.fyg.pm.application.UserService;
 import cn.fyg.pm.domain.user.User;
-import cn.fyg.pm.interfaces.web.module.shared.constant.AppConstant;
-import cn.fyg.pm.interfaces.web.module.shared.message.Message;
-import cn.fyg.pm.interfaces.web.module.shared.session.SessionUtil;
+import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
+import cn.fyg.pm.interfaces.web.shared.message.Message;
+import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 
 @Controller

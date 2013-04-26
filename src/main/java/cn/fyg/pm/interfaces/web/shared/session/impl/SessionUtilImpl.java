@@ -1,11 +1,11 @@
-package cn.fyg.pm.interfaces.web.module.shared.session.impl;
+package cn.fyg.pm.interfaces.web.shared.session.impl;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cn.fyg.pm.interfaces.web.module.shared.session.SessionUtil;
+import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 /**
  * session 处理

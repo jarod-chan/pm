@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.shared.constant;
+package cn.fyg.pm.interfaces.web.shared.constant;
 
 public interface FlowConstant {
 	

@@ -1,6 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
@@ -18,7 +17,7 @@
 			$("#tabitem tbody tr").formatName();
 			var actionFrom=$("form");
 			var oldAction=actionFrom.attr("action"); 
-			actionFrom.attr("action",oldAction+"/saveEdit").submit();
+			actionFrom.attr("action",oldAction+"/save").submit();
 		});
 		
 		$("#btn_back").click(function(){
@@ -29,7 +28,6 @@
 		var trdom = $("<tr>");
 		$("<td>")
 		  .append($("<input type='hidden' name='constructContItems_sn'   value='' />"))
-		  .append($("<input type='hidden' name='constructContItemsId'   value='-1' />"))
 		  .css("display","none")
 		  .appendTo(trdom);
 		
@@ -109,11 +107,6 @@
 			reIndexTable(tbody);
 		});
 		
-		$(".item_plandate").datepicker();
-		$(".item_realdate").datepicker();
-		$(".add").bind("click",add);
-	 	$(".remove").bind("click",remove);
-		
     })
     
     $(function(){
@@ -124,9 +117,8 @@
     	})
     	$("select:eq(0)").triggerHandler("change");
     	
-    	<c:if test="${fn:length(constructCont.constructContItems)==0}">
     	$(".addLast").triggerHandler("click");
-    	</c:if>
+    	
     	
     	$('#tabmain tr').find('td:eq(0)').css("text-align","right");
     })
@@ -134,30 +126,27 @@
     </script>
 </head>
 
-
-
 <body>
 	<h2>施工联系单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
 	<form action="${ctx}/constructcont" method="post">
-	<input type="hidden" name="id"  value="${constructCont.id}">
 	<table id="tabmain">
 		<tr>
 			<td>编号：</td><td>${constructCont.no}<input type="hidden" name="no" value="${constructCont.no}"/></td>
 		</tr>
 		<tr>
-			<td>项目：</td><td>${constructCont.constructKey.project.name}</td>
+			<td>项目：</td><td><input type="hidden" name="constructKey.project.id" value="${project.id}"> ${project.name}</td>
 		</tr>
 		<tr>
-			<td>项目负责人：</td><td>${constructCont.leader.name}</td>
+			<td>项目负责人：</td><td><input type="hidden" name="leader.key" value="${project.user.key}">${project.user.name}</td>
 		</tr>
 		<tr>
-			<td>合同：</td> 
+			<td>合同：</td>
 			<td>
 				<select name="constructKey.contract.id">
 					<c:forEach var="contract" items="${contractList}">
-						<option value="${contract.id}" <c:if test="${constructCont.constructKey.contract.id==contract.id}">selected="true"</c:if> >${contract.name}-${contract.supplier.name}</option>
+						<option value="${contract.id}">${contract.name}-${contract.supplier.name}</option>
 					</c:forEach>
 				</select>
 			</td>
@@ -166,7 +155,7 @@
 			<td>施工承包方：</td><td><span id="supplier_name"></span></td>
 		</tr>
 		<tr>
-			<td style="vertical-align: top">原因：</td><td><textarea name="reason" rows="6" cols="30" style="vertical-align: top">${constructCont.reason}</textarea></td>
+			<td style="vertical-align: top">原因：</td><td><textarea name="reason" rows="6" cols="30" style="vertical-align: top"></textarea></td>
 		</tr>
 		<tr>
 			<td>状态：</td><td>${constructCont.state.name}</td>
@@ -194,32 +183,6 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${constructCont.constructContItems}" var="item">
-			<tr>
-				<td style="display: none">
-					<input type='hidden' name='constructContItems_sn'   value='${item.sn}' />
-					<input type='hidden' name='constructContItemsId'   value='${item.id}' />
-				</td>
-				<td>${item.sn}</td>
-				<td><input type='text' name='constructContItems_content' value='${item.content}'  style='width:300px' /></td>
-		
-				<td><input type='text' name='constructContItems_price' value='${item.price}' style='width:50px' /></td>
-		
-				<td><input type='text' name='constructContItems_numb' value='${item.numb}' style='width:50px' /></td>
-		
-				<td><input type='text' name='constructContItems_unit' value='${item.unit}' style='width:50px' /></td>
-		
-				<td><input type='text' name='constructContItems_amount' value='${item.amount}' style='width:100px' /></td>
-		
-				<td><input type='text' class='item_plandate' name='constructContItems_plandate'  value='<fmt:formatDate value="${item.plandate}" pattern="yyyy-MM-dd"/>' style='width:100px' /></td>
-		
-				<td><input type='text' class='item_realdate' name='constructContItems_realdate' value='<fmt:formatDate value="${item.realdate}" pattern="yyyy-MM-dd"/>' style='width:100px' /></td>
-		
-				<td><input type='text' name='constructContItems_result' value='${item.result}' style='width:100px' /></td>
-		  
-				<td><input type='button' class='add'  value='+'   /><input type='button' class='remove'  value='-'   /></td>
-			</tr>
-			</c:forEach>
 		</tbody>
 		</table>
 		<br>

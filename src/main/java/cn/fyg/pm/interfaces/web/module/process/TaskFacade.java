@@ -12,7 +12,7 @@ import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cn.fyg.pm.interfaces.web.module.shared.constant.FlowConstant;
+import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 
 @Component
 public class TaskFacade {

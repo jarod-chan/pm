@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import cn.fyg.pm.application.UserService;
 import cn.fyg.pm.domain.user.User;
-import cn.fyg.pm.interfaces.web.module.shared.session.SessionUtil;
+import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 @Controller
 public class LoginCtl {

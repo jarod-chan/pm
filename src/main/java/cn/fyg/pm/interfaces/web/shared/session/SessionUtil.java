@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.shared.session;
+package cn.fyg.pm.interfaces.web.shared.session;
 
 
 

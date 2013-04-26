@@ -17,7 +17,7 @@ import cn.fyg.pm.domain.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.constructcont.ConstructCont;
 import cn.fyg.pm.domain.project.Project;
 import cn.fyg.pm.domain.user.User;
-import cn.fyg.pm.interfaces.web.module.shared.session.SessionUtil;
+import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 @Controller
 @RequestMapping("constructcert")

@@ -24,7 +24,7 @@ import cn.fyg.pm.domain.constructkey.ConstructKey;
 import cn.fyg.pm.domain.contract.Contract;
 import cn.fyg.pm.domain.project.Project;
 import cn.fyg.pm.domain.user.User;
-import cn.fyg.pm.interfaces.web.module.shared.session.SessionUtil;
+import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 @Controller
 public class ConstructKeyCtl {

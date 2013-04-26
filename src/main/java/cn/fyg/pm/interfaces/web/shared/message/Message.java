@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.shared.message;
+package cn.fyg.pm.interfaces.web.shared.message;
 
 
 public class Message {
