@@ -1,6 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
@@ -17,7 +16,7 @@
 			$("#tabitem tbody tr").formatName();
 			var actionFrom=$("form");
 			var oldAction=actionFrom.attr("action");// return;
-			actionFrom.attr("action",oldAction+"/saveEdit").submit();
+			actionFrom.attr("action",oldAction+"/save").submit();
 		})
 		
 		$("#btn_back").click(function(){
@@ -28,7 +27,6 @@
 		var trdom = $("<tr>");
 		$("<td>")
 		  .append($("<input type='hidden' name='constructCertItems_sn'   value='' />"))
-		  .append($("<input type='hidden' name='constructCertItemsId'   value='-1' />"))
 		  .css("display","none")
 		  .appendTo(trdom);
 		
@@ -120,10 +118,6 @@
     			reIndexTable(tbody);
     		})
     	})
-    	
-    	$(".add").bind("click",add);
-		$(".remove").bind("click",remove);
-    	
     });
     
     
@@ -135,11 +129,15 @@
     		$("#supplier_name").html(opt.substring(idx+1));
     	}).triggerHandler("change");
 		
-    	<c:if test="${fn:length(constructCert.constructCertItems)==0}">
     	$(".addLast").triggerHandler("click");
-    	</c:if>
     	
     	$('#tabmain tr').find('td:eq(0)').css("text-align","right");
+    	
+    	
+		
+		
+    	
+ 
     	
     })
     
@@ -152,23 +150,22 @@
 	<%@ include file="/common/message.jsp" %>	
 	
 	<form action="${ctx}/constructcert" method="post">
-	<input type="hidden" name="id" value="${constructCert.id}">
 	<table id="tabmain">
 		<tr>
-			<td>编号：</td><td>${constructCert.no}</td>
+			<td>编号：</td><td>${constructCert.no}<input type="hidden" name="no" value="${constructCert.no}"/></td>
 		</tr>
 		<tr>
-			<td>项目：</td><td>${constructCert.constructKey.project.name}</td>
+			<td>项目：</td><td><input type="hidden" name="constructKey.project.id" value="${project.id}"> ${project.name}</td>
 		</tr>
 		<tr>
-			<td>项目负责人：</td><td>${constructCert.leader.name}</td>
+			<td>项目负责人：</td><td><input type="hidden" name="leader.key" value="${project.user.key}">${project.user.name}</td>
 		</tr>
 		<tr>
 			<td>施工联系单：</td>
 			<td>
 				<select name="constructKey.id">
 					<c:forEach var="constructCont" items="${constructContList}">
-						<option value="${constructCont.constructKey.id}" <c:if test="${constructCert.constructKey.id==constructCont.constructKey.id}">selected="true"</c:if> >${constructCont.no}-${constructCont.constructKey.contract.supplier.name}</option>
+						<option value="${constructCont.constructKey.id}">${constructCont.no}-${constructCont.constructKey.contract.supplier.name}</option>
 					</c:forEach>
 				</select>
 				<input type="button" id="btn_cont" value="查看施工联系单"/>
@@ -204,27 +201,16 @@
 		<table border="1" id="tabitem">
 		<thead>
 			<tr>
-				<th>序号</th><th>内容</th><th>结算单价</th><th>结算数量</th><th>单位</th><th>结算价格	</th><th>操作<input type="button" class="addLast" value="+"  /></th>
+				<th>序号</th><th>内容</th><th>结算单价</th><th>结算数量</th><th>单位	</th><th>结算价格	</th><th>操作<input type="button" class="addLast" value="+"  /></th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${constructCert.constructCertItems}" var="item">
-				<tr>
-					<td style="display: none"><input type='hidden' name='constructCertItems_sn'   value='${item.sn}' /><input type='hidden' name='constructCertItemsId'   value='${item.id}' /></td>
-					<td>${item.sn}</td>
-					<td><input type='text' name='constructCertItems_content' value='${item.content}' style='width:300px' /></td>
-					<td><input type='text' name='constructCertItems_price' value='${item.price}' style='width:50px' /></td>
-					<td><input type='text' name='constructCertItems_numb' value='${item.numb}' style='width:50px' /></td>
-					<td><input type='text' name='constructCertItems_unit' value='${item.unit}'  style='width:50px' /></td>
-					<td><input type='text' name='constructCertItems_amount' value='${item.amount}' style='width:100px' /></td>
-					<td><input type='button' class='add'  value='+'   /><input type='button' class='remove'  value='-'   /></td>
-				</tr>
-			</c:forEach>
 		</tbody>
 		</table>
 		<br>
 		<input type="button" value="保存"  id="btn_save">
 		<input type="button" value="返回"  id="btn_back">
+		
 	</form>
 	
 </body>

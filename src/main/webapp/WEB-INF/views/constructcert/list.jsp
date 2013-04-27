@@ -14,7 +14,13 @@
     $(function() {
     	
     	$("#btn_new").click(function(){
-			window.open('${ctx}/constructcert/edit','_self');
+			window.open('${ctx}/constructcert/new','_self');
+			return false;
+		});
+    	
+    	$(".btn_edit").click(function(){
+    		var param=jQuery.parseJSON($(this).attr("param"));
+			window.open('${ctx}/constructcert/'+param.id+'/edit','_self');
 			return false;
 		});
     	
@@ -33,6 +39,7 @@
 	<h2>施工签证单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	<div style="width: 800px;text-align: right;">
+		<input type="button" value="返回项目主页"  onclick="javascript:window.open('${ctx}/first/project/${project.id}','_self');">
 		<input type="button" value="新建"  id="btn_new">
 	</div>
 	<br>
@@ -53,7 +60,10 @@
 				<td><fmt:formatDate value="${constructCertDto.constructCert.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${constructCertDto.constructCert.signer.name}</td>
 				<td><fmt:formatDate value="${constructCertDto.constructCert.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-				<td><input type="button" param='{"id":"${constructCertDto.constructCert.id}"}' value="删除"  class="btn_delete"></td>
+				<td>
+					<input type="button" param='{"id":"${constructCertDto.constructCert.id}"}' value="修改"  class="btn_edit">
+					<input type="button" param='{"id":"${constructCertDto.constructCert.id}"}' value="删除"  class="btn_delete">
+				</td>
 			</tr>
 		</c:forEach>
 		

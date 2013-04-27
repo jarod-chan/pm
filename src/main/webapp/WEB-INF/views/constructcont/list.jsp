@@ -41,6 +41,7 @@
 	<%@ include file="/common/message.jsp" %>	
 	
 	<div style="width: 800px;text-align: right;">
+		<input type="button" value="返回项目主页"  onclick="javascript:window.open('${ctx}/first/project/${project.id}','_self');">
 		<input type="button" value="新建"  id="btn_new">
 	</div>
 	<br>
