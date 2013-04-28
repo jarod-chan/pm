@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import cn.fyg.pm.domain.user.User;
+import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 

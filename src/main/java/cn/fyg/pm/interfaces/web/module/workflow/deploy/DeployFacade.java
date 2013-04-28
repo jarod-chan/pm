@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cn.fyg.pm.application.WorkflowService;
-import cn.fyg.pm.domain.workflow.ProcessFile;
+import cn.fyg.pm.domain.model.workflow.processfile.ProcessFile;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 
 

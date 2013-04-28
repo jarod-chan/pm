@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ContractService;
-import cn.fyg.pm.domain.contract.Contract;
-import cn.fyg.pm.domain.contract.ContractRepository;
-import cn.fyg.pm.domain.project.Project;
+import cn.fyg.pm.domain.model.contract.Contract;
+import cn.fyg.pm.domain.model.contract.ContractRepository;
+import cn.fyg.pm.domain.model.project.Project;
 
 @Service
 public class ContractServiceImpl implements ContractService {

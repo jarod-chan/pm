@@ -2,8 +2,8 @@ package cn.fyg.pm.application;
 
 import java.util.List;
 
-import cn.fyg.pm.domain.fileupload.busifile.Busifile;
-import cn.fyg.pm.domain.fileupload.filestore.Filestore;
+import cn.fyg.pm.domain.model.fileupload.busifile.Busifile;
+import cn.fyg.pm.domain.model.fileupload.filestore.Filestore;
 import cn.fyg.pm.domain.shared.BusiCode;
 
 public interface BusifileService {

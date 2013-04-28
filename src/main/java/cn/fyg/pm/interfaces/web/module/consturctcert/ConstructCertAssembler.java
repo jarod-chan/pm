@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import cn.fyg.pm.application.ConstructContService;
-import cn.fyg.pm.domain.constructcert.ConstructCert;
-import cn.fyg.pm.domain.constructcont.ConstructCont;
+import cn.fyg.pm.domain.model.constructcert.ConstructCert;
+import cn.fyg.pm.domain.model.constructcont.ConstructCont;
 
 @Component
 public class ConstructCertAssembler {

@@ -2,8 +2,8 @@ package cn.fyg.pm.application;
 
 import java.util.List;
 
-import cn.fyg.pm.domain.constructkey.ConstructKey;
-import cn.fyg.pm.domain.project.Project;
+import cn.fyg.pm.domain.model.constructkey.ConstructKey;
+import cn.fyg.pm.domain.model.project.Project;
 
 
 public interface ConstructKeyService {

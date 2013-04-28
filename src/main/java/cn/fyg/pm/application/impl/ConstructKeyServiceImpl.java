@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ConstructKeyService;
-import cn.fyg.pm.domain.constructkey.ConstructKey;
-import cn.fyg.pm.domain.constructkey.ConstructKeyRepository;
-import cn.fyg.pm.domain.project.Project;
+import cn.fyg.pm.domain.model.constructkey.ConstructKey;
+import cn.fyg.pm.domain.model.constructkey.ConstructKeyRepository;
+import cn.fyg.pm.domain.model.project.Project;
 
 @Service
 public class ConstructKeyServiceImpl implements ConstructKeyService {

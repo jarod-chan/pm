@@ -2,9 +2,9 @@ package cn.fyg.pm.application;
 
 import java.util.List;
 
-import cn.fyg.pm.domain.pjmember.Pjmember;
-import cn.fyg.pm.domain.project.Project;
-import cn.fyg.pm.domain.user.User;
+import cn.fyg.pm.domain.model.pjmember.Pjmember;
+import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.user.User;
 
 public interface PjmemberService {
 	

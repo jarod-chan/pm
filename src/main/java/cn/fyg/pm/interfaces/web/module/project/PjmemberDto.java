@@ -1,6 +1,6 @@
 package cn.fyg.pm.interfaces.web.module.project;
 
-import cn.fyg.pm.domain.pjmember.Pjmember;
+import cn.fyg.pm.domain.model.pjmember.Pjmember;
 
 public class PjmemberDto {
 	

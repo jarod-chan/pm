@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ConstructCertService;
-import cn.fyg.pm.domain.constructcert.ConstructCert;
-import cn.fyg.pm.domain.constructcert.ConstructCertFactory;
-import cn.fyg.pm.domain.constructcert.ConstructCertRepository;
-import cn.fyg.pm.domain.constructkey.ConstructKey;
-import cn.fyg.pm.domain.user.User;
+import cn.fyg.pm.domain.model.constructcert.ConstructCert;
+import cn.fyg.pm.domain.model.constructcert.ConstructCertFactory;
+import cn.fyg.pm.domain.model.constructcert.ConstructCertRepository;
+import cn.fyg.pm.domain.model.constructkey.ConstructKey;
+import cn.fyg.pm.domain.model.user.User;
 
 @Service
 public class ConstructCertServiceImpl implements ConstructCertService {

@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.PjmemberService;
-import cn.fyg.pm.domain.pjmember.Pjmember;
-import cn.fyg.pm.domain.pjmember.PjmemberRepository;
-import cn.fyg.pm.domain.project.Project;
-import cn.fyg.pm.domain.user.User;
+import cn.fyg.pm.domain.model.pjmember.Pjmember;
+import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
+import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.user.User;
 
 @Service
 public class PjmemberServiceImpl implements PjmemberService {

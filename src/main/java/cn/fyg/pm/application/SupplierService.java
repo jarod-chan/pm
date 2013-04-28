@@ -2,7 +2,7 @@ package cn.fyg.pm.application;
 
 import java.util.List;
 
-import cn.fyg.pm.domain.supplier.Supplier;
+import cn.fyg.pm.domain.model.supplier.Supplier;
 
 
 

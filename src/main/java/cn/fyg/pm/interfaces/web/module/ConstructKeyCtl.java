@@ -16,14 +16,14 @@ import cn.fyg.pm.application.ConstructContService;
 import cn.fyg.pm.application.ConstructKeyService;
 import cn.fyg.pm.application.ContractService;
 import cn.fyg.pm.application.ProjectService;
-import cn.fyg.pm.domain.constructcert.ConstructCert;
-import cn.fyg.pm.domain.constructcert.ConstructCertState;
-import cn.fyg.pm.domain.constructcont.ConstructCont;
-import cn.fyg.pm.domain.constructcont.ConstructContState;
-import cn.fyg.pm.domain.constructkey.ConstructKey;
-import cn.fyg.pm.domain.contract.Contract;
-import cn.fyg.pm.domain.project.Project;
-import cn.fyg.pm.domain.user.User;
+import cn.fyg.pm.domain.model.constructcert.ConstructCert;
+import cn.fyg.pm.domain.model.constructcert.ConstructCertState;
+import cn.fyg.pm.domain.model.constructcont.ConstructCont;
+import cn.fyg.pm.domain.model.constructcont.ConstructContState;
+import cn.fyg.pm.domain.model.constructkey.ConstructKey;
+import cn.fyg.pm.domain.model.contract.Contract;
+import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 @Controller

@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.BusifileService;
-import cn.fyg.pm.domain.fileupload.busifile.Busifile;
-import cn.fyg.pm.domain.fileupload.busifile.BusifileRepository;
-import cn.fyg.pm.domain.fileupload.filestore.Filestore;
+import cn.fyg.pm.domain.model.fileupload.busifile.Busifile;
+import cn.fyg.pm.domain.model.fileupload.busifile.BusifileRepository;
+import cn.fyg.pm.domain.model.fileupload.filestore.Filestore;
 import cn.fyg.pm.domain.shared.BusiCode;
 
 @Service

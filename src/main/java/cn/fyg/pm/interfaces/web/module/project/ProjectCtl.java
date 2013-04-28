@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import cn.fyg.pm.application.PjmemberService;
 import cn.fyg.pm.application.ProjectService;
 import cn.fyg.pm.application.UserService;
-import cn.fyg.pm.domain.pjmember.Pjmember;
-import cn.fyg.pm.domain.project.Project;
-import cn.fyg.pm.domain.user.User;
+import cn.fyg.pm.domain.model.pjmember.Pjmember;
+import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.user.User;
 
 @Controller
 @RequestMapping("project")

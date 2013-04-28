@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.UserService;
-import cn.fyg.pm.domain.user.User;
-import cn.fyg.pm.domain.user.UserRepository;
+import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.domain.model.user.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService {

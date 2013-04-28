@@ -1,5 +1,8 @@
 package cn.fyg.pm.interfaces.web.module.workflow.deploy;
 
+import static cn.fyg.pm.interfaces.web.shared.message.Message.error;
+import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
+
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import cn.fyg.pm.domain.workflow.ProcessFile;
+import cn.fyg.pm.domain.model.workflow.processfile.ProcessFile;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
-
-import static cn.fyg.pm.interfaces.web.shared.message.Message.*;
 
 
 @Controller

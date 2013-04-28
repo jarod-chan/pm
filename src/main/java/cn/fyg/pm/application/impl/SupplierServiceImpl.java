@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.SupplierService;
-import cn.fyg.pm.domain.supplier.Supplier;
-import cn.fyg.pm.domain.supplier.SupplierRepository;
+import cn.fyg.pm.domain.model.supplier.Supplier;
+import cn.fyg.pm.domain.model.supplier.SupplierRepository;
 
 @Service
 public class SupplierServiceImpl implements SupplierService {

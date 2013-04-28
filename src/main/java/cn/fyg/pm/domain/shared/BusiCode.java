@@ -2,9 +2,9 @@ package cn.fyg.pm.domain.shared;
 
 
 public enum BusiCode implements CommonEnum {
-	HT("合同"),
-	SGLX("施工联系"),
-	SGQZ("施工签证");
+	pm_contract("项目合同"),
+	pm_constructcont("施工联系"),
+	pm_constructcert("施工签证");
 	
 	private final String name;
 	

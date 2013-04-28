@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ConstructContService;
-import cn.fyg.pm.domain.constructcont.ConstructCont;
-import cn.fyg.pm.domain.constructcont.ConstructContFactory;
-import cn.fyg.pm.domain.constructcont.ConstructContItem;
-import cn.fyg.pm.domain.constructcont.ConstructContRepository;
-import cn.fyg.pm.domain.constructkey.ConstructKey;
-import cn.fyg.pm.domain.project.Project;
-import cn.fyg.pm.domain.user.User;
+import cn.fyg.pm.domain.model.constructcont.ConstructCont;
+import cn.fyg.pm.domain.model.constructcont.ConstructContFactory;
+import cn.fyg.pm.domain.model.constructcont.ConstructContItem;
+import cn.fyg.pm.domain.model.constructcont.ConstructContRepository;
+import cn.fyg.pm.domain.model.constructkey.ConstructKey;
+import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.user.User;
 
 @Service
 public class ConstructContServiceImpl implements ConstructContService {

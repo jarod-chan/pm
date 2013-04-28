@@ -14,9 +14,9 @@ import cn.fyg.pm.application.BusifileService;
 import cn.fyg.pm.application.ContractService;
 import cn.fyg.pm.application.ProjectService;
 import cn.fyg.pm.application.SupplierService;
-import cn.fyg.pm.domain.contract.Contract;
-import cn.fyg.pm.domain.fileupload.busifile.Busifile;
-import cn.fyg.pm.domain.fileupload.filestore.Filestore;
+import cn.fyg.pm.domain.model.contract.Contract;
+import cn.fyg.pm.domain.model.fileupload.busifile.Busifile;
+import cn.fyg.pm.domain.model.fileupload.filestore.Filestore;
 import cn.fyg.pm.domain.shared.BusiCode;
 
 @Controller
@@ -56,7 +56,7 @@ public class ContractCtl {
 	public String save(Contract contract,@RequestParam("filestore_id")Long[] filestore_id){
 		contract=contractService.save(contract);
 		
-		BusiCode busiCode = BusiCode.HT;
+		BusiCode busiCode = BusiCode.pm_contract;
 		Long busiId=contract.getId();
 		reSaveBusifile(contract, filestore_id, busiCode, busiId);
 		
@@ -81,7 +81,7 @@ public class ContractCtl {
 	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
 	public String delete(@RequestParam("contractId") Long contractId){
-		this.busifileService.deleteByBusiCodeAndBusiId(BusiCode.HT, contractId);
+		this.busifileService.deleteByBusiCodeAndBusiId(BusiCode.pm_contract, contractId);
 		contractService.delete(contractId);
 		return "redirect:list";
 	}

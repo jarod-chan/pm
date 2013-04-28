@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.FilestoreService;
-import cn.fyg.pm.domain.fileupload.filestore.Filestore;
-import cn.fyg.pm.domain.fileupload.filestore.FilestoreRepository;
+import cn.fyg.pm.domain.model.fileupload.filestore.Filestore;
+import cn.fyg.pm.domain.model.fileupload.filestore.FilestoreRepository;
 
 @Service
 public class FilestoreServiceImpl implements FilestoreService {

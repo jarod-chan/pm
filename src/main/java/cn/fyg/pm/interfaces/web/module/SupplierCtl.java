@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import cn.fyg.pm.application.SupplierService;
-import cn.fyg.pm.domain.supplier.Supplier;
-import cn.fyg.pm.domain.supplier.Supptype;
+import cn.fyg.pm.domain.model.supplier.Supplier;
+import cn.fyg.pm.domain.model.supplier.Supptype;
 
 @Controller
 @RequestMapping("supplier")

@@ -21,12 +21,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cn.fyg.pm.application.ConstructCertService;
 import cn.fyg.pm.application.ConstructContService;
-import cn.fyg.pm.domain.constructcert.ConstructCert;
-import cn.fyg.pm.domain.constructcert.ConstructCertItem;
-import cn.fyg.pm.domain.constructcert.ConstructCertState;
-import cn.fyg.pm.domain.constructcont.ConstructCont;
-import cn.fyg.pm.domain.project.Project;
-import cn.fyg.pm.domain.user.User;
+import cn.fyg.pm.domain.model.constructcert.ConstructCert;
+import cn.fyg.pm.domain.model.constructcert.ConstructCertItem;
+import cn.fyg.pm.domain.model.constructcert.ConstructCertState;
+import cn.fyg.pm.domain.model.constructcont.ConstructCont;
+import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 

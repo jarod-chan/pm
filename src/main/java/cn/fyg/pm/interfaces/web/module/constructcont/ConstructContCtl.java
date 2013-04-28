@@ -24,12 +24,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cn.fyg.pm.application.ConstructContService;
 import cn.fyg.pm.application.ContractService;
-import cn.fyg.pm.domain.constructcont.ConstructCont;
-import cn.fyg.pm.domain.constructcont.ConstructContItem;
-import cn.fyg.pm.domain.constructcont.ConstructContState;
-import cn.fyg.pm.domain.contract.Contract;
-import cn.fyg.pm.domain.project.Project;
-import cn.fyg.pm.domain.user.User;
+import cn.fyg.pm.domain.model.constructcont.ConstructCont;
+import cn.fyg.pm.domain.model.constructcont.ConstructContItem;
+import cn.fyg.pm.domain.model.constructcont.ConstructContState;
+import cn.fyg.pm.domain.model.contract.Contract;
+import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
@@ -44,6 +44,7 @@ public class ConstructContCtl {
 		String NEW = PATH + "new";
 		String EDIT = PATH + "edit";
 		String VIEW = PATH + "view";
+		String CHECK = PATH + "check";;
 	}
 	
 	@InitBinder
@@ -144,6 +145,10 @@ public class ConstructContCtl {
 		ConstructCont constructCont = constructContService.find(constructContId);
 		return constructCont.getConstructContItems();
 	}
-
+	
+	@RequestMapping(value="{businessId}/check",method=RequestMethod.GET)
+	public String tocheck(@PathVariable(value="businessId")Long businessId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
+		return Page.CHECK;
+	}
 	
 }

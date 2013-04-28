@@ -1,6 +1,6 @@
 package cn.fyg.pm.application;
 
-import cn.fyg.pm.domain.fileupload.filestore.Filestore;
+import cn.fyg.pm.domain.model.fileupload.filestore.Filestore;
 
 public interface FilestoreService {
 	

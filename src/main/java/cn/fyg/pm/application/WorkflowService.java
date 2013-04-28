@@ -3,7 +3,7 @@ package cn.fyg.pm.application;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import cn.fyg.pm.domain.workflow.ProcessFile;
+import cn.fyg.pm.domain.model.workflow.processfile.ProcessFile;
 
 
 public interface WorkflowService {

@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ProjectService;
-import cn.fyg.pm.domain.project.Project;
-import cn.fyg.pm.domain.project.ProjectRepository;
+import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.project.ProjectRepository;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
