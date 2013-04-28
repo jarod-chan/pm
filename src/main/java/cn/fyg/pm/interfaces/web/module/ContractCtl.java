@@ -14,9 +14,9 @@ import cn.fyg.pm.application.BusifileService;
 import cn.fyg.pm.application.ContractService;
 import cn.fyg.pm.application.ProjectService;
 import cn.fyg.pm.application.SupplierService;
-import cn.fyg.pm.domain.busifile.Busifile;
 import cn.fyg.pm.domain.contract.Contract;
-import cn.fyg.pm.domain.filestore.Filestore;
+import cn.fyg.pm.domain.fileupload.busifile.Busifile;
+import cn.fyg.pm.domain.fileupload.filestore.Filestore;
 import cn.fyg.pm.domain.shared.BusiCode;
 
 @Controller

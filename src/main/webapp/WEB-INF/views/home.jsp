@@ -19,5 +19,10 @@
 	<a href="${ctx}/contract/list">合同</a><br>
 	<a href="${ctx}/constructcont/list">施工联系单</a><br>
 	<a href="${ctx}/constructcert/list">施工签证单</a><br>
+	<br>
+	<a href="${ctx}/workflow/deploy">部署流程</a><br>
+	<a href="${ctx}/workflow/manage">流程管理</a><br>
+	<a href="${ctx}/workflow/running">流程运行</a><br>
+	<a href="${ctx}/workflow/history">流程历史</a><br>
 </body>
 </html>

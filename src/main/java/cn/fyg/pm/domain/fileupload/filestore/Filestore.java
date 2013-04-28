@@ -1,4 +1,4 @@
-package cn.fyg.pm.domain.filestore;
+package cn.fyg.pm.domain.fileupload.filestore;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

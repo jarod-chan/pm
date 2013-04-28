@@ -1,6 +1,7 @@
 package cn.fyg.pm.interfaces.web.module.constructcont;
 
-import java.text.SimpleDateFormat;
+import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,7 +11,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.WebDataBinder;
@@ -31,7 +31,6 @@ import cn.fyg.pm.domain.contract.Contract;
 import cn.fyg.pm.domain.project.Project;
 import cn.fyg.pm.domain.user.User;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
-import static cn.fyg.pm.interfaces.web.shared.message.Message.*;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
@@ -49,9 +48,7 @@ public class ConstructContCtl {
 	
 	@InitBinder
 	private void dateBinder(WebDataBinder binder) {
-	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	    CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
-	    binder.registerCustomEditor(Date.class, editor);
+	    binder.registerCustomEditor(Date.class, CustomEditorFactory.getCustomDateEditor());
 	}
 	
 	@Autowired

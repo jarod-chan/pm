@@ -1,4 +1,4 @@
-package cn.fyg.pm.domain.busifile;
+package cn.fyg.pm.domain.fileupload.busifile;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import cn.fyg.pm.domain.filestore.Filestore;
+import cn.fyg.pm.domain.fileupload.filestore.Filestore;
 import cn.fyg.pm.domain.shared.BusiCode;
 
 @Entity

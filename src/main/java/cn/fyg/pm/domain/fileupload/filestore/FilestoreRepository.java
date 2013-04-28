@@ -1,4 +1,4 @@
-package cn.fyg.pm.domain.filestore;
+package cn.fyg.pm.domain.fileupload.filestore;
 
 import org.springframework.data.repository.CrudRepository;
 

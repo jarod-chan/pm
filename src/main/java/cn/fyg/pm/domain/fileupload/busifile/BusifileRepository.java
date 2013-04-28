@@ -1,4 +1,4 @@
-package cn.fyg.pm.domain.busifile;
+package cn.fyg.pm.domain.fileupload.busifile;
 
 import java.util.List;
 
