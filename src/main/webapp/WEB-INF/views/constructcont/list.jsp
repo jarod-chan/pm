@@ -32,6 +32,12 @@
 				.appendTo($("body"))
 			.submit();
     	});
+    	
+    	$('.btn_view').click(function(){
+    		var param=jQuery.parseJSON($(this).attr("param"));
+    		window.open('${ctx}/constructcont/{id}/view'.replace('{id}',param.id),'_self');
+        	return false;
+    	});
     });
     </script>
 </head>
@@ -62,7 +68,13 @@
 				<td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>${constructCont.signer.name}</td>
 				<td><fmt:formatDate value="${constructCont.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-				<td><input type="button" param='{"id":"${constructCont.id}"}' value="修改"  class="btn_edit"><input type="button" param='{"id":"${constructCont.id}"}' value="删除"  class="btn_delete"></td>
+				<td>
+					<c:if test="${constructCont.state!='commit'}">					
+					<input type="button" param='{"id":"${constructCont.id}"}' value="修改"  class="btn_edit">
+					<input type="button" param='{"id":"${constructCont.id}"}' value="删除"  class="btn_delete">
+					</c:if>
+					<input type="button" param='{"id":"${constructCont.id}"}' value="查看"  class="btn_view">
+				</td>
 			</tr>
 		</c:forEach>
 		

@@ -17,6 +17,15 @@
 			$("#tabitem tbody tr").formatName();
 			var actionFrom=$("form");
 			var oldAction=actionFrom.attr("action"); 
+			$("input[name=afteraction]").val("save");
+			actionFrom.attr("action",oldAction+"/save").submit();
+		});
+		
+		$("#btn_commit").click(function(){
+			$("#tabitem tbody tr").formatName();
+			var actionFrom=$("form");
+			var oldAction=actionFrom.attr("action"); 
+			$("input[name=afteraction]").val("commit");
 			actionFrom.attr("action",oldAction+"/save").submit();
 		});
 		
@@ -131,6 +140,8 @@
 	<%@ include file="/common/message.jsp" %>	
 	
 	<form action="${ctx}/constructcont" method="post">
+	<input type="hidden" name="afteraction"  >
+	
 	<table id="tabmain">
 		<tr>
 			<td>编号：</td><td>${constructCont.no}<input type="hidden" name="no" value="${constructCont.no}"/></td>
@@ -187,6 +198,7 @@
 		</table>
 		<br>
 		<input type="button" value="保存"  id="btn_save">
+		<input type="button" value="提交流程"  id="btn_commit">
 		<input type="button" value="返回"  id="btn_back">
 		
 	</form>
