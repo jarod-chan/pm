@@ -8,3 +8,5 @@
 
 <link href="${ctx}/plu/uploadify/uploadify.css" type="text/css"  rel="stylesheet">
 <script src="${ctx}/plu/uploadify/jquery.uploadify.js" type="text/javascript"></script>
+
+<script src="${ctx}/plu/layout/jquery.layout-latest.js" type="text/javascript"></script>

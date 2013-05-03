@@ -13,6 +13,7 @@ import cn.fyg.pm.application.ContractService;
 import cn.fyg.pm.application.PjmemberService;
 import cn.fyg.pm.application.ProjectService;
 import cn.fyg.pm.domain.model.contract.Contract;
+import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
@@ -46,7 +47,14 @@ public class FirstCtl {
 		sessionUtil.setValue("project", project);
 		List<Contract> contractList = contractService.findByProject(project);
 		map.put("contractList", contractList);
-		return "project";
+		List<Pjmember> pjmemberList = pjmemberService.findByProject(project);
+		map.put("pjmemberList", pjmemberList);
+		return "first/first";
+	}
+	
+	@RequestMapping(value="first/home",method=RequestMethod.GET)
+	public String toFirstHome(){
+		return "first/home";
 	}
 
 }
