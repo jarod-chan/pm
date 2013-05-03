@@ -46,20 +46,17 @@
 	<h2>施工联系单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<div style="width: 800px;text-align: right;">
-		<input type="button" value="返回项目主页"  onclick="javascript:window.open('${ctx}/first/project/${project.id}','_self');">
+	<div style="text-align: right;" id="headdiv">
 		<input type="button" value="新建"  id="btn_new">
 	</div>
 	<br>
-	<table border="1">
+	<table id="tblmain" border="1">
 		<tr>
-			<td>编号</td><td>项目</td><td>项目负责人</td><td>合同</td><td>施工承包方</td><td>原因</td><td>状态</td><td>制单人</td><td>制单日期</td><td>签发人</td><td>签发日期</td><td>操作</td>
+			<td>编号</td><td>合同</td><td>施工承包方</td><td>原因</td><td>状态</td><td>制单人</td><td>制单日期</td><td>签发人</td><td>签发日期</td><td>操作</td>
 		</tr>
 		<c:forEach var="constructCont" items="${constructContList}">
 			<tr>
 				<td>${constructCont.no}</td>
-				<td>${constructCont.constructKey.project.name}</td>
-				<td>${constructCont.leader.name}</td>
 				<td>${constructCont.constructKey.contract.name}</td>
 				<td>${constructCont.constructKey.contract.supplier.name}</td>
 				<td>${constructCont.reason}</td>
@@ -79,6 +76,18 @@
 		</c:forEach>
 		
 	</table>
+	<br>
+	<div style="text-align: left;" id="footdiv">
+		<input type="button" value="首页"  id="">
+		<input type="button" value="上一页"  id="">
+		<input type="button" value="下一页"  id="">
+		<input type="button" value="尾页"  id="">
+	</div>
+	<script type="text/javascript">
+		$(function(){
+			$("#headdiv").css("width",$("#tblmain").css("width"));
+		})
+	</script>
 	
 </body>
 </html>

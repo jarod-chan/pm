@@ -75,6 +75,11 @@
     		tx2=$(this).parent().next().text();
     		$("#menu-nav").html("项目首页"+"->"+tx2+"->"+tx1);
     	})
+    	
+       	$('#btn_task').click(function(){
+    		window.open('${ctx}/task/list','_self');
+    		return false;
+    	});
     });
     </script>
 </head>
@@ -103,31 +108,31 @@
 						<li>
 							<ul>
 								<li>用户信息</li>
-								<li>退出系统</li>
+								<li><a href="javascript:window.open('${ctx}/login','_self');" class="no_show" >退出系统</a></li>
 							</ul>
-							系统管理
+							<span> 系统管理</span>
 						</li>
 					</ul>
 			
 					<ul style="float: right" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
 						<li>
 							<ul>
-								<li>材料供应商</li>
-								<li>施工承包商</li>
-								<li>其它供应商</li>
+								<li><a href="${ctx}/supplier/list" class="no_show" target="mainFrame" >材料供应商</a></li>
+								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >施工承包商</a></li>
+								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >其它供应商</a></li>
 							</ul>
-							供应商管理
+							<span> 供应商管理</span>
 						</li>
 					</ul>
 					
 					<ul style="float: right" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
 						<li>
 							<ul>
-								<li>施工合同</li>
-								<li>采购合同</li>
-								<li>其它合同</li>
+								<li><a href="${ctx}/contract/list" class="no_show" target="mainFrame" >施工合同</a></li>
+								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >采购合同</a></li>
+								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >其它合同</a></li>
 							</ul>
-							合同管理
+							<span> 合同管理</span>
 						</li>
 					</ul>
 					
@@ -135,11 +140,11 @@
 						<li>
 							<ul>
 								<li><a href="${ctx}/constructcont/list" class="no_show" target="mainFrame" >施工联系单</a></li>
-								<li>施工签证单</li>
-								<li>采购申请单</li>
-								<li>材料签证单</li>
-								<li>问题报告单</li>
-								<li>技术签证单</li>
+								<li><a href="${ctx}/constructcert/list" class="no_show" target="mainFrame" >施工签证单</a></li>
+								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >采购申请单</a></li>
+								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >材料签证单</a></li>
+								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >问题报告单</a></li>
+								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >技术签证单</a></li>
 							</ul>
 							<span> 项目管理</span>
 						</li>
@@ -160,9 +165,9 @@
 		开工日期：<br>
 		成员：<c:forEach var="item" items="${pjmemberList}" varStatus="status">${item.user.name}<c:if test="${!status.last}">,</c:if></c:forEach>
 		<br>
-		状态：<br>
-		联系单数：10<br>
-		签证单数：15<br>
+		状态：N/A<br>
+		联系单数：N/A<br>
+		签证单数：N/A<br>
 	</div>
 	
 	<iframe id="mainFrame" name="mainFrame" class="ui-layout-center" width="100%" height="600" frameborder="0" scrolling="auto" src="${ctx}/first/home"></iframe> 

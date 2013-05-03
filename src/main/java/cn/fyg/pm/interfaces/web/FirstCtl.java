@@ -57,4 +57,8 @@ public class FirstCtl {
 		return "first/home";
 	}
 
+	@RequestMapping(value="first/notfinish",method=RequestMethod.GET)
+	public String toNotfinish(){
+		return "first/notfinish";
+	}
 }
