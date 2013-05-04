@@ -73,13 +73,11 @@
     	$("#menudiv ul li ul li").click(function(){
     		tx1=$(this).text();
     		tx2=$(this).parent().next().text();
-    		$("#menu-nav").html("项目首页"+"->"+tx2+"->"+tx1);
+    		$("#menu-nav").html("任务首页"+"->"+tx2+"->"+tx1);
     	})
     	
-    	$("a[href='${ctx}/${target}']:eq(0)").parent().triggerHandler("click");
-    	
-       	$('#btn_task').click(function(){
-    		window.open('${ctx}/task/first','_self');
+       	$('#btn_project').click(function(){
+    		window.open('${ctx}/first/project/${project.id}?target=first/home','_self');
     		return false;
     	});
     });
@@ -92,18 +90,14 @@
 			<div style="width: 50%;float: left;"><div style="width:300px;font-size: 30px; ">方远房产项目管理系统</div></div>
 			<div style="width: 50%;float: left; text-align: right;">
 				
-				<input type="button" id="btn_task" value="我的任务" >
-				<input type="button" id="btn_project" value="我的项目" disabled="disabled">:<select id="sel_project">
-					<c:forEach var="item" items="${projectList}">
-						<option value="${item.id}" <c:if test="${item.id==project.id}">selected="true"</c:if> >${item.name}</option>
-					</c:forEach>
-				</select>
+				<input type="button" id="btn_task" value="我的任务" disabled="disabled">
+				<input type="button" id="btn_project" value="我的项目" >:${project.name}
 			</div>
 			<div style="clear: both;"></div>
 		</div>
 		<div style="width: 1024px;">
 			<div style="width: 50%;float: left; ">
-				<div id="menu-nav" style="margin-top: 15px;">项目首页</div>
+				<div id="menu-nav" style="margin-top: 15px;">任务首页</div>
 			</div>
 			<div style="width: 50%;float: left; text-align: right;" id="menudiv">
 					<ul style="float: right" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
@@ -119,9 +113,9 @@
 					<ul style="float: right" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
 						<li>
 							<ul>
-								<li><a href="${ctx}/supplier/list" class="no_show" target="mainFrame" >材料供应商</a></li>
-								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >施工承包商</a></li>
-								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >其它供应商</a></li>
+								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=supplier/list','_self');" class="no_show"  >材料供应商</a></li>
+								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=first/notfinish','_self');" class="no_show"  >施工承包商</a></li>
+								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=first/notfinish','_self');"class="no_show"  >其它供应商</a></li>
 							</ul>
 							<span> 供应商管理</span>
 						</li>
@@ -130,9 +124,9 @@
 					<ul style="float: right" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
 						<li>
 							<ul>
-								<li><a href="${ctx}/contract/list" class="no_show" target="mainFrame" >施工合同</a></li>
-								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >采购合同</a></li>
-								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >其它合同</a></li>
+								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=contract/list','_self');" class="no_show"  >施工合同</a></li>
+								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=first/notfinish','_self');" class="no_show"  >采购合同</a></li>
+								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=first/notfinish','_self');" class="no_show"  >其它合同</a></li>
 							</ul>
 							<span> 合同管理</span>
 						</li>
@@ -141,12 +135,12 @@
 					<ul style="float: right" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
 						<li>
 							<ul>
-								<li><a href="${ctx}/constructcont/list" class="no_show" target="mainFrame" >施工联系单</a></li>
-								<li><a href="${ctx}/constructcert/list" class="no_show" target="mainFrame" >施工签证单</a></li>
-								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >采购申请单</a></li>
-								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >材料签证单</a></li>
-								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >问题报告单</a></li>
-								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >技术签证单</a></li>
+								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=constructcont/list','_self');" class="no_show"  >施工联系单</a></li>
+								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=constructcert/list','_self');" class="no_show"  >施工签证单</a></li>
+								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=first/notfinish','_self');" class="no_show"  >采购申请单</a></li>
+								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=first/notfinish','_self');" class="no_show"  >材料签证单</a></li>
+								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=first/notfinish','_self');" class="no_show"  >问题报告单</a></li>
+								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=first/notfinish','_self');" class="no_show"  >技术签证单</a></li>
 							</ul>
 							<span> 项目管理</span>
 						</li>
@@ -159,20 +153,12 @@
 		</div>
 	</div>
 	<div class="ui-layout-west">
-		<h2>项目信息</h2>
-		<br>
-		名称：${project.name}<br>
-		编号：${project.no}<br>
-		负责人：${project.user.name}<br>
-		开工日期：<br>
-		成员：<c:forEach var="item" items="${pjmemberList}" varStatus="status">${item.user.name}<c:if test="${!status.last}">,</c:if></c:forEach>
-		<br>
-		状态：N/A<br>
-		联系单数：N/A<br>
-		签证单数：N/A<br>
+		<a href="${ctx}/task/list" class="no_show" target="mainFrame" >全部任务</a><br>
+		<a href="${ctx}/task/list" class="no_show" target="mainFrame" >未处理任务</a><br>
+		<a href="${ctx}/task/list" class="no_show" target="mainFrame" >已处理任务</a><br>
 	</div>
 	
-	<iframe id="mainFrame" name="mainFrame" class="ui-layout-center" width="100%" height="600" frameborder="0" scrolling="auto" src="${ctx}/${target}"></iframe> 
+	<iframe id="mainFrame" name="mainFrame" class="ui-layout-center" width="100%" height="600" frameborder="0" scrolling="auto" src="${ctx}/task/list"></iframe> 
 		
 	
 	

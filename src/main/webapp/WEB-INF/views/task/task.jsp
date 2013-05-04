@@ -22,20 +22,13 @@
  	    	});
  	    });
     	 
-     	$('#btn_project').click(function(){
-    		window.open('${ctx}/first','_self');
-    		return false;
-    	});
+
     });
     </script>
 </head>
 
 <body>
-	<div style="width:800px;text-align: right;">
-		<input type="button" id="btn_project" value="我的项目" >
-		<input type="button" id="btn_task" value="我的任务" disabled="disabled">
-	</div>
-	<h2>我的任务</h2>
+	<h2>任务列表</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
 	<table border="1">

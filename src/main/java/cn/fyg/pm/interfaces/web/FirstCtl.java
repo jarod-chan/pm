@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import cn.fyg.pm.application.ContractService;
 import cn.fyg.pm.application.PjmemberService;
@@ -34,11 +35,11 @@ public class FirstCtl {
 	public String toFirst(){
 		User user=sessionUtil.getValue("user");
 		List<Project> projectList=pjmemberService.findUserProject(user);
-		return "redirect:/first/project/"+projectList.get(0).getId();
+		return "redirect:/first/project/"+projectList.get(0).getId()+"?target=first/home";
 	}
 	
 	@RequestMapping(value="first/project/{projectId}",method=RequestMethod.GET)
-	public String toProject(@PathVariable("projectId")Long projectId,Map<String,Object> map){
+	public String toProject(@PathVariable("projectId")Long projectId,@RequestParam("target")String target,Map<String,Object> map){
 		User user=sessionUtil.getValue("user");
 		List<Project> projectList=pjmemberService.findUserProject(user);
 		map.put("projectList", projectList);
@@ -49,6 +50,8 @@ public class FirstCtl {
 		map.put("contractList", contractList);
 		List<Pjmember> pjmemberList = pjmemberService.findByProject(project);
 		map.put("pjmemberList", pjmemberList);
+		
+		map.put("target", target);
 		return "first/first";
 	}
 	

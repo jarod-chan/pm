@@ -19,13 +19,20 @@ public class TaskCtl {
 	
 	private static final String PATH = "task/";
 	private interface Page {
-		String TASK = PATH + "task";
+		String FIRST = PATH + "first";
+		String TASK = PATH +"task";
 	}
 	
 	@Autowired
 	TaskFacade taskFacade;
 	@Autowired
 	SessionUtil sessionUtil;
+	
+	@RequestMapping(value="first",method=RequestMethod.GET)
+	public String toFirst(){
+		return Page.FIRST;
+		
+	}
 
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
