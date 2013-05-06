@@ -14,8 +14,8 @@
     	 $(function() {
  	    	$('.btn_execute').click(function(){
  	    		var param=jQuery.parseJSON($(this).attr("param"));
- 	    		var url=//param.formKey.replace('{personId}',${person.id}).replace('{businessId}',param.businessId);
- 	    		$('<form/>',{action:'/${ctx}/'+url})
+ 	    		var url=param.formKey.replace('{businessId}',param.businessId);
+ 	    		$('<form/>',{action:'${ctx}/'+url})
  	    			.append($('<input/>',{type:'hidden',name:'taskId',value:param.taskId}))
  					.appendTo($("body"))
  				.submit();

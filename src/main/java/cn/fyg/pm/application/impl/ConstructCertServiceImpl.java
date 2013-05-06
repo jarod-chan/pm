@@ -13,7 +13,7 @@ import cn.fyg.pm.domain.model.constructcert.ConstructCertRepository;
 import cn.fyg.pm.domain.model.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.user.User;
 
-@Service
+@Service("constructCertService")
 public class ConstructCertServiceImpl implements ConstructCertService {
 	
 	@Autowired

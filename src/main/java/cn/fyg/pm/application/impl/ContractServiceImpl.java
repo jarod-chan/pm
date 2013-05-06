@@ -11,7 +11,7 @@ import cn.fyg.pm.domain.model.contract.Contract;
 import cn.fyg.pm.domain.model.contract.ContractRepository;
 import cn.fyg.pm.domain.model.project.Project;
 
-@Service
+@Service("contractService")
 public class ContractServiceImpl implements ContractService {
 	
 	@Autowired

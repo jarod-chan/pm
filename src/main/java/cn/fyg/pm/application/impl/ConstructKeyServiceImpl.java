@@ -11,7 +11,7 @@ import cn.fyg.pm.domain.model.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.constructkey.ConstructKeyRepository;
 import cn.fyg.pm.domain.model.project.Project;
 
-@Service
+@Service("constructKeyService")
 public class ConstructKeyServiceImpl implements ConstructKeyService {
 
 	@Autowired

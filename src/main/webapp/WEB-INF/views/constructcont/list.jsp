@@ -66,7 +66,7 @@
 				<td>${constructCont.signer.name}</td>
 				<td><fmt:formatDate value="${constructCont.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>
-					<c:if test="${constructCont.state!='commit'}">					
+					<c:if test="${constructCont.state=='saved'}">					
 					<input type="button" param='{"id":"${constructCont.id}"}' value="修改"  class="btn_edit">
 					<input type="button" param='{"id":"${constructCont.id}"}' value="删除"  class="btn_delete">
 					</c:if>

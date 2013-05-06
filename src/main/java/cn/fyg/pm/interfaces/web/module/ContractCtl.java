@@ -53,13 +53,13 @@ public class ContractCtl {
 	}
 	
 	@RequestMapping(value="save",method=RequestMethod.POST)
-	public String save(Contract contract,@RequestParam("filestore_id")Long[] filestore_id){
+	public String save(Contract contract,@RequestParam(value="filestore_id",required=false)Long[] filestore_id){
 		contract=contractService.save(contract);
-		
-		BusiCode busiCode = BusiCode.pm_contract;
-		Long busiId=contract.getId();
-		reSaveBusifile(contract, filestore_id, busiCode, busiId);
-		
+		if(filestore_id!=null){			
+			BusiCode busiCode = BusiCode.pm_contract;
+			Long busiId=contract.getId();
+			reSaveBusifile(contract, filestore_id, busiCode, busiId);
+		}
 		return "redirect:list";
 	}
 

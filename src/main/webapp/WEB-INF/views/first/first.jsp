@@ -81,6 +81,11 @@
        	$('#btn_task').click(function(){
     		window.open('${ctx}/task/first','_self');
     		return false;
+    	})
+    	
+    	$('#sel_project').change(function(){
+    		window.open('${ctx}/first/project/'+$(this).val()+'?target=first/home','_self');
+    		return false;
     	});
     });
     </script>

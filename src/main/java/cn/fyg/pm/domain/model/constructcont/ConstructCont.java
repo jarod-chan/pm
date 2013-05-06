@@ -21,6 +21,7 @@ import javax.persistence.TemporalType;
 
 import cn.fyg.pm.domain.model.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.domain.shared.BusiCode;
 
 /**
  *施工联系单
@@ -28,6 +29,8 @@ import cn.fyg.pm.domain.model.user.User;
 @Entity
 @Table(name="pm_constructcont")
 public class ConstructCont {
+	
+	public static final BusiCode BUSI_CODE=BusiCode.pm_constructcont;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

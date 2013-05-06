@@ -13,7 +13,7 @@ import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 
-@Service
+@Service("pjmemberService")
 public class PjmemberServiceImpl implements PjmemberService {
 	
 	@Autowired

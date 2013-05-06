@@ -10,7 +10,7 @@ import cn.fyg.pm.application.UserService;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.user.UserRepository;
 
-@Service
+@Service("userService")
 public class UserServiceImpl implements UserService {
 
 	@Autowired

@@ -10,7 +10,7 @@ import cn.fyg.pm.application.ProjectService;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.project.ProjectRepository;
 
-@Service
+@Service("projectService")
 public class ProjectServiceImpl implements ProjectService {
 	
 	@Autowired

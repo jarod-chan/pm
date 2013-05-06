@@ -13,7 +13,7 @@ import cn.fyg.pm.domain.model.fileupload.busifile.BusifileRepository;
 import cn.fyg.pm.domain.model.fileupload.filestore.Filestore;
 import cn.fyg.pm.domain.shared.BusiCode;
 
-@Service
+@Service("busifileService")
 public class BusifileServiceImpl implements BusifileService {
 	
 	@Autowired

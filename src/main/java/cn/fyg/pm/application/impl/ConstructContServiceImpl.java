@@ -15,7 +15,7 @@ import cn.fyg.pm.domain.model.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 
-@Service
+@Service("constructContService")
 public class ConstructContServiceImpl implements ConstructContService {
 	
 	@Autowired

@@ -8,7 +8,7 @@ import cn.fyg.pm.application.FilestoreService;
 import cn.fyg.pm.domain.model.fileupload.filestore.Filestore;
 import cn.fyg.pm.domain.model.fileupload.filestore.FilestoreRepository;
 
-@Service
+@Service("filestoreService")
 public class FilestoreServiceImpl implements FilestoreService {
 	
 	@Autowired

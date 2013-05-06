@@ -11,7 +11,7 @@ import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.OpinionRepository;
 import cn.fyg.pm.domain.shared.BusiCode;
 
-@Service
+@Service("opinionService")
 public class OpinionServiceImpl implements OpinionService {
 	
 	@Autowired

@@ -10,7 +10,7 @@ import cn.fyg.pm.application.SupplierService;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.supplier.SupplierRepository;
 
-@Service
+@Service("supplierService")
 public class SupplierServiceImpl implements SupplierService {
 	
 	@Autowired

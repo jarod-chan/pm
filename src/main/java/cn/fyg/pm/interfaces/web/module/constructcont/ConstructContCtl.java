@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -26,13 +28,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cn.fyg.pm.application.ConstructContService;
 import cn.fyg.pm.application.ContractService;
+import cn.fyg.pm.application.OpinionService;
 import cn.fyg.pm.domain.model.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.constructcont.ConstructContItem;
 import cn.fyg.pm.domain.model.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.contract.Contract;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
+import cn.fyg.pm.interfaces.web.module.constructcont.flow.Varname;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
@@ -49,6 +54,7 @@ public class ConstructContCtl {
 		String EDIT = PATH + "edit";
 		String VIEW = PATH + "view";
 		String CHECK = PATH + "check";
+		String CHECK_EDIT = PATH + "check_edit";
 	}
 	
 	@InitBinder
@@ -66,10 +72,15 @@ public class ConstructContCtl {
 	IdentityService identityService;
 	@Autowired
 	RuntimeService runtimeService;
+	@Autowired
+	TaskService taskService;
+	@Autowired
+	OpinionService opinionService;
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String toList(Map<String,Object> map){
-		List<ConstructCont> constructContList = constructContService.findAll();
+		Project project = sessionUtil.getValue("project");
+		List<ConstructCont> constructContList = constructContService.findByProject(project);
 		map.put("constructContList", constructContList);
 		return Page.LIST;
 	}
@@ -92,7 +103,7 @@ public class ConstructContCtl {
 		constructCont.setState(ConstructContState.saved);
 		constructCont.setCreater(user);
 		constructCont.setCreatedate(new Date());
-		constructContService.save(constructCont);
+		constructCont=constructContService.save(constructCont);
 		
 		if(afteraction.equals("save")){
 			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("保存成功！"));
@@ -216,9 +227,79 @@ public class ConstructContCtl {
 		return constructCont.getConstructContItems();
 	}
 	
-	@RequestMapping(value="{businessId}/check",method=RequestMethod.GET)
-	public String toCheck(@PathVariable(value="businessId")Long businessId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
+	@RequestMapping(value="{constructContId}/check",method=RequestMethod.GET)
+	public String toCheck(@PathVariable(value="constructContId")Long constructContId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
+		ConstructCont constructCont = constructContService.find(constructContId);
+		map.put("constructCont", constructCont);
+		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+		map.put("task", task);
+		map.put("resultList", ResultEnum.agreeItems());
 		return Page.CHECK;
+	}
+	
+	@RequestMapping(value="check/commit",method=RequestMethod.POST)
+	public String checkCommit(Opinion opinion,RedirectAttributes redirectAttributes,@RequestParam(value="taskId",required=false)String taskId){
+		User user = sessionUtil.getValue("user");
+		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+		opinion.setBusiCode(ConstructCont.BUSI_CODE);
+		opinion.setTaskKey(task.getTaskDefinitionKey());
+		opinion.setTaskName(task.getName());
+		opinion.setUserKey(user.getKey());
+		opinion.setUserName(user.getName());
+		opinionService.append(opinion);
+		runtimeService.setVariableLocal(task.getExecutionId(), Varname.OPINION,opinion.getResult().val());
+		taskService.complete(task.getId());
+		redirectAttributes
+			.addFlashAttribute(AppConstant.MESSAGE_NAME,info("任务完成"));
+		return "redirect:/task/list";
+	}
+	
+	@RequestMapping(value="{constructContId}/checkedit",method=RequestMethod.GET)
+	public String toCheckEdit(@PathVariable("constructContId")Long constructContId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
+		ConstructCont constructCont = constructContService.find(constructContId);
+		map.put("constructCont", constructCont);
+		List<Contract> contractList = contractService.findByProject(constructCont.getConstructKey().getProject());
+		map.put("contractList", contractList);
+		map.put("taskId", taskId);
+		List<Opinion> opinionList = opinionService.listOpinions(ConstructCont.BUSI_CODE, constructContId);
+		map.put("opinionList", opinionList);
+		return Page.CHECK_EDIT;
+	}
+	
+	@RequestMapping(value="checkedit/save",method=RequestMethod.POST)
+	public String saveCheckedit(@RequestParam("id")Long id,@RequestParam("afteraction")String afteraction,@RequestParam("constructContItemsId") Long[] constructContItemsId,HttpServletRequest request,RedirectAttributes redirectAttributes,@RequestParam(value="taskId",required=false)String taskId){
+		ConstructCont constructCont = constructContService.find(id);
+		Map<Long,ConstructContItem> constructContItemMap=getConstructContItemMap(constructCont.getConstructContItems());
+		
+		List<ConstructContItem> ConstructContItemList = new ArrayList<ConstructContItem>();
+		for (int i = 0,len=constructContItemsId.length; i < len; i++) {
+			ConstructContItem constructContItem = constructContItemsId[i]>0?constructContItemMap.get(constructContItemsId[i]):new ConstructContItem();
+			ConstructContItemList.add(constructContItem);
+		}
+		constructCont.setConstructContItems(ConstructContItemList);
+		
+		ServletRequestDataBinder binder = new ServletRequestDataBinder(constructCont);
+        binder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
+		binder.bind(request);
+		constructCont=constructContService.save(constructCont);
+		
+		if(afteraction.equals("save")){
+			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("保存成功！"));
+			return "redirect:/task/list";
+		}
+		if(afteraction.equals("commit")){
+			User user = sessionUtil.getValue("user");
+			try{
+				identityService.setAuthenticatedUserId(user.getKey());
+				taskService.complete(taskId);
+			} finally {
+				identityService.setAuthenticatedUserId(null);
+			}
+			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
+			return "redirect:/task/list";
+		}
+		
+		return "";
 	}
 	
 }
