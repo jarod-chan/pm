@@ -70,9 +70,13 @@
     		west__size:200
     	});
     	
+    	var targetHref='${target}';
+    	
     	$("#menudiv ul li ul li").click(function(){
     		tx1=$(this).text();
     		tx2=$(this).parent().next().text();
+    		var href=$(this).find("a").attr("href");
+    		targetHref=href.substr('${ctx}'.length+1); 
     		$("#menu-nav").html("项目首页"+"->"+tx2+"->"+tx1);
     	})
     	
@@ -84,7 +88,7 @@
     	})
     	
     	$('#sel_project').change(function(){
-    		window.open('${ctx}/first/project/'+$(this).val()+'?target=first/home','_self');
+    		window.open('${ctx}/first/project/'+$(this).val()+'?target='+targetHref,'_self');
     		return false;
     	});
     });

@@ -74,7 +74,8 @@ public class ConstructCertCtl {
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String toList(Map<String,Object> map){
-		List<ConstructCert> constructCertList = constructCertService.findAll();
+		Project project = sessionUtil.getValue("project");
+		List<ConstructCert> constructCertList = constructCertService.findByProject(project);
 		List<ConstructCertDto> ConstructCertDtoList = constructCertAssembler.create(constructCertList);
 		map.put("ConstructCertDtoList", ConstructCertDtoList);
 		return Page.LIST;
