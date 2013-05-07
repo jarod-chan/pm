@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
@@ -8,7 +9,15 @@
 	<%@ include file="/common/setting.jsp" %>
 	<%@ include file="/common/meta.jsp" %>
 	<%@ include file="/common/include.jsp" %>	
-
+	
+	<style type="text/css">
+		.chk_div{
+			border: 2px dashed   #000000;
+			padding: 10px;
+			width: 500px;
+			margin-top: 10px;
+		}
+	</style>		
 
     <script type="text/javascript">
     $(function() {
@@ -29,13 +38,14 @@
 		});
 		
 		$("#btn_back").click(function(){
-			window.open('${ctx}/constructcert/list','_self');
+			window.open('${ctx}/task/list','_self');
 			return false;
 		})
 		
 		var trdom = $("<tr>");
 		$("<td>")
 		  .append($("<input type='hidden' name='constructCertItems_sn'   value='' />"))
+		  .append($("<input type='hidden' name='constructCertItemsId'   value='-1' />"))
 		  .css("display","none")
 		  .appendTo(trdom);
 		
@@ -127,6 +137,10 @@
     			reIndexTable(tbody);
     		})
     	})
+    	
+    	$(".add").bind("click",add);
+		$(".remove").bind("click",remove);
+    	
     });
     
     
@@ -138,15 +152,11 @@
     		$("#supplier_name").html(opt.substring(idx+1));
     	}).triggerHandler("change");
 		
+    	<c:if test="${fn:length(constructCert.constructCertItems)==0}">
     	$(".addLast").triggerHandler("click");
+    	</c:if>
     	
     	$('#tabmain tr').find('td:eq(0)').css("text-align","right");
-    	
-    	
-		
-		
-    	
- 
     	
     })
     
@@ -158,25 +168,25 @@
 	<h2>施工签证单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<form action="${ctx}/constructcert" method="post">
+	<form action="${ctx}/constructcert/checkedit" method="post">
+	<input type="hidden" name="id" value="${constructCert.id}">
 	<input type="hidden" name="afteraction"  >
-	
 	<table id="tabmain">
 		<tr>
-			<td>编号：</td><td>${constructCert.no}<input type="hidden" name="no" value="${constructCert.no}"/></td>
+			<td>编号：</td><td>${constructCert.no}</td>
 		</tr>
 		<tr>
-			<td>项目：</td><td><input type="hidden" name="constructKey.project.id" value="${project.id}"> ${project.name}</td>
+			<td>项目：</td><td>${constructCert.constructKey.project.name}</td>
 		</tr>
 		<tr>
-			<td>项目负责人：</td><td><input type="hidden" name="leader.key" value="${project.user.key}">${project.user.name}</td>
+			<td>项目负责人：</td><td>${constructCert.leader.name}</td>
 		</tr>
 		<tr>
 			<td>施工联系单：</td>
 			<td>
 				<select name="constructKey.id">
 					<c:forEach var="constructCont" items="${constructContList}">
-						<option value="${constructCont.constructKey.id}">${constructCont.no}-${constructCont.constructKey.contract.supplier.name}</option>
+						<option value="${constructCont.constructKey.id}" <c:if test="${constructCert.constructKey.id==constructCont.constructKey.id}">selected="true"</c:if> >${constructCont.no}-${constructCont.constructKey.contract.supplier.name}</option>
 					</c:forEach>
 				</select>
 				<input type="button" id="btn_cont" value="查看施工联系单"/>
@@ -188,7 +198,7 @@
 			<td><span id="supplier_name"></span></td>
 		</tr>
 		<tr>
-			<td style="vertical-align: top">原因：</td><td><textarea name="reason" rows="6" cols="30" style="vertical-align: top"></textarea></td>
+			<td style="vertical-align: top">原因：</td><td><textarea name="reason" rows="6" cols="30" style="vertical-align: top">${constructCert.reason}</textarea></td>
 		</tr>
 		<tr>
 			<td>状态：</td><td>${constructCert.state.name}</td>
@@ -212,17 +222,45 @@
 		<table border="1" id="tabitem">
 		<thead>
 			<tr>
-				<th>序号</th><th>内容</th><th>结算单价</th><th>结算数量</th><th>单位	</th><th>结算价格	</th><th>操作<input type="button" class="addLast" value="+"  /></th>
+				<th>序号</th><th>内容</th><th>结算单价</th><th>结算数量</th><th>单位</th><th>结算价格	</th><th>操作<input type="button" class="addLast" value="+"  /></th>
 			</tr>
 		</thead>
 		<tbody>
+			<c:forEach items="${constructCert.constructCertItems}" var="item">
+				<tr>
+					<td style="display: none"><input type='hidden' name='constructCertItems_sn'   value='${item.sn}' /><input type='hidden' name='constructCertItemsId'   value='${item.id}' /></td>
+					<td>${item.sn}</td>
+					<td><input type='text' name='constructCertItems_content' value='${item.content}' style='width:300px' /></td>
+					<td><input type='text' name='constructCertItems_price' value='${item.price}' style='width:50px' /></td>
+					<td><input type='text' name='constructCertItems_numb' value='${item.numb}' style='width:50px' /></td>
+					<td><input type='text' name='constructCertItems_unit' value='${item.unit}'  style='width:50px' /></td>
+					<td><input type='text' name='constructCertItems_amount' value='${item.amount}' style='width:100px' /></td>
+					<td><input type='button' class='add'  value='+'   /><input type='button' class='remove'  value='-'   /></td>
+				</tr>
+			</c:forEach>
 		</tbody>
 		</table>
 		<br>
+		<h3>领导意见</h3>
+		<c:forEach var="opinion" items="${opinionList}">
+			<div class="chk_div">
+				<div class="chk_result">
+					${opinion.userName}：${opinion.result.name}
+				</div>
+				<c:if test="${not empty opinion.content}">
+					<div class="chk_content">
+							审批意见：${opinion.content}
+					</div>	
+				</c:if>	
+			</div>
+		</c:forEach>
+		
+		<br>
+		<input type="hidden" name="taskId"  value="${taskId}">
+		
 		<input type="button" value="保存"  id="btn_save">
 		<input type="button" value="提交流程"  id="btn_commit">
 		<input type="button" value="返回"  id="btn_back">
-		
 	</form>
 	
 </body>

@@ -37,7 +37,7 @@ import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
-import cn.fyg.pm.interfaces.web.module.constructcont.flow.Varname;
+import cn.fyg.pm.interfaces.web.module.constructcont.flow.ContVarname;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
@@ -174,7 +174,7 @@ public class ConstructContCtl {
 			variableMap.put(FlowConstant.BUSINESS_ID, constructCont.getId());
 			variableMap.put(FlowConstant.APPLY_USER, userKey);
 			identityService.setAuthenticatedUserId(userKey);
-			runtimeService.startProcessInstanceByKey(Varname.PROCESS_DEFINITION_KEY, variableMap);			
+			runtimeService.startProcessInstanceByKey(ContVarname.PROCESS_DEFINITION_KEY, variableMap);			
 		} finally {
 			identityService.setAuthenticatedUserId(null);
 		}
@@ -199,7 +199,7 @@ public class ConstructContCtl {
 			variableMap.put(FlowConstant.BUSINESS_ID, constructCont.getId());
 			variableMap.put(FlowConstant.APPLY_USER, userKey);
 			identityService.setAuthenticatedUserId(userKey);
-			runtimeService.startProcessInstanceByKey(Varname.PROCESS_DEFINITION_KEY, variableMap);			
+			runtimeService.startProcessInstanceByKey(ContVarname.PROCESS_DEFINITION_KEY, variableMap);			
 		} finally {
 			identityService.setAuthenticatedUserId(null);
 		}
@@ -247,7 +247,7 @@ public class ConstructContCtl {
 		opinion.setUserKey(user.getKey());
 		opinion.setUserName(user.getName());
 		opinionService.append(opinion);
-		runtimeService.setVariableLocal(task.getExecutionId(), Varname.OPINION,opinion.getResult().val());
+		runtimeService.setVariableLocal(task.getExecutionId(), ContVarname.OPINION,opinion.getResult().val());
 		taskService.complete(task.getId());
 		redirectAttributes
 			.addFlashAttribute(AppConstant.MESSAGE_NAME,info("任务完成"));

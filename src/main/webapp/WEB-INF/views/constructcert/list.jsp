@@ -31,6 +31,12 @@
 				.appendTo($("body"))
 			.submit();
     	});
+    	
+    	$('.btn_view').click(function(){
+    		var param=jQuery.parseJSON($(this).attr("param"));
+    		window.open('${ctx}/constructcert/{id}/view'.replace('{id}',param.id),'_self');
+        	return false;
+    	});
     });
     </script>
 </head>
@@ -58,8 +64,11 @@
 				<td>${constructCertDto.constructCert.signer.name}</td>
 				<td><fmt:formatDate value="${constructCertDto.constructCert.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				<td>
+					<c:if test="${constructCertDto.constructCert.state=='saved'}">	
 					<input type="button" param='{"id":"${constructCertDto.constructCert.id}"}' value="修改"  class="btn_edit">
 					<input type="button" param='{"id":"${constructCertDto.constructCert.id}"}' value="删除"  class="btn_delete">
+					</c:if>
+					<input type="button" param='{"id":"${constructCertDto.constructCert.id}"}' value="查看"  class="btn_view">
 				</td>
 			</tr>
 		</c:forEach>

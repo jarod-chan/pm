@@ -13,12 +13,21 @@
 
     <script type="text/javascript">
     $(function() {
-		$("#btn_save").click(function(){
+    	$("#btn_save").click(function(){
 			$("#tabitem tbody tr").formatName();
 			var actionFrom=$("form");
-			var oldAction=actionFrom.attr("action");// return;
+			var oldAction=actionFrom.attr("action"); 
+			$("input[name=afteraction]").val("save");
 			actionFrom.attr("action",oldAction+"/saveEdit").submit();
-		})
+		});
+		
+		$("#btn_commit").click(function(){
+			$("#tabitem tbody tr").formatName();
+			var actionFrom=$("form");
+			var oldAction=actionFrom.attr("action"); 
+			$("input[name=afteraction]").val("commit");
+			actionFrom.attr("action",oldAction+"/saveEdit").submit();
+		});
 		
 		$("#btn_back").click(function(){
 			window.open('${ctx}/constructcert/list','_self');
@@ -153,6 +162,7 @@
 	
 	<form action="${ctx}/constructcert" method="post">
 	<input type="hidden" name="id" value="${constructCert.id}">
+	<input type="hidden" name="afteraction"  >
 	<table id="tabmain">
 		<tr>
 			<td>编号：</td><td>${constructCert.no}</td>
@@ -180,7 +190,7 @@
 			<td><span id="supplier_name"></span></td>
 		</tr>
 		<tr>
-			<td style="vertical-align: top">原因：</td><td><textarea name="reason" rows="6" cols="30" style="vertical-align: top"></textarea></td>
+			<td style="vertical-align: top">原因：</td><td><textarea name="reason" rows="6" cols="30" style="vertical-align: top">${constructCert.reason}</textarea></td>
 		</tr>
 		<tr>
 			<td>状态：</td><td>${constructCert.state.name}</td>
@@ -224,6 +234,7 @@
 		</table>
 		<br>
 		<input type="button" value="保存"  id="btn_save">
+		<input type="button" value="提交流程"  id="btn_commit">
 		<input type="button" value="返回"  id="btn_back">
 	</form>
 	
