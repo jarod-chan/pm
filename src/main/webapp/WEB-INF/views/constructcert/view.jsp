@@ -20,7 +20,7 @@
 		})
 		
 		$("#btn_cont").click(function(){
-    		window.open('${ctx}/constructcont/${constructCont.id}/view','_blank');
+    		window.open('${ctx}/constructcont/${constructCont.id}/view?notback=true','_blank');
 			return false;
     	})
 		

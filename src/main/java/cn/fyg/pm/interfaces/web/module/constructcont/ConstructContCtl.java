@@ -214,9 +214,10 @@ public class ConstructContCtl {
 	}
 	
 	@RequestMapping(value="{constructContId}/view",method=RequestMethod.GET)
-	public String toView(@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
+	public String toView(@PathVariable("constructContId")Long constructContId,Map<String,Object> map,@RequestParam(value="notback",required=false)Boolean notback){
 		ConstructCont constructCont = constructContService.find(constructContId);
 		map.put("constructCont", constructCont);
+		map.put("notback", notback);
 		return Page.VIEW;
 	}
 	

@@ -85,7 +85,8 @@
 	</tbody>
 	</table>
 	<br>
-	<input type="button" value="返回"  id="btn_back">
-	
+	<c:if test="${notback!=true}">
+		<input type="button" value="返回"  id="btn_back">
+	</c:if>
 </body>
 </html>

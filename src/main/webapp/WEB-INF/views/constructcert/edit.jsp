@@ -109,7 +109,7 @@
 		var constructContIdList=[<c:forEach var="constructCont" items="${constructContList}" varStatus="status">${constructCont.id}<c:if test="${!status.last}">,</c:if></c:forEach>];
     	
     	$("#btn_cont").click(function(){
-    		window.open('${ctx}/constructcont/'+constructContIdList[$("select:eq(0)").get(0).selectedIndex]+'/view','_blank');
+    		window.open('${ctx}/constructcont/'+constructContIdList[$("select:eq(0)").get(0).selectedIndex]+'/view?notback=true','_blank');
 			return false;
     	})
 		
@@ -117,6 +117,7 @@
     		var constructContId=constructContIdList[$("select:eq(0)").get(0).selectedIndex];
     		$.getJSON('${ctx}/constructcont/'+constructContId+'/items',function(itemlist){
     			var tbody=$("#tabitem tbody");
+    			tbody.empty();
     			for(i=0;i<itemlist.length;i++){
     				var tr=cloneTR();
     				tr.find("input[name=constructCertItems_content]").val(itemlist[i].content);
