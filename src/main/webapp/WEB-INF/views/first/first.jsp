@@ -118,7 +118,7 @@
 					<ul style="float: right" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
 						<li>
 							<ul>
-								<li>用户信息</li>
+								<li><a href="${ctx}/project/list" class="no_show" target="mainFrame"  >项目信息</a></li>
 								<li><a href="javascript:window.open('${ctx}/login','_self');" class="no_show" >退出系统</a></li>
 							</ul>
 							<span> 系统管理</span>
@@ -172,11 +172,11 @@
 		<br>
 		名称：${project.name}<br>
 		编号：${project.no}<br>
-		负责人：${project.user.name}<br>
+		负责人：${project.leader.name}<br>
 		开工日期：<br>
 		成员：<c:forEach var="item" items="${pjmemberList}" varStatus="status">${item.user.name}<c:if test="${!status.last}">,</c:if></c:forEach>
 		<br>
-		状态：N/A<br>
+		状态：${project.state.name}<br>
 		联系单数：N/A<br>
 		签证单数：N/A<br>
 	</div>

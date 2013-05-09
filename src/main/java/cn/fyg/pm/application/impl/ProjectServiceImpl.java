@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ProjectService;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.project.ProjectFactory;
 import cn.fyg.pm.domain.model.project.ProjectRepository;
 
 @Service("projectService")
@@ -36,6 +37,11 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public Project find(Long id) {
 		return projectRepository.findOne(id);
+	}
+
+	@Override
+	public Project create() {
+		return ProjectFactory.create();
 	}
 
 }
