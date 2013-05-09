@@ -1,6 +1,7 @@
 package cn.fyg.pm.interfaces.web.module.project;
 
-import static cn.fyg.pm.interfaces.web.shared.message.Message.*;
+import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,7 +26,6 @@ import cn.fyg.pm.application.ProjectService;
 import cn.fyg.pm.application.UserService;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.project.Project;
-import cn.fyg.pm.domain.model.project.ProjectStateEnum;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;

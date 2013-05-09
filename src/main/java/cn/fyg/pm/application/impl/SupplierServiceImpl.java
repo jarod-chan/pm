@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.SupplierService;
 import cn.fyg.pm.domain.model.supplier.Supplier;
+import cn.fyg.pm.domain.model.supplier.SupplierFactory;
 import cn.fyg.pm.domain.model.supplier.SupplierRepository;
+import cn.fyg.pm.domain.model.supplier.Supptype;
 
 @Service("supplierService")
 public class SupplierServiceImpl implements SupplierService {
@@ -31,6 +33,21 @@ public class SupplierServiceImpl implements SupplierService {
 	@Transactional
 	public void delete(Long id) {
 		supplierRepository.delete(id);
+	}
+
+	@Override
+	public Supplier create() {
+		return SupplierFactory.create();
+	}
+
+	@Override
+	public Supplier find(Long supplierId) {
+		return supplierRepository.findOne(supplierId);
+	}
+
+	@Override
+	public List<Supplier> findByType(Supptype supptype) {
+		return supplierRepository.findByType(supptype);
 	}
 
 }

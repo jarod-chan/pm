@@ -128,9 +128,10 @@
 					<ul style="float: right" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
 						<li>
 							<ul>
-								<li><a href="${ctx}/supplier/list" class="no_show" target="mainFrame" >材料供应商</a></li>
-								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >施工承包商</a></li>
-								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >其它供应商</a></li>
+								<li><a href="${ctx}/supplier/contra/list" class="no_show" target="mainFrame" >内部承包人</a></li>
+								<li><a href="${ctx}/supplier/construct/list" class="no_show" target="mainFrame" >工程服务商</a></li>
+								<li><a href="${ctx}/supplier/meter/list" class="no_show" target="mainFrame" >材料供应商</a></li>
+								<li><a href="${ctx}/supplier/design/list" class="no_show" target="mainFrame" >设计服务商</a></li>
 							</ul>
 							<span> 供应商管理</span>
 						</li>

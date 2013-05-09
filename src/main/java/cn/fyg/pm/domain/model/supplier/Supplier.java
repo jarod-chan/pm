@@ -19,10 +19,31 @@ public class Supplier {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;	//供应商id
+	
 	private String no;		//编号
+	
 	private String name;	//名称
+	
 	@Enumerated(EnumType.STRING)
-	private Supptype type;	// 材料供应商 、设计院、监理公司、承包商
+	private Supptype type;	// 
+	
+	private String creditRank;//信用等级
+	
+	private String busiLicense;//营业执照
+	
+	private String busiCode;//企业代码
+	
+	private String address;//公司地址
+	
+	private String lealPerson; //法人代表
+	
+	private String compPhone;//公司电话
+	
+	private String contact;//联系人
+	
+	private String contPhone;//联系电话
+	
+	private String account;//资金帐户
 	
 	public Long getId() {
 		return id;
@@ -47,6 +68,60 @@ public class Supplier {
 	}
 	public void setType(Supptype type) {
 		this.type = type;
+	}
+	public String getCreditRank() {
+		return creditRank;
+	}
+	public void setCreditRank(String creditRank) {
+		this.creditRank = creditRank;
+	}
+	public String getBusiLicense() {
+		return busiLicense;
+	}
+	public void setBusiLicense(String busiLicense) {
+		this.busiLicense = busiLicense;
+	}
+	public String getBusiCode() {
+		return busiCode;
+	}
+	public void setBusiCode(String busiCode) {
+		this.busiCode = busiCode;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getLealPerson() {
+		return lealPerson;
+	}
+	public void setLealPerson(String lealPerson) {
+		this.lealPerson = lealPerson;
+	}
+	public String getCompPhone() {
+		return compPhone;
+	}
+	public void setCompPhone(String compPhone) {
+		this.compPhone = compPhone;
+	}
+	public String getContact() {
+		return contact;
+	}
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+	public String getContPhone() {
+		return contPhone;
+	}
+	public void setContPhone(String contPhone) {
+		this.contPhone = contPhone;
+	}
+	public String getAccount() {
+		return account;
+	}
+	public void setAccount(String account) {
+		this.account = account;
 	}
 	
 	
