@@ -1,5 +1,6 @@
 package cn.fyg.pm.domain.model.constructcont;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class ConstructCont {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;//id
+	private Long id;//id
 	
 	private String no;//编号
 	
@@ -65,19 +66,35 @@ public class ConstructCont {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date signdate;//签发日期
 	
+	@ManyToOne(targetEntity=User.class)
+	@JoinColumn(name="receiver_key")
+	private User receiver;//接收人
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date receivedate;//接收日期
+	
+	@Temporal(TemporalType.DATE)
+	private Date plandate;//计划完成日期
+
+	@Temporal(TemporalType.DATE)
+	private Date realdate;//实际完成日期
+	
+	private String result;//实际执行结果
+	
 	@OneToMany(mappedBy = "constructCont",
 			fetch = FetchType.EAGER, 
 			cascade = {CascadeType.ALL},
 			targetEntity = ConstructContItem.class,
 			orphanRemoval=true)
 	@OrderBy("sn ASC")
-	private List<ConstructContItem> constructContItems;
+	private List<ConstructContItem> constructContItems=new ArrayList<ConstructContItem>();
 
-	public long getId() {
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -159,6 +176,46 @@ public class ConstructCont {
 
 	public void setSigndate(Date signdate) {
 		this.signdate = signdate;
+	}
+
+	public User getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(User receiver) {
+		this.receiver = receiver;
+	}
+
+	public Date getReceivedate() {
+		return receivedate;
+	}
+
+	public void setReceivedate(Date receivedate) {
+		this.receivedate = receivedate;
+	}
+
+	public Date getPlandate() {
+		return plandate;
+	}
+
+	public void setPlandate(Date plandate) {
+		this.plandate = plandate;
+	}
+
+	public Date getRealdate() {
+		return realdate;
+	}
+
+	public void setRealdate(Date realdate) {
+		this.realdate = realdate;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
 	}
 	
 	

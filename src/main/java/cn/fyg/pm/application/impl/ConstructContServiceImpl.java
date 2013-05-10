@@ -11,6 +11,7 @@ import cn.fyg.pm.domain.model.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.constructcont.ConstructContFactory;
 import cn.fyg.pm.domain.model.constructcont.ConstructContItem;
 import cn.fyg.pm.domain.model.constructcont.ConstructContRepository;
+import cn.fyg.pm.domain.model.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
@@ -52,8 +53,8 @@ public class ConstructContServiceImpl implements ConstructContService {
 	}
 
 	@Override
-	public ConstructCont create(User creater) {
-		return ConstructContFactory.create(creater);
+	public ConstructCont create(User creater,Project project, ConstructContState state) {
+		return ConstructContFactory.create(creater,project,state);
 	}
 
 	@Override

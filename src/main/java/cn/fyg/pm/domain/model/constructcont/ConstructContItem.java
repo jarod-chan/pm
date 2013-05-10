@@ -1,7 +1,6 @@
 package cn.fyg.pm.domain.model.constructcont;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -41,13 +38,6 @@ public class ConstructContItem {
 	
 	private BigDecimal amount;//暂定结算价
 	
-	@Temporal(TemporalType.DATE)
-	private Date plandate;//计划完成日期
-
-	@Temporal(TemporalType.DATE)
-	private Date realdate;//实际完成日期
-	
-	private String result;//实际执行结果
 
 	public Long getId() {
 		return id;
@@ -113,29 +103,7 @@ public class ConstructContItem {
 		this.amount = amount;
 	}
 
-	public Date getPlandate() {
-		return plandate;
-	}
-
-	public void setPlandate(Date plandate) {
-		this.plandate = plandate;
-	}
-
-	public Date getRealdate() {
-		return realdate;
-	}
-
-	public void setRealdate(Date realdate) {
-		this.realdate = realdate;
-	}
-
-	public String getResult() {
-		return result;
-	}
-
-	public void setResult(String result) {
-		this.result = result;
-	}
+	
 	
 	
 }

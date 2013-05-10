@@ -72,6 +72,35 @@
 		<tr>
 			<td>签发日期：</td><td><fmt:formatDate value="${constructCont.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+		<tr>
+			<td>接收人：</td>
+			<td>${constructCont.receiver.name}
+			</td>
+		</tr>
+		<tr>
+			<td>接收日期：</td>
+			<td>
+				${constructCont.receivedate}
+			</td>
+		</tr>
+		<tr>
+			<td>计划完成日期：</td>
+			<td>
+				${constructCont.plandate}
+			</td>
+		</tr>
+		<tr>
+			<td>实际完成日期：</td>
+			<td>
+				${constructCont.realdate}
+			</td>
+		</tr>
+		<tr>
+			<td>实际执行结果：</td>
+			<td>
+				${constructCont.result}
+			</td>
+		</tr>
 	</table>
 	<br>
 
@@ -79,13 +108,13 @@
 	<table border="1">
 	<thead>
 		<tr>
-			<th>序号</th><th>内容</th><th>暂定单价</th><th>暂定数量</th><th>单位</th><th>暂定结算价</th><th>计划完成日期</th><th>实际完成日期</th><th>实际执行结果</th>
+			<th>序号</th><th>内容</th><th>暂定单价</th><th>暂定数量</th><th>单位</th><th>暂定结算价</th>
 		</tr>
 	</thead>
 	<tbody>
 		<c:forEach items="${constructCont.constructContItems}" var="item">
 		<tr>
-			<td>${item.sn}</td><td>${item.content}</td><td>${item.price}</td><td>${item.numb}</td><td>${item.unit}</td><td>${item.amount}</td><td>${item.plandate}</td><td>${item.realdate}</td><td>${item.result}</td>
+			<td>${item.sn}</td><td>${item.content}</td><td>${item.price}</td><td>${item.numb}</td><td>${item.unit}</td><td>${item.amount}</td>
 		</tr>
 		</c:forEach>
 	</tbody>

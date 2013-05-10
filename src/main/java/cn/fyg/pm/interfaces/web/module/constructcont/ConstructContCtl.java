@@ -17,8 +17,6 @@ import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import cn.fyg.pm.application.ConstructContService;
 import cn.fyg.pm.application.ContractService;
 import cn.fyg.pm.application.OpinionService;
+import cn.fyg.pm.application.UserService;
 import cn.fyg.pm.domain.model.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.constructcont.ConstructContItem;
 import cn.fyg.pm.domain.model.constructcont.ConstructContState;
@@ -50,17 +49,12 @@ public class ConstructContCtl {
 	private static final String PATH="constructcont/";
 	private interface Page {
 		String LIST = PATH + "list";
-		String NEW = PATH + "new";
 		String EDIT = PATH + "edit";
 		String VIEW = PATH + "view";
 		String CHECK = PATH + "check";
 		String CHECK_EDIT = PATH + "check_edit";
 	}
 	
-	@InitBinder
-	private void dateBinder(WebDataBinder binder) {
-	    binder.registerCustomEditor(Date.class, CustomEditorFactory.getCustomDateEditor());
-	}
 	
 	@Autowired
 	ContractService contractService;
@@ -76,6 +70,8 @@ public class ConstructContCtl {
 	TaskService taskService;
 	@Autowired
 	OpinionService opinionService;
+	@Autowired
+	UserService userService;
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String toList(Map<String,Object> map){
@@ -85,57 +81,28 @@ public class ConstructContCtl {
 		return Page.LIST;
 	}
 
-	@RequestMapping(value="new",method=RequestMethod.GET)
-	public String toNew(Map<String,Object> map){
-		Project project = sessionUtil.getValue("project");
-		User user = sessionUtil.getValue("user");
-		map.put("project", project);
-		List<Contract> contractList = contractService.findByProject(project);
-		map.put("contractList", contractList);
-		ConstructCont constructCont = constructContService.create(user);
-		map.put("constructCont", constructCont);
-		return Page.NEW;
-	}
-	
-	@RequestMapping(value="save",method=RequestMethod.POST)
-	public String save(ConstructCont constructCont,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes){
-		User user = sessionUtil.getValue("user");
-		constructCont.setState(ConstructContState.saved);
-		constructCont.setCreater(user);
-		constructCont.setCreatedate(new Date());
-		constructCont=constructContService.save(constructCont);
-		
-		if(afteraction.equals("save")){
-			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("保存成功！"));
-			return "redirect:list";
-		}
-		if(afteraction.equals("commit")){
-			constructCont.setState(ConstructContState.commit);
-			constructCont=constructContService.save(constructCont);
-			commit(constructCont, user);
-			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
-			return "redirect:list";
-		}
-		
-		return "";
-	}
-
 	@RequestMapping(value="{constructContId}/edit",method=RequestMethod.GET)
 	public String toEdit(@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
-		ConstructCont constructCont = constructContService.find(constructContId);
+		Project project = sessionUtil.getValue("project");
+		User user = sessionUtil.getValue("user");//
+		ConstructCont constructCont = constructContId.longValue()>0?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.new_);
 		map.put("constructCont", constructCont);
 		List<Contract> contractList = contractService.findByProject(constructCont.getConstructKey().getProject());
 		map.put("contractList", contractList);
+		map.put("userList", userService.findAll());
 		return Page.EDIT;
 	}
 	
 	@RequestMapping(value="saveEdit",method=RequestMethod.POST)
-	public String saveEdit(@RequestParam("id")Long id,@RequestParam("afteraction")String afteraction,@RequestParam("constructContItemsId") Long[] constructContItemsId,HttpServletRequest request,RedirectAttributes redirectAttributes){
-		ConstructCont constructCont = constructContService.find(id);
-		Map<Long,ConstructContItem> constructContItemMap=getConstructContItemMap(constructCont.getConstructContItems());
+	public String saveEdit(@RequestParam("id")Long constructContId,@RequestParam("afteraction")String afteraction,@RequestParam(value="constructContItemsId",required=false) Long[] constructContItemsId,HttpServletRequest request,RedirectAttributes redirectAttributes){
+		Project project = sessionUtil.getValue("project");
+		User user = sessionUtil.getValue("user");
 		
+		ConstructCont constructCont =constructContId!=null?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.saved);
+		 
+		Map<Long,ConstructContItem> constructContItemMap=getConstructContItemMap(constructCont.getConstructContItems());	
 		List<ConstructContItem> ConstructContItemList = new ArrayList<ConstructContItem>();
-		for (int i = 0,len=constructContItemsId.length; i < len; i++) {
+		for (int i = 0,len=constructContItemsId==null?0:constructContItemsId.length; i < len; i++) {
 			ConstructContItem constructContItem = constructContItemsId[i]>0?constructContItemMap.get(constructContItemsId[i]):new ConstructContItem();
 			ConstructContItemList.add(constructContItem);
 		}
@@ -153,7 +120,6 @@ public class ConstructContCtl {
 		if(afteraction.equals("commit")){
 			constructCont.setState(ConstructContState.commit);
 			constructCont=constructContService.save(constructCont);
-			User user = sessionUtil.getValue("user");
 			commit(constructCont, user);
 			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
 			return "redirect:list";
@@ -183,6 +149,7 @@ public class ConstructContCtl {
 
 	private Map<Long, ConstructContItem> getConstructContItemMap(List<ConstructContItem> constructContItems) {
 		Map<Long,ConstructContItem> map = new HashMap<Long,ConstructContItem>();
+		if(constructContItems==null) return map;
 		for (ConstructContItem constructContItem : constructContItems) {
 			map.put(constructContItem.getId(), constructContItem);
 		}
@@ -261,6 +228,7 @@ public class ConstructContCtl {
 		map.put("constructCont", constructCont);
 		List<Contract> contractList = contractService.findByProject(constructCont.getConstructKey().getProject());
 		map.put("contractList", contractList);
+		map.put("userList", userService.findAll());
 		map.put("taskId", taskId);
 		List<Opinion> opinionList = opinionService.listOpinions(ConstructCont.BUSI_CODE, constructContId);
 		map.put("opinionList", opinionList);

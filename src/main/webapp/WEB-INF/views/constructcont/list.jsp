@@ -14,7 +14,7 @@
     $(function() {
     	
     	$("#btn_new").click(function(){
-			window.open('${ctx}/constructcont/new','_self');
+			window.open('${ctx}/constructcont/-1/edit','_self');
 			return false;
 		});
     	
@@ -52,7 +52,13 @@
 	<br>
 	<table id="tblmain" border="1">
 		<tr>
-			<td>编号</td><td>合同</td><td>施工承包方</td><td>原因</td><td>状态</td><td>制单人</td><td>制单日期</td><td>签发人</td><td>签发日期</td><td>操作</td>
+			<td>编号</td><td>合同</td><td>施工承包方</td><td>原因</td><td>状态</td><td>制单人</td><td>制单日期</td><td>签发人</td><td>签发日期</td>
+			<td>接收人</td>
+			<td>接收日期</td>
+			<td>计划完成日期</td>
+			<td>实际完成日期</td>
+			<td>实际执行结果</td>
+			<td>操作</td>
 		</tr>
 		<c:forEach var="constructCont" items="${constructContList}">
 			<tr>
@@ -65,6 +71,11 @@
 				<td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd"/></td>
 				<td>${constructCont.signer.name}</td>
 				<td><fmt:formatDate value="${constructCont.signdate}" pattern="yyyy-MM-dd"/></td>
+				<td>${constructCont.receiver.name}</td>
+				<td><fmt:formatDate value="${constructCont.receivedate}" pattern="yyyy-MM-dd"/></td>
+				<td>${constructCont.plandate}</td>
+				<td>${constructCont.realdate}</td>
+				<td>${constructCont.result}</td>
 				<td>
 					<c:if test="${constructCont.state=='saved'}">					
 					<input type="button" param='{"id":"${constructCont.id}"}' value="修改"  class="btn_edit">

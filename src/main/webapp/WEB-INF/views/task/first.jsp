@@ -65,7 +65,7 @@
     $(function() {
     	myLayout=$('body').layout({ 
     		applyDemoStyles: true, 
-    		north__size:83,//pane的大小
+    		north__size:85,//pane的大小
     		north__closable: false,
     		west__size:200
     	});
@@ -89,7 +89,7 @@
 		<div style="width: 1024px;">
 			<div style="width: 50%;float: left;"><div style="width:300px;font-size: 30px; ">方远房产项目管理系统</div></div>
 			<div style="width: 50%;float: left; text-align: right;">
-				
+				用户:${user.name}<br>
 				<input type="button" id="btn_task" value="我的任务" disabled="disabled">
 				<input type="button" id="btn_project" value="我的项目" >:${project.name}
 			</div>
