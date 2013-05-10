@@ -16,4 +16,5 @@ public interface SupplierRepository extends Repository<Supplier,Long>{
 
 	List<Supplier> findByType(Supptype supptype);
 
+	List<Supplier> findByTypeIn(Supptype[] supptypeList);
 }

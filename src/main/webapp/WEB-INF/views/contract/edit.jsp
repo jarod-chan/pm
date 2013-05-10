@@ -7,7 +7,7 @@
 	<%@ include file="/common/setting.jsp" %>
 	<%@ include file="/common/meta.jsp" %>
 	<%@ include file="/common/include.jsp" %>	
-
+	<%@ include file="/common/jqui.jsp" %>	
 
     <script type="text/javascript">
     $(function() {
@@ -16,6 +16,15 @@
 			var oldAction=actionFrom.attr("action");
 			actionFrom.attr("action",oldAction+"/save").submit();
 		});
+		
+		$("#btn_back").click(function(){
+			window.open('${ctx}/contract/${contractType}/list','_self');
+			return false;
+		})
+		
+		$('#tabmain tr').find('td:eq(0)').css("text-align","right");
+		
+		$(".datePK").datepicker();
     });
     </script>
     
@@ -106,47 +115,150 @@
 </head>
 
 <body>
-	<h2>合同</h2>
+	<h2>${contractType.name}</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<form action="${ctx}/contract" method="post">
-		编号：
-		<input type="text" name="no" value=""/>
+	<form action="${ctx}/contract/${contractType}" method="post">
+	
+	<input type="hidden" name="id" value="${contract.id}"/>	
+	<input type="hidden" name="project.id" value="${contract.project.id}"/>	
+	<input type="hidden" name="type" value="${contractType}"/>	
+	
+	<table id="tabmain">
 		
-		<br>
-		合同名称：
-		<input type="text" name="name" value=""/>
+		<tr><td>
+		编号：</td><td>
+		<input type="text" name="no" value="${contract.no}"/>
+		</td></tr>
 		
-		<br>
-		所属项目:
-		<select name="project.id">
-			<c:forEach var="project" items="${projectList}">
-				<option value="${project.id}">${project.name}</option>
-			</c:forEach>
-		</select>
-		<br>
-		供应商:
+		<tr><td>
+		合同名称：</td><td>
+		<input type="text" name="name" value="${contract.name}"/>
+		</td></tr>
+		
+		
+		<tr><td>
+		供应商：</td><td>
 		<select name="supplier.id">
 			<c:forEach var="supplier" items="${supplierList}">
-				<option value="${supplier.id}">${supplier.name}</option>
+				<option value="${supplier.id}" <c:if test="${supplier.id== contract.supplier.id}">selected="true"</c:if> >${supplier.name}</option>
 			</c:forEach>
 		</select>
-		<br>
+		<tr><td>
 		
-		结算对象：
-		<input type="text" name="payname" value=""/>
-		<br>
+		<tr><td>
+		合同状态：</td><td>
+		<select name="state">
+			<c:forEach var="contractState" items="${contractStateList}">
+				<option value="${contractState}" <c:if test="${contractState== contract.state}">selected="true"</c:if> >${contractState.name}</option>
+			</c:forEach>
+		</select>
+		<tr><td>
 		
-		<div style="float: left;width: 80px;">合同文件：</div>
-		<input id="file_upload" type="button" >
-		<div style="clear: both;"  id="uploadify_result">
-		</div>
-		<div id="uploadify_queue">
-			
-		</div>
+		<tr><td>
+		专业分类：</td><td>
+		<select name="specialty">
+			<c:forEach var="specialty" items="${specialtyList}">
+				<option value="${specialty}" <c:if test="${specialty== contract.specialty}">selected="true"</c:if> >${specialty.name}</option>
+			</c:forEach>
+		</select>
+		<tr><td>
+		
+		<tr><td>
+		签订日期：</td><td>
+		<input type="text" name="signDate" class="datePK" value="${contract.signDate}"/>
+		<td></tr>
+		
+		<tr><td>
+		交付日期：</td><td>
+		<input type="text" name="delvDate" class="datePK" value="${contract.delvDate}"/>
+		<td></tr>
+		
+		<tr><td>
+		合同金额：</td><td>
+		<input type="text" name="contractAmt"  value="${contract.contractAmt}"/>
+		<td></tr>
+		
+		<tr><td>
+		首付比例：</td><td>
+		<input type="text" name="dpscale"  value="${contract.dpscale}"/>
+		<td></tr>
+		
+		<tr><td>
+		结算金额：</td><td>
+		<input type="text" name="finalAmt"  value="${contract.finalAmt}"/>
+		<td></tr>
+		
+		<tr><td>
+		来源形式：</td><td>
+		<input type="text" name="origins"  value="${contract.origins}"/>
+		<td></tr>
+		
+		<tr><td>
+		责任部门：</td><td>
+		<input type="text" name="dept"  value="${contract.dept}"/>
+		<td></tr>
+		
+		<tr><td>
+		风险等级：</td><td>
+		<select name="riskLevel">
+			<c:forEach var="contractRisk" items="${contractRiskList}">
+				<option value="${contractRisk}" <c:if test="${contractRisk== contract.riskLevel}">selected="true"</c:if> >${contractRisk.name}</option>
+			</c:forEach>
+		</select>
+		<tr><td>
+		
+		<tr><td>
+		风险提示：</td><td>
+		<input type="text" name="riskPrompt"  value="${contract.riskPrompt}"/>
+		<td></tr>
+		
+		<tr><td>
+		评审结论：</td><td>
+		<input type="text" name="conclusion"  value="${contract.conclusion}"/>
+		<td></tr>
+		
+		<tr><td>
+		签订责任人：</td><td>
+		
+		<select name="leader.key">
+			<c:forEach var="user" items="${userList}">
+				<option value="${user.key}" <c:if test="${user.key== contract.leader.key}">selected="true"</c:if> >${user.name}</option>
+			</c:forEach>
+		</select>
+		<td></tr>
+		
+		<tr><td>
+		总份数：</td><td>
+		<input type="text" name="totalCopies"  value="${contract.totalCopies}"/>
+		<td></tr>
+		
+		<tr><td>
+		留存份数：</td><td>
+		<input type="text" name="saveCopies"  value="${contract.saveCopies}"/>
+		<td></tr>
+		
+		<tr><td>
+		合同文件：<br><br>
+		</td><td>
+			<input id="file_upload" type="button" >
+		</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				<div style="clear: both;"  id="uploadify_result">
+				</div>
+				<div id="uploadify_queue">
+				</div>
+			</td>
+		</tr>
+		
+		
+	    </table>
 		<br>
-		<div></div>
 		<input type="button" value="保存"  id="btn_save">
+		<input type="button" value="返回"  id="btn_back">
 		
 	</form>
 	

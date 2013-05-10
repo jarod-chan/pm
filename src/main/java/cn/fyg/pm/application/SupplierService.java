@@ -21,4 +21,5 @@ public interface SupplierService {
 	
 	List<Supplier> findByType(Supptype supptype);
 
+	List<Supplier> findByTypeIn(Supptype... supptypes);
 }

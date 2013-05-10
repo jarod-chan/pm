@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ContractService;
 import cn.fyg.pm.domain.model.contract.Contract;
+import cn.fyg.pm.domain.model.contract.ContractFactory;
 import cn.fyg.pm.domain.model.contract.ContractRepository;
+import cn.fyg.pm.domain.model.contract.ContractType;
 import cn.fyg.pm.domain.model.project.Project;
 
 @Service("contractService")
@@ -42,6 +44,16 @@ public class ContractServiceImpl implements ContractService {
 	@Override
 	public List<Contract> findByProject(Project project) {
 		return contractRepository.findByProject(project);
+	}
+
+	@Override
+	public Contract create(Project project) {
+		return ContractFactory.create(project);
+	}
+
+	@Override
+	public List<Contract> findByType(ContractType contractType) {
+		return contractRepository.findByType(contractType);
 	}
 
 }

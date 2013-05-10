@@ -9,7 +9,7 @@ public enum Supptype implements CommonEnum {
 	meter("材料供应商"),
 	design("设计服务商");
 
-	private String name;
+	private final String name;
 	
 	Supptype(String name){
 		this.name=name;

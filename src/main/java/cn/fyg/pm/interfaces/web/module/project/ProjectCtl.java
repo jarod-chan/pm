@@ -48,10 +48,6 @@ public class ProjectCtl {
 	@Autowired
 	PjmemberService pjmemberService;
 	
-	@InitBinder
-	private void dateBinder(WebDataBinder binder) {
-	    binder.registerCustomEditor(Date.class, CustomEditorFactory.getCustomDateEditor());
-	}
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String toList(Map<String,Object> map){

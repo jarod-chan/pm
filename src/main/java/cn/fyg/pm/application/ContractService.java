@@ -3,11 +3,14 @@ package cn.fyg.pm.application;
 import java.util.List;
 
 import cn.fyg.pm.domain.model.contract.Contract;
+import cn.fyg.pm.domain.model.contract.ContractType;
 import cn.fyg.pm.domain.model.project.Project;
 
 public interface ContractService {
 	
 	List<Contract> findAll();
+	
+	List<Contract> findByType(ContractType contractType);
 	
 	Contract find(Long id);
 	
@@ -16,5 +19,8 @@ public interface ContractService {
 	void delete(Long id);
 	
 	List<Contract> findByProject(Project project);
+
+	Contract create(Project project);
+
 
 }

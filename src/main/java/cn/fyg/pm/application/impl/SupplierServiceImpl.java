@@ -50,4 +50,9 @@ public class SupplierServiceImpl implements SupplierService {
 		return supplierRepository.findByType(supptype);
 	}
 
+	@Override
+	public List<Supplier> findByTypeIn(Supptype... supptypes) {
+		return supplierRepository.findByTypeIn(supptypes);
+	}
+
 }

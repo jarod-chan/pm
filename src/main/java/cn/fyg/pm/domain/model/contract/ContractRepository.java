@@ -17,4 +17,6 @@ public interface ContractRepository extends Repository<Contract,Long> {
 	Contract findOne(Long id);
 	
 	List<Contract> findByProject(Project project);
+
+	List<Contract> findByType(ContractType contractType);
 }
