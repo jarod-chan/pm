@@ -170,7 +170,7 @@
 			<td>项目：</td><td><input type="hidden" name="constructKey.project.id" value="${project.id}"> ${project.name}</td>
 		</tr>
 		<tr>
-			<td>项目负责人：</td><td><input type="hidden" name="leader.key" value="${project.user.key}">${project.user.name}</td>
+			<td>项目负责人：</td><td><input type="hidden" name="leader.key" value="${project.leader.key}">${project.leader.name}</td>
 		</tr>
 		<tr>
 			<td>施工联系单：</td>

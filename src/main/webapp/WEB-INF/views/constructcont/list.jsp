@@ -62,9 +62,9 @@
 				<td>${constructCont.reason}</td>
 				<td>${constructCont.state.name}</td>
 				<td>${constructCont.creater.name}</td>
-				<td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd"/></td>
 				<td>${constructCont.signer.name}</td>
-				<td><fmt:formatDate value="${constructCont.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td><fmt:formatDate value="${constructCont.signdate}" pattern="yyyy-MM-dd"/></td>
 				<td>
 					<c:if test="${constructCont.state=='saved'}">					
 					<input type="button" param='{"id":"${constructCont.id}"}' value="修改"  class="btn_edit">

@@ -60,9 +60,9 @@
 				<td>${constructCertDto.constructCert.reason}</td>
 				<td>${constructCertDto.constructCert.state.name}</td>
 				<td>${constructCertDto.constructCert.creater.name}</td>
-				<td><fmt:formatDate value="${constructCertDto.constructCert.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td><fmt:formatDate value="${constructCertDto.constructCert.createdate}" pattern="yyyy-MM-dd"/></td>
 				<td>${constructCertDto.constructCert.signer.name}</td>
-				<td><fmt:formatDate value="${constructCertDto.constructCert.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+				<td><fmt:formatDate value="${constructCertDto.constructCert.signdate}" pattern="yyyy-MM-dd"/></td>
 				<td>
 					<c:if test="${constructCertDto.constructCert.state=='saved'}">	
 					<input type="button" param='{"id":"${constructCertDto.constructCert.id}"}' value="修改"  class="btn_edit">
