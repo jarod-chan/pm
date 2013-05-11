@@ -84,7 +84,7 @@ public class ConstructContCtl {
 	@RequestMapping(value="{constructContId}/edit",method=RequestMethod.GET)
 	public String toEdit(@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
 		Project project = sessionUtil.getValue("project");
-		User user = sessionUtil.getValue("user");//
+		User user = sessionUtil.getValue("user");
 		ConstructCont constructCont = constructContId.longValue()>0?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.new_);
 		map.put("constructCont", constructCont);
 		List<Contract> contractList = contractService.findByProject(constructCont.getConstructKey().getProject());

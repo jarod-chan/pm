@@ -34,6 +34,12 @@
 			return false;
 		})
 		
+		var selectDom=$("<select>");
+		<c:forEach var="certItemOpinion" items="${certItemOpinionList}">
+			$("<option>").val("${certItemOpinion}").text("${certItemOpinion.name}").appendTo(selectDom);
+		</c:forEach>
+
+		
 		var trdom = $("<tr>");
 		$("<td>")
 		  .append($("<input type='hidden' name='constructCertItems_sn'   value='' />"))
@@ -56,6 +62,18 @@
 		  .appendTo(trdom);
 		
 		$("<td>").append($("<input type='text' name='constructCertItems_amount' style='width:100px' />"))
+		  .appendTo(trdom);
+		
+		$("<td>").append($("<input type='button' value='上传文件'>"))
+		  .appendTo(trdom);
+		
+		$("<td>").append(selectDom.clone().attr("name","constructCertItems_superOpinion"))
+		  .appendTo(trdom);
+		
+		$("<td>").append(selectDom.clone().attr("name","constructCertItems_manageOpinion"))
+		  .appendTo(trdom);
+		
+		$("<td>").append(selectDom.clone().attr("name","constructCertItems_leaderOpinion"))
 		  .appendTo(trdom);
 		  
 		 $("<td>")
@@ -169,9 +187,6 @@
 			<td>编号：</td><td>${constructCert.no}</td>
 		</tr>
 		<tr>
-			<td>项目：</td><td>${constructCert.constructKey.project.name}</td>
-		</tr>
-		<tr>
 			<td>项目负责人：</td><td>${constructCert.leader.name}</td>
 		</tr>
 		<tr>
@@ -208,6 +223,23 @@
 		<tr>
 			<td>签发日期：</td><td></td>
 		</tr>
+		<tr>
+			<td>结算人：</td>
+			<td>
+				<select name="settler.key">
+					<c:forEach var="user" items="${userList}">
+						<option value="${user.key}" <c:if test="${constructCert.settler.key==user.key}">selected="true"</c:if> >${user.name}</option>
+					</c:forEach>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>结算日期：</td>
+			<td>
+				<fmt:formatDate value="${constructCert.settledate}" pattern="yyyy-MM-dd"/>
+			</td>
+		</tr>
+		
 	</table>
 		
 		<br>
@@ -215,7 +247,12 @@
 		<table border="1" id="tabitem">
 		<thead>
 			<tr>
-				<th>序号</th><th>内容</th><th>结算单价</th><th>结算数量</th><th>单位</th><th>结算价格	</th><th>操作<input type="button" class="addLast" value="+"  /></th>
+				<th>序号</th><th>内容</th><th>结算单价</th><th>结算数量</th><th>单位</th><th>结算价格	</th>
+				<th>签证依据	</th>
+				<th>监理意见	</th>
+				<th>现场管理人员意见	</th>
+				<th>项目负责人意见	</th>
+				<th>操作<input type="button" class="addLast" value="+"  /></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -228,6 +265,38 @@
 					<td><input type='text' name='constructCertItems_numb' value='${item.numb}' style='width:50px' /></td>
 					<td><input type='text' name='constructCertItems_unit' value='${item.unit}'  style='width:50px' /></td>
 					<td><input type='text' name='constructCertItems_amount' value='${item.amount}' style='width:100px' /></td>
+					
+					<td>
+						<c:choose>
+							<c:when test="${not empty item.imgPath}">
+								 <a href="${ctx}/img/${item.imgPath}" target="_blank" >示例图片</a>
+							</c:when>
+							<c:otherwise>
+									<input type="button" value="上传文件">
+							</c:otherwise>
+						</c:choose>
+					</td>
+					<td>
+						<select name="constructCertItems_superOpinion">
+							<c:forEach var="certItemOpinion" items="${certItemOpinionList}">
+								<option value="${certItemOpinion}" <c:if test="${item.superOpinion==certItemOpinion}">selected="true"</c:if> >${certItemOpinion.name}</option>
+							</c:forEach>
+						</select>
+					</td>
+					<td>
+						<select name="constructCertItems_manageOpinion">
+							<c:forEach var="certItemOpinion" items="${certItemOpinionList}">
+								<option value="${certItemOpinion}" <c:if test="${item.manageOpinion==certItemOpinion}">selected="true"</c:if> >${certItemOpinion.name}</option>
+							</c:forEach>
+						</select>
+					</td>
+					<td>
+						<select name="constructCertItems_leaderOpinion">
+							<c:forEach var="certItemOpinion" items="${certItemOpinionList}">
+								<option value="${certItemOpinion}" <c:if test="${item.leaderOpinion==certItemOpinion}">selected="true"</c:if> >${certItemOpinion.name}</option>
+							</c:forEach>
+						</select>
+					</td>
 					<td><input type='button' class='add'  value='+'   /><input type='button' class='remove'  value='-'   /></td>
 				</tr>
 			</c:forEach>

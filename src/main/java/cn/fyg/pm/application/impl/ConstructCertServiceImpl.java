@@ -10,6 +10,7 @@ import cn.fyg.pm.application.ConstructCertService;
 import cn.fyg.pm.domain.model.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.constructcert.ConstructCertFactory;
 import cn.fyg.pm.domain.model.constructcert.ConstructCertRepository;
+import cn.fyg.pm.domain.model.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
@@ -48,8 +49,8 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 	}
 
 	@Override
-	public ConstructCert create(User user) {
-		return ConstructCertFactory.create(user);
+	public ConstructCert create(User user,Project project,ConstructCertState state) {
+		return ConstructCertFactory.create(user,project,state);
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package cn.fyg.pm.application;
 import java.util.List;
 
 import cn.fyg.pm.domain.model.constructcert.ConstructCert;
+import cn.fyg.pm.domain.model.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
@@ -21,6 +22,6 @@ public interface ConstructCertService {
 
 	ConstructCert find(Long certid);
 	
-	ConstructCert create(User user);
+	ConstructCert create(User user,Project project,ConstructCertState state);
 
 }

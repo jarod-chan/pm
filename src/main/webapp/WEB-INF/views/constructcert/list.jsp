@@ -14,7 +14,7 @@
     $(function() {
     	
     	$("#btn_new").click(function(){
-			window.open('${ctx}/constructcert/new','_self');
+			window.open('${ctx}/constructcert/-1/edit','_self');
 			return false;
 		});
     	

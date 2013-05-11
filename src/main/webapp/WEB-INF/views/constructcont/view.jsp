@@ -34,9 +34,6 @@
 			<td>编号：</td><td>${constructCont.no}</td>
 		</tr>
 		<tr>
-			<td>项目：</td><td>${constructCont.constructKey.project.no}</td>
-		</tr>
-		<tr>
 			<td>项目负责人：</td><td>${constructCont.leader.name}</td>
 		</tr>
 		<tr>

@@ -3,7 +3,6 @@ package cn.fyg.pm.interfaces.web.module.consturctcert;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +25,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import cn.fyg.pm.application.ConstructCertService;
 import cn.fyg.pm.application.ConstructContService;
 import cn.fyg.pm.application.OpinionService;
+import cn.fyg.pm.application.UserService;
+import cn.fyg.pm.domain.model.constructcert.CertItemOpinion;
 import cn.fyg.pm.domain.model.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.constructcert.ConstructCertItem;
 import cn.fyg.pm.domain.model.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.constructcont.ConstructCont;
-import cn.fyg.pm.domain.model.contract.Contract;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
@@ -48,7 +48,6 @@ public class ConstructCertCtl {
 	private static final String PATH="constructcert/";
 	private interface Page {
 		String LIST = PATH + "list";
-		String NEW = PATH + "new";
 		String EDIT = PATH + "edit";
 		String VIEW = PATH + "view";
 		String CHECK = PATH + "check";
@@ -71,6 +70,8 @@ public class ConstructCertCtl {
 	TaskService taskService;
 	@Autowired
 	OpinionService opinionService;
+	@Autowired
+	UserService userService;
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String toList(Map<String,Object> map){
@@ -80,71 +81,46 @@ public class ConstructCertCtl {
 		map.put("ConstructCertDtoList", ConstructCertDtoList);
 		return Page.LIST;
 	}
-	
-	@RequestMapping(value="new",method=RequestMethod.GET)
-	public String toNew(Map<String,Object> map){
-		User user = sessionUtil.getValue("user");
-		Project project = sessionUtil.getValue("project");
-		map.put("project", project);
-		List<ConstructCont> constructContList = constructContService.findByProject(project);
-		map.put("constructContList", constructContList);
-		ConstructCert constructCert = constructCertService.create(user);
-		map.put("constructCert", constructCert);
-		return Page.NEW;
-	}
-	
-	@RequestMapping(value="save",method=RequestMethod.POST)
-	public String save(ConstructCert constructCert,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes){
-		User user = sessionUtil.getValue("user");
-		constructCert.setState(ConstructCertState.saved);
-		constructCert.setCreater(user);
-		constructCert.setCreatedate(new Date());
-		constructCert = constructCertService.save(constructCert);
-		
-		if(afteraction.equals("save")){
-			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("保存成功！"));
-			return "redirect:list";
-		}
-		if(afteraction.equals("commit")){
-			constructCert.setState(ConstructCertState.commit);
-			constructCert=constructCertService.save(constructCert);
-			commit(constructCert,user);
-			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
-			return "redirect:list";
-		}
-		
-		return "";
-	}
-	
-	private void commit(ConstructCert constructCert, User user) {
-		String userKey=user.getKey();
-		try{
-			Map<String, Object> variableMap = new HashMap<String, Object>();
-			variableMap.put(FlowConstant.BUSINESS_ID, constructCert.getId());
-			variableMap.put(FlowConstant.APPLY_USER, userKey);
-			identityService.setAuthenticatedUserId(userKey);
-			runtimeService.startProcessInstanceByKey(CertVarname.PROCESS_DEFINITION_KEY, variableMap);			
-		} finally {
-			identityService.setAuthenticatedUserId(null);
-		}
-	}
 
 	@RequestMapping(value="{constructCertId}/edit",method=RequestMethod.GET)
 	public String toEdit(@PathVariable("constructCertId") Long constructCertId,Map<String,Object> map){
-		ConstructCert constructCert = constructCertService.find(constructCertId);
+		Project project = sessionUtil.getValue("project");
+		User user = sessionUtil.getValue("user");
+		ConstructCert constructCert =constructCertId.longValue()>0?constructCertService.find(constructCertId):constructCertService.create(user,project,ConstructCertState.new_) ;
 		map.put("constructCert", constructCert);
 		List<ConstructCont> constructContList = constructContService.findByProject(constructCert.getConstructKey().getProject());
 		map.put("constructContList", constructContList);
+		map.put("userList", userService.findAll());
+		map.put("certItemOpinionList", CertItemOpinion.values());
+		attechTempFile(constructCert);
 		return Page.EDIT;
 	}
 
+	/**
+	 * 添加临时附件
+	 * @param constructCert
+	 */
+	private void attechTempFile(ConstructCert constructCert) {
+		//临时附件
+		if(constructCert.getConstructCertItems()!=null&&!constructCert.getConstructCertItems().isEmpty()){
+			int i=0;
+			for (ConstructCertItem constructCertItem : constructCert.getConstructCertItems()) {
+				if(i%2==0) constructCertItem.setImgPath("imgpath.jpg");
+				i++;
+			}
+		}
+	}
+
 	@RequestMapping(value="saveEdit",method=RequestMethod.POST)
-	public String saveEdit(@RequestParam("id")Long id,@RequestParam("constructCertItemsId") Long[] constructCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes){
-		ConstructCert constructCert = constructCertService.find(id);
+	public String saveEdit(@RequestParam("id")Long constructCertId,@RequestParam(value="constructCertItemsId",required=false) Long[] constructCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes){
+		Project project = sessionUtil.getValue("project");
+		User user = sessionUtil.getValue("user");
+		ConstructCert constructCert = constructCertId!=null?constructCertService.find(constructCertId):constructCertService.create(user, project,ConstructCertState.saved);
+		
 		Map<Long,ConstructCertItem> constructCertMap=getConstructCertMap(constructCert.getConstructCertItems());
 		
 		List<ConstructCertItem> constructCertItemList = new ArrayList<ConstructCertItem>();
-		for(int i=0,len=constructCertItemsId.length;i<len;i++){
+		for(int i=0,len=constructCertItemsId==null?0:constructCertItemsId.length;i<len;i++){
 			ConstructCertItem constructCertItem=(constructCertItemsId[i]>0?constructCertMap.get(constructCertItemsId[i]):new ConstructCertItem());
 			constructCertItemList.add(constructCertItem);
 		}
@@ -161,16 +137,27 @@ public class ConstructCertCtl {
 		if(afteraction.equals("commit")){
 			constructCert.setState(ConstructCertState.commit);
 			constructCert=constructCertService.save(constructCert);
-			User user = sessionUtil.getValue("user");
 			commit(constructCert, user);
 			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
 			return "redirect:list";
 		}
 		
 		return "";
-
-	}
 	
+	}
+
+	private void commit(ConstructCert constructCert, User user) {
+		String userKey=user.getKey();
+		try{
+			Map<String, Object> variableMap = new HashMap<String, Object>();
+			variableMap.put(FlowConstant.BUSINESS_ID, constructCert.getId());
+			variableMap.put(FlowConstant.APPLY_USER, userKey);
+			identityService.setAuthenticatedUserId(userKey);
+			runtimeService.startProcessInstanceByKey(CertVarname.PROCESS_DEFINITION_KEY, variableMap);			
+		} finally {
+			identityService.setAuthenticatedUserId(null);
+		}
+	}
 
 	private Map<Long, ConstructCertItem> getConstructCertMap(List<ConstructCertItem> constructCertItemList) {
 		HashMap<Long, ConstructCertItem> constructCertMap = new HashMap<Long,ConstructCertItem>();
@@ -192,6 +179,7 @@ public class ConstructCertCtl {
 		ConstructCont constructCont = constructContService.findByConstructKey(constructCert.getConstructKey());
 		map.put("constructCont", constructCont);
 		map.put("constructCert", constructCert);
+		attechTempFile(constructCert);
 		return Page.VIEW;
 	}
 	
@@ -204,6 +192,7 @@ public class ConstructCertCtl {
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 		map.put("task", task);
 		map.put("resultList", ResultEnum.agreeItems());
+		attechTempFile(constructCert);
 		return Page.CHECK;
 	}
 	
@@ -233,11 +222,14 @@ public class ConstructCertCtl {
 		map.put("taskId", taskId);
 		List<Opinion> opinionList = opinionService.listOpinions(ConstructCert.BUSI_CODE, constructCertId);
 		map.put("opinionList", opinionList);
+		map.put("userList", userService.findAll());
+		map.put("certItemOpinionList", CertItemOpinion.values());
+		attechTempFile(constructCert);
 		return Page.CHECK_EDIT;
 	}
 	
 	@RequestMapping(value="checkedit/save",method=RequestMethod.POST)
-	public String saveCheckedit(@RequestParam("id")Long id,@RequestParam("constructCertItemsId") Long[] constructCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes,@RequestParam(value="taskId",required=false)String taskId){
+	public String saveCheckedit(@RequestParam("id")Long id,@RequestParam(value="constructCertItemsId",required=false) Long[] constructCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes,@RequestParam(value="taskId",required=false)String taskId){
 		ConstructCert constructCert = constructCertService.find(id);
 		Map<Long,ConstructCertItem> constructCertMap=getConstructCertMap(constructCert.getConstructCertItems());
 		

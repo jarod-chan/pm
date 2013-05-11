@@ -1,5 +1,6 @@
 package cn.fyg.pm.domain.model.constructcert;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class ConstructCert {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;// id
+	private Long id;// id
 
 	private String no;// 编号
 
@@ -64,17 +65,40 @@ public class ConstructCert {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date signdate;// 签发日期
+	
+	@ManyToOne(targetEntity = User.class)
+	@JoinColumn(name = "settler_key")
+	private User settler;// 结算人
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date settledate;// 结算日期
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL }, targetEntity = ConstructCertItem.class, orphanRemoval = true)
 	@OrderBy("sn ASC")
 	@JoinColumn(name = "constructcert_id")
-	private List<ConstructCertItem> ConstructCertItems;
+	private List<ConstructCertItem> ConstructCertItems=new ArrayList<ConstructCertItem>();
 
-	public long getId() {
+	public User getSettler() {
+		return settler;
+	}
+
+	public void setSettler(User settler) {
+		this.settler = settler;
+	}
+
+	public Date getSettledate() {
+		return settledate;
+	}
+
+	public void setSettledate(Date settledate) {
+		this.settledate = settledate;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
