@@ -1,0 +1,16 @@
+/* body默认边距为左20px */
+body {
+    font-family:'Verdana','宋体';
+    font-size:14px;
+    margin:0 0 0 20px;
+}
+
+/*ie6 默认form 有距离*/
+form {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+h2{
+	margin:0 auto;
+}
