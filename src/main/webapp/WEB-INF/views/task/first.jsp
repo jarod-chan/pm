@@ -65,7 +65,7 @@
     $(function() {
     	myLayout=$('body').layout({ 
     		applyDemoStyles: true, 
-    		north__size:85,//pane的大小
+    		north__size:90,//pane的大小
     		north__closable: false,
     		west__size:200
     	});
