@@ -7,6 +7,7 @@ import cn.fyg.pm.domain.model.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.interfaces.web.module.constructcont.query.ContQuery;
 
 
 public interface ConstructContService {
@@ -21,7 +22,9 @@ public interface ConstructContService {
 
 	ConstructCont findByConstructKey(ConstructKey constructKey);
 
-	ConstructCont create(User creater,Project project, ConstructContState state);
+	ConstructCont create(User creater,Project project, ConstructContState state,boolean generateNo);
 
 	List<ConstructCont> findByProject(Project project);
+
+	List<ConstructCont> queryList(Project project, ContQuery query);
 }

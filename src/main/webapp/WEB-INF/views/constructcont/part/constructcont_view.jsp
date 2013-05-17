@@ -31,6 +31,24 @@
 			<td style="vertical-align: top">原因：</td><td>${constructCont.reason}</td>
 		</tr>
 		<tr>
+			<td>计划完成日期：</td>
+			<td>
+				${constructCont.plandate}
+			</td>
+		</tr>
+		<tr>
+			<td>实际完成日期：</td>
+			<td>
+				${constructCont.realdate}
+			</td>
+		</tr>
+		<tr>
+			<td>实际执行结果：</td>
+			<td>
+				${constructCont.result}
+			</td>
+		</tr>
+		<tr>
 			<td>状态：</td><td>${constructCont.state.name}</td>
 		</tr>
 		<tr>
@@ -54,24 +72,6 @@
 			<td>接收日期：</td>
 			<td>
 				${constructCont.receivedate}
-			</td>
-		</tr>
-		<tr>
-			<td>计划完成日期：</td>
-			<td>
-				${constructCont.plandate}
-			</td>
-		</tr>
-		<tr>
-			<td>实际完成日期：</td>
-			<td>
-				${constructCont.realdate}
-			</td>
-		</tr>
-		<tr>
-			<td>实际执行结果：</td>
-			<td>
-				${constructCont.result}
 			</td>
 		</tr>
 	</table>

@@ -124,9 +124,9 @@
 					<ul style="float: right" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
 						<li>
 							<ul>
-								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=contract/list','_self');" class="no_show"  >施工合同</a></li>
-								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=first/notfinish','_self');" class="no_show"  >采购合同</a></li>
-								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=first/notfinish','_self');" class="no_show"  >其它合同</a></li>
+								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=contract/list','_self');" class="no_show" >施工服务合同</a></li>
+								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=first/notfinish','_self');" class="no_show" >工程管理合同</a></li>
+								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=first/notfinish','_self');" class="no_show" >设计服务合同</a></li>
 							</ul>
 							<span> 合同管理</span>
 						</li>
@@ -136,13 +136,13 @@
 						<li>
 							<ul>
 								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=constructcont/list','_self');" class="no_show"  >施工联系单</a></li>
-								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=constructcert/list','_self');" class="no_show"  >施工签证单</a></li>
+								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=constructcert/list','_self');" class="no_show"  >工程签证单</a></li>
 								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=first/notfinish','_self');" class="no_show"  >采购申请单</a></li>
 								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=first/notfinish','_self');" class="no_show"  >材料签证单</a></li>
 								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=first/notfinish','_self');" class="no_show"  >问题报告单</a></li>
-								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=first/notfinish','_self');" class="no_show"  >技术签证单</a></li>
+								<li><a href="javascript:window.open('${ctx}/first/project/${project.id}?target=first/notfinish','_self');" class="no_show"  >技术联系单</a></li>
 							</ul>
-							<span> 项目管理</span>
+							<span>项目跟踪</span>
 						</li>
 					</ul>
 					

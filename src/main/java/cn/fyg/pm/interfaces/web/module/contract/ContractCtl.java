@@ -63,7 +63,8 @@ public class ContractCtl {
 
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String toList(@PathVariable("contractType")ContractType contractType,Map<String,Object> map){
-		List<Contract> contractList = contractService.findByType(contractType);
+		Project project=sessionUtil.getValue("project");
+		List<Contract> contractList = contractService.findByProjectAndType(project,contractType);
 		map.put("contractType", contractType);
 		map.put("contractList", contractList);
 		return Page.LIST;

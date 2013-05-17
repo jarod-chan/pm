@@ -49,8 +49,8 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 	}
 
 	@Override
-	public ConstructCert create(User user,Project project,ConstructCertState state) {
-		return ConstructCertFactory.create(user,project,state);
+	public ConstructCert create(User user,Project project,ConstructCertState state,boolean generateNo) {
+		return ConstructCertFactory.create(user,project,state,generateNo);
 	}
 
 	@Override

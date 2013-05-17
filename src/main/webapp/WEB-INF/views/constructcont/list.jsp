@@ -8,10 +8,35 @@
 	<%@ include file="/common/setting.jsp" %>
 	<%@ include file="/common/meta.jsp" %>
 	<%@ include file="/common/include.jsp" %>	
+	<%@ include file="/common/jqui.jsp" %>
+	
+	<style type="text/css">
+	.state{
+		color: #FFFFFF;
+		display: inline-block;
+		line-height: 16px; 
+		padding: 2px 4px;
+	}
+	
+	.state-new_{
+		background-color: #999999;  
+	}
+	.state-saved{
+		background-color: #3A87AD;
+	}
+	.state-commit{
+		background-color: #F89406;
+	}
+	.state-finish{
+		background-color:#B94A48;
+	}
+	</style>
 
 
     <script type="text/javascript">
     $(function() {
+    	
+    	$(".datePK").datepicker();
     	
     	$("#btn_new").click(function(){
 			window.open('${ctx}/constructcont/-1/edit','_self');
@@ -38,13 +63,53 @@
     		window.open('${ctx}/constructcont/{id}/view'.replace('{id}',param.id),'_self');
         	return false;
     	});
+    	
+    	$('#btn_query').click(function(){
+			var actionFrom=$("form:eq(0)");
+			var oldAction=actionFrom.attr("action"); 
+			actionFrom.attr("action",oldAction+"/list").submit();
+    	});
+    	
+    	$('#btn_clear').click(function(){
+    		window.open('${ctx}/constructcont/list','_self');
+			return false;
+    	});
     });
     </script>
 </head>
 
 <body>
 	<h2>施工联系单</h2>
+	<div style="text-align: left;">
+	<form action="${ctx}/constructcont" method="post">
+		编号:<input type="text" name="no" value="${query.no}">
+		承包人:<select name="creater.key" >
+					<option value="" >-所有-</option>
+					<c:forEach var="user" items="${userList}">
+						<option value="${user.key}" <c:if test="${user.key==query.creater.key}">selected="true"</c:if> >${user.name}</option>
+					</c:forEach>
+				</select>
+		制单日期:<input type="text" name="createdate_beg" class="datePK" value="<fmt:formatDate value="${query.createdate_beg}" pattern="yyyy-MM-dd"/>" >--<input type="text" name="createdate_end" class="datePK" value="<fmt:formatDate value="${query.createdate_end}" pattern="yyyy-MM-dd"/>"><br>
+		<input type="checkbox" name="filterFinish" <c:if test="${query.filterFinish}">checked="true"</c:if> >过滤已完成单据
+		<input type="hidden" name="_filterFinish"  /> 
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		排序:<select name="orderAttribute">
+				<option value="no"   <c:if test="${query.orderAttribute=='no'}">selected="true"</c:if> >编号</option>
+				<option value="constructKey.contract.no"  <c:if test="${query.orderAttribute=='constructKey.contract.no'}">selected="true"</c:if>  >承包人</option>
+				<option value="createdate" <c:if test="${query.orderAttribute=='createdate'}">selected="true"</c:if> >制单日期</option>
+			</select> 
+			<select name="orderType">
+				<option value="asc" <c:if test="${query.orderType=='asc'}">selected="true"</c:if> >升序</option>
+				<option value="desc" <c:if test="${query.orderType=='desc'}">selected="true"</c:if>  >降序</option>
+			</select>  
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="button" value="查询" id="btn_query"> 
+		<input type="button" value="清空" id="btn_clear"> 
+	</form>
+	</div>
+	
 	<%@ include file="/common/message.jsp" %>	
+	
 	
 	<div style="text-align: right;" id="headdiv">
 		<input type="button" value="新建"  id="btn_new">
@@ -66,9 +131,9 @@
 				<td>${constructCont.constructKey.contract.name}</td>
 				<td>${constructCont.constructKey.contract.supplier.name}</td>
 				<td>${constructCont.reason}</td>
-				<td>${constructCont.state.name}</td>
+				<td><span class="state state-${constructCont.state}" >${constructCont.state.name}</span></td>
 				<td>${constructCont.creater.name}</td>
-				<td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd hh:mm"/></td>
 				<td>${constructCont.signer.name}</td>
 				<td><fmt:formatDate value="${constructCont.signdate}" pattern="yyyy-MM-dd"/></td>
 				<td>${constructCont.receiver.name}</td>

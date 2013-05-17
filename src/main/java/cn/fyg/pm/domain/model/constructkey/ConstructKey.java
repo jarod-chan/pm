@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import cn.fyg.pm.domain.model.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.constructcont.ConstructCont;
@@ -15,7 +16,7 @@ import cn.fyg.pm.domain.model.contract.Contract;
 import cn.fyg.pm.domain.model.project.Project;
 
 /**
- *施工签证描述
+ *施工签证线索
  */
 @Entity
 @Table(name="pm_constructkey")
@@ -36,15 +37,22 @@ public class ConstructKey {
 	@JoinColumn(name="contract_id")
 	private Contract contract;//合同
 	
+	@Transient
 	private String reason;//原因
 	
+	@Transient
 	@ManyToOne(targetEntity=ConstructCont.class,fetch=FetchType.LAZY)
 	private ConstructCont constructCont;
 	
+	@Transient
 	@ManyToOne(targetEntity=ConstructCert.class,fetch=FetchType.LAZY)
 	private ConstructCert constructCert;
 	
 	
+
+	public void setConstructCert(ConstructCert constructCert) {
+		this.constructCert = constructCert;
+	}
 
 	public ConstructCont getConstructCont() {
 		return constructCont;
@@ -56,10 +64,6 @@ public class ConstructKey {
 
 	public ConstructCert getConstructCert() {
 		return constructCert;
-	}
-
-	public void setConstructCert(ConstructCert constructCert) {
-		this.constructCert = constructCert;
 	}
 
 	public long getId() {

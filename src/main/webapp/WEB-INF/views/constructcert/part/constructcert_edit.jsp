@@ -5,11 +5,6 @@
 
 <script type="text/javascript">
 	$(function(){
-		var selectDom=$("<select>");
-		<c:forEach var="certItemOpinion" items="${certItemOpinionList}">
-			$("<option>").val("${certItemOpinion}").text("${certItemOpinion.name}").appendTo(selectDom);
-		</c:forEach>
-
 		
 		var trdom = $("<tr>");
 		$("<td>")
@@ -38,14 +33,11 @@
 		$("<td>").append($("<input type='button' value='上传文件'>"))
 		  .appendTo(trdom);
 		
-		$("<td>").append(selectDom.clone().attr("name","constructCertItems_superOpinion"))
-		  .appendTo(trdom);
+		$("<td>").appendTo(trdom);
 		
-		$("<td>").append(selectDom.clone().attr("name","constructCertItems_manageOpinion"))
-		  .appendTo(trdom);
+		$("<td>").appendTo(trdom);
 		
-		$("<td>").append(selectDom.clone().attr("name","constructCertItems_leaderOpinion"))
-		  .appendTo(trdom);
+		$("<td>").appendTo(trdom);
 		  
 		 $("<td>")
 			.append($("<input type='button' class='add'  value='+'   />"))
@@ -140,7 +132,7 @@
 	<input type="hidden" name="id" value="${constructCert.id}">
 	<table id="tabmain">
 		<tr>
-			<td>编号：</td><td>${constructCert.no}</td>
+			<td>编号：</td><td>${constructCert.no}<c:if test="${empty constructCert.no}">自动生成</c:if></td>
 		</tr>
 		<tr>
 			<td>项目负责人：</td><td>${constructCert.leader.name}</td>
@@ -174,19 +166,15 @@
 			<td>制单日期：</td><td><fmt:formatDate value="${constructCert.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
 		<tr>
-			<td>签发人：</td><td></td>
+			<td>签发人：</td><td>${constructCont.signer.name}</td>
 		</tr>
 		<tr>
-			<td>签发日期：</td><td></td>
+			<td>签发日期：</td><td><fmt:formatDate value="${constructCont.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
 		<tr>
 			<td>结算人：</td>
 			<td>
-				<select name="settler.key">
-					<c:forEach var="user" items="${userList}">
-						<option value="${user.key}" <c:if test="${constructCert.settler.key==user.key}">selected="true"</c:if> >${user.name}</option>
-					</c:forEach>
-				</select>
+				${constructCert.settler.name}
 			</td>
 		</tr>
 		<tr>
@@ -233,25 +221,13 @@
 						</c:choose>
 					</td>
 					<td>
-						<select name="constructCertItems_superOpinion">
-							<c:forEach var="certItemOpinion" items="${certItemOpinionList}">
-								<option value="${certItemOpinion}" <c:if test="${item.superOpinion==certItemOpinion}">selected="true"</c:if> >${certItemOpinion.name}</option>
-							</c:forEach>
-						</select>
+						${item.superOpinion.name}
 					</td>
 					<td>
-						<select name="constructCertItems_manageOpinion">
-							<c:forEach var="certItemOpinion" items="${certItemOpinionList}">
-								<option value="${certItemOpinion}" <c:if test="${item.manageOpinion==certItemOpinion}">selected="true"</c:if> >${certItemOpinion.name}</option>
-							</c:forEach>
-						</select>
+						${item.manageOpinion.name}
 					</td>
 					<td>
-						<select name="constructCertItems_leaderOpinion">
-							<c:forEach var="certItemOpinion" items="${certItemOpinionList}">
-								<option value="${certItemOpinion}" <c:if test="${item.leaderOpinion==certItemOpinion}">selected="true"</c:if> >${certItemOpinion.name}</option>
-							</c:forEach>
-						</select>
+						${item.leaderOpinion.name}
 					</td>
 					<td><input type='button' class='add'  value='+'   /><input type='button' class='remove'  value='-'   /></td>
 				</tr>

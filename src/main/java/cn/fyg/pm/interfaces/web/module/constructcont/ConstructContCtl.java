@@ -17,6 +17,8 @@ import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,11 +34,13 @@ import cn.fyg.pm.domain.model.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.constructcont.ConstructContItem;
 import cn.fyg.pm.domain.model.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.contract.Contract;
+import cn.fyg.pm.domain.model.contract.ContractType;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
 import cn.fyg.pm.interfaces.web.module.constructcont.flow.ContVarname;
+import cn.fyg.pm.interfaces.web.module.constructcont.query.ContQuery;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
@@ -73,11 +77,18 @@ public class ConstructContCtl {
 	@Autowired
 	UserService userService;
 	
-	@RequestMapping(value="list",method=RequestMethod.GET)
-	public String toList(Map<String,Object> map){
+	@InitBinder
+	private void dateBinder(WebDataBinder binder) {
+	    binder.registerCustomEditor(Date.class, CustomEditorFactory.getCustomDateEditor());
+	}
+	
+	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
+	public String toList(ContQuery query,Map<String,Object> map){
 		Project project = sessionUtil.getValue("project");
-		List<ConstructCont> constructContList = constructContService.findByProject(project);
+		List<ConstructCont> constructContList = constructContService.queryList(project,query);
 		map.put("constructContList", constructContList);
+		map.put("userList", userService.findAll());
+		map.put("query", query);
 		return Page.LIST;
 	}
 
@@ -85,9 +96,9 @@ public class ConstructContCtl {
 	public String toEdit(@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
 		Project project = sessionUtil.getValue("project");
 		User user = sessionUtil.getValue("user");
-		ConstructCont constructCont = constructContId.longValue()>0?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.new_);
+		ConstructCont constructCont = constructContId.longValue()>0?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.new_,false);
 		map.put("constructCont", constructCont);
-		List<Contract> contractList = contractService.findByProject(constructCont.getConstructKey().getProject());
+		List<Contract> contractList = contractService.findByProjectAndType(constructCont.getConstructKey().getProject(),ContractType.construct);
 		map.put("contractList", contractList);
 		map.put("userList", userService.findAll());
 		return Page.EDIT;
@@ -98,7 +109,7 @@ public class ConstructContCtl {
 		Project project = sessionUtil.getValue("project");
 		User user = sessionUtil.getValue("user");
 		
-		ConstructCont constructCont =constructContId!=null?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.saved);
+		ConstructCont constructCont =constructContId!=null?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.saved,true);
 		 
 		Map<Long,ConstructContItem> constructContItemMap=getConstructContItemMap(constructCont.getConstructContItems());	
 		List<ConstructContItem> ConstructContItemList = new ArrayList<ConstructContItem>();

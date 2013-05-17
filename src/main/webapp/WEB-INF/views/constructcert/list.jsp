@@ -8,6 +8,28 @@
 	<%@ include file="/common/setting.jsp" %>
 	<%@ include file="/common/meta.jsp" %>
 	<%@ include file="/common/include.jsp" %>	
+	
+	<style type="text/css">
+	.state{
+		color: #FFFFFF;
+		display: inline-block;
+		line-height: 16px; 
+		padding: 2px 4px;
+	}
+	
+	.state-new_{
+		background-color: #999999;  
+	}
+	.state-saved{
+		background-color: #3A87AD;
+	}
+	.state-commit{
+		background-color: #F89406;
+	}
+	.state-finish{
+		background-color:#B94A48;
+	}
+	</style>
 
 
     <script type="text/javascript">
@@ -42,7 +64,7 @@
 </head>
 
 <body>
-	<h2>施工签证单</h2>
+	<h2>工程签证单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	<div style="text-align: right;" id="headdiv">
 		<input type="button" value="新建"  id="btn_new">
@@ -58,7 +80,7 @@
 				<td>${constructCertDto.constructCont.no}</td>
 				<td>${constructCertDto.constructCert.constructKey.contract.supplier.name}</td>
 				<td>${constructCertDto.constructCert.reason}</td>
-				<td>${constructCertDto.constructCert.state.name}</td>
+				<td><span class="state state-${constructCertDto.constructCert.state}" >${constructCertDto.constructCert.state.name}</span></td>
 				<td>${constructCertDto.constructCert.creater.name}</td>
 				<td><fmt:formatDate value="${constructCertDto.constructCert.createdate}" pattern="yyyy-MM-dd"/></td>
 				<td>${constructCertDto.constructCert.signer.name}</td>

@@ -22,6 +22,6 @@ public interface ConstructCertService {
 
 	ConstructCert find(Long certid);
 	
-	ConstructCert create(User user,Project project,ConstructCertState state);
+	ConstructCert create(User user,Project project,ConstructCertState state,boolean generateNo);
 
 }

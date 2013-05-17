@@ -41,7 +41,7 @@
 </head>
 
 <body>
-	<h2>施工签证单</h2>
+	<h2>工程签证单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
 	<form action="${ctx}/constructcert" method="post">

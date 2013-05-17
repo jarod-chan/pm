@@ -102,7 +102,7 @@
 	<input type="hidden" name="id"  value="${constructCont.id}">
 	<table id="tabmain">
 		<tr>
-			<td>编号：</td><td>${constructCont.no}<input type="hidden" name="no" value="${constructCont.no}"/></td>
+			<td>编号：</td><td>${constructCont.no}<c:if test="${empty constructCont.no}">自动生成</c:if></td>
 		</tr>
 		<tr>
 			<td>项目负责人：</td><td>${constructCont.leader.name}</td>
@@ -123,6 +123,24 @@
 		<tr>
 			<td style="vertical-align: top">原因：</td><td><textarea name="reason" rows="6" cols="30" style="vertical-align: top">${constructCont.reason}</textarea></td>
 		</tr>
+			<tr>
+			<td>计划完成日期：</td>
+			<td>
+				<input type="text" class="datePK" name="plandate" value="${constructCont.plandate}">
+			</td>
+		</tr>
+		<tr>
+			<td>实际完成日期：</td>
+			<td>
+				${constructCont.realdate}
+			</td>
+		</tr>
+		<tr>
+			<td>实际执行结果：</td>
+			<td>
+				${constructCont.result}
+			</td>
+		</tr>
 		<tr>
 			<td>状态：</td><td>${constructCont.state.name}</td>
 		</tr>
@@ -141,11 +159,7 @@
 		<tr>
 			<td>接收人：</td>
 			<td>
-				<select name="receiver.key">
-					<c:forEach var="user" items="${userList}">
-						<option value="${user.key}" <c:if test="${constructCont.receiver.key==user.key}">selected="true"</c:if> >${user.name}</option>
-					</c:forEach>
-				</select>
+				${constructCont.receiver.name}
 			</td>
 		</tr>
 		<tr>
@@ -154,24 +168,7 @@
 				${constructCont.receivedate}
 			</td>
 		</tr>
-		<tr>
-			<td>计划完成日期：</td>
-			<td>
-				<input type="text" class="datePK" name="plandate" value="${constructCont.plandate}">
-			</td>
-		</tr>
-		<tr>
-			<td>实际完成日期：</td>
-			<td>
-				${constructCont.realdate}
-			</td>
-		</tr>
-		<tr>
-			<td>实际执行结果：</td>
-			<td>
-				<input type="text"  name="result" value="${constructCont.result}">
-			</td>
-		</tr>
+	
 
 	</table>
 	<br>
