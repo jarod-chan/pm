@@ -83,10 +83,10 @@
 	<div style="text-align: left;">
 	<form action="${ctx}/constructcont" method="post">
 		编号:<input type="text" name="no" value="${query.no}">
-		承包人:<select name="creater.key" >
+		施工承包方:<select name="supplier.id" >
 					<option value="" >-所有-</option>
-					<c:forEach var="user" items="${userList}">
-						<option value="${user.key}" <c:if test="${user.key==query.creater.key}">selected="true"</c:if> >${user.name}</option>
+					<c:forEach var="supplier" items="${supplierList}">
+						<option value="${supplier.id}" <c:if test="${supplier.id==query.supplier.id}">selected="true"</c:if> >${supplier.name}</option>
 					</c:forEach>
 				</select>
 		制单日期:<input type="text" name="createdate_beg" class="datePK" value="<fmt:formatDate value="${query.createdate_beg}" pattern="yyyy-MM-dd"/>" >--<input type="text" name="createdate_end" class="datePK" value="<fmt:formatDate value="${query.createdate_end}" pattern="yyyy-MM-dd"/>"><br>
@@ -95,7 +95,7 @@
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		排序:<select name="orderAttribute">
 				<option value="no"   <c:if test="${query.orderAttribute=='no'}">selected="true"</c:if> >编号</option>
-				<option value="constructKey.contract.no"  <c:if test="${query.orderAttribute=='constructKey.contract.no'}">selected="true"</c:if>  >承包人</option>
+				<option value="constructKey.supplier.id"  <c:if test="${query.orderAttribute=='constructKey.supplier.id'}">selected="true"</c:if>  >施工承包方</option>
 				<option value="createdate" <c:if test="${query.orderAttribute=='createdate'}">selected="true"</c:if> >制单日期</option>
 			</select> 
 			<select name="orderType">
@@ -129,11 +129,11 @@
 			<tr>
 				<td>${constructCont.no}</td>
 				<td>${constructCont.constructKey.contract.name}</td>
-				<td>${constructCont.constructKey.contract.supplier.name}</td>
+				<td>${constructCont.constructKey.supplier.name}</td>
 				<td>${constructCont.reason}</td>
 				<td><span class="state state-${constructCont.state}" >${constructCont.state.name}</span></td>
 				<td>${constructCont.creater.name}</td>
-				<td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd hh:mm"/></td>
+				<td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
 				<td>${constructCont.signer.name}</td>
 				<td><fmt:formatDate value="${constructCont.signdate}" pattern="yyyy-MM-dd"/></td>
 				<td>${constructCont.receiver.name}</td>

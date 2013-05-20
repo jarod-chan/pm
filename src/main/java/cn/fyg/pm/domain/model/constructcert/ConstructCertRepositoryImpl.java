@@ -1,4 +1,4 @@
-package cn.fyg.pm.domain.model.constructcont;
+package cn.fyg.pm.domain.model.constructcert;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,55 +15,51 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang.StringUtils;
 
-
-
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.infrastructure.tool.DateUtil;
-import cn.fyg.pm.interfaces.web.module.constructcont.query.ContQuery;
+import cn.fyg.pm.interfaces.web.module.constructcert.query.CertQuery;
 
-public class ConstructContRepositoryImpl implements
-		ConstructContRepositoryPlus {
+public class ConstructCertRepositoryImpl implements ConstructCertRepositoryPlus {
 	
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	@Override
-	public List<ConstructCont> queryList(Project project, ContQuery cquery) {
-		
+	public List<ConstructCert> queryList(Project project, CertQuery certQuery) {
 		CriteriaBuilder builder=entityManager.getCriteriaBuilder();
-		CriteriaQuery<ConstructCont> query=builder.createQuery(ConstructCont.class);
-		Root<ConstructCont> from = query.from(ConstructCont.class);
+		CriteriaQuery<ConstructCert> query=builder.createQuery(ConstructCert.class);
+		Root<ConstructCert> from = query.from(ConstructCert.class);
 		List<Predicate> criterias=new ArrayList<Predicate>();
 		if(project!=null){
 			criterias.add(builder.equal(from.get("constructKey").get("project"), project));
 		}
-		if(StringUtils.isNotBlank(cquery.getNo())){
-			criterias.add(builder.like(from.<String>get("no"), "%"+cquery.getNo().trim()+"%"));
+		if(StringUtils.isNotBlank(certQuery.getNo())){
+			criterias.add(builder.like(from.<String>get("no"), "%"+certQuery.getNo().trim()+"%"));
 		}
-		if(cquery.getSupplier()!=null){
-			if(cquery.getSupplier().getId()!=null){
-				criterias.add(builder.equal(from.get("constructKey").get("supplier"), cquery.getSupplier()));
+		if(certQuery.getSupplier()!=null){
+			if(certQuery.getSupplier().getId()!=null){
+				criterias.add(builder.equal(from.get("constructKey").get("supplier"), certQuery.getSupplier()));
 			}
 		}
-		if(cquery.getCreatedate_beg()!=null){
-			criterias.add(builder.greaterThanOrEqualTo(from.<Date>get("createdate"), cquery.getCreatedate_beg()));
+		if(certQuery.getCreatedate_beg()!=null){
+			criterias.add(builder.greaterThanOrEqualTo(from.<Date>get("createdate"), certQuery.getCreatedate_beg()));
 		}
-		if(cquery.getCreatedate_end()!=null){
-			Date nextday=DateUtil.nextDay(cquery.getCreatedate_end());
+		if(certQuery.getCreatedate_end()!=null){
+			Date nextday=DateUtil.nextDay(certQuery.getCreatedate_end());
 			criterias.add(builder.lessThanOrEqualTo(from.<Date>get("createdate"),nextday));
 		}
-		if(cquery.getFilterFinish()){
-			criterias.add(builder.notEqual(from.get("state"), ConstructContState.finish));
+		if(certQuery.getFilterFinish()){
+			criterias.add(builder.notEqual(from.get("state"), ConstructCertState.finish));
 		}
 		
 		List<Order> orders=new ArrayList<Order>();
-		String[] attrs = cquery.getOrderAttribute().split("\\.");
+		String[] attrs = certQuery.getOrderAttribute().split("\\.");
 		if(attrs.length>0){
 			Path<Object> path = from.get(attrs[0]);
 			for(int i=1,len=attrs.length;i<len;i++){
 				path=path.get(attrs[i]);
 			}
-			if(cquery.getOrderType().toString().equals("asc")){
+			if(certQuery.getOrderType().toString().equals("asc")){
 				orders.add(builder.asc(path));
 			}else{
 				orders.add(builder.desc(path));
@@ -84,6 +80,5 @@ public class ConstructContRepositoryImpl implements
 		
 		return entityManager.createQuery(query).getResultList();
 	}
-
 
 }

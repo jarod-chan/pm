@@ -1,11 +1,11 @@
-package cn.fyg.pm.interfaces.web.module.constructcont.query;
+package cn.fyg.pm.interfaces.web.module.constructcert.query;
 
 
 import java.util.Date;
 
 import cn.fyg.pm.domain.model.supplier.Supplier;
 
-public class ContQuery {
+public class CertQuery {
 	
 	public enum Type{
 		asc,
@@ -26,7 +26,7 @@ public class ContQuery {
 	
 	private Type orderType;//排序方式
 	
-	public ContQuery(){
+	public CertQuery(){
 		this.filterFinish=Boolean.TRUE;
 		this.orderAttribute="createdate";
 		this.orderType=Type.desc;

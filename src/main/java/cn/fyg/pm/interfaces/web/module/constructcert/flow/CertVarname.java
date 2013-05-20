@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.consturctcert.flow;
+package cn.fyg.pm.interfaces.web.module.constructcert.flow;
 
 public interface CertVarname {
 	

@@ -8,7 +8,7 @@ import cn.fyg.pm.domain.model.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
 
 
-public interface ConstructCertRepository extends Repository<ConstructCert, Long> {
+public interface ConstructCertRepository extends Repository<ConstructCert, Long>, ConstructCertRepositoryPlus {
 	
 	ConstructCert save(ConstructCert constructCert);
 	

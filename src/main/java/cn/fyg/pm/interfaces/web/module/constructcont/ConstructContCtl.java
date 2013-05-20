@@ -29,13 +29,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import cn.fyg.pm.application.ConstructContService;
 import cn.fyg.pm.application.ContractService;
 import cn.fyg.pm.application.OpinionService;
+import cn.fyg.pm.application.SupplierService;
 import cn.fyg.pm.application.UserService;
 import cn.fyg.pm.domain.model.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.constructcont.ConstructContItem;
 import cn.fyg.pm.domain.model.constructcont.ConstructContState;
+import cn.fyg.pm.domain.model.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.contract.Contract;
 import cn.fyg.pm.domain.model.contract.ContractType;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
@@ -76,6 +79,10 @@ public class ConstructContCtl {
 	OpinionService opinionService;
 	@Autowired
 	UserService userService;
+	@Autowired
+	ContractService ContractService;
+	@Autowired
+	SupplierService supplierService;
 	
 	@InitBinder
 	private void dateBinder(WebDataBinder binder) {
@@ -89,6 +96,7 @@ public class ConstructContCtl {
 		map.put("constructContList", constructContList);
 		map.put("userList", userService.findAll());
 		map.put("query", query);
+		map.put("supplierList", supplierService.findByTypeIn(Supptype.contra,Supptype.construct));
 		return Page.LIST;
 	}
 
@@ -122,6 +130,12 @@ public class ConstructContCtl {
 		ServletRequestDataBinder binder = new ServletRequestDataBinder(constructCont);
         binder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
 		binder.bind(request);
+		//TODO:constructKey 补充填入供应商字段
+		ConstructKey constructKey = constructCont.getConstructKey();
+		if(constructKey.getContract()!=null){
+			Contract contract = contractService.find(constructKey.getContract().getId());
+			constructKey.setSupplier(contract.getSupplier());
+		}
 		constructCont=constructContService.save(constructCont);
 		
 		if(afteraction.equals("save")){

@@ -14,6 +14,7 @@ import cn.fyg.pm.domain.model.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.contract.Contract;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.supplier.Supplier;
 
 /**
  *施工签证线索
@@ -29,13 +30,19 @@ public class ConstructKey {
 	
 	private String no;//编号
 	
+	@ManyToOne(targetEntity=Contract.class)
+	@JoinColumn(name="contract_id")
+	private Contract contract;//合同
+	
 	@ManyToOne(targetEntity=Project.class)
 	@JoinColumn(name="project_id")
 	private Project project;//项目
 	
-	@ManyToOne(targetEntity=Contract.class)
-	@JoinColumn(name="contract_id")
-	private Contract contract;//合同
+	@ManyToOne(targetEntity=Supplier.class)
+	@JoinColumn(name="supplier_id")
+	private Supplier supplier;  //供应商
+	
+
 	
 	@Transient
 	private String reason;//原因
@@ -49,6 +56,14 @@ public class ConstructKey {
 	private ConstructCert constructCert;
 	
 	
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
 
 	public void setConstructCert(ConstructCert constructCert) {
 		this.constructCert = constructCert;
