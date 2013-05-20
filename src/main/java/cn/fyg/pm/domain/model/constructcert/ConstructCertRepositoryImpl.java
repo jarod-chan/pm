@@ -48,8 +48,11 @@ public class ConstructCertRepositoryImpl implements ConstructCertRepositoryPlus 
 			Date nextday=DateUtil.nextDay(certQuery.getCreatedate_end());
 			criterias.add(builder.lessThanOrEqualTo(from.<Date>get("createdate"),nextday));
 		}
-		if(certQuery.getFilterFinish()){
-			criterias.add(builder.notEqual(from.get("state"), ConstructCertState.finish));
+		if(certQuery.getState()!=null){
+			Path<Object> statePath = from.get("state");
+			String mapValue=certQuery.getState().getMapValue();
+			mapState(builder, criterias, statePath, mapValue);
+			
 		}
 		
 		List<Order> orders=new ArrayList<Order>();
@@ -79,6 +82,19 @@ public class ConstructCertRepositoryImpl implements ConstructCertRepositoryPlus 
 		}
 		
 		return entityManager.createQuery(query).getResultList();
+	}
+
+	private void mapState(CriteriaBuilder builder, List<Predicate> criterias,
+			Path<Object> statePath, String mapValue) {
+		if(mapValue.equals("ext-all")){
+			return;
+		}
+		if(mapValue.equals("ext-notf")){
+			criterias.add(builder.notEqual(statePath, ConstructCertState.finish));
+			return;
+		}
+		criterias.add(builder.equal(statePath,ConstructCertState.valueOf(mapValue)));
+		
 	}
 
 }

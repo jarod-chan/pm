@@ -12,6 +12,29 @@ public class CertQuery {
 		desc;
 	}
 	
+	public enum State{
+		all("全部","ext-all"),
+		notfinish("未完成","ext-notf"),
+		new_("新建","new_"),
+		saved("已保存","saved"),
+		commit("已提交","commit"),
+		finish("已完成","finish");
+		
+		private final String name;
+		private final String mapValue;
+		private State(String name,String mapValue){
+			this.name=name;
+			this.mapValue=mapValue;
+		}
+		public String getName() {
+			return name;
+		}
+		public String getMapValue() {
+			return mapValue;
+		}
+		
+	}
+	
 	private String no;//编号
 	
 	private Supplier supplier;//制单人
@@ -20,14 +43,14 @@ public class CertQuery {
 	
 	private Date createdate_end;//制单日期开始
 	
-	private Boolean filterFinish;//过滤完成单据
+	private State state;//过滤单据状态
 	
 	private String orderAttribute;//排序属性
 	
 	private Type orderType;//排序方式
 	
 	public CertQuery(){
-		this.filterFinish=Boolean.TRUE;
+		this.state=State.notfinish;
 		this.orderAttribute="createdate";
 		this.orderType=Type.desc;
 	}
@@ -64,12 +87,12 @@ public class CertQuery {
 		this.createdate_end = createdate_end;
 	}
 
-	public Boolean getFilterFinish() {
-		return filterFinish;
+	public State getState() {
+		return state;
 	}
 
-	public void setFilterFinish(Boolean filterFinish) {
-		this.filterFinish = filterFinish;
+	public void setState(State state) {
+		this.state = state;
 	}
 
 	public String getOrderAttribute() {

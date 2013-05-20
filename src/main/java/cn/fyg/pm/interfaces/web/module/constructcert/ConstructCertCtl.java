@@ -95,6 +95,7 @@ public class ConstructCertCtl {
 		map.put("ConstructCertDtoList", ConstructCertDtoList);
 		map.put("query", certQuery);
 		map.put("supplierList", supplierService.findByTypeIn(Supptype.contra,Supptype.construct));
+		map.put("stateList", CertQuery.State.values());
 		return Page.LIST;
 	}
 

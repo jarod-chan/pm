@@ -38,6 +38,17 @@
     	
     	$(".datePK").datepicker();
     	
+    	var optColorArr=['#FFFFFF','#FFFFFF','#999999','#3A87AD','#F89406','#B94A48'];
+    	$("select[name='state']").each(function(){
+			$(this).find("option").each(function(idx){
+				$(this).css("background-color",optColorArr[idx]);
+			});
+			$(this).bind("change",function(){
+				$(this).css("background-color",optColorArr[this.selectedIndex])
+			}).triggerHandler("change");
+		}); 
+    	
+    	
     	$("#btn_new").click(function(){
 			window.open('${ctx}/constructcert/-1/edit','_self');
 			return false;
@@ -90,9 +101,11 @@
 					</c:forEach>
 				</select>
 		制单日期:<input type="text" name="createdate_beg" class="datePK" value="<fmt:formatDate value="${query.createdate_beg}" pattern="yyyy-MM-dd"/>" >--<input type="text" name="createdate_end" class="datePK" value="<fmt:formatDate value="${query.createdate_end}" pattern="yyyy-MM-dd"/>"><br>
-		<input type="checkbox" name="filterFinish" <c:if test="${query.filterFinish}">checked="true"</c:if> >过滤已完成单据
-		<input type="hidden" name="_filterFinish"  /> 
-		&nbsp;&nbsp;&nbsp;&nbsp;
+		状态:<select name="state" >
+					<c:forEach var="state" items="${stateList}">
+						<option value="${state}" <c:if test="${state==query.state}">selected="true"</c:if> >${state.name}</option>
+					</c:forEach>
+				</select>
 		排序:<select name="orderAttribute">
 				<option value="no"   <c:if test="${query.orderAttribute=='no'}">selected="true"</c:if> >编号</option>
 				<option value="constructKey.supplier.id"  <c:if test="${query.orderAttribute=='constructKey.supplier.id'}">selected="true"</c:if>  >施工承包方</option>

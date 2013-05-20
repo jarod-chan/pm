@@ -95,6 +95,7 @@ public class ConstructContCtl {
 		List<ConstructCont> constructContList = constructContService.queryList(project,query);
 		map.put("constructContList", constructContList);
 		map.put("userList", userService.findAll());
+		map.put("stateList", ContQuery.State.values());
 		map.put("query", query);
 		map.put("supplierList", supplierService.findByTypeIn(Supptype.contra,Supptype.construct));
 		return Page.LIST;

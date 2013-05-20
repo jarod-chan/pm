@@ -52,8 +52,11 @@ public class ConstructContRepositoryImpl implements
 			Date nextday=DateUtil.nextDay(cquery.getCreatedate_end());
 			criterias.add(builder.lessThanOrEqualTo(from.<Date>get("createdate"),nextday));
 		}
-		if(cquery.getFilterFinish()){
-			criterias.add(builder.notEqual(from.get("state"), ConstructContState.finish));
+		if(cquery.getState()!=null){
+			Path<Object> statePath = from.get("state");
+			String mapValue=cquery.getState().getMapValue();
+			mapState(builder, criterias, statePath, mapValue);
+			
 		}
 		
 		List<Order> orders=new ArrayList<Order>();
@@ -83,6 +86,18 @@ public class ConstructContRepositoryImpl implements
 		}
 		
 		return entityManager.createQuery(query).getResultList();
+	}
+
+	public void mapState(CriteriaBuilder builder, List<Predicate> criterias,
+			Path<Object> statePath, String mapValue) {
+		if(mapValue.equals("ext-all")){
+			return;
+		}
+		if(mapValue.equals("ext-notf")){
+			criterias.add(builder.notEqual(statePath, ConstructContState.finish));
+			return;
+		}
+		criterias.add(builder.equal(statePath,ConstructContState.valueOf(mapValue)));
 	}
 
 
