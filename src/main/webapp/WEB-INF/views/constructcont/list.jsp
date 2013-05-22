@@ -130,7 +130,12 @@
 	<br>
 	<table id="tblmain" border="1">
 		<tr>
-			<td>编号</td><td>合同</td><td>施工承包方</td><td>原因</td><td>状态</td><td>制单人</td><td>制单日期</td><td>签发人</td><td>签发日期</td>
+			<td>编号</td><td>合同</td><td>施工承包方</td><td>原因</td><td>状态</td>
+			<td>总金额</td>
+			<td>制单人</td>
+			<td>制单日期</td>
+			<td>签发人</td>
+			<td>签发日期</td>
 			<td>接收人</td>
 			<td>接收日期</td>
 			<td>计划完成日期</td>
@@ -145,6 +150,7 @@
 				<td>${constructCont.constructKey.supplier.name}</td>
 				<td>${constructCont.reason}</td>
 				<td><span class="state state-${constructCont.state}" >${constructCont.state.name}</span></td>
+				<td>${constructCont.tolsum}</td>
 				<td>${constructCont.creater.name}</td>
 				<td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
 				<td>${constructCont.signer.name}</td>

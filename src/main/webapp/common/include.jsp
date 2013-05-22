@@ -5,6 +5,7 @@
 <script src="${ctx}/js/jquery.cookie.js" type="text/javascript"></script>
 <script src="${ctx}/js/pathie.js" type="text/javascript"></script>
 <script src="${ctx}/js/myplug.js" type="text/javascript"></script>
+<script src="${ctx}/js/myfloat.js" type="text/javascript"></script>
 
 <link href="${ctx}/plu/uploadify/uploadify.css" type="text/css"  rel="stylesheet">
 <script src="${ctx}/plu/uploadify/jquery.uploadify.js" type="text/javascript"></script>

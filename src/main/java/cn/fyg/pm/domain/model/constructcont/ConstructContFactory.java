@@ -1,5 +1,6 @@
 package cn.fyg.pm.domain.model.constructcont;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
@@ -22,6 +23,7 @@ public class ConstructContFactory {
 		constructCont.setCreatedate(new Date());
 		constructCont.setConstructKey(constructKey);
 		constructCont.setLeader(project.getLeader());
+		constructCont.setTolsum(new BigDecimal("0.00"));
 		return constructCont;
 	}
 

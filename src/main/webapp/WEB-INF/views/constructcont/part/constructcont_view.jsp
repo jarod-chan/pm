@@ -52,6 +52,9 @@
 			<td>状态：</td><td>${constructCont.state.name}</td>
 		</tr>
 		<tr>
+			<td>总金额：</td><td>${constructCont.tolsum}</td>
+		</tr>
+		<tr>
 			<td>制单人：</td><td>${constructCont.creater.name}</td>
 		</tr>
 		<tr>
