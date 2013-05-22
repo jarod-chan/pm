@@ -42,9 +42,9 @@
 			.appendTo(trdom);
 		 
 		var computerAmount=function(tr){
-			var price=$(tr).find(":input[name='constructContItems_price']").val();
-			var numb=$(tr).find(":input[name='constructContItems_numb']").val();
-			var tdAmt=$(tr).find(":input[name='constructContItems_amount']");
+			var price=$(tr).find("input[name='constructContItems_price']").val();
+			var numb=$(tr).find("input[name='constructContItems_numb']").val();
+			var tdAmt=$(tr).find("input[name='constructContItems_amount']");
 			if(IsFloat(price,"+")&&IsFloat(numb,"+")){
 				var result=FloatMul(price,numb);
 				result=hold(result,2);
@@ -58,7 +58,7 @@
 			var tr=$("#tabitem tbody tr");
 			var tolamount=0;
 			tr.each(function(){
-				var amt=$(this).find(":input[name='constructContItems_amount']").val();
+				var amt=$(this).find("input[name='constructContItems_amount']").val();
 				amt=(IsFloat(amt,"+")?amt:0);
 				tolamount=FloatAdd(amt,tolamount);
 			})
@@ -258,7 +258,7 @@
 	
 			<td><input type='text' name='constructContItems_price' value='${item.price}' style='width:50px' /></td>
 	
-			<td><input type='text' name='constructContItems_numb' value='${item.numb}' style='width:50px' /></td>
+			<td><input type='text' name='constructContItems_numb' value='<fmt:formatNumber value="${item.numb}" pattern="#.#"/>' style='width:50px' /></td>
 	
 			<td>
 				<select name='constructContItems_unit'>

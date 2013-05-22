@@ -128,7 +128,9 @@
 	<br>
 	<table id="tblmain" border="1">
 		<tr>
-			<td>编号</td><td>施工联系单</td><td>施工承包方</td><td>原因</td><td>状态</td><td>制单人</td><td>制单日期</td><td>签发人</td><td>签发日期</td><td>结算人</td><td>结算日期</td><td>操作</td>
+			<td>编号</td><td>施工联系单</td><td>施工承包方</td><td>原因</td><td>状态</td>
+			<td>总金额</td>
+			<td>制单人</td><td>制单日期</td><td>签发人</td><td>签发日期</td><td>结算人</td><td>结算日期</td><td>操作</td>
 		</tr>
 		<c:forEach var="constructCertDto" items="${ConstructCertDtoList}">
 			<tr>
@@ -137,6 +139,7 @@
 				<td>${constructCertDto.constructCert.constructKey.supplier.name}</td>
 				<td>${constructCertDto.constructCert.reason}</td>
 				<td><span class="state state-${constructCertDto.constructCert.state}" >${constructCertDto.constructCert.state.name}</span></td>
+				<td>${constructCertDto.constructCert.tolsum}</td>
 				<td>${constructCertDto.constructCert.creater.name}</td>
 				<td><fmt:formatDate value="${constructCertDto.constructCert.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
 				<td>${constructCertDto.constructCert.signer.name}</td>

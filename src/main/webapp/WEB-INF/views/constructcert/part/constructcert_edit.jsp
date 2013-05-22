@@ -6,6 +6,13 @@
 <script type="text/javascript">
 	$(function(){
 		
+		var seldom=$("<select>");
+    	seldom.attr("name","constructCertItems_unit")
+    		.append($("<option ></option>"))
+    		.append($("<option value='元/立方米'>元/立方米</option>"))
+    		.append($("<option value='元/立方米'>元/立方米</option>"))
+    		.append($("<option value='元/工作日'>元/工作日</option>"));
+		
 		var trdom = $("<tr>");
 		$("<td>")
 		  .append($("<input type='hidden' name='constructCertItems_sn'   value='' />"))
@@ -24,7 +31,7 @@
 		$("<td>").append($("<input type='text' name='constructCertItems_numb' style='width:50px' />"))
 		  .appendTo(trdom);
 		
-		$("<td>").append($("<input type='text' name='constructCertItems_unit' style='width:50px' />"))
+		$("<td>").append(seldom)
 		  .appendTo(trdom);
 		
 		$("<td>").append($("<input type='text' name='constructCertItems_amount' style='width:100px' />"))
@@ -43,6 +50,58 @@
 			.append($("<input type='button' class='add'  value='+'   />"))
 			.append($("<input type='button' class='remove'  value='-'   />"))
 			.appendTo(trdom);
+		 
+		 var computerAmount=function(tr){
+			var price=$(tr).find("input[name='constructCertItems_price']").val();
+			var numb=$(tr).find("input[name='constructCertItems_numb']").val();
+			var tdAmt=$(tr).find("input[name='constructCertItems_amount']");
+			if(IsFloat(price,"+")&&IsFloat(numb,"+")){
+				var result=FloatMul(price,numb);
+				result=hold(result,2);
+				tdAmt.val(result);
+			}else{
+				tdAmt.val("");
+			}
+		}
+		
+		var computerTolamount=function(){
+			var tr=$("#tabitem tbody tr");
+			var tolamount=0;
+			tr.each(function(){
+				var amt=$(this).find(":input[name='constructCertItems_amount']").val();
+				amt=(IsFloat(amt,"+")?amt:0);
+				tolamount=FloatAdd(amt,tolamount);
+			})
+			tolamount=hold(tolamount,2);
+			$("#sp_tolsum").html(tolamount);
+			$("input[name=tolsum]").val(tolamount);
+		}
+		 
+		 var priceBlur=function(){
+			if(IsFloat($(this).val(),"+"))	{
+				var point=hold($(this).val(),2);
+				$(this).val(point);
+			}else{
+				$(this).val("");
+			}
+			var tr = $(this).parents("tr:eq(0)");
+			computerAmount(tr);
+			computerTolamount();
+		}
+		 
+		var numbBlur=function(){
+			if(IsFloat($(this).val(),"+"))	{
+				var point=hold($(this).val(),0);
+				$(this).val(point);
+			}else{
+				$(this).val("");
+			}
+			var tr = $(this).parents("tr:eq(0)");
+			computerAmount(tr);
+			computerTolamount();
+		}
+		
+		
 		
 		function add() {
 			rowAction($(this),function(tr){
@@ -58,7 +117,10 @@
 		
 		function cloneTR(){
 			var newtr=trdom.clone();
-			newtr.find("td:last :button")
+			newtr
+			  .find("input[name='constructCertItems_price']").bind("blur",priceBlur).end()
+			  .find("input[name='constructCertItems_numb']").bind("blur",numbBlur).end()
+			  .find("td:last :button")
 			  .filter(".add").bind("click",add).end()
 			  .filter(".remove").bind("click",remove).end();
 			return newtr;
@@ -112,6 +174,8 @@
     		})
     	})
     	
+    	$("input[name='constructCertItems_price']").bind("blur",priceBlur);
+		$("input[name='constructCertItems_numb']").bind("blur",numbBlur);
     	$(".add").bind("click",add);
 		$(".remove").bind("click",remove);	
 		
@@ -160,6 +224,9 @@
 			<td>状态：</td><td>${constructCert.state.name}</td>
 		</tr>
 		<tr>
+			<td>总金额：</td><td><span id="sp_tolsum">${constructCert.tolsum}</span><input type="hidden" name="tolsum" value="${constructCert.tolsum}"></td>
+		</tr>
+		<tr>
 			<td>制单人：</td><td>${constructCert.creater.name}</td>
 		</tr>
 		<tr>
@@ -206,8 +273,15 @@
 					<td>${item.sn}</td>
 					<td><input type='text' name='constructCertItems_content' value='${item.content}' style='width:300px' /></td>
 					<td><input type='text' name='constructCertItems_price' value='${item.price}' style='width:50px' /></td>
-					<td><input type='text' name='constructCertItems_numb' value='${item.numb}' style='width:50px' /></td>
-					<td><input type='text' name='constructCertItems_unit' value='${item.unit}'  style='width:50px' /></td>
+					<td><input type='text' name='constructCertItems_numb' value='<fmt:formatNumber value="${item.numb}" pattern="#.#"/>' style='width:50px' /></td>
+					<td>
+						<select name='constructContItems_unit'>
+							<option <c:if test="${item.unit==''}">selected="true"</c:if> ></option>
+							<option value="元/平方米" <c:if test="${item.unit=='元/平方米'}">selected="true"</c:if> >元/平方米</option>
+							<option value="元/立方米" <c:if test="${item.unit=='元/立方米'}">selected="true"</c:if> >元/立方米</option>
+							<option value="元/工作日" <c:if test="${item.unit=='元/工作日'}">selected="true"</c:if> >元/工作日</option>
+						</select>
+					</td>
 					<td><input type='text' name='constructCertItems_amount' value='${item.amount}' style='width:100px' /></td>
 					
 					<td>

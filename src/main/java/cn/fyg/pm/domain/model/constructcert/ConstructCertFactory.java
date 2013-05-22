@@ -1,5 +1,6 @@
 package cn.fyg.pm.domain.model.constructcert;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
@@ -21,6 +22,7 @@ public class ConstructCertFactory {
 		constructCert.setCreater(user);
 		constructCert.setCreatedate(new Date());
 		constructCert.setConstructKey(constructKey);
+		constructCert.setTolsum(new BigDecimal("0.00"));
 		return constructCert;
 	}
 
