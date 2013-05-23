@@ -7,7 +7,7 @@ import cn.fyg.pm.domain.model.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
-import cn.fyg.pm.domain.shared.QuerySpec;
+import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 
 
 public interface ConstructContService {

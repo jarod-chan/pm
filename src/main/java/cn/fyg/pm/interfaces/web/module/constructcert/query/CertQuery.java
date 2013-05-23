@@ -17,7 +17,7 @@ import cn.fyg.pm.domain.model.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
-import cn.fyg.pm.domain.shared.QuerySpec;
+import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 import cn.fyg.pm.infrastructure.tool.DateUtil;
 
 public class CertQuery implements QuerySpec<ConstructCert> {

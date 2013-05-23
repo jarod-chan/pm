@@ -17,7 +17,7 @@ import cn.fyg.pm.domain.model.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
-import cn.fyg.pm.domain.shared.QuerySpec;
+import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 import cn.fyg.pm.infrastructure.tool.DateUtil;
 
 public class ContQuery implements QuerySpec<ConstructCont> {

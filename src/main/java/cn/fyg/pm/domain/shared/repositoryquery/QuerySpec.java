@@ -1,4 +1,4 @@
-package cn.fyg.pm.domain.shared;
+package cn.fyg.pm.domain.shared.repositoryquery;
 
 import java.util.List;
 

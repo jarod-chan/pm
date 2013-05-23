@@ -6,9 +6,10 @@ import org.springframework.data.repository.Repository;
 
 import cn.fyg.pm.domain.model.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.shared.repositoryquery.RepositoryQuery;
 
 
-public interface ConstructCertRepository extends Repository<ConstructCert, Long>, ConstructCertRepositoryPlus {
+public interface ConstructCertRepository extends Repository<ConstructCert, Long>, RepositoryQuery<ConstructCert> {
 	
 	ConstructCert save(ConstructCert constructCert);
 	
