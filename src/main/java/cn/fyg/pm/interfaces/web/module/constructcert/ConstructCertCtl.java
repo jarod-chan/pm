@@ -90,7 +90,8 @@ public class ConstructCertCtl {
 	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
 	public String toList(CertQuery certQuery,Map<String,Object> map){
 		Project project = sessionUtil.getValue("project");
-		List<ConstructCert> constructCertList = constructCertService.queryList(project,certQuery);
+		certQuery.setProject(project);
+		List<ConstructCert> constructCertList = constructCertService.query(certQuery);
 		List<ConstructCertDto> ConstructCertDtoList = constructCertAssembler.create(constructCertList);
 		map.put("ConstructCertDtoList", ConstructCertDtoList);
 		map.put("query", certQuery);

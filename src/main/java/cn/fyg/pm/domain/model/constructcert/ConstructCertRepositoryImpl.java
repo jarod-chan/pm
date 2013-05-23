@@ -16,6 +16,7 @@ import javax.persistence.criteria.Root;
 import org.apache.commons.lang.StringUtils;
 
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.shared.QuerySpec;
 import cn.fyg.pm.infrastructure.tool.DateUtil;
 import cn.fyg.pm.interfaces.web.module.constructcert.query.CertQuery;
 
@@ -24,7 +25,7 @@ public class ConstructCertRepositoryImpl implements ConstructCertRepositoryPlus 
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	@Override
+	//@Override
 	public List<ConstructCert> queryList(Project project, CertQuery certQuery) {
 		CriteriaBuilder builder=entityManager.getCriteriaBuilder();
 		CriteriaQuery<ConstructCert> query=builder.createQuery(ConstructCert.class);
@@ -95,6 +96,31 @@ public class ConstructCertRepositoryImpl implements ConstructCertRepositoryPlus 
 		}
 		criterias.add(builder.equal(statePath,ConstructCertState.valueOf(mapValue)));
 		
+	}
+
+	@Override
+	public List<ConstructCert> query(QuerySpec<ConstructCert> querySpec) {
+		CriteriaBuilder builder=entityManager.getCriteriaBuilder();
+		CriteriaQuery<ConstructCert> query=builder.createQuery(ConstructCert.class);
+		Root<ConstructCert> from = query.from(ConstructCert.class);
+		List<Predicate> criterias=querySpec.criterias(builder, from);
+		
+		List<Order> orders=querySpec.orders(builder, from);
+		
+		
+		if(!orders.isEmpty()){
+			query.orderBy(orders);
+		}
+		
+		if(!criterias.isEmpty()){
+			if(criterias.size()==1){
+				query.where(criterias.get(0));
+			}else{
+				query.where(builder.and(criterias.toArray(new Predicate[0])));
+			}
+		}
+		
+		return entityManager.createQuery(query).getResultList();
 	}
 
 }

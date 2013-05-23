@@ -92,7 +92,8 @@ public class ConstructContCtl {
 	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
 	public String toList(ContQuery query,Map<String,Object> map){
 		Project project = sessionUtil.getValue("project");
-		List<ConstructCont> constructContList = constructContService.queryList(project,query);
+		query.setProject(project);
+		List<ConstructCont> constructContList = constructContService.query(query);
 		map.put("constructContList", constructContList);
 		map.put("userList", userService.findAll());
 		map.put("stateList", ContQuery.State.values());
