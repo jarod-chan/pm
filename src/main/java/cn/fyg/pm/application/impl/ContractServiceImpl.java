@@ -52,8 +52,8 @@ public class ContractServiceImpl implements ContractService {
 	}
 
 	@Override
-	public List<Contract> findByType(ContractType contractType) {
-		return contractRepository.findByType(contractType);
+	public List<Contract> findByProjectAndType(Project project,ContractType contractType) {
+		return contractRepository.findByProjectAndType(project,contractType);
 	}
 
 }

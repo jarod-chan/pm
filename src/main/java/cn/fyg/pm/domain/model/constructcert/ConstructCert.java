@@ -1,5 +1,6 @@
 package cn.fyg.pm.domain.model.constructcert;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,6 +73,8 @@ public class ConstructCert {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date settledate;// 结算日期
+	
+	private BigDecimal tolsum;//总金额
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL }, targetEntity = ConstructCertItem.class, orphanRemoval = true)
 	@OrderBy("sn ASC")
@@ -96,6 +99,14 @@ public class ConstructCert {
 
 	public Long getId() {
 		return id;
+	}
+
+	public BigDecimal getTolsum() {
+		return tolsum;
+	}
+
+	public void setTolsum(BigDecimal tolsum) {
+		this.tolsum = tolsum;
 	}
 
 	public void setId(Long id) {

@@ -1,8 +1,9 @@
-package cn.fyg.pm.interfaces.web.module.consturctcert;
+package cn.fyg.pm.interfaces.web.module.constructcert;
 
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,8 @@ import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,20 +28,25 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import cn.fyg.pm.application.ConstructCertService;
 import cn.fyg.pm.application.ConstructContService;
 import cn.fyg.pm.application.OpinionService;
+import cn.fyg.pm.application.SupplierService;
 import cn.fyg.pm.application.UserService;
 import cn.fyg.pm.domain.model.constructcert.CertItemOpinion;
 import cn.fyg.pm.domain.model.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.constructcert.ConstructCertItem;
 import cn.fyg.pm.domain.model.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.constructcont.ConstructCont;
+import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
+import cn.fyg.pm.interfaces.web.module.constructcert.flow.CertVarname;
+import cn.fyg.pm.interfaces.web.module.constructcert.query.CertQuery;
 import cn.fyg.pm.interfaces.web.module.constructcont.flow.ContVarname;
-import cn.fyg.pm.interfaces.web.module.consturctcert.flow.CertVarname;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
+import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 @Controller
@@ -72,13 +80,25 @@ public class ConstructCertCtl {
 	OpinionService opinionService;
 	@Autowired
 	UserService userService;
+	@Autowired
+	SupplierService supplierService;
 	
-	@RequestMapping(value="list",method=RequestMethod.GET)
-	public String toList(Map<String,Object> map){
+	@InitBinder
+	private void dateBinder(WebDataBinder binder) {
+	    binder.registerCustomEditor(Date.class, CustomEditorFactory.getCustomDateEditor());
+	}
+	
+	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
+	public String toList(CertQuery certQuery,Map<String,Object> map){
 		Project project = sessionUtil.getValue("project");
-		List<ConstructCert> constructCertList = constructCertService.findByProject(project);
+		certQuery.setProject(project);
+		List<ConstructCert> constructCertList = constructCertService.query(certQuery);
 		List<ConstructCertDto> ConstructCertDtoList = constructCertAssembler.create(constructCertList);
 		map.put("ConstructCertDtoList", ConstructCertDtoList);
+		map.put("query", certQuery);
+		map.put("supplierList", supplierService.findByTypeIn(Supptype.contra,Supptype.construct));
+		map.put("stateList", CertQuery.State.values());
+		map.put("contractSpecList", ContractSpec.values());
 		return Page.LIST;
 	}
 
@@ -86,7 +106,7 @@ public class ConstructCertCtl {
 	public String toEdit(@PathVariable("constructCertId") Long constructCertId,Map<String,Object> map){
 		Project project = sessionUtil.getValue("project");
 		User user = sessionUtil.getValue("user");
-		ConstructCert constructCert =constructCertId.longValue()>0?constructCertService.find(constructCertId):constructCertService.create(user,project,ConstructCertState.new_) ;
+		ConstructCert constructCert =constructCertId.longValue()>0?constructCertService.find(constructCertId):constructCertService.create(user,project,ConstructCertState.new_,false) ;
 		map.put("constructCert", constructCert);
 		List<ConstructCont> constructContList = constructContService.findByProject(constructCert.getConstructKey().getProject());
 		map.put("constructContList", constructContList);
@@ -115,7 +135,7 @@ public class ConstructCertCtl {
 	public String saveEdit(@RequestParam("id")Long constructCertId,@RequestParam(value="constructCertItemsId",required=false) Long[] constructCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes){
 		Project project = sessionUtil.getValue("project");
 		User user = sessionUtil.getValue("user");
-		ConstructCert constructCert = constructCertId!=null?constructCertService.find(constructCertId):constructCertService.create(user, project,ConstructCertState.saved);
+		ConstructCert constructCert = constructCertId!=null?constructCertService.find(constructCertId):constructCertService.create(user, project,ConstructCertState.saved,true);
 		
 		Map<Long,ConstructCertItem> constructCertMap=getConstructCertMap(constructCert.getConstructCertItems());
 		

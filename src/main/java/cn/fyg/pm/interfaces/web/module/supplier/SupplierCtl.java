@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cn.fyg.pm.application.SupplierService;
+import cn.fyg.pm.domain.model.supplier.CreditRank;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 
@@ -44,6 +45,7 @@ public class SupplierCtl {
 		Supplier supplier=supplierId.longValue()>0?supplierService.find(supplierId):supplierService.create();
 		map.put("supplier", supplier);
 		map.put("supptype", supptype);
+		map.put("creditRankList", CreditRank.values());
 		return Page.EDIT;
 	}
 	

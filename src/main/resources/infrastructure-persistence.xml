@@ -35,7 +35,7 @@
 
 	<!-- Spring Data Jpa配置 -->
 	<jpa:repositories base-package="cn.fyg.pm.domain" transaction-manager-ref="transactionManager" 
-	entity-manager-factory-ref="entityManagerFactory" />
+	entity-manager-factory-ref="entityManagerFactory" repository-impl-postfix="Impl"/>
 
 	
 	<!--spring 事务管理 -->

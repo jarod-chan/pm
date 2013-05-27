@@ -15,6 +15,7 @@ import cn.fyg.pm.domain.model.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 
 @Service("constructContService")
 public class ConstructContServiceImpl implements ConstructContService {
@@ -53,13 +54,18 @@ public class ConstructContServiceImpl implements ConstructContService {
 	}
 
 	@Override
-	public ConstructCont create(User creater,Project project, ConstructContState state) {
-		return ConstructContFactory.create(creater,project,state);
+	public ConstructCont create(User creater,Project project, ConstructContState state,boolean generateNo) {
+		return ConstructContFactory.create(creater,project,state,generateNo);
 	}
 
 	@Override
 	public List<ConstructCont> findByProject(Project project) {
 		return this.constructContRepository.findByConstructKey_Project(project);
+	}
+
+	@Override
+	public List<ConstructCont> query(QuerySpec<ConstructCont> querySpec) {
+		return this.constructContRepository.query(ConstructCont.class,querySpec);
 	}
 
 }

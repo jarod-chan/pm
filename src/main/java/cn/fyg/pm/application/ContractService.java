@@ -10,7 +10,7 @@ public interface ContractService {
 	
 	List<Contract> findAll();
 	
-	List<Contract> findByType(ContractType contractType);
+	List<Contract> findByProjectAndType(Project project,ContractType contractType);
 	
 	Contract find(Long id);
 	

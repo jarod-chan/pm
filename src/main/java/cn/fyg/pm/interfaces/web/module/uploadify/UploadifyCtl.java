@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module;
+package cn.fyg.pm.interfaces.web.module.uploadify;
 
 import java.io.File;
 import java.io.IOException;

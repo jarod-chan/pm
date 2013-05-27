@@ -6,8 +6,9 @@ import org.springframework.data.repository.Repository;
 
 import cn.fyg.pm.domain.model.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.shared.repositoryquery.RepositoryQuery;
 
-public interface ConstructContRepository extends Repository<ConstructCont, Long> {
+public interface ConstructContRepository extends Repository<ConstructCont, Long>, RepositoryQuery<ConstructCont> {
 
 	ConstructCont save(ConstructCont constructCont);
 	

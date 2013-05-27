@@ -1,5 +1,6 @@
 package cn.fyg.pm.domain.model.constructcont;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -81,6 +82,8 @@ public class ConstructCont {
 	
 	private String result;//实际执行结果
 	
+	private BigDecimal tolsum;//总金额
+	
 	@OneToMany(mappedBy = "constructCont",
 			fetch = FetchType.EAGER, 
 			cascade = {CascadeType.ALL},
@@ -96,6 +99,14 @@ public class ConstructCont {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public BigDecimal getTolsum() {
+		return tolsum;
+	}
+
+	public void setTolsum(BigDecimal tolsum) {
+		this.tolsum = tolsum;
 	}
 
 	public String getNo() {

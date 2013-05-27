@@ -14,6 +14,7 @@ import cn.fyg.pm.domain.model.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 
 @Service("constructCertService")
 public class ConstructCertServiceImpl implements ConstructCertService {
@@ -49,13 +50,19 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 	}
 
 	@Override
-	public ConstructCert create(User user,Project project,ConstructCertState state) {
-		return ConstructCertFactory.create(user,project,state);
+	public ConstructCert create(User user,Project project,ConstructCertState state,boolean generateNo) {
+		return ConstructCertFactory.create(user,project,state,generateNo);
 	}
 
 	@Override
 	public List<ConstructCert> findByProject(Project project) {
 		return this.constructCertRepository.findByConstructKey_Project(project);
 	}
+
+	@Override
+	public List<ConstructCert> query(QuerySpec<ConstructCert> querySpec) {
+		return this.constructCertRepository.query(ConstructCert.class,querySpec);
+	}
+
 
 }
