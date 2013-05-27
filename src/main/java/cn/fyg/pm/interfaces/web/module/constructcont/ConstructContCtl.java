@@ -36,6 +36,7 @@ import cn.fyg.pm.domain.model.constructcont.ConstructContItem;
 import cn.fyg.pm.domain.model.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.contract.Contract;
+import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.contract.ContractType;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supptype;
@@ -97,6 +98,7 @@ public class ConstructContCtl {
 		map.put("constructContList", constructContList);
 		map.put("userList", userService.findAll());
 		map.put("stateList", ContQuery.State.values());
+		map.put("contractSpecList", ContractSpec.values());
 		map.put("query", query);
 		map.put("supplierList", supplierService.findByTypeIn(Supptype.contra,Supptype.construct));
 		return Page.LIST;

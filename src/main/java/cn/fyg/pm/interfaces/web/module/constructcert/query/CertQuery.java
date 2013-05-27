@@ -15,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 
 import cn.fyg.pm.domain.model.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.constructcert.ConstructCertState;
+import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
@@ -58,6 +59,8 @@ public class CertQuery implements QuerySpec<ConstructCert> {
 	
 	private Date createdate_end;//制单日期开始
 	
+	private ContractSpec specialty;//专业分类
+	
 	private State state;//过滤单据状态
 	
 	private String orderAttribute;//排序属性
@@ -70,6 +73,15 @@ public class CertQuery implements QuerySpec<ConstructCert> {
 		this.state=State.notfinish;
 		this.orderAttribute="createdate";
 		this.orderType=Type.desc;
+		this.specialty=null;
+	}
+
+	public ContractSpec getSpecialty() {
+		return specialty;
+	}
+
+	public void setSpecialty(ContractSpec specialty) {
+		this.specialty = specialty;
 	}
 
 	public String getNo() {
@@ -157,6 +169,9 @@ public class CertQuery implements QuerySpec<ConstructCert> {
 		if(this.getCreatedate_end()!=null){
 			Date nextday=DateUtil.nextDay(this.getCreatedate_end());
 			criterias.add(builder.lessThanOrEqualTo(from.<Date>get("createdate"),nextday));
+		}
+		if(this.getSpecialty()!=null){
+			criterias.add(builder.equal(from.get("constructKey").get("contract").get("specialty"), this.getSpecialty()));
 		}
 		if(this.getState()!=null){
 			Path<Object> statePath = from.get("state");

@@ -125,7 +125,7 @@
 						</li>
 					</ul>
 			
-					<ul style="float: right" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
+					<ul style="float: right;width: 13ex;" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
 						<li>
 							<ul>
 								<li><a href="${ctx}/supplier/contra/list" class="no_show" target="mainFrame" >内部承包人</a></li>
@@ -141,14 +141,14 @@
 						<li>
 							<ul>
 								<li><a href="${ctx}/contract/construct/list" class="no_show" target="mainFrame" >施工服务合同</a></li>
-								<li><a href="${ctx}/contract/meter/list" class="no_show" target="mainFrame" >工程管理合同</a></li>
-								<li><a href="${ctx}/contract/design/list" class="no_show" target="mainFrame" >设计服务合同</a></li>
+								<li><a href="${ctx}/contract/meter/list" class="no_show" target="mainFrame" >材料采购合同</a></li>
+								<li><a href="${ctx}/contract/design/list" class="no_show" target="mainFrame" >设计策划合同</a></li>
 							</ul>
 							<span>合同管理</span>
 						</li>
 					</ul>
 					
-					<ul style="float: right" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
+					<ul style="float: right;width: 13ex;" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
 						<li>
 							<ul>
 								<li><a href="${ctx}/constructcont/list" class="no_show" target="mainFrame" >施工联系单</a></li>

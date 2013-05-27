@@ -100,7 +100,14 @@
 						<option value="${supplier.id}" <c:if test="${supplier.id==query.supplier.id}">selected="true"</c:if> >${supplier.name}</option>
 					</c:forEach>
 				</select>
-		制单日期:<input type="text" name="createdate_beg" class="datePK" value="<fmt:formatDate value="${query.createdate_beg}" pattern="yyyy-MM-dd"/>" >--<input type="text" name="createdate_end" class="datePK" value="<fmt:formatDate value="${query.createdate_end}" pattern="yyyy-MM-dd"/>"><br>
+		制单日期:<input type="text" name="createdate_beg" class="datePK" value="<fmt:formatDate value="${query.createdate_beg}" pattern="yyyy-MM-dd"/>" >--<input type="text" name="createdate_end" class="datePK" value="<fmt:formatDate value="${query.createdate_end}" pattern="yyyy-MM-dd"/>">
+		专业分类:<select name="specialty" >
+					<option value="" >-所有-</option>
+					<c:forEach var="contractSpec" items="${contractSpecList}">
+						<option value="${contractSpec}" <c:if test="${contractSpec==query.specialty}">selected="true"</c:if> >${contractSpec.name}</option>
+					</c:forEach>
+				</select>
+		<br>
 		状态:<select name="state" >
 					<c:forEach var="state" items="${stateList}">
 						<option value="${state}" <c:if test="${state==query.state}">selected="true"</c:if> >${state.name}</option>
@@ -128,7 +135,7 @@
 	<br>
 	<table id="tblmain" border="1">
 		<tr>
-			<td>编号</td><td>施工联系单</td><td>施工承包方</td><td>原因</td><td>状态</td>
+			<td>编号</td><td>施工联系单</td><td>施工承包方</td><td>专业分类</td><td>原因</td><td>状态</td>
 			<td>总金额</td>
 			<td>制单人</td><td>制单日期</td><td>签发人</td><td>签发日期</td><td>结算人</td><td>结算日期</td><td>操作</td>
 		</tr>
@@ -137,6 +144,7 @@
 				<td>${constructCertDto.constructCert.no}</td>
 				<td>${constructCertDto.constructCont.no}</td>
 				<td>${constructCertDto.constructCert.constructKey.supplier.name}</td>
+				<td>${constructCertDto.constructCert.constructKey.contract.specialty.name}</td>
 				<td>${constructCertDto.constructCert.reason}</td>
 				<td><span class="state state-${constructCertDto.constructCert.state}" >${constructCertDto.constructCert.state.name}</span></td>
 				<td>${constructCertDto.constructCert.tolsum}</td>
