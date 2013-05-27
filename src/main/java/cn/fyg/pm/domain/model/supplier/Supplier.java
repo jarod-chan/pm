@@ -27,7 +27,8 @@ public class Supplier {
 	@Enumerated(EnumType.STRING)
 	private Supptype type;	// 
 	
-	private String creditRank;//信用等级
+	@Enumerated(EnumType.STRING)
+	private CreditRank creditRank;//信用等级
 	
 	private String busiLicense;//营业执照
 	
@@ -69,10 +70,11 @@ public class Supplier {
 	public void setType(Supptype type) {
 		this.type = type;
 	}
-	public String getCreditRank() {
+
+	public CreditRank getCreditRank() {
 		return creditRank;
 	}
-	public void setCreditRank(String creditRank) {
+	public void setCreditRank(CreditRank creditRank) {
 		this.creditRank = creditRank;
 	}
 	public String getBusiLicense() {

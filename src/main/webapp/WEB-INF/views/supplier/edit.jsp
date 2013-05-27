@@ -50,9 +50,13 @@
 		
 		<tr>
 			<td>
-			信用等级：
+			专业分类:
 			</td><td>
-			<input type="text" name="creditRank" value="${supplier.creditRank}"/>
+			<select name="creditRank" >
+					<c:forEach var="creditRank" items="${creditRankList}">
+						<option value="${creditRank}" <c:if test="${creditRank==supplier.creditRank}">selected="true"</c:if> >${creditRank.name}</option>
+					</c:forEach>
+				</select>
 			</td>
 		</tr>
 		

@@ -61,7 +61,7 @@
 		<c:forEach var="supplier" items="${supplierList}">
 			<tr>
 				<td>${supplier.no}</td><td>${supplier.name}</td>
-				<td>${supplier.creditRank}</td>
+				<td>${supplier.creditRank.name}</td>
 				<td>${supplier.busiLicense}</td>
 				<td>${supplier.busiCode}</td>
 				<td>${supplier.address}</td>
