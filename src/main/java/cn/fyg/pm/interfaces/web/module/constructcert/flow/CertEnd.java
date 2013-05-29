@@ -6,9 +6,9 @@ import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.Expression;
 import org.activiti.engine.delegate.JavaDelegate;
 
-import cn.fyg.pm.application.ConstructCertService;
-import cn.fyg.pm.domain.model.constructcert.ConstructCert;
-import cn.fyg.pm.domain.model.constructcert.ConstructCertState;
+import cn.fyg.pm.application.service.ConstructCertService;
+import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
+import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.module.constructcont.flow.ContVarname;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
