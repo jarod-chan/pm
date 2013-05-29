@@ -47,4 +47,10 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 		return purchaseReqRepository.save(purchaseReq);
 	}
 
+	@Override
+	@Transactional
+	public void delete(Long purchaseReqId) {
+		this.purchaseReqRepository.delete(purchaseReqId);
+	}
+
 }

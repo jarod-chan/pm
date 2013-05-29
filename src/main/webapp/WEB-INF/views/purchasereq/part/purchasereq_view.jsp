@@ -1,0 +1,92 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+	<script type="text/javascript">
+    $(function(){
+    	$('#tabmain tr').find('td:eq(0)').css("text-align","right");
+    })
+	</script>
+
+	<table id="tabmain">
+		<tr>
+			<td>编号：</td><td>${purchaseReq.no}</td>
+		</tr>
+		<tr>
+			<td>项目负责人：</td><td>${purchaseReq.leader.name}</td>
+		</tr>
+		<tr>
+			<td>合同：</td> 
+			<td>
+				${purchaseReq.purchaseKey.contract.no}
+			</td>
+		</tr>
+		<tr>
+			<td>供应商：</td><td>${purchaseReq.purchaseKey.supplier.name}</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top">说明：</td><td>${purchaseReq.descrp}</td>
+		</tr>
+			<tr>
+			<td>计划进场日期：</td>
+			<td>
+				<fmt:formatDate value="${purchaseReq.plandate}" pattern="yyyy-MM-dd"/>
+			</td>
+		</tr>
+		<tr>
+			<td>状态：</td><td>${purchaseReq.state.name}</td>
+		</tr>
+		<tr>
+			<td>制单人：</td><td>${purchaseReq.creater.name}</td>
+		</tr>
+		<tr>
+			<td>制单日期：</td><td><fmt:formatDate value="${purchaseReq.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+		</tr>
+		<tr>
+			<td>签发人：</td><td>${purchaseReq.signer.name}</td>
+		</tr>
+		<tr>
+			<td>签发日期：</td><td><fmt:formatDate value="${purchaseReq.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+		</tr>
+		<tr>
+			<td>接收人：</td>
+			<td>
+				${purchaseReq.receiver.name}
+			</td>
+		</tr>
+		<tr>
+			<td>接收日期：</td>
+			<td>
+				${purchaseReq.receivedate}
+			</td>
+		</tr>
+	
+
+	</table>
+	<br>
+	<br>
+	<table id="tabitem" border="1">
+	<thead>
+		<tr>
+			<th>序号</th><th>材料名称</th><th>型号规格和技术指标</th><th>单位</th><th>数量</th><th>推荐品牌</th>
+		</tr>
+	</thead>
+	<tbody>
+		<c:forEach items="${purchaseReq.purchaseReqItems}" var="item">
+		<tr>
+
+			<td>${item.sn}</td>
+			<td>${item.metername}</td>
+	
+			<td>${item.spec}</td>
+	
+		    <td>${item.unit}</td>
+	
+			<td><fmt:formatNumber value="${item.numb}" pattern="#.#"/></td>
+			
+			<td>${item.brand}</td>
+	  
+		</tr>
+		</c:forEach>
+	</tbody>
+	</table>

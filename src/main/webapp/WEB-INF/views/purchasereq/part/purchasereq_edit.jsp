@@ -135,7 +135,7 @@
 			<td>供应商：</td><td><span id="supplier_name"></span></td>
 		</tr>
 		<tr>
-			<td style="vertical-align: top">说明：</td><td><textarea name="descrp" rows="6" cols="30" style="vertical-align: top">${purchaseKey.descrp}</textarea></td>
+			<td style="vertical-align: top">说明：</td><td><textarea name="descrp" rows="6" cols="30" style="vertical-align: top">${purchaseReq.descrp}</textarea></td>
 		</tr>
 			<tr>
 			<td>计划进场日期：</td>

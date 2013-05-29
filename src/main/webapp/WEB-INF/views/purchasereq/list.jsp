@@ -63,7 +63,7 @@
     	$('.btn_delete').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
         	$('<form/>',{action:'${ctx}/purchasereq/delete',method:'post'})
-	    		.append($('<input/>',{type:'hidden',name:'constructContId',value:param.id}))
+	    		.append($('<input/>',{type:'hidden',name:'purchaseReqId',value:param.id}))
 				.appendTo($("body"))
 			.submit();
     	});

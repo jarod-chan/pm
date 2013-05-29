@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import cn.fyg.pm.application.service.ContractService;
 import cn.fyg.pm.application.service.PurchaseReqService;
 import cn.fyg.pm.application.service.SupplierService;
+import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.contract.Contract;
 import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.contract.ContractType;
@@ -146,7 +147,18 @@ public class PurchaseReqCtl {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@RequestMapping(value="delete",method=RequestMethod.POST)
+	public String delete(@RequestParam("purchaseReqId") Long purchaseReqId,RedirectAttributes redirectAttributes){
+		purchaseReqService.delete(purchaseReqId);
+		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("删除成功！"));
+		return "redirect:list";
+	}
 
-
-
+	@RequestMapping(value="{purchaseReqId}/view",method=RequestMethod.GET)
+	public String toView(@PathVariable("purchaseReqId")Long purchaseReqId,Map<String,Object> map){
+		PurchaseReq purchaseReq = purchaseReqService.find(purchaseReqId);
+		map.put("purchaseReq", purchaseReq);
+		return Page.VIEW;
+	}
 }

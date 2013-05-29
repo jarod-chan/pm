@@ -14,4 +14,6 @@ public interface PurchaseReqService extends ServiceQuery<PurchaseReq> {
 
 	PurchaseReq save(PurchaseReq purchaseReq);
 
+	void delete(Long purchaseReqId);
+
 }
