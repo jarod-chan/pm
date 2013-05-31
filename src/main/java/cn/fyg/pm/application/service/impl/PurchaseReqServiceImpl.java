@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.service.PurchaseReqService;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
 import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReq;
 import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqFactory;
 import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqItem;
@@ -51,6 +52,16 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 	@Transactional
 	public void delete(Long purchaseReqId) {
 		this.purchaseReqRepository.delete(purchaseReqId);
+	}
+
+	@Override
+	public List<PurchaseReq> findByProject(Project project) {
+		return this.purchaseReqRepository.findByPurchaseKey_Project(project);
+	}
+
+	@Override
+	public PurchaseReq findByPurchaseKey(PurchaseKey purchaseKey) {
+		return this.purchaseReqRepository.findByPurchaseKey(purchaseKey);
 	}
 
 }

@@ -55,7 +55,6 @@
 			rowAction($(this),function(tr){
 				tr.remove();
 			})
-			computerTolamount();
 		}
 		
 		function cloneTR(){
