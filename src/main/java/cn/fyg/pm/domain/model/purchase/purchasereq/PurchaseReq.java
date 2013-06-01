@@ -22,6 +22,7 @@ import javax.persistence.TemporalType;
 
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
 import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.domain.shared.BusiCode;
 
 /**
  *采购申请单
@@ -30,6 +31,8 @@ import cn.fyg.pm.domain.model.user.User;
 @Table(name="pm_purchasereq")
 public class PurchaseReq {
 	
+	public static final BusiCode BUSI_CODE = BusiCode.pm_purchasereq;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;//id

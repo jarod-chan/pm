@@ -4,7 +4,9 @@ package cn.fyg.pm.domain.shared;
 public enum BusiCode implements CommonEnum {
 	pm_contract("项目合同"),
 	pm_constructcont("施工联系"),
-	pm_constructcert("施工签证");
+	pm_constructcert("施工签证"),
+	pm_purchasereq("采购申请"),
+	pm_purchasecert("材料签证");
 	
 	private final String name;
 	
