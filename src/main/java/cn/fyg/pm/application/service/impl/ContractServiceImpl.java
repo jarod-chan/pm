@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.service.ContractService;
-import cn.fyg.pm.domain.model.contract.Contract;
-import cn.fyg.pm.domain.model.contract.ContractFactory;
-import cn.fyg.pm.domain.model.contract.ContractRepository;
-import cn.fyg.pm.domain.model.contract.ContractType;
+import cn.fyg.pm.domain.model.contract.general.Contract;
+import cn.fyg.pm.domain.model.contract.general.ContractFactory;
+import cn.fyg.pm.domain.model.contract.general.ContractRepository;
+import cn.fyg.pm.domain.model.contract.general.ContractType;
 import cn.fyg.pm.domain.model.project.Project;
 
 @Service("contractService")

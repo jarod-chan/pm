@@ -2,8 +2,8 @@ package cn.fyg.pm.application.service;
 
 import java.util.List;
 
-import cn.fyg.pm.domain.model.contract.Contract;
-import cn.fyg.pm.domain.model.contract.ContractType;
+import cn.fyg.pm.domain.model.contract.general.Contract;
+import cn.fyg.pm.domain.model.contract.general.ContractType;
 import cn.fyg.pm.domain.model.project.Project;
 
 public interface ContractService {

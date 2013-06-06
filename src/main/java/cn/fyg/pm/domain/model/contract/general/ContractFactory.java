@@ -1,5 +1,6 @@
-package cn.fyg.pm.domain.model.contract;
+package cn.fyg.pm.domain.model.contract.general;
 
+import cn.fyg.pm.domain.model.contract.ContractState;
 import cn.fyg.pm.domain.model.project.Project;
 
 public class ContractFactory {

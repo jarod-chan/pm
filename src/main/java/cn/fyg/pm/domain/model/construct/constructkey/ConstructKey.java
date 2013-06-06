@@ -12,7 +12,7 @@ import javax.persistence.Transient;
 
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
-import cn.fyg.pm.domain.model.contract.Contract;
+import cn.fyg.pm.domain.model.contract.general.Contract;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 

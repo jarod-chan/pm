@@ -26,6 +26,9 @@ public class ReqItemFacade {
 	}
 	
 	public void upReqItemList(Long purchaseKeyId,UptypeEnum uptype,Long upid,String upno,boolean[] chk_val,boolean[] chk_read){
+		if(chk_val==null||chk_read==null){
+			return;
+		}
 		PurchaseKey purchaseKey = new PurchaseKey();
 		purchaseKey.setId(purchaseKeyId);
 		PurchaseReq purchaseReq = purchaseReqService.findByPurchaseKey(purchaseKey);
@@ -52,15 +55,18 @@ public class ReqItemFacade {
 		PurchaseKey purchaseKey = new PurchaseKey();
 		purchaseKey.setId(purchaseKeyId);
 		PurchaseReq purchaseReq = purchaseReqService.findByPurchaseKey(purchaseKey);
-		List<PurchaseReqItem> purchaseReqItems = purchaseReq.getPurchaseReqItems();
-		for (PurchaseReqItem purchaseReqItem : purchaseReqItems) {
-			if(uptype==purchaseReqItem.getUptype()&&upid.equals(purchaseReqItem.getUpid())){
-				purchaseReqItem.setUpid(null);
-				purchaseReqItem.setUpno(null);
-				purchaseReqItem.setUptype(null);
-			}
+		if(purchaseReq!=null){
+			List<PurchaseReqItem> purchaseReqItems = purchaseReq.getPurchaseReqItems();
+			for (PurchaseReqItem purchaseReqItem : purchaseReqItems) {
+				if(uptype==purchaseReqItem.getUptype()&&upid.equals(purchaseReqItem.getUpid())){
+					purchaseReqItem.setUpid(null);
+					purchaseReqItem.setUpno(null);
+					purchaseReqItem.setUptype(null);
+				}
+			}	
+			purchaseReqService.save(purchaseReq);
 		}
-		purchaseReqService.save(purchaseReq);
+		
 	}
 
 }

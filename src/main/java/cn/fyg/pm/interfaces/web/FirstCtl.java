@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import cn.fyg.pm.application.service.ContractService;
 import cn.fyg.pm.application.service.PjmemberService;
 import cn.fyg.pm.application.service.ProjectService;
-import cn.fyg.pm.domain.model.contract.Contract;
+import cn.fyg.pm.domain.model.contract.general.Contract;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;

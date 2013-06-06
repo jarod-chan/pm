@@ -20,17 +20,18 @@ public class PurchaseKey {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;//id
+	private Long id;//id
 	
 	@ManyToOne(targetEntity=Project.class)
 	@JoinColumn(name="project_id")
 	private Project project;//项目
 
-	public long getId() {
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
