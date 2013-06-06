@@ -2,6 +2,8 @@ package cn.fyg.pm.domain.model.purchase.purchasereq;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,6 +37,13 @@ public class PurchaseReqItem {
 	private String numb;//数量
 	
 	private String brand;//推荐品牌
+	
+	private Long upid;//关联单据id
+	
+	private String upno;//关联单据类型
+	
+	@Enumerated(EnumType.STRING)
+	private UptypeEnum uptype;//关联单据类型
 
 	public Long getId() {
 		return id;
@@ -101,4 +110,28 @@ public class PurchaseReqItem {
 		this.brand = brand;
 	}
 
+	public Long getUpid() {
+		return upid;
+	}
+
+	public void setUpid(Long upid) {
+		this.upid = upid;
+	}
+
+	public String getUpno() {
+		return upno;
+	}
+
+	public void setUpno(String upno) {
+		this.upno = upno;
+	}
+
+	public UptypeEnum getUptype() {
+		return uptype;
+	}
+
+	public void setUptype(UptypeEnum uptype) {
+		this.uptype = uptype;
+	}	
+	
 }

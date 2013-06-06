@@ -31,9 +31,11 @@ import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCert;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertItem;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertState;
 import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReq;
+import cn.fyg.pm.domain.model.purchase.purchasereq.UptypeEnum;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.module.purchasecert.query.CertQuery;
+import cn.fyg.pm.interfaces.web.module.purchasereq.ReqItemFacade;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 import cn.fyg.pm.interfaces.web.shared.query.CommonQuery;
@@ -64,6 +66,8 @@ public class PurchaseCertCtl {
 	SupplierService supplierService;
 	@Autowired
 	PurchaseCertAssembler purchaseCertAssembler;
+	@Autowired
+	ReqItemFacade reqItemFacade;
 	
 	@InitBinder
 	private void dateBinder(WebDataBinder binder) {
@@ -96,7 +100,7 @@ public class PurchaseCertCtl {
 	}
 	
 	@RequestMapping(value="saveEdit",method=RequestMethod.POST)
-	public String saveEdit(@RequestParam("id")Long purchaseCertId,@RequestParam(value="purchaseCertItemsId",required=false) Long[] purchaseCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes){
+	public String saveEdit(@RequestParam("id")Long purchaseCertId,@RequestParam(value="chk_val",required=false)boolean[] chk_val,@RequestParam(value="chk_read",required=false)boolean[] chk_read,@RequestParam(value="purchaseCertItemsId",required=false) Long[] purchaseCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes){
 		Project project = sessionUtil.getValue("project");
 		User user = sessionUtil.getValue("user");
 		PurchaseCert purchaseCert = purchaseCertId!=null?purchaseCertService.find(purchaseCertId):purchaseCertService.create(user, project,PurchaseCertState.saved,true);
@@ -114,6 +118,8 @@ public class PurchaseCertCtl {
 		binder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
 		binder.bind(request);
 		purchaseCert=purchaseCertService.save(purchaseCert);
+		
+		reqItemFacade.upReqItemList(purchaseCert.getPurchaseKey().getId(), UptypeEnum.pm_purchasecert, purchaseCert.getId(), purchaseCert.getNo(), chk_val, chk_read);
 		
 		if(afteraction.equals("save")){
 			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("保存成功！"));
@@ -146,6 +152,8 @@ public class PurchaseCertCtl {
 	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
 	public String delete(@RequestParam("purchaseCertId") Long purchaseCertId,RedirectAttributes redirectAttributes){
+		PurchaseCert purchaseCert=purchaseCertService.find(purchaseCertId);
+		reqItemFacade.rmReqItemList(purchaseCert.getPurchaseKey().getId(), UptypeEnum.pm_purchasecert, purchaseCert.getId());
 		purchaseCertService.delete(purchaseCertId);
 		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("删除成功！"));
 		return "redirect:list";

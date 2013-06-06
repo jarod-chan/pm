@@ -113,25 +113,13 @@
 	 </script>
 
 	<input type="hidden" name="id"  value="${purchaseReq.id}">
+	<input type="hidden" name="purchaseKey.id"  value="${purchaseKey.id}">
 	<table id="tabmain">
 		<tr>
 			<td>编号：</td><td>${purchaseReq.no}<c:if test="${empty purchaseReq.no}">自动生成</c:if></td>
 		</tr>
 		<tr>
 			<td>项目负责人：</td><td>${purchaseReq.leader.name}</td>
-		</tr>
-		<tr>
-			<td>合同：</td> 
-			<td>
-				<select name="purchaseKey.contract.id">
-					<c:forEach var="contract" items="${contractList}">
-						<option value="${contract.id}" <c:if test="${purchaseKey.constructKey.contract.id==contract.id}">selected="true"</c:if> >${contract.name}-${contract.supplier.name}</option>
-					</c:forEach>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td>供应商：</td><td><span id="supplier_name"></span></td>
 		</tr>
 		<tr>
 			<td style="vertical-align: top">说明：</td><td><textarea name="descrp" rows="6" cols="30" style="vertical-align: top">${purchaseReq.descrp}</textarea></td>

@@ -89,23 +89,12 @@
 </head>
 
 <body>
-	<h2>材料签证单</h2>
+	<h2>价格确认单</h2>
 	<div style="text-align: left;">
 	<form action="${ctx}/purchasecert" method="post">
 		编号:<input type="text" name="no" value="${query.no}">
-		供应商:<select name="supplier.id" >
-					<option value="" >-所有-</option>
-					<c:forEach var="supplier" items="${supplierList}">
-						<option value="${supplier.id}" <c:if test="${supplier.id==query.supplier.id}">selected="true"</c:if> >${supplier.name}</option>
-					</c:forEach>
-				</select>
 		制单日期:<input type="text" name="createdate_beg" class="datePK" value="<fmt:formatDate value="${query.createdate_beg}" pattern="yyyy-MM-dd"/>" >--<input type="text" name="createdate_end" class="datePK" value="<fmt:formatDate value="${query.createdate_end}" pattern="yyyy-MM-dd"/>">
-		专业分类:<select name="specialty" >
-					<option value="" >-所有-</option>
-					<c:forEach var="contractSpec" items="${contractSpecList}">
-						<option value="${contractSpec}" <c:if test="${contractSpec==query.specialty}">selected="true"</c:if> >${contractSpec.name}</option>
-					</c:forEach>
-				</select><br>
+		<br>
 		状态:<select name="state" >
 					<c:forEach var="state" items="${stateList}">
 						<option value="${state}" <c:if test="${state==query.state}">selected="true"</c:if> >${state.name}</option>
@@ -114,7 +103,6 @@
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		排序:<select name="orderAttribute">
 				<option value="no"   <c:if test="${query.orderAttribute=='no'}">selected="true"</c:if> >编号</option>
-				<option value="constructKey.supplier.id"  <c:if test="${query.orderAttribute=='purchaseKey.supplier.id'}">selected="true"</c:if>  >供应商</option>
 				<option value="createdate" <c:if test="${query.orderAttribute=='createdate'}">selected="true"</c:if> >制单日期</option>
 			</select> 
 			<select name="orderType">
@@ -136,7 +124,9 @@
 	<br>
 	<table id="tblmain" border="1">
 		<tr>
-			<td>编号</td><td>采购申请单</td><td>合同</td><td>供应商</td><td>专业分类</td><td>说明</td>
+			<td>编号</td>
+			<td>采购申请单</td>
+			<td>说明</td>
 			<td>计划进场时间</td>
 			<td>状态</td>
 			<td>制单人</td>
@@ -151,9 +141,6 @@
 			<tr>
 				<td>${item.purchaseCert.no}</td>
 				<td>${item.purchaseReq.no}</td>
-				<td>${item.purchaseCert.purchaseKey.contract.name}</td>
-				<td>${item.purchaseCert.purchaseKey.supplier.name}</td>
-				<td>${item.purchaseCert.purchaseKey.contract.specialty.name}</td>
 				<td>${item.purchaseCert.descrp}</td>
 				<td>${item.purchaseCert.plandate}</td>
 				<td><span class="state state-${item.purchaseCert.state}" >${item.purchaseCert.state.name}</span></td>

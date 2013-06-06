@@ -16,15 +16,6 @@
 			<td>项目负责人：</td><td>${purchaseReq.leader.name}</td>
 		</tr>
 		<tr>
-			<td>合同：</td> 
-			<td>
-				${purchaseReq.purchaseKey.contract.no}
-			</td>
-		</tr>
-		<tr>
-			<td>供应商：</td><td>${purchaseReq.purchaseKey.supplier.name}</td>
-		</tr>
-		<tr>
 			<td style="vertical-align: top">说明：</td><td>${purchaseReq.descrp}</td>
 		</tr>
 			<tr>
@@ -68,7 +59,7 @@
 	<table id="tabitem" border="1">
 	<thead>
 		<tr>
-			<th>序号</th><th>材料名称</th><th>型号规格和技术指标</th><th>单位</th><th>数量</th><th>推荐品牌</th>
+			<th>序号</th><th>材料名称</th><th>型号规格和技术指标</th><th>单位</th><th>数量</th><th>推荐品牌</th><th>执行结果</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -85,7 +76,12 @@
 			<td><fmt:formatNumber value="${item.numb}" pattern="#.#"/></td>
 			
 			<td>${item.brand}</td>
-	  
+	  		
+	  		<td>
+	  			<c:if test="${not empty item.upid}">	  			
+	  			${item.uptype.name}[${item.upno}]采购
+	  			</c:if>
+	  		</td>
 		</tr>
 		</c:forEach>
 	</tbody>

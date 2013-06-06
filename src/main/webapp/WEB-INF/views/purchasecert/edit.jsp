@@ -42,7 +42,7 @@
 
 
 <body>
-	<h2>材料签证单</h2>
+	<h2>价格确认单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
 	<form action="${ctx}/purchasecert" method="post">

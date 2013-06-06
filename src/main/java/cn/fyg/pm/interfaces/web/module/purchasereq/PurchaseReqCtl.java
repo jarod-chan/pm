@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cn.fyg.pm.application.service.ContractService;
@@ -33,10 +34,10 @@ import cn.fyg.pm.domain.model.contract.Contract;
 import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.contract.ContractType;
 import cn.fyg.pm.domain.model.project.Project;
-import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
 import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReq;
 import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqItem;
 import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqState;
+import cn.fyg.pm.domain.model.purchase.purchasereq.UptypeEnum;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
@@ -79,6 +80,8 @@ public class PurchaseReqCtl {
 	TaskService taskService;
 	@Autowired
 	OpinionService opinionService;
+	@Autowired
+	ReqItemFacade reqItemFacade;
 	
 	@InitBinder
 	private void dateBinder(WebDataBinder binder) {
@@ -127,12 +130,6 @@ public class PurchaseReqCtl {
 		ServletRequestDataBinder binder = new ServletRequestDataBinder(purchaseReq);
         binder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
 		binder.bind(request);
-		//TODO:补充填入供应商字段
-		 PurchaseKey purchaseKey = purchaseReq.getPurchaseKey();
-		if(purchaseKey.getContract()!=null){
-			Contract contract = contractService.find(purchaseKey.getContract().getId());
-			purchaseKey.setSupplier(contract.getSupplier());
-		}
 		purchaseReq=purchaseReqService.save(purchaseReq);
 		
 		if(afteraction.equals("save")){
@@ -259,5 +256,14 @@ public class PurchaseReqCtl {
 		}
 		
 		return "";
+	}
+	
+	/**
+	 * 供外部接口调用
+	 */
+	@RequestMapping(value="{purchaseKeyId}/items/{uptype}/{upid}",method=RequestMethod.GET)
+	@ResponseBody 
+	public List<ReqItemDto> getReqItemList(@PathVariable("purchaseKeyId")Long purchaseKeyId,@PathVariable("uptype")UptypeEnum uptype,@PathVariable("upid")Long upid){
+		return reqItemFacade.getReqItemList(purchaseKeyId, uptype, upid);
 	}
 }

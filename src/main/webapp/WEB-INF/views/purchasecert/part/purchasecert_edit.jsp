@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+
 	 <script type="text/javascript">
     $(function(){
     	
@@ -140,23 +141,72 @@
 		});
 		
 		$("input[name='purchaseCertItems_numb']").bind("blur",numbBlur);
+		$("input[name='purchaseCertItems_price']").bind("blur",priceBlur);
 		$(".add").bind("click",add);
 	 	$(".remove").bind("click",remove);
     	
-    	$("select:eq(0)").change(function(){
-    		var opt=$(this).find("option:selected").text();
-    		var idx=opt.lastIndexOf("-");
-    		$("#supplier_name").html(opt.substring(idx+1));
-    	})
-    	$("select:eq(0)").triggerHandler("change");
     	
     	<c:if test="${fn:length(purchaseCert.purchaseCertItems)==0}">
     	$(".addLast").triggerHandler("click");
     	</c:if>
     	
+        	
     	$(".datePK").datepicker();
     	
     	$('#tabmain tr').find('td:eq(0)').css("text-align","right");
+    })
+    
+    
+    $(function(){
+   		var itemdom = $("<tr>");
+   		
+   		$("<td>").append($("<input type='checkbox' class='inp_chk' name=''  />"))
+   		  .append($("<input type='hidden' name='chk_val' />"))
+   		  .append($("<input type='hidden' name='chk_read' />"))
+   		  .appendTo(itemdom);
+   		
+   		$("<td>").appendTo(itemdom);
+   		
+   		$("<td>").appendTo(itemdom);
+   		
+   		$("<td>").appendTo(itemdom);
+   		
+   		$("<td>").appendTo(itemdom);
+    		  
+    		 
+       	var warpLi=function(item){
+       		var newItemdom=itemdom.clone();
+       		var inpChk=newItemdom.find(".inp_chk");
+       		inpChk.attr("checked",item.check).click(function(){
+       			$(this).next().val($(this).is(':checked'));
+       		});
+       		inpChk.next().val(item.check);
+       		inpChk.next().next().val(item.readonly);
+       		if(item.readonly==true){
+       			inpChk.attr("disabled","true");
+       		}
+       		
+       		newItemdom.find("td:eq(1)").html(item.sn);
+       		newItemdom.find("td:eq(2)").html(item.metername);
+       		newItemdom.find("td:eq(3)").html(item.spec);
+       		if(item.upid!=null){       			
+       			newItemdom.find("td:eq(4)").html(item.uptypeName+"["+item.upno+"]执行采购");
+       		}
+       		$("#purchaseReqItem tbody").append(newItemdom);
+       	}
+       	
+       	$("select:eq(0)").change(function(){
+       		var val=$(this).val();
+       		var certid="-1";
+       		<c:if test="${not empty purchaseCert.id}">certid="${purchaseCert.id}";</c:if>
+       		$.getJSON('${ctx}/purchasereq/'+val+'/items/pm_purchasecert/'+certid,function(itemlist){
+       			$("#purchaseReqItem tbody").empty();
+       			for(i=0;i<itemlist.length;i++){
+       				warpLi(itemlist[i]);
+       			}
+       		})
+       	}).triggerHandler("change");		
+    
     })
 	 
 	 </script>
@@ -174,13 +224,24 @@
 			<td>
 				<select name="purchaseKey.id">
 					<c:forEach var="purchaseReq" items="${purchaseReqList}">
-						<option value="${purchaseReq.purchaseKey.id}" <c:if test="${purchaseCert.purchaseKey.id==purchaseReq.purchaseKey.id}">selected="true"</c:if> >${purchaseReq.no}-${purchaseReq.purchaseKey.supplier.name}</option>
+						<option value="${purchaseReq.purchaseKey.id}" <c:if test="${purchaseCert.purchaseKey.id==purchaseReq.purchaseKey.id}">selected="true"</c:if> >${purchaseReq.no}</option>
 					</c:forEach>
 				</select>
 			</td>
 		</tr>
 		<tr>
-			<td>供应商：</td><td><span id="supplier_name"></span></td>
+			<td style="vertical-align: top">关联采购明细：</td>
+			<td>
+				<table id="purchaseReqItem" border="1">
+				<thead>
+					<tr>
+						<th>勾选</th><th>序号</th><th>材料名称</th><th>型号规格和技术指标</th><th>执行结果</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+				</table>
+			</td>
 		</tr>
 		<tr>
 			<td style="vertical-align: top">说明：</td><td><textarea name="descrp" rows="6" cols="30" style="vertical-align: top">${purchaseCert.descrp}</textarea></td>

@@ -24,7 +24,30 @@
 			</td>
 		</tr>
 		<tr>
-			<td>供应商：</td><td>${purchaseCert.purchaseKey.supplier.name}</td>
+			<td>关联采购明细：</td> 
+			<td>
+				<table id="purchaseReqItem" border="1">
+				<thead>
+					<tr>
+						<th>序号</th><th>材料名称</th><th>型号规格和技术指标</th><th>执行结果</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach  items="${purchaseReq.purchaseReqItems}" var="item">
+						<tr>
+							<td>${item.sn}</td>
+							<td>${item.metername}</td>
+							<td>${item.spec}</td>
+							<td>
+							<c:if test="${not empty item.upid}">
+							${item.uptype.name}[${item.upno}]执行采购
+							</c:if>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+				</table>
+			</td>
 		</tr>
 		<tr>
 			<td style="vertical-align: top">说明：</td><td>${purchaseCert.descrp}</td>
