@@ -1,7 +1,7 @@
 package cn.fyg.pm.interfaces.web.module.contractmeter;
 
 import cn.fyg.pm.domain.model.contract.purchase.ContractMeter;
-import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReq;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 
 public class ContractMeterDto {
 	

@@ -6,7 +6,7 @@ import org.activiti.engine.delegate.JavaDelegate;
 
 import cn.fyg.pm.application.service.OpinionService;
 import cn.fyg.pm.application.service.PurchaseReqService;
-import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReq;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 

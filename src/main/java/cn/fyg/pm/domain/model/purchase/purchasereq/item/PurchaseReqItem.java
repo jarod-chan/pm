@@ -1,4 +1,4 @@
-package cn.fyg.pm.domain.model.purchase.purchasereq;
+package cn.fyg.pm.domain.model.purchase.purchasereq.item;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 
 /**
  *采购申请单明细
@@ -38,12 +40,14 @@ public class PurchaseReqItem {
 	
 	private String brand;//推荐品牌
 	
+	@Enumerated(EnumType.STRING)
+	private UptypeEnum uptype;//关联单据类型
+	
 	private Long upid;//关联单据id
 	
 	private String upno;//关联单据类型
 	
-	@Enumerated(EnumType.STRING)
-	private UptypeEnum uptype;//关联单据类型
+
 
 	public Long getId() {
 		return id;

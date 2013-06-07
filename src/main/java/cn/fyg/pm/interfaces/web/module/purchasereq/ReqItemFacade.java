@@ -5,17 +5,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import cn.fyg.pm.application.service.PurchaseReqItemService;
 import cn.fyg.pm.application.service.PurchaseReqService;
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
-import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReq;
-import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqItem;
-import cn.fyg.pm.domain.model.purchase.purchasereq.UptypeEnum;
+import cn.fyg.pm.domain.model.purchase.purchasereq.item.PurchaseReqItem;
+import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 
 @Component
 public class ReqItemFacade {
 	
 	@Autowired
 	PurchaseReqService purchaseReqService;
+	@Autowired
+	PurchaseReqItemService purchaseReqItemService;
 	
 	public List<ReqItemDto> getReqItemList(Long purchaseKeyId,UptypeEnum uptype,Long upid){
 		PurchaseKey purchaseKey = new PurchaseKey();
@@ -23,6 +26,54 @@ public class ReqItemFacade {
 		PurchaseReq purchaseReq = purchaseReqService.findByPurchaseKey(purchaseKey);
 		List<PurchaseReqItem> purchaseReqItems = purchaseReq.getPurchaseReqItems();
 		return ReqItemAssembler.build(purchaseReqItems,uptype,upid);
+	}
+	
+	/**
+	 * TODO 业务逻辑，重构到领域层
+	 * @param uptype
+	 * @param upid
+	 * @param upno
+	 * @param upReqItemIds
+	 */
+	public void upReqItemList(UptypeEnum uptype,Long upid,String upno,Long[] upReqItemIds){
+		List<PurchaseReqItem> purchaseReqItems= purchaseReqItemService.findRelatedItems(uptype,upid); 
+		if(purchaseReqItems!=null&&!purchaseReqItems.isEmpty()){
+			for (PurchaseReqItem purchaseReqItem : purchaseReqItems) {
+				purchaseReqItem.setUpid(null);
+				purchaseReqItem.setUpno(null);
+				purchaseReqItem.setUptype(null);
+			}
+			purchaseReqItemService.save(purchaseReqItems);
+		}
+		
+		if(upReqItemIds!=null){
+			purchaseReqItems= purchaseReqItemService.find(upReqItemIds);
+			for (PurchaseReqItem purchaseReqItem : purchaseReqItems) {
+				purchaseReqItem.setUpid(upid);
+				purchaseReqItem.setUpno(upno);
+				purchaseReqItem.setUptype(uptype);
+			}
+			purchaseReqItemService.save(purchaseReqItems);
+		}
+	
+	}
+	
+	/**
+	 * 待重构
+	 * @param uptype
+	 * @param upid
+	 */
+	public void rmReqItemList(UptypeEnum uptype,Long upid){
+		List<PurchaseReqItem> purchaseReqItems= purchaseReqItemService.findRelatedItems(uptype,upid); 
+		if(purchaseReqItems!=null&&!purchaseReqItems.isEmpty()){
+			for (PurchaseReqItem purchaseReqItem : purchaseReqItems) {
+				purchaseReqItem.setUpid(null);
+				purchaseReqItem.setUpno(null);
+				purchaseReqItem.setUptype(null);
+			}
+			purchaseReqItemService.save(purchaseReqItems);
+		}
+		
 	}
 	
 	public void upReqItemList(Long purchaseKeyId,UptypeEnum uptype,Long upid,String upno,boolean[] chk_val,boolean[] chk_read){

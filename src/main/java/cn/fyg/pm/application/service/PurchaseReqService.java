@@ -5,8 +5,8 @@ import java.util.List;
 import cn.fyg.pm.application.shared.ServiceQuery;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
-import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReq;
-import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqState;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqState;
 import cn.fyg.pm.domain.model.user.User;
 
 public interface PurchaseReqService extends ServiceQuery<PurchaseReq> {

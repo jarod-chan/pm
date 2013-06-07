@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import cn.fyg.pm.application.service.PurchaseReqService;
 import cn.fyg.pm.domain.model.contract.purchase.ContractMeter;
-import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReq;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 
 @Component
 public class ContractMeterAssembler {

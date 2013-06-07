@@ -1,7 +1,7 @@
 package cn.fyg.pm.interfaces.web.module.purchasecert;
 
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCert;
-import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReq;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 
 public class PurchaseCertDto {
 	

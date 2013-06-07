@@ -1,4 +1,4 @@
-package cn.fyg.pm.domain.model.purchase.purchasereq;
+package cn.fyg.pm.domain.model.purchase.purchasereq.req;
 
 import java.util.Date;
 import java.util.UUID;

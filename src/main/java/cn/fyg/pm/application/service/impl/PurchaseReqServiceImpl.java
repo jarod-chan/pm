@@ -9,11 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.fyg.pm.application.service.PurchaseReqService;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
-import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReq;
-import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqFactory;
-import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqItem;
-import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqRepository;
-import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqState;
+import cn.fyg.pm.domain.model.purchase.purchasereq.item.PurchaseReqItem;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqFactory;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqRepository;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqState;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 

@@ -1,4 +1,4 @@
-package cn.fyg.pm.domain.model.purchase.purchasereq;
+package cn.fyg.pm.domain.model.purchase.purchasereq.req;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +21,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
+import cn.fyg.pm.domain.model.purchase.purchasereq.item.PurchaseReqItem;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.BusiCode;
 

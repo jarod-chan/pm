@@ -33,8 +33,8 @@ import cn.fyg.pm.domain.model.fileupload.busifile.Busifile;
 import cn.fyg.pm.domain.model.fileupload.filestore.Filestore;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
-import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReq;
-import cn.fyg.pm.domain.model.purchase.purchasereq.UptypeEnum;
+import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.shared.BusiCode;
 import cn.fyg.pm.interfaces.web.module.purchasereq.ReqItemFacade;
@@ -104,7 +104,7 @@ public class ContractMeterCtl {
 	}
 	
 	@RequestMapping(value="save",method=RequestMethod.POST)
-	public String save(@RequestParam("id") Long contractMeterId,@RequestParam(value="filestore_id",required=false)Long[] filestore_id,@RequestParam(value="chk_val",required=false)boolean[] chk_val,@RequestParam(value="chk_read",required=false)boolean[] chk_read,HttpServletRequest request,RedirectAttributes redirectAttributes){
+	public String save(@RequestParam("id") Long contractMeterId,@RequestParam(value="filestore_id",required=false)Long[] filestore_id,@RequestParam(value="reqItemIds",required=false)Long[] reqItemIds,HttpServletRequest request,RedirectAttributes redirectAttributes){
 		Project project=sessionUtil.getValue("project");
 		ContractMeter contractMeter=contractMeterId!=null?contractMeterService.find(contractMeterId):contractMeterService.create(project);
 		
@@ -119,7 +119,7 @@ public class ContractMeterCtl {
 			reSaveBusifile(contractMeter, filestore_id, busiCode, busiId);
 		}
 		
-		reqItemFacade.upReqItemList(contractMeter.getPurchaseKey().getId(), UptypeEnum.pm_contractmeter, contractMeter.getId(), contractMeter.getNo(), chk_val, chk_read);
+		reqItemFacade.upReqItemList(UptypeEnum.pm_contractmeter, contractMeter.getId(), contractMeter.getNo(), reqItemIds);
 		
 		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("保存成功"));
 		return "redirect:list";
@@ -144,8 +144,7 @@ public class ContractMeterCtl {
 	@RequestMapping(value="delete",method=RequestMethod.POST)
 	public String delete(@RequestParam("contractMeterId") Long contractMeterId,RedirectAttributes redirectAttributes){
 		this.busifileService.deleteByBusiCodeAndBusiId(BusiCode.pm_contractmeter, contractMeterId);
-		ContractMeter contractMeter=contractMeterService.find(contractMeterId);
-		reqItemFacade.rmReqItemList(contractMeter.getPurchaseKey().getId(), UptypeEnum.pm_contractmeter, contractMeter.getId());
+		reqItemFacade.rmReqItemList(UptypeEnum.pm_contractmeter, contractMeterId);
 		contractMeterService.delete(contractMeterId);
 		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("删除成功"));
 		return "redirect:list";

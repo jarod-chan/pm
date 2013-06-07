@@ -3,6 +3,7 @@ package cn.fyg.pm.domain.model.contract.purchase;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -37,7 +38,7 @@ public class ContractMeter {
 	
 	private String name;//项目名称
 	
-	@ManyToOne(targetEntity=PurchaseKey.class)
+	@ManyToOne(targetEntity=PurchaseKey.class,cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
 	@JoinColumn(name="purchasekey_id")
 	private PurchaseKey purchaseKey; //采购线索
 	

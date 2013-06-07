@@ -1,4 +1,4 @@
-package cn.fyg.pm.domain.model.purchase.purchasereq;
+package cn.fyg.pm.domain.model.purchase.purchasereq.item;
 
 import cn.fyg.pm.domain.shared.CommonEnum;
 

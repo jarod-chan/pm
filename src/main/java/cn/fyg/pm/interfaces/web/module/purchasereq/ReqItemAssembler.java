@@ -8,8 +8,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqItem;
-import cn.fyg.pm.domain.model.purchase.purchasereq.UptypeEnum;
+import cn.fyg.pm.domain.model.purchase.purchasereq.item.PurchaseReqItem;
+import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 
 public class ReqItemAssembler {
 	

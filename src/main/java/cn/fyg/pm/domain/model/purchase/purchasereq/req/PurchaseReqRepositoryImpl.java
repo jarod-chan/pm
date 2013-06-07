@@ -1,4 +1,4 @@
-package cn.fyg.pm.domain.model.purchase.purchasereq;
+package cn.fyg.pm.domain.model.purchase.purchasereq.req;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

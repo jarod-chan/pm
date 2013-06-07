@@ -1,6 +1,6 @@
 package cn.fyg.pm.interfaces.web.module.purchasereq;
 
-import cn.fyg.pm.domain.model.purchase.purchasereq.UptypeEnum;
+import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 
 public class ReqItemDto {
 	

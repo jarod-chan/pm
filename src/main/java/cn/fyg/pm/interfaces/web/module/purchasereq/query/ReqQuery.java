@@ -11,8 +11,8 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang.StringUtils;
 
-import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReq;
-import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqState;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqState;
 import cn.fyg.pm.infrastructure.tool.DateUtil;
 import cn.fyg.pm.interfaces.web.shared.query.CommonQuery;
 
