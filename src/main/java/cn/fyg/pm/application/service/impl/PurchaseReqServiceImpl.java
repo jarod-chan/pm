@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.fyg.pm.application.service.PurchaseReqService;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
+import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqBusi;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.PurchaseReqItem;
+import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqFactory;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqRepository;
@@ -22,6 +24,8 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 	
 	@Autowired
 	PurchaseReqRepository purchaseReqRepository;
+	@Autowired
+	PurchaseReqBusi purchaseReqBusi;
 
 	@Override
 	public List<PurchaseReq> query(QuerySpec<PurchaseReq> querySpec) {
@@ -62,6 +66,18 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 	@Override
 	public PurchaseReq findByPurchaseKey(PurchaseKey purchaseKey) {
 		return this.purchaseReqRepository.findByPurchaseKey(purchaseKey);
+	}
+
+	@Override
+	@Transactional
+	public void upReqItemList(UptypeEnum uptype, Long upid, String upno,Long[] upReqItemIds) {
+		purchaseReqBusi.upReqItemList(uptype, upid, upno, upReqItemIds);
+	}
+
+	@Override
+	@Transactional
+	public void rmReqItemList(UptypeEnum uptype, Long upid) {
+		purchaseReqBusi.rmReqItemList(uptype, upid);
 	}
 
 }

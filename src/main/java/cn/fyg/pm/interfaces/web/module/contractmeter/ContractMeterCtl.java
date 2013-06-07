@@ -119,7 +119,7 @@ public class ContractMeterCtl {
 			reSaveBusifile(contractMeter, filestore_id, busiCode, busiId);
 		}
 		
-		reqItemFacade.upReqItemList(UptypeEnum.pm_contractmeter, contractMeter.getId(), contractMeter.getNo(), reqItemIds);
+		purchaseReqService.upReqItemList(UptypeEnum.pm_contractmeter, contractMeter.getId(), contractMeter.getNo(), reqItemIds);
 		
 		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("保存成功"));
 		return "redirect:list";
@@ -144,7 +144,7 @@ public class ContractMeterCtl {
 	@RequestMapping(value="delete",method=RequestMethod.POST)
 	public String delete(@RequestParam("contractMeterId") Long contractMeterId,RedirectAttributes redirectAttributes){
 		this.busifileService.deleteByBusiCodeAndBusiId(BusiCode.pm_contractmeter, contractMeterId);
-		reqItemFacade.rmReqItemList(UptypeEnum.pm_contractmeter, contractMeterId);
+		purchaseReqService.rmReqItemList(UptypeEnum.pm_contractmeter, contractMeterId);
 		contractMeterService.delete(contractMeterId);
 		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("删除成功"));
 		return "redirect:list";

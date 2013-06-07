@@ -160,9 +160,7 @@
     $(function(){
    		var itemdom = $("<tr>");
    		
-   		$("<td>").append($("<input type='checkbox' class='inp_chk' name=''  />"))
-   		  .append($("<input type='hidden' name='chk_val' />"))
-   		  .append($("<input type='hidden' name='chk_read' />"))
+   		$("<td>").append($("<input type='checkbox' class='inp_chk'  name='reqItemIds'  />"))
    		  .appendTo(itemdom);
    		
    		$("<td>").appendTo(itemdom);
@@ -177,11 +175,7 @@
        	var warpLi=function(item){
        		var newItemdom=itemdom.clone();
        		var inpChk=newItemdom.find(".inp_chk");
-       		inpChk.attr("checked",item.check).click(function(){
-       			$(this).next().val($(this).is(':checked'));
-       		});
-       		inpChk.next().val(item.check);
-       		inpChk.next().next().val(item.readonly);
+       		inpChk.val(item.id).attr("checked",item.check);
        		if(item.readonly==true){
        			inpChk.attr("disabled","true");
        		}

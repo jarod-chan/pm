@@ -5,6 +5,7 @@ import java.util.List;
 import cn.fyg.pm.application.shared.ServiceQuery;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
+import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqState;
 import cn.fyg.pm.domain.model.user.User;
@@ -22,5 +23,9 @@ public interface PurchaseReqService extends ServiceQuery<PurchaseReq> {
 	PurchaseReq findByPurchaseKey(PurchaseKey purchaseKey);
 
 	void delete(Long purchaseReqId);
+	
+	void upReqItemList(UptypeEnum uptype,Long upid,String upno,Long[] upReqItemIds);
+	 
+	void rmReqItemList(UptypeEnum uptype,Long upid);
 
 }

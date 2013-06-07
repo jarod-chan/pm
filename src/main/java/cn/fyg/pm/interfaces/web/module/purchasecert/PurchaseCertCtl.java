@@ -100,7 +100,7 @@ public class PurchaseCertCtl {
 	}
 	
 	@RequestMapping(value="saveEdit",method=RequestMethod.POST)
-	public String saveEdit(@RequestParam("id")Long purchaseCertId,@RequestParam(value="chk_val",required=false)boolean[] chk_val,@RequestParam(value="chk_read",required=false)boolean[] chk_read,@RequestParam(value="purchaseCertItemsId",required=false) Long[] purchaseCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes){
+	public String saveEdit(@RequestParam("id")Long purchaseCertId,@RequestParam(value="reqItemIds",required=false)Long[] reqItemIds,@RequestParam(value="purchaseCertItemsId",required=false) Long[] purchaseCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes){
 		Project project = sessionUtil.getValue("project");
 		User user = sessionUtil.getValue("user");
 		PurchaseCert purchaseCert = purchaseCertId!=null?purchaseCertService.find(purchaseCertId):purchaseCertService.create(user, project,PurchaseCertState.saved,true);
@@ -119,7 +119,7 @@ public class PurchaseCertCtl {
 		binder.bind(request);
 		purchaseCert=purchaseCertService.save(purchaseCert);
 		
-		reqItemFacade.upReqItemList(purchaseCert.getPurchaseKey().getId(), UptypeEnum.pm_purchasecert, purchaseCert.getId(), purchaseCert.getNo(), chk_val, chk_read);
+		purchaseReqService.upReqItemList(UptypeEnum.pm_purchasecert, purchaseCert.getId(), purchaseCert.getNo(),reqItemIds);
 		
 		if(afteraction.equals("save")){
 			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("保存成功！"));
@@ -152,8 +152,7 @@ public class PurchaseCertCtl {
 	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
 	public String delete(@RequestParam("purchaseCertId") Long purchaseCertId,RedirectAttributes redirectAttributes){
-		PurchaseCert purchaseCert=purchaseCertService.find(purchaseCertId);
-		reqItemFacade.rmReqItemList(purchaseCert.getPurchaseKey().getId(), UptypeEnum.pm_purchasecert, purchaseCert.getId());
+		purchaseReqService.rmReqItemList(UptypeEnum.pm_purchasecert, purchaseCertId);
 		purchaseCertService.delete(purchaseCertId);
 		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("删除成功！"));
 		return "redirect:list";
