@@ -3,7 +3,6 @@ package cn.fyg.pm.domain.model.contract.purchase;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -19,6 +18,7 @@ import javax.persistence.TemporalType;
 import cn.fyg.pm.domain.model.contract.ContractRisk;
 import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.contract.ContractState;
+import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
@@ -38,9 +38,13 @@ public class ContractMeter {
 	
 	private String name;//项目名称
 	
-	@ManyToOne(targetEntity=PurchaseKey.class,cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+	@ManyToOne(targetEntity=PurchaseKey.class)
 	@JoinColumn(name="purchasekey_id")
 	private PurchaseKey purchaseKey; //采购线索
+	
+	@ManyToOne(targetEntity=Project.class)
+	@JoinColumn(name="project_id")
+	private Project project;//项目
 	
 	@ManyToOne(targetEntity=Supplier.class)
 	@JoinColumn(name="supplier_id")
@@ -82,6 +86,14 @@ public class ContractMeter {
 	private Long totalCopies;//总份数
 	
 	private Long saveCopies;//留存份数
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
 
 	public Long getId() {
 		return id;

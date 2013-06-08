@@ -8,7 +8,8 @@ import cn.fyg.pm.domain.model.project.Project;
 
 public interface ContractMeterRepository extends CrudRepository<ContractMeter, Long> {
 
-	List<ContractMeter> findByPurchaseKey_Project(Project project);
+
+	List<ContractMeter> findByProject(Project project);
 
 	
 }

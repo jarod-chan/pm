@@ -191,7 +191,7 @@
 			<td>采购申请单：</td> 
 			<td>
 				<select name="purchaseKey.id">
-					<option value="${emptyId}">----</option>
+					<option value="">----</option>
 					<c:forEach var="purchaseReq" items="${purchaseReqList}">
 						<option value="${purchaseReq.purchaseKey.id}" <c:if test="${contractMeter.purchaseKey.id==purchaseReq.purchaseKey.id}">selected="true"</c:if> >${purchaseReq.no}</option>
 					</c:forEach>

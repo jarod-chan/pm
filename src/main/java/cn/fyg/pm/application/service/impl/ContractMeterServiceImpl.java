@@ -21,7 +21,7 @@ public class ContractMeterServiceImpl implements ContractMeterService {
 
 	@Override
 	public List<ContractMeter> findByProject(Project project) {
-		return this.contractMeterRepository.findByPurchaseKey_Project(project);
+		return this.contractMeterRepository.findByProject(project);
 	}
 
 

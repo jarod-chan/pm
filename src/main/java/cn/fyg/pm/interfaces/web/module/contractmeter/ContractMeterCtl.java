@@ -32,7 +32,6 @@ import cn.fyg.pm.domain.model.contract.purchase.ContractMeter;
 import cn.fyg.pm.domain.model.fileupload.busifile.Busifile;
 import cn.fyg.pm.domain.model.fileupload.filestore.Filestore;
 import cn.fyg.pm.domain.model.project.Project;
-import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 import cn.fyg.pm.domain.model.supplier.Supptype;
@@ -91,13 +90,6 @@ public class ContractMeterCtl {
 		map.put("contractStateList", ContractState.values());
 		map.put("specialtyList", ContractSpec.values());
 		map.put("contractRiskList", ContractRisk.values());
-		PurchaseKey purchaseKey = contractMeter.getPurchaseKey();
-		if(purchaseKey.getId()!=null){
-			PurchaseReq purchaseReq = purchaseReqService.findByPurchaseKey(purchaseKey);
-			if(purchaseReq==null){
-				map.put("emptyId", purchaseKey.getId());
-			}
-		}
 		List<PurchaseReq> purchaseReqList = purchaseReqService.findByProject(project);
 		map.put("purchaseReqList", purchaseReqList);
 		return Page.EDIT;
@@ -110,7 +102,11 @@ public class ContractMeterCtl {
 		
 		ServletRequestDataBinder dataBinder = new ServletRequestDataBinder(contractMeter);
 		dataBinder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
-		dataBinder.bind(request);		
+		dataBinder.bind(request);	
+		
+		if(contractMeter.getPurchaseKey()!=null&&contractMeter.getPurchaseKey().getId()==null){
+			contractMeter.setPurchaseKey(null);
+		}
 		
 		contractMeter=contractMeterService.save(contractMeter);
 		if(filestore_id!=null){			
