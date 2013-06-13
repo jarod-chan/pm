@@ -96,6 +96,8 @@ public class PurchaseCertCtl {
 		map.put("purchaseCert", purchaseCert);
 		List<PurchaseReq> purchaseReqList = purchaseReqService.findByProject(project);
 		map.put("purchaseReqList", purchaseReqList);
+		PurchaseReq purchaseReq = purchaseReqService.findByPurchaseKey(purchaseCert.getPurchaseKey());
+		map.put("purchaseReq", purchaseReq);
 		return Page.EDIT;
 	}
 	

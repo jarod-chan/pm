@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -8,7 +9,8 @@
 	<%@ include file="/common/meta.jsp" %>
 	<%@ include file="/common/include.jsp" %>	
 	<%@ include file="/common/jqui.jsp" %>	
-
+	<%@ include file="/common/jqui2.jsp" %>	
+   
     <script type="text/javascript">
     $(function() {
 		$("#btn_save").click(function(){
@@ -109,58 +111,6 @@
 		    
 		   
 		});
-		
-		
-	   $(function(){
-	   		var itemdom = $("<tr>");
-	   		
-	   		$("<td>").append($("<input type='checkbox' class='inp_chk' name='reqItemIds'  />"))
-	   		  .appendTo(itemdom);
-	   		
-	   		$("<td>").appendTo(itemdom);
-	   		
-	   		$("<td>").appendTo(itemdom);
-	   		
-	   		$("<td>").appendTo(itemdom);
-	   		
-	   		$("<td>").appendTo(itemdom);
-	    		  
-	    		 
-	       	var warpLi=function(item){
-	       		var newItemdom=itemdom.clone();
-	       		var inpChk=newItemdom.find(".inp_chk");                    
-	       		inpChk.val(item.id).attr("checked",item.check);
-	       		if(item.readonly==true){
-	       			inpChk.attr("disabled","true");
-	       		}
-	       		
-	       		newItemdom.find("td:eq(1)").html(item.sn);
-	       		newItemdom.find("td:eq(2)").html(item.metername);
-	       		newItemdom.find("td:eq(3)").html(item.spec);
-	       		if(item.upid!=null){       			
-	       			newItemdom.find("td:eq(4)").html(item.uptypeName+"["+item.upno+"]执行采购");
-	       		}
-	       		$("#purchaseReqItem tbody").append(newItemdom);
-	       	}
-	       	
-	       	$("select:eq(0)").change(function(){
-	       		if($(this).get(0).selectedIndex==0){
-	       			$("#purchaseReqItem tbody").empty();
-	       			return;
-	       		}
-	       		var val=$(this).val();
-	       		var certid="-1";
-	       		<c:if test="${not empty contractMeter.id}">certid="${contractMeter.id}";</c:if>
-	       		$.getJSON('${ctx}/purchasereq/'+val+'/items/pm_contractmeter/'+certid,function(itemlist){
-	       			$("#purchaseReqItem tbody").empty();
-	       			for(i=0;i<itemlist.length;i++){
-	       				warpLi(itemlist[i]);
-	       			}
-	       		})
-	       	}).triggerHandler("change");		
-	    
-	    })
-	 
 	 	 
 	</script>
 	
@@ -190,12 +140,8 @@
 		<tr>
 			<td>采购申请单：</td> 
 			<td>
-				<select name="purchaseKey.id">
-					<option value="">----</option>
-					<c:forEach var="purchaseReq" items="${purchaseReqList}">
-						<option value="${purchaseReq.purchaseKey.id}" <c:if test="${contractMeter.purchaseKey.id==purchaseReq.purchaseKey.id}">selected="true"</c:if> >${purchaseReq.no}</option>
-					</c:forEach>
-				</select>
+				<span id="spanReq">${purchaseReq.no}</span><input type="hidden" name="purchaseKey.id" value="${purchaseReq.purchaseKey.id}">
+				<input type="button" id="btn_selreq" value="选择" />
 			</td>
 		</tr>
 		<tr>
@@ -339,5 +285,9 @@
 		
 	</form>
 	
+	<c:set var="certid" value="${contractMeter.id}" />
+	<c:set var="uptype" value="pm_contractmeter" />
+	<%@ include file="/component/selPurchaseReq.jsp" %>	
+
 </body>
 </html>

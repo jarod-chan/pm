@@ -216,11 +216,8 @@
 		<tr>
 			<td>采购申请单：</td> 
 			<td>
-				<select name="purchaseKey.id">
-					<c:forEach var="purchaseReq" items="${purchaseReqList}">
-						<option value="${purchaseReq.purchaseKey.id}" <c:if test="${purchaseCert.purchaseKey.id==purchaseReq.purchaseKey.id}">selected="true"</c:if> >${purchaseReq.no}</option>
-					</c:forEach>
-				</select>
+				<span id="spanReq">${purchaseReq.no}</span><input type="hidden" name="purchaseKey.id" value="${purchaseReq.purchaseKey.id}">
+				<input type="button" id="btn_selreq" value="选择" />
 			</td>
 		</tr>
 		<tr>
@@ -315,3 +312,7 @@
 		</c:forEach>
 	</tbody>
 	</table>
+	
+	<c:set var="certid" value="${purchaseCert.id}" />
+	<c:set var="uptype" value="pm_purchasecert" />
+	<%@ include file="/component/selPurchaseReq.jsp" %>	

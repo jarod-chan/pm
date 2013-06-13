@@ -92,6 +92,8 @@ public class ContractMeterCtl {
 		map.put("contractRiskList", ContractRisk.values());
 		List<PurchaseReq> purchaseReqList = purchaseReqService.findByProject(project);
 		map.put("purchaseReqList", purchaseReqList);
+		PurchaseReq purchaseReq = purchaseReqService.findByPurchaseKey(contractMeter.getPurchaseKey());
+		map.put("purchaseReq", purchaseReq);
 		return Page.EDIT;
 	}
 	
