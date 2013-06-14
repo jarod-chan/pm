@@ -10,6 +10,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.activiti.engine.IdentityService;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cn.fyg.pm.application.service.ContractService;
+import cn.fyg.pm.application.service.OpinionService;
 import cn.fyg.pm.application.service.PurchaseCertService;
 import cn.fyg.pm.application.service.PurchaseReqService;
 import cn.fyg.pm.application.service.SupplierService;
@@ -34,9 +39,14 @@ import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
+import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
+import cn.fyg.pm.interfaces.web.module.constructcont.flow.ContVarname;
+import cn.fyg.pm.interfaces.web.module.purchasecert.flow.CertVarname;
 import cn.fyg.pm.interfaces.web.module.purchasecert.query.CertQuery;
 import cn.fyg.pm.interfaces.web.module.purchasereq.ReqItemFacade;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
+import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 import cn.fyg.pm.interfaces.web.shared.query.CommonQuery;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
@@ -68,6 +78,14 @@ public class PurchaseCertCtl {
 	PurchaseCertAssembler purchaseCertAssembler;
 	@Autowired
 	ReqItemFacade reqItemFacade;
+	@Autowired
+	IdentityService identityService;
+	@Autowired
+	RuntimeService runtimeService;
+	@Autowired
+	TaskService taskService;
+	@Autowired
+	OpinionService opinionService;
 	
 	@InitBinder
 	private void dateBinder(WebDataBinder binder) {
@@ -140,8 +158,16 @@ public class PurchaseCertCtl {
 	}
 
 	private void commit(PurchaseCert purchaseCert, User user) {
-		// TODO 提交方法待完成
-		
+		String userKey=user.getKey();
+		try{
+			Map<String, Object> variableMap = new HashMap<String, Object>();
+			variableMap.put(FlowConstant.BUSINESS_ID, purchaseCert.getId());
+			variableMap.put(FlowConstant.APPLY_USER, userKey);
+			identityService.setAuthenticatedUserId(userKey);
+			runtimeService.startProcessInstanceByKey(CertVarname.PROCESS_DEFINITION_KEY, variableMap);			
+		} finally {
+			identityService.setAuthenticatedUserId(null);
+		}
 	}
 
 	private Map<Long, PurchaseCertItem> getConstructCertMap(List<PurchaseCertItem> purchaseCertItems) {
@@ -167,6 +193,90 @@ public class PurchaseCertCtl {
 		map.put("purchaseCert", purchaseCert);
 		map.put("purchaseReq", purchaseReq);
 		return Page.VIEW;
+	}
+	
+	@RequestMapping(value="{purchaseCertId}/check",method=RequestMethod.GET)
+	public String toCheck(@PathVariable(value="purchaseCertId")Long purchaseCertId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
+		PurchaseCert purchaseCert = purchaseCertService.find(purchaseCertId);
+		map.put("purchaseCert", purchaseCert);
+		PurchaseReq purchaseReq = purchaseReqService.findByPurchaseKey(purchaseCert.getPurchaseKey());
+		map.put("purchaseReq", purchaseReq);
+		
+		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+		map.put("task", task);
+		map.put("resultList", ResultEnum.agreeItems());
+		return Page.CHECK;
+	}
+	
+	@RequestMapping(value="check/commit",method=RequestMethod.POST)
+	public String checkCommit(Opinion opinion,RedirectAttributes redirectAttributes,@RequestParam(value="taskId",required=false)String taskId){
+		User user = sessionUtil.getValue("user");
+		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+		opinion.setBusiCode(PurchaseCert.BUSI_CODE);
+		opinion.setTaskKey(task.getTaskDefinitionKey());
+		opinion.setTaskName(task.getName());
+		opinion.setUserKey(user.getKey());
+		opinion.setUserName(user.getName());
+		opinionService.append(opinion);
+		runtimeService.setVariableLocal(task.getExecutionId(), ContVarname.OPINION,opinion.getResult().val());
+		taskService.complete(task.getId());
+		redirectAttributes
+			.addFlashAttribute(AppConstant.MESSAGE_NAME,info("任务完成"));
+		return "redirect:/task/list";
+	}
+	
+	@RequestMapping(value="{purchaseCertId}/checkedit",method=RequestMethod.GET)
+	public String toCheckEdit(@PathVariable("purchaseCertId")Long purchaseCertId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
+		PurchaseCert purchaseCert = purchaseCertService.find(purchaseCertId);
+		map.put("purchaseCert", purchaseCert);
+		List<PurchaseReq> purchaseReqList = purchaseReqService.findByProject(purchaseCert.getPurchaseKey().getProject());
+		map.put("purchaseReqList", purchaseReqList);
+		PurchaseReq purchaseReq = purchaseReqService.findByPurchaseKey(purchaseCert.getPurchaseKey());
+		map.put("purchaseReq", purchaseReq);
+		List<Opinion> opinionList = opinionService.listOpinions(PurchaseCert.BUSI_CODE, purchaseCertId);
+		map.put("opinionList", opinionList);
+		
+		map.put("taskId", taskId);
+		return Page.CHECK_EDIT;
+	}
+	
+	@RequestMapping(value="checkedit/save",method=RequestMethod.POST)
+	public String saveCheckedit(@RequestParam("id")Long purchaseCertId,@RequestParam(value="reqItemIds",required=false)Long[] reqItemIds,@RequestParam(value="purchaseCertItemsId",required=false) Long[] purchaseCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes,@RequestParam(value="taskId",required=false)String taskId){
+		PurchaseCert purchaseCert = purchaseCertService.find(purchaseCertId);
+		
+		Map<Long,PurchaseCertItem> purchaseCertItemMap=getConstructCertMap(purchaseCert.getPurchaseCertItems());
+		
+		List<PurchaseCertItem> purchaseCertItemList = new ArrayList<PurchaseCertItem>();
+		for(int i=0,len=purchaseCertItemsId==null?0:purchaseCertItemsId.length;i<len;i++){
+			PurchaseCertItem purchaseCertItem=(purchaseCertItemsId[i]>0?purchaseCertItemMap.get(purchaseCertItemsId[i]):new PurchaseCertItem());
+			purchaseCertItemList.add(purchaseCertItem);
+		}
+		purchaseCert.setPurchaseCertItems(purchaseCertItemList);
+		
+		ServletRequestDataBinder binder = new ServletRequestDataBinder(purchaseCert);
+		binder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
+		binder.bind(request);
+		purchaseCert=purchaseCertService.save(purchaseCert);
+		purchaseReqService.upReqItemList(UptypeEnum.pm_purchasecert, purchaseCert.getId(), purchaseCert.getNo(),reqItemIds);
+		
+		if(afteraction.equals("save")){
+			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("保存成功！"));
+			return "redirect:/task/list";
+		}
+		if(afteraction.equals("commit")){
+			User user = sessionUtil.getValue("user");
+			try{
+				identityService.setAuthenticatedUserId(user.getKey());
+				taskService.complete(taskId);
+			} finally {
+				identityService.setAuthenticatedUserId(null);
+			}
+			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
+			return "redirect:/task/list";
+		}
+		
+		return "";
+	
 	}
 
 }

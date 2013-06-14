@@ -23,10 +23,13 @@ import javax.persistence.TemporalType;
 
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
 import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.domain.shared.BusiCode;
 
 @Entity
 @Table(name="pm_purchasecert")
 public class PurchaseCert {
+	
+	public static final BusiCode BUSI_CODE = BusiCode.pm_purchasecert;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
