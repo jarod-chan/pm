@@ -140,7 +140,7 @@ public class PurchaseCertCtl {
 	}
 
 	private void commit(PurchaseCert purchaseCert, User user) {
-		// TODO Auto-generated method stub
+		// TODO 提交方法待完成
 		
 	}
 

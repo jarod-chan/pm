@@ -18,12 +18,15 @@ public class ReqBeg implements JavaDelegate {
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
+		
 		PurchaseReqService purchaseReqService =(PurchaseReqService) purchaseReqServiceExp.getValue(execution);
 		OpinionService opinionService=(OpinionService) opinionServiceExp.getValue(execution);
 		Long businessId = (Long) execution.getVariableLocal(FlowConstant.BUSINESS_ID);
 		PurchaseReq purchaseReq = purchaseReqService.find(businessId);
 		User leader = purchaseReq.getLeader();
-		execution.setVariable(ReqVarname.LEADER_KEY, leader.getKey());
+		//TODO 模拟实现流程
+		//execution.setVariable(ReqVarname.LEADER_KEY, leader.getKey());
+		execution.setVariable(ReqVarname.LEADER_KEY, "xmb");
 
 		opinionService.clear(PurchaseReq.BUSI_CODE, businessId);
 

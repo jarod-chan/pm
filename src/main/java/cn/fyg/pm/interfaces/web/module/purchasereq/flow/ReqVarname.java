@@ -17,4 +17,9 @@ public interface ReqVarname {
 	 */
 	String OPINION="opinion";
 
+	/**
+	 * 是否最上级领导
+	 */
+	String IS_FINAL = "isFinal";
+
 }
