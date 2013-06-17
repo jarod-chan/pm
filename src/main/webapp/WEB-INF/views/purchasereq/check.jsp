@@ -31,7 +31,7 @@
 </head>
 
 <body>
-	<h2>施工联系单</h2>
+	<h2>采购申请单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
 	<%@ include file="part/purchasereq_view.jsp" %>

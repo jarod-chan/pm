@@ -112,7 +112,8 @@ public class ConstructContCtl {
 		map.put("constructCont", constructCont);
 		List<Contract> contractList = contractService.findByProjectAndType(constructCont.getConstructKey().getProject(),ContractType.construct);
 		map.put("contractList", contractList);
-		map.put("userList", userService.findAll());
+		map.put("contract", constructCont.getConstructKey().getContract());
+		
 		return Page.EDIT;
 	}
 	

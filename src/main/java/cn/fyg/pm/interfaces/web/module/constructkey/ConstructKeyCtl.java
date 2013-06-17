@@ -59,8 +59,8 @@ public class ConstructKeyCtl {
 		Project project = projectService.find(projectId);
 		List<ConstructKey> constructKeyList = constructKeyService.findByProject(project);
 		for(ConstructKey constructKey:constructKeyList){
-			constructKey.setConstructCont(constructContService.findByConstructKey(constructKey));
-			constructKey.setConstructCert(constructCertService.findByConstructKey(constructKey));
+/*			constructKey.setConstructCont(constructContService.findByConstructKey(constructKey));
+			constructKey.setConstructCert(constructCertService.findByConstructKey(constructKey));*/
 		}
 		map.put("constructKeyList", constructKeyList);
 		map.put("project", project);

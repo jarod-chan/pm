@@ -178,13 +178,7 @@
 		</c:forEach>
 		
 	</table>
-	<br>
-	<div style="text-align: left;" id="footdiv">
-		<input type="button" value="首页"  id="">
-		<input type="button" value="上一页"  id="">
-		<input type="button" value="下一页"  id="">
-		<input type="button" value="尾页"  id="">
-	</div>
+	
 	<script type="text/javascript">
 		$(function(){
 			$("#headdiv").css("width",$("#tblmain").css("width"));
