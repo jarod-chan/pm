@@ -108,9 +108,10 @@ public class ConstructCertCtl {
 		User user = sessionUtil.getValue("user");
 		ConstructCert constructCert =constructCertId.longValue()>0?constructCertService.find(constructCertId):constructCertService.create(user,project,ConstructCertState.new_,false) ;
 		map.put("constructCert", constructCert);
-		List<ConstructCont> constructContList = constructContService.findByProject(constructCert.getConstructKey().getProject());
+		List<ConstructCont> constructContList = constructContService.findByProject(project);
 		map.put("constructContList", constructContList);
-		map.put("userList", userService.findAll());
+		ConstructCont constructCont=constructContService.findByConstructKey(constructCert.getConstructKey());
+		map.put("constructCont", constructCont);
 		map.put("certItemOpinionList", CertItemOpinion.values());
 		attechTempFile(constructCert);
 		return Page.EDIT;
@@ -239,10 +240,11 @@ public class ConstructCertCtl {
 		map.put("constructCert", constructCert);
 		List<ConstructCont> constructContList = constructContService.findByProject(constructCert.getConstructKey().getProject());
 		map.put("constructContList", constructContList);
+		ConstructCont constructCont=constructContService.findByConstructKey(constructCert.getConstructKey());
+		map.put("constructCont", constructCont);
 		map.put("taskId", taskId);
 		List<Opinion> opinionList = opinionService.listOpinions(ConstructCert.BUSI_CODE, constructCertId);
 		map.put("opinionList", opinionList);
-		map.put("userList", userService.findAll());
 		map.put("certItemOpinionList", CertItemOpinion.values());
 		attechTempFile(constructCert);
 		return Page.CHECK_EDIT;

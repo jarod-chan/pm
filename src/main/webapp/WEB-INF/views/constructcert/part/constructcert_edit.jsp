@@ -148,17 +148,21 @@
 			tbody.append(cloneTR()); 
 			reIndexTable(tbody);
 		});
+		   	
+		var constructContIdMap={};
+		<c:forEach var="constructCont" items="${constructContList}" varStatus="status">constructContIdMap['${constructCont.constructKey.id}']='${constructCont.id}';</c:forEach>
 		
-		var constructContIdList=[<c:forEach var="constructCont" items="${constructContList}" varStatus="status">${constructCont.id}<c:if test="${!status.last}">,</c:if></c:forEach>];
-    	
     	$("#btn_cont").click(function(){
-    		window.open('${ctx}/constructcont/'+constructContIdList[$("select:eq(0)").get(0).selectedIndex]+'/view?notback=true','_blank');
+    		var constructContId=$("input[name='constructKey.id']").val();
+    		if(constructContId=="") return;
+    		window.open('${ctx}/constructcont/'+constructContIdMap[constructContId]+'/view?notback=true','_blank');
 			return false;
     	})
 		
 	   	$("#btn_load").click(function(){
-    		var constructContId=constructContIdList[$("select:eq(0)").get(0).selectedIndex];
-    		$.getJSON('${ctx}/constructcont/'+constructContId+'/items',function(itemlist){
+    		var constructContId=$("input[name='constructKey.id']").val();
+    		if(constructContId=="") return;
+    		$.getJSON('${ctx}/constructcont/'+constructContIdMap[constructContId]+'/items',function(itemlist){
     			var tbody=$("#tabitem tbody");
     			tbody.empty();
     			for(i=0;i<itemlist.length;i++){
@@ -204,12 +208,11 @@
 		<tr>
 			<td>施工联系单：</td>
 			<td>
-				<select name="constructKey.id">
-					<c:forEach var="constructCont" items="${constructContList}">
-						<option value="${constructCont.constructKey.id}" <c:if test="${constructCert.constructKey.id==constructCont.constructKey.id}">selected="true"</c:if> >${constructCont.no}-${constructCont.constructKey.contract.supplier.name}</option>
-					</c:forEach>
-				</select>
-				<input type="button" id="btn_cont" value="查看施工联系单"/>
+				
+				
+				<span id="spanConstructCont">${constructCont.no}</span><input type="hidden" name="constructKey.id" value="${constructCont.constructKey.id}">
+				<input type="button" id="btn_selConstructCont" value="选择" />
+				<input type="button" id="btn_cont" value="查看"/>
 				<input type="button" id="btn_load" value="加载联系单内容到当前明细"/>
 			</td>
 		</tr>
@@ -308,3 +311,71 @@
 			</c:forEach>
 		</tbody>
 		</table>
+		
+	<style type="text/css">
+		.high-color{
+			background-color: #C8C8C8;
+		}
+	</style>
+	<script type="text/javascript">
+		$(function(){
+			
+			$("#btn_selConstructCont").click(function(){
+				$( "#selConstructCont" ).dialog( "open" );
+			});
+			$( "#selConstructCont" ).dialog({
+				autoOpen: false,
+				position: ["center", 100],
+				width: 700,
+				buttons: {
+					'清空': function() {
+						$("#spanConstructCont").html("");
+						$("#spanConstructCont").next().val("");
+						$(this).dialog( "close" );
+					}
+				}
+			});
+			$(".chkreq").click(function(){
+				var param=jQuery.parseJSON($(this).attr("param"));
+				$("#spanConstructCont").html(param.no);
+				$("#spanConstructCont").next().val(param.id);
+				$( "#selConstructCont" ).dialog("close");
+			})
+			$("#selConstructCont tbody tr").mouseover(function() {
+			  	$(this).addClass("high-color");
+			  }).mouseout(function(){
+			    $(this).removeClass("high-color");
+			  });
+		})
+	</script>
+		
+		<div id="selConstructCont" title="施工联系单" style="display: none;">
+			<table border="1">
+				<thead>
+					<tr>
+						<td>编号</td>
+						<td>合同</td>
+						<td>施工承包方</td>
+						<td>专业分类</td>
+						<td>总金额</td>
+						<td>制单人</td>
+						<td>制单日期</td>
+						<td>操作</td>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="constructCont" items="${constructContList}">
+					<tr>
+						<td>${constructCont.no}</td>
+						<td>${constructCont.constructKey.contract.name}</td>
+						<td>${constructCont.constructKey.supplier.name}</td>
+						<td>${constructCont.constructKey.contract.specialty.name}</td>
+						<td>${constructCont.tolsum}</td>
+						<td>${constructCont.creater.name}</td>
+						<td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
+						<td><input class="chkreq" type="button" value="选中" param='{"id":"${constructCont.constructKey.id}","no":"${constructCont.no}"}'> </td>
+					</tr>
+				</c:forEach>
+				</tbody>
+			</table>
+		</div>
