@@ -11,6 +11,7 @@ import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.supplier.SupplierFactory;
 import cn.fyg.pm.domain.model.supplier.SupplierRepository;
 import cn.fyg.pm.domain.model.supplier.Supptype;
+import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 
 @Service("supplierService")
 public class SupplierServiceImpl implements SupplierService {
@@ -53,6 +54,11 @@ public class SupplierServiceImpl implements SupplierService {
 	@Override
 	public List<Supplier> findByTypeIn(Supptype... supptypes) {
 		return supplierRepository.findByTypeIn(supptypes);
+	}
+
+	@Override
+	public List<Supplier> query(QuerySpec<Supplier> querySpec) {
+		return this.supplierRepository.query(Supplier.class, querySpec);
 	}
 
 }

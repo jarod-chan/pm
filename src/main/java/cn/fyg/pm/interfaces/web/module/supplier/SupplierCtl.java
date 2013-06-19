@@ -18,6 +18,7 @@ import cn.fyg.pm.application.service.SupplierService;
 import cn.fyg.pm.domain.model.supplier.CreditRank;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.supplier.Supptype;
+import cn.fyg.pm.interfaces.web.module.supplier.query.SupplierQuery;
 
 @Controller
 @RequestMapping("supplier/{supptype}")
@@ -32,11 +33,13 @@ public class SupplierCtl {
 	@Autowired
 	SupplierService supplierService;
 	
-	@RequestMapping(value="list",method=RequestMethod.GET)
-	public String toList(@PathVariable("supptype")Supptype supptype,Map<String,Object> map){
-		List<Supplier> supplierList = supplierService.findByType(supptype);
+	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
+	public String toList(SupplierQuery query,@PathVariable("supptype")Supptype supptype,Map<String,Object> map){
+		query.setType(supptype);
+		List<Supplier> supplierList = supplierService.query(query);
 		map.put("supplierList", supplierList);
 		map.put("supptype", supptype);
+		map.put("query", query);
 		return Page.LIST;
 	}
 	

@@ -2,12 +2,13 @@ package cn.fyg.pm.application.service;
 
 import java.util.List;
 
+import cn.fyg.pm.application.shared.ServiceQuery;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 
 
 
-public interface SupplierService {
+public interface SupplierService extends ServiceQuery<Supplier> {
 	
 	List<Supplier> findAll();
 	

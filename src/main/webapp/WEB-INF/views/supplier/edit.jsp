@@ -50,7 +50,7 @@
 		
 		<tr>
 			<td>
-			专业分类:
+			 信用等级:
 			</td><td>
 			<select name="creditRank" >
 					<c:forEach var="creditRank" items="${creditRankList}">
