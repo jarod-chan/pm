@@ -37,6 +37,17 @@
 			return false;
     	});
     	
+    	$('#btn_query').click(function(){
+			var actionFrom=$("form:eq(0)");
+			var oldAction=actionFrom.attr("action"); 
+			actionFrom.attr("action",oldAction+"/list").submit();
+    	});
+    	
+    	$('#btn_clear').click(function(){
+    		window.open('${ctx}/project/list','_self');
+			return false;
+    	});
+    	
     	$("#headdiv").css("width",$("#tblmain").css("width"));
     });
     </script>
@@ -47,6 +58,37 @@
 <body>
 	<h2>项目</h2>
 	<%@ include file="/common/message.jsp" %>	
+	
+	<div style="text-align: left;">
+	<form action="${ctx}/project" method="post">
+		编号:<input type="text" name="no" value="${query.no}">
+		
+		名称:<input type="text" name="name" value="${query.name}">
+		
+		项目负责人:<select name="leader.key">
+			<option value="" >-所有-</option>
+			<c:forEach var="user" items="${userList}">
+				<option value="${user.key}" <c:if test="${user.key== query.leader.key}">selected="true"</c:if> >${user.name}</option>
+			</c:forEach>
+		</select>
+	
+		
+		<br>
+		排序:<select name="orderAttribute">
+				<c:forEach var="attr" items="${query.orderAttributeList}">
+					<option value="${attr.value}" <c:if test="${attr.value== query.orderAttribute}">selected="true"</c:if> >${attr.name}</option>
+				</c:forEach>
+			</select> 
+			<select name="orderType">
+				<c:forEach var="type" items="${query.orderTypeList}">
+					<option value="${type.value}" <c:if test="${type.value== query.orderType}">selected="true"</c:if> >${type.name}</option>
+				</c:forEach>
+			</select>  
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="button" value="查询" id="btn_query"> 
+		<input type="button" value="清空" id="btn_clear"> 
+	</form>
+	</div>	
 	
 	<div id="headdiv" style="text-align: right;">
 	<input type="button" value="新建"  id="btn_new">

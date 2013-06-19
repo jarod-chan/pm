@@ -10,6 +10,7 @@ import cn.fyg.pm.application.service.ProjectService;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.project.ProjectFactory;
 import cn.fyg.pm.domain.model.project.ProjectRepository;
+import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 
 @Service("projectService")
 public class ProjectServiceImpl implements ProjectService {
@@ -42,6 +43,11 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public Project create() {
 		return ProjectFactory.create();
+	}
+
+	@Override
+	public List<Project> query(QuerySpec<Project> querySpec) {
+		return this.projectRepository.query(Project.class, querySpec);
 	}
 
 }

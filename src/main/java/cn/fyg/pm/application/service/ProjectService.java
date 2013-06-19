@@ -2,9 +2,10 @@ package cn.fyg.pm.application.service;
 
 import java.util.List;
 
+import cn.fyg.pm.application.shared.ServiceQuery;
 import cn.fyg.pm.domain.model.project.Project;
 
-public interface ProjectService {
+public interface ProjectService extends ServiceQuery<Project> {
 	
 	List<Project> findAll();
 	

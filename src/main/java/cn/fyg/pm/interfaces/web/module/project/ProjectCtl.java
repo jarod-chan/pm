@@ -25,6 +25,7 @@ import cn.fyg.pm.application.service.UserService;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.interfaces.web.module.project.query.ProjectQuery;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 
@@ -47,10 +48,12 @@ public class ProjectCtl {
 	PjmemberService pjmemberService;
 	
 	
-	@RequestMapping(value="list",method=RequestMethod.GET)
-	public String toList(Map<String,Object> map){
-		List<Project> projectList = projectService.findAll();
+	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
+	public String toList(ProjectQuery query,Map<String,Object> map){
+		List<Project> projectList = projectService.query(query);
 		map.put("projectList", projectList);
+		map.put("userList", userService.findAll());
+		map.put("query", query);
 		return Page.LIST;
 	}
 	
