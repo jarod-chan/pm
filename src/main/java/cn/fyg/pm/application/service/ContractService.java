@@ -2,11 +2,12 @@ package cn.fyg.pm.application.service;
 
 import java.util.List;
 
+import cn.fyg.pm.application.shared.ServiceQuery;
 import cn.fyg.pm.domain.model.contract.general.Contract;
 import cn.fyg.pm.domain.model.contract.general.ContractType;
 import cn.fyg.pm.domain.model.project.Project;
 
-public interface ContractService {
+public interface ContractService extends ServiceQuery<Contract> {
 	
 	List<Contract> findAll();
 	

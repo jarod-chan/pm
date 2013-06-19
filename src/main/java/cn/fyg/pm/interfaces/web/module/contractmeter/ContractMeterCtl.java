@@ -36,6 +36,7 @@ import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.shared.BusiCode;
+import cn.fyg.pm.interfaces.web.module.contractmeter.query.ContractMeterQuery;
 import cn.fyg.pm.interfaces.web.module.purchasereq.ReqItemFacade;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
@@ -72,12 +73,16 @@ public class ContractMeterCtl {
 	@Autowired
 	PurchaseKeyService purchaseKeyService;
 
-	@RequestMapping(value="list",method=RequestMethod.GET)
-	public String toList(Map<String,Object> map){
+	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
+	public String toList(ContractMeterQuery query,Map<String,Object> map){
 		Project project=sessionUtil.getValue("project");
-		List<ContractMeter> contractMeterList = contractMeterService.findByProject(project);
+		query.setProject(project);
+		List<ContractMeter> contractMeterList = contractMeterService.query(query);
 		List<ContractMeterDto> contractMeterDtoList = contractMeterAssembler.build(contractMeterList);
 		map.put("contractMeterDtoList", contractMeterDtoList);
+		map.put("contractSpecList", ContractSpec.values());
+		map.put("supplierList", supplierService.findByTypeIn(Supptype.meter));
+		map.put("query", query);
 		return Page.LIST;
 	}
 	

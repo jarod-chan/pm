@@ -31,6 +31,17 @@
     		return false;
     	})
     	
+    	$('#btn_query').click(function(){
+			var actionFrom=$("form:eq(0)");
+			var oldAction=actionFrom.attr("action"); 
+			actionFrom.attr("action",oldAction+"/list").submit();
+    	});
+    	
+    	$('#btn_clear').click(function(){
+    		window.open('${ctx}/contractmeter/list','_self');
+			return false;
+    	});
+    	
     	$("#headdiv").css("width",$("#tblmain").css("width"));
     });
     </script>
@@ -38,6 +49,43 @@
 
 <body>
 	<h2>材料采购合同</h2>
+	<div style="text-align: left;">
+	<form action="${ctx}/contractmeter" method="post">
+		编号:<input type="text" name="no" value="${query.no}">
+		
+		名称:<input type="text" name="name" value="${query.name}">
+		
+		专业分类:<select name="specialty">
+			<option value="" >-所有-</option>
+			<c:forEach var="contractSpec" items="${contractSpecList}">
+				<option value="${contractSpec}" <c:if test="${contractSpec== query.specialty}">selected="true"</c:if> >${contractSpec.name}</option>
+			</c:forEach>
+		</select>
+		
+		供应商:<select name="supplier.id">
+			<option value="" >-所有-</option>
+			<c:forEach var="supplier" items="${supplierList}">
+				<option value="${supplier.id}" <c:if test="${supplier.id== query.supplier.id}">selected="true"</c:if> >${supplier.name}</option>
+			</c:forEach>
+		</select>
+		
+		<br>
+		排序:<select name="orderAttribute">
+				<c:forEach var="attr" items="${query.orderAttributeList}">
+					<option value="${attr.value}" <c:if test="${attr.value== query.orderAttribute}">selected="true"</c:if> >${attr.name}</option>
+				</c:forEach>
+			</select> 
+			<select name="orderType">
+				<c:forEach var="type" items="${query.orderTypeList}">
+					<option value="${type.value}" <c:if test="${type.value== query.orderType}">selected="true"</c:if> >${type.name}</option>
+				</c:forEach>
+			</select>  
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="button" value="查询" id="btn_query"> 
+		<input type="button" value="清空" id="btn_clear"> 
+	</form>
+	</div>
+	
 	<%@ include file="/common/message.jsp" %>	
 	<div id="headdiv" style="text-align: right;">
 		<input type="button" value="新建"  id="btn_new">

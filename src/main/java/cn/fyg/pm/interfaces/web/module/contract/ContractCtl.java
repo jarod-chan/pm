@@ -34,6 +34,7 @@ import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.shared.BusiCode;
+import cn.fyg.pm.interfaces.web.module.contract.query.ContractQuery;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
@@ -61,12 +62,17 @@ public class ContractCtl {
 	@Autowired
 	UserService userService;
 
-	@RequestMapping(value="list",method=RequestMethod.GET)
-	public String toList(@PathVariable("contractType")ContractType contractType,Map<String,Object> map){
+	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
+	public String toList(ContractQuery query,@PathVariable("contractType")ContractType contractType,Map<String,Object> map){
 		Project project=sessionUtil.getValue("project");
-		List<Contract> contractList = contractService.findByProjectAndType(project,contractType);
+		query.setProject(project);
+		query.setContractType(contractType);
+		List<Contract> contractList = contractService.query(query);
 		map.put("contractType", contractType);
 		map.put("contractList", contractList);
+		map.put("contractSpecList", ContractSpec.values());
+		map.put("supplierList", getSupplierList(contractType));
+		map.put("query", query);
 		return Page.LIST;
 	}
 	

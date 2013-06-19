@@ -2,10 +2,11 @@ package cn.fyg.pm.application.service;
 
 import java.util.List;
 
+import cn.fyg.pm.application.shared.ServiceQuery;
 import cn.fyg.pm.domain.model.contract.purchase.ContractMeter;
 import cn.fyg.pm.domain.model.project.Project;
 
-public interface ContractMeterService {
+public interface ContractMeterService extends ServiceQuery<ContractMeter> {
 
 
 	List<ContractMeter> findByProject(Project project);

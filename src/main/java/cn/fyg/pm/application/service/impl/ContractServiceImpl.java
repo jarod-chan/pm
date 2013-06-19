@@ -12,6 +12,7 @@ import cn.fyg.pm.domain.model.contract.general.ContractFactory;
 import cn.fyg.pm.domain.model.contract.general.ContractRepository;
 import cn.fyg.pm.domain.model.contract.general.ContractType;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 
 @Service("contractService")
 public class ContractServiceImpl implements ContractService {
@@ -54,6 +55,11 @@ public class ContractServiceImpl implements ContractService {
 	@Override
 	public List<Contract> findByProjectAndType(Project project,ContractType contractType) {
 		return contractRepository.findByProjectAndType(project,contractType);
+	}
+
+	@Override
+	public List<Contract> query(QuerySpec<Contract> querySpec) {
+		return this.contractRepository.query(Contract.class, querySpec);
 	}
 
 }

@@ -11,6 +11,7 @@ import cn.fyg.pm.domain.model.contract.purchase.ContractMeter;
 import cn.fyg.pm.domain.model.contract.purchase.ContractMeterFactory;
 import cn.fyg.pm.domain.model.contract.purchase.ContractMeterRepository;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 
 @Service("contractMeterService")
 public class ContractMeterServiceImpl implements ContractMeterService {
@@ -47,6 +48,12 @@ public class ContractMeterServiceImpl implements ContractMeterService {
 	@Override
 	public void delete(Long contractMeterId) {
 		this.contractMeterRepository.delete(contractMeterId);
+	}
+
+
+	@Override
+	public List<ContractMeter> query(QuerySpec<ContractMeter> querySpec) {
+		return this.contractMeterRepository.query(ContractMeter.class, querySpec);
 	}
 
 }

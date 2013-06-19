@@ -5,8 +5,9 @@ import java.util.List;
 import org.springframework.data.repository.Repository;
 
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.shared.repositoryquery.RepositoryQuery;
 
-public interface ContractRepository extends Repository<Contract,Long> {
+public interface ContractRepository extends Repository<Contract,Long>,RepositoryQuery<Contract> {
 	
 	Contract save(Contract contract);
 	
