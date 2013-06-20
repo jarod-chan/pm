@@ -23,9 +23,12 @@ public class ReqBeg implements JavaDelegate {
 		OpinionService opinionService=(OpinionService) opinionServiceExp.getValue(execution);
 		Long businessId = (Long) execution.getVariableLocal(FlowConstant.BUSINESS_ID);
 		PurchaseReq purchaseReq = purchaseReqService.find(businessId);
+	
+		@SuppressWarnings("unused")
 		User leader = purchaseReq.getLeader();
 		//TODO 模拟实现流程
 		//execution.setVariable(ReqVarname.LEADER_KEY, leader.getKey());
+		
 		execution.setVariable(ReqVarname.LEADER_KEY, "xmb");
 
 		opinionService.clear(PurchaseReq.BUSI_CODE, businessId);

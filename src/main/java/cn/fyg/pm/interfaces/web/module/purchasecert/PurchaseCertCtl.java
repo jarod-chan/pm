@@ -48,7 +48,6 @@ import cn.fyg.pm.interfaces.web.module.purchasereq.ReqItemFacade;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
-import cn.fyg.pm.interfaces.web.shared.query.CommonQuery;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 @Controller
@@ -99,7 +98,6 @@ public class PurchaseCertCtl {
 		List<PurchaseCert>  purchaseCertList= purchaseCertService.query(query);
 		List<PurchaseCertDto> purchaseCertDtoList = purchaseCertAssembler.buildDto(purchaseCertList);
 		map.put("purchaseCertDtoList", purchaseCertDtoList);
-		map.put("stateList", CommonQuery.State.values());
 		map.put("contractSpecList", ContractSpec.values());
 		map.put("query", query);
 		map.put("supplierList", supplierService.findByTypeIn(Supptype.meter));

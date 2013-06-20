@@ -15,9 +15,9 @@ import org.apache.commons.lang.StringUtils;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
 import cn.fyg.pm.infrastructure.tool.DateUtil;
-import cn.fyg.pm.interfaces.web.shared.query.CommonQuery;
+import cn.fyg.pm.interfaces.web.shared.query.ConstructcertQuery;
 
-public class ContQuery extends CommonQuery<ConstructCont> {
+public class ContQuery extends ConstructcertQuery<ConstructCont> {
 	
 	@Override
 	public List<Predicate> criterias(CriteriaBuilder builder,Root<ConstructCont> from) {
@@ -45,23 +45,22 @@ public class ContQuery extends CommonQuery<ConstructCont> {
 		}
 		if(this.getState()!=null){
 			Path<Object> statePath = from.get("state");
-			String mapValue=this.getState().getMapValue();
-			mapState(builder, criterias, statePath, mapValue);
+			mapState(builder, criterias, statePath, this.getState());
 			
 		}
 		return criterias;
 	}
 	
 	private void mapState(CriteriaBuilder builder, List<Predicate> criterias,
-			Path<Object> statePath, String mapValue) {
-		if(mapValue.equals("ext-all")){
+			Path<Object> statePath, String stateValue) {
+		if(stateValue.equals("ext-all")){
 			return;
 		}
-		if(mapValue.equals("ext-notf")){
+		if(stateValue.equals("ext-notf")){
 			criterias.add(builder.notEqual(statePath, ConstructContState.finish));
 			return;
 		}
-		criterias.add(builder.equal(statePath,ConstructContState.valueOf(mapValue)));
+		criterias.add(builder.equal(statePath,ConstructContState.valueOf(stateValue)));
 	}
 
 

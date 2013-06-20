@@ -9,72 +9,55 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 
-import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.project.Project;
-import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 
-public abstract class CommonQuery<T>  implements QuerySpec<T>{
-	
-	public enum Type{
-		asc,
-		desc;
-	}
-	
-	public enum State{
-		all("全部","ext-all"),
-		notfinish("未完成","ext-notf"),
-		new_("新建","new_"),
-		saved("已保存","saved"),
-		commit("已提交","commit"),
-		finish("已完成","finish");
-		
-		private final String name;
-		private final String mapValue;
-		private State(String name,String mapValue){
-			this.name=name;
-			this.mapValue=mapValue;
-		}
-		public String getName() {
-			return name;
-		}
-		public String getMapValue() {
-			return mapValue;
-		}
-		
-	}
+public abstract class PurchaseQuery<T>  implements QuerySpec<T>{
 	
 	private String no;//编号
-	
-	private Supplier supplier;//供应商
 	
 	private Date createdate_beg;//制单日期开始
 	
 	private Date createdate_end;//制单日期开始
 	
-	private ContractSpec specialty;//专业分类
-	
-	private State state;
+	private String state;
 	
 	private String orderAttribute;//排序属性
 	
-	private Type orderType;//排序方式
+	private String orderType;//排序方式
 	
 	private Project project;//项目
 	
-	public CommonQuery(){
-		this.state=State.notfinish;
+	public PurchaseQuery(){
+		this.state="ext-notf";
 		this.orderAttribute="createdate";
-		this.orderType=Type.desc;
-		this.specialty=null;
+		this.orderType="desc";
 	}
-
-	public ContractSpec getSpecialty() {
-		return specialty;
+	
+	
+	public List<Qitem> getStateList(){
+		ArrayList<Qitem> arrayList = new ArrayList<Qitem>();
+		arrayList.add(new Qitem("ext-all","全部"));
+		arrayList.add(new Qitem("ext-notf","未完成"));
+		arrayList.add(new Qitem("new_","新建"));
+		arrayList.add(new Qitem("saved","已保存"));
+		arrayList.add(new Qitem("commit","已提交"));
+		arrayList.add(new Qitem("finish","已完成"));
+		return arrayList;
 	}
-
-	public void setSpecialty(ContractSpec specialty) {
-		this.specialty = specialty;
+	
+	public List<Qitem> getOrderAttributeList(){
+		ArrayList<Qitem> arrayList = new ArrayList<Qitem>();
+		arrayList.add(new Qitem("no","编号"));
+		arrayList.add(new Qitem("createdate","制单日期"));
+		return arrayList;
+	}
+	
+	public List<Qitem> getOrderTypeList(){
+		ArrayList<Qitem> arrayList = new ArrayList<Qitem>();
+		arrayList.add(new Qitem("asc","升序"));
+		arrayList.add(new Qitem("desc","降序"));
+		return arrayList;
 	}
 
 	public String getNo() {
@@ -93,14 +76,6 @@ public abstract class CommonQuery<T>  implements QuerySpec<T>{
 		this.project = project;
 	}
 
-	public Supplier getSupplier() {
-		return supplier;
-	}
-
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
-	}
-
 	public Date getCreatedate_beg() {
 		return createdate_beg;
 	}
@@ -117,11 +92,11 @@ public abstract class CommonQuery<T>  implements QuerySpec<T>{
 		this.createdate_end = createdate_end;
 	}
 
-	public State getState() {
+	public String getState() {
 		return state;
 	}
 
-	public void setState(State state) {
+	public void setState(String state) {
 		this.state = state;
 	}
 
@@ -133,14 +108,14 @@ public abstract class CommonQuery<T>  implements QuerySpec<T>{
 		this.orderAttribute = orderAttribute;
 	}
 
-	public Type getOrderType() {
+	public String getOrderType() {
 		return orderType;
 	}
 
-	public void setOrderType(Type orderType) {
+	public void setOrderType(String orderType) {
 		this.orderType = orderType;
 	}
-	
+
 	@Override
 	public List<Order> orders(CriteriaBuilder builder, Root<T> from) {
 		List<Order> orders=new ArrayList<Order>();

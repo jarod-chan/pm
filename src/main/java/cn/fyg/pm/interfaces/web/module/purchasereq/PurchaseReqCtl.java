@@ -48,7 +48,6 @@ import cn.fyg.pm.interfaces.web.module.purchasereq.query.ReqQuery;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
-import cn.fyg.pm.interfaces.web.shared.query.CommonQuery;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 @Controller
@@ -94,7 +93,6 @@ public class PurchaseReqCtl {
 		query.setProject(project);
 		List<PurchaseReq>  purchaseReqList= purchaseReqService.query(query);
 		map.put("purchaseReqList", purchaseReqList);
-		map.put("stateList", CommonQuery.State.values());
 		map.put("contractSpecList", ContractSpec.values());
 		map.put("query", query);
 		map.put("supplierList", supplierService.findByTypeIn(Supptype.meter));

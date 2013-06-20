@@ -35,7 +35,6 @@ import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertItem;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
-import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.model.user.User;
@@ -97,8 +96,6 @@ public class ConstructCertCtl {
 		map.put("ConstructCertDtoList", ConstructCertDtoList);
 		map.put("query", certQuery);
 		map.put("supplierList", supplierService.findByTypeIn(Supptype.contra,Supptype.construct));
-		map.put("stateList", CertQuery.State.values());
-		map.put("contractSpecList", ContractSpec.values());
 		return Page.LIST;
 	}
 

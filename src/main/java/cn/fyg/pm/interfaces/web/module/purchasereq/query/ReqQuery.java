@@ -14,9 +14,9 @@ import org.apache.commons.lang.StringUtils;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqState;
 import cn.fyg.pm.infrastructure.tool.DateUtil;
-import cn.fyg.pm.interfaces.web.shared.query.CommonQuery;
+import cn.fyg.pm.interfaces.web.shared.query.PurchaseQuery;
 
-public class ReqQuery extends CommonQuery<PurchaseReq> {
+public class ReqQuery extends PurchaseQuery<PurchaseReq> {
 
 	@Override
 	public List<Predicate> criterias(CriteriaBuilder builder,
@@ -28,11 +28,6 @@ public class ReqQuery extends CommonQuery<PurchaseReq> {
 		if(StringUtils.isNotBlank(this.getNo())){
 			criterias.add(builder.like(from.<String>get("no"), "%"+this.getNo().trim()+"%"));
 		}
-		if(this.getSupplier()!=null){
-			if(this.getSupplier().getId()!=null){
-				criterias.add(builder.equal(from.get("purchaseKey").get("supplier"), this.getSupplier()));
-			}
-		}
 		if(this.getCreatedate_beg()!=null){
 			criterias.add(builder.greaterThanOrEqualTo(from.<Date>get("createdate"), this.getCreatedate_beg()));
 		}
@@ -40,28 +35,24 @@ public class ReqQuery extends CommonQuery<PurchaseReq> {
 			Date nextday=DateUtil.nextDay(this.getCreatedate_end());
 			criterias.add(builder.lessThanOrEqualTo(from.<Date>get("createdate"),nextday));
 		}
-		if(this.getSpecialty()!=null){
-			criterias.add(builder.equal(from.get("purchaseKey").get("contract").get("specialty"), this.getSpecialty()));
-		}
 		if(this.getState()!=null){
 			Path<Object> statePath = from.get("state");
-			String mapValue=this.getState().getMapValue();
-			mapState(builder, criterias, statePath, mapValue);
+			mapState(builder, criterias, statePath, this.getState());
 			
 		}
 		return criterias;
 	}
 	
 	private void mapState(CriteriaBuilder builder, List<Predicate> criterias,
-			Path<Object> statePath, String mapValue) {
-		if(mapValue.equals("ext-all")){
+			Path<Object> statePath, String stateValue) {
+		if(stateValue.equals("ext-all")){
 			return;
 		}
-		if(mapValue.equals("ext-notf")){
+		if(stateValue.equals("ext-notf")){
 			criterias.add(builder.notEqual(statePath, PurchaseReqState.finish));
 			return;
 		}
-		criterias.add(builder.equal(statePath,PurchaseReqState.valueOf(mapValue)));
+		criterias.add(builder.equal(statePath,PurchaseReqState.valueOf(stateValue)));
 	}
 
 }

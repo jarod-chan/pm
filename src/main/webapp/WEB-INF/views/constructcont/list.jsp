@@ -102,24 +102,25 @@
 		制单日期:<input type="text" name="createdate_beg" class="datePK" value="<fmt:formatDate value="${query.createdate_beg}" pattern="yyyy-MM-dd"/>" >--<input type="text" name="createdate_end" class="datePK" value="<fmt:formatDate value="${query.createdate_end}" pattern="yyyy-MM-dd"/>">
 		专业分类:<select name="specialty" >
 					<option value="" >-所有-</option>
-					<c:forEach var="contractSpec" items="${contractSpecList}">
-						<option value="${contractSpec}" <c:if test="${contractSpec==query.specialty}">selected="true"</c:if> >${contractSpec.name}</option>
+					<c:forEach var="spec" items="${query.specialtyList}">
+						<option value="${spec}" <c:if test="${spec==query.specialty}">selected="true"</c:if> >${spec.name}</option>
 					</c:forEach>
 				</select><br>
 		状态:<select name="state" >
-					<c:forEach var="state" items="${stateList}">
-						<option value="${state}" <c:if test="${state==query.state}">selected="true"</c:if> >${state.name}</option>
+					<c:forEach var="state" items="${query.stateList}">
+						<option value="${state.value}" <c:if test="${state.value==query.state}">selected="true"</c:if> >${state.name}</option>
 					</c:forEach>
 				</select>
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		排序:<select name="orderAttribute">
-				<option value="no"   <c:if test="${query.orderAttribute=='no'}">selected="true"</c:if> >编号</option>
-				<option value="constructKey.supplier.id"  <c:if test="${query.orderAttribute=='constructKey.supplier.id'}">selected="true"</c:if>  >施工承包方</option>
-				<option value="createdate" <c:if test="${query.orderAttribute=='createdate'}">selected="true"</c:if> >制单日期</option>
+				<c:forEach var="attr" items="${query.orderAttributeList}">
+					<option value="${attr.value}" <c:if test="${attr.value== query.orderAttribute}">selected="true"</c:if> >${attr.name}</option>
+				</c:forEach>
 			</select> 
 			<select name="orderType">
-				<option value="asc" <c:if test="${query.orderType=='asc'}">selected="true"</c:if> >升序</option>
-				<option value="desc" <c:if test="${query.orderType=='desc'}">selected="true"</c:if>  >降序</option>
+				<c:forEach var="type" items="${query.orderTypeList}">
+					<option value="${type.value}" <c:if test="${type.value== query.orderType}">selected="true"</c:if> >${type.name}</option>
+				</c:forEach>
 			</select>  
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="button" value="查询" id="btn_query"> 
