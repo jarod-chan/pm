@@ -119,6 +119,7 @@
 						<li>
 							<ul>
 								<li><a href="${ctx}/project/list" class="no_show" target="mainFrame"  >项目信息</a></li>
+								<li><a href="${ctx}/spmember/list" class="no_show" target="mainFrame"  >供应商用户</a></li>
 								<li><a href="javascript:window.open('${ctx}/login','_self');" class="no_show" >退出系统</a></li>
 							</ul>
 							<span> 系统管理</span>
