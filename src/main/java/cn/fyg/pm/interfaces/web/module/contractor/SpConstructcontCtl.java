@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.constructcont;
+package cn.fyg.pm.interfaces.web.module.contractor;
 
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
@@ -8,29 +8,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
-import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cn.fyg.pm.application.service.ConstructContService;
 import cn.fyg.pm.application.service.ContractService;
 import cn.fyg.pm.application.service.OpinionService;
-import cn.fyg.pm.application.service.SupplierService;
-import cn.fyg.pm.application.service.UserService;
+import cn.fyg.pm.application.service.ProjectService;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContItem;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
@@ -38,75 +37,85 @@ import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.contract.general.Contract;
 import cn.fyg.pm.domain.model.contract.general.ContractType;
 import cn.fyg.pm.domain.model.project.Project;
-import cn.fyg.pm.domain.model.supplier.Supptype;
+import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
-import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
+import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 import cn.fyg.pm.interfaces.web.module.constructcont.flow.ContVarname;
-import cn.fyg.pm.interfaces.web.module.constructcont.query.ContQuery;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
+/**
+ *承包人施工联系单
+ */
 @Controller
-@RequestMapping("constructcont")
-public class ConstructContCtl {
+@RequestMapping("contractor/{projectId}/constructcont")
+public class SpConstructcontCtl {
 	
-	private static final String PATH="constructcont/";
+	private static final String PATH = "contractor/constructcont/";
 	private interface Page {
 		String LIST = PATH + "list";
 		String EDIT = PATH + "edit";
 		String VIEW = PATH + "view";
-		String CHECK = PATH + "check";
 		String CHECK_EDIT = PATH + "check_edit";
 	}
 	
-	
-	@Autowired
-	ContractService contractService;
 	@Autowired
 	ConstructContService constructContService;
 	@Autowired
-	SessionUtil sessionUtil;
+	ContractService contractService;
+	@Autowired
+	ProjectService projectService;
 	@Autowired
 	IdentityService identityService;
 	@Autowired
 	RuntimeService runtimeService;
 	@Autowired
-	TaskService taskService;
-	@Autowired
 	OpinionService opinionService;
 	@Autowired
-	UserService userService;
+	TaskService taskService;
 	@Autowired
-	ContractService ContractService;
-	@Autowired
-	SupplierService supplierService;
-	
-	@InitBinder
-	private void dateBinder(WebDataBinder binder) {
-	    binder.registerCustomEditor(Date.class, CustomEditorFactory.getCustomDateEditor());
-	}
+	SessionUtil sessionUtil;
 	
 	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
-	public String toList(ContQuery query,Map<String,Object> map){
-		Project project = sessionUtil.getValue("project");
-		query.setProject(project);
+	public String toList(@PathVariable("projectId")Long projectId,Map<String,Object> map){
+		final Supplier supplier=sessionUtil.getValue("supplier");
+		final Project project=new Project();
+		project.setId(projectId);
+		
+		QuerySpec<ConstructCont> query=new QuerySpec<ConstructCont>(){
+			@Override
+			public List<Predicate> criterias(CriteriaBuilder builder, Root<ConstructCont> from) {
+				List<Predicate> criterias=new ArrayList<Predicate>();
+				criterias.add(builder.equal(from.get("constructKey").get("project"), project));
+				criterias.add(builder.equal(from.get("constructKey").get("supplier"), supplier));
+				return criterias;
+			}
+
+			@Override
+			public List<Order> orders(CriteriaBuilder builder, Root<ConstructCont> from) {
+				List<Order> orders=new ArrayList<Order>();
+				orders.add(builder.desc(from.<Object>get("createdate")));
+				return orders;
+			}
+		};
+		
 		List<ConstructCont> constructContList = constructContService.query(query);
 		map.put("constructContList", constructContList);
-		map.put("query", query);
-		map.put("supplierList", supplierService.findByTypeIn(Supptype.contra,Supptype.construct));
 		return Page.LIST;
 	}
-
+	
+	
 	@RequestMapping(value="{constructContId}/edit",method=RequestMethod.GET)
-	public String toEdit(@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
-		Project project = sessionUtil.getValue("project");
+	public String toEdit(@PathVariable("projectId")Long projectId,@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
+		Project project = projectService.find(projectId);
+		Supplier supplier=sessionUtil.getValue("supplier");
 		User user = sessionUtil.getValue("user");
 		ConstructCont constructCont = constructContId.longValue()>0?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.new_,false);
 		map.put("constructCont", constructCont);
-		List<Contract> contractList = contractService.findByProjectAndType(constructCont.getConstructKey().getProject(),ContractType.construct);
+		List<Contract> contractList = contractService.findByProjectAndSupplierAndType(constructCont.getConstructKey().getProject(),supplier,ContractType.construct);
 		map.put("contractList", contractList);
 		map.put("contract", constructCont.getConstructKey().getContract());
 		
@@ -114,8 +123,8 @@ public class ConstructContCtl {
 	}
 	
 	@RequestMapping(value="saveEdit",method=RequestMethod.POST)
-	public String saveEdit(@RequestParam("id")Long constructContId,@RequestParam("afteraction")String afteraction,@RequestParam(value="constructContItemsId",required=false) Long[] constructContItemsId,HttpServletRequest request,RedirectAttributes redirectAttributes){
-		Project project = sessionUtil.getValue("project");
+	public String saveEdit(@PathVariable("projectId")Long projectId,@RequestParam("id")Long constructContId,@RequestParam("afteraction")String afteraction,@RequestParam(value="constructContItemsId",required=false) Long[] constructContItemsId,HttpServletRequest request,RedirectAttributes redirectAttributes){
+		Project project = projectService.find(projectId);
 		User user = sessionUtil.getValue("user");
 		
 		ConstructCont constructCont =constructContId!=null?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.saved,true);
@@ -153,7 +162,16 @@ public class ConstructContCtl {
 		
 		return "";
 	}
-
+	
+	private Map<Long, ConstructContItem> getConstructContItemMap(List<ConstructContItem> constructContItems) {
+		Map<Long,ConstructContItem> map = new HashMap<Long,ConstructContItem>();
+		if(constructContItems==null) return map;
+		for (ConstructContItem constructContItem : constructContItems) {
+			map.put(constructContItem.getId(), constructContItem);
+		}
+		return map;
+	}
+	
 	/**
 	 * 提交联系单
 	 * @param constructCont
@@ -173,34 +191,6 @@ public class ConstructContCtl {
 	}
 	
 
-	private Map<Long, ConstructContItem> getConstructContItemMap(List<ConstructContItem> constructContItems) {
-		Map<Long,ConstructContItem> map = new HashMap<Long,ConstructContItem>();
-		if(constructContItems==null) return map;
-		for (ConstructContItem constructContItem : constructContItems) {
-			map.put(constructContItem.getId(), constructContItem);
-		}
-		return map;
-	}
-	
-	//TODO 可以去除 ？
-	@RequestMapping(value="commit",method=RequestMethod.POST)
-	public String commit(@RequestParam("constructContId") Long constructContId,RedirectAttributes redirectAttributes){
-		User user = sessionUtil.getValue("user");
-		String userKey=user.getKey();
-		ConstructCont constructCont = constructContService.find(constructContId);
-		try{
-			Map<String, Object> variableMap = new HashMap<String, Object>();
-			variableMap.put(FlowConstant.BUSINESS_ID, constructCont.getId());
-			variableMap.put(FlowConstant.APPLY_USER, userKey);
-			identityService.setAuthenticatedUserId(userKey);
-			runtimeService.startProcessInstanceByKey(ContVarname.PROCESS_DEFINITION_KEY, variableMap);			
-		} finally {
-			identityService.setAuthenticatedUserId(null);
-		}
-		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("施工联系单：%s已经提交流程！",constructCont.getNo()));
-		return "redirect:list";
-	}
-
 	@RequestMapping(value="delete",method=RequestMethod.POST)
 	public String delete(@RequestParam("constructContId") Long constructContId){
 		constructContService.delete(constructContId);
@@ -208,54 +198,18 @@ public class ConstructContCtl {
 	}
 	
 	@RequestMapping(value="{constructContId}/view",method=RequestMethod.GET)
-	public String toView(@PathVariable("constructContId")Long constructContId,Map<String,Object> map,@RequestParam(value="notback",required=false)Boolean notback){
+	public String toView(@PathVariable("projectId")Long projectId,@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
 		ConstructCont constructCont = constructContService.find(constructContId);
 		map.put("constructCont", constructCont);
-		map.put("notback", notback);
 		return Page.VIEW;
 	}
 	
-	@RequestMapping(value="{constructContId}/items",method=RequestMethod.GET)
-	@ResponseBody 
-	public List<ConstructContItem> loadConstructContItemList(@PathVariable("constructContId")Long constructContId){
-		ConstructCont constructCont = constructContService.find(constructContId);
-		return constructCont.getConstructContItems();
-	}
-	
-	@RequestMapping(value="{constructContId}/check",method=RequestMethod.GET)
-	public String toCheck(@PathVariable(value="constructContId")Long constructContId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
-		ConstructCont constructCont = constructContService.find(constructContId);
-		map.put("constructCont", constructCont);
-		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-		map.put("task", task);
-		map.put("resultList", ResultEnum.agreeItems());
-		return Page.CHECK;
-	}
-	
-	@RequestMapping(value="check/commit",method=RequestMethod.POST)
-	public String checkCommit(Opinion opinion,RedirectAttributes redirectAttributes,@RequestParam(value="taskId",required=false)String taskId){
-		User user = sessionUtil.getValue("user");
-		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-		opinion.setBusiCode(ConstructCont.BUSI_CODE);
-		opinion.setTaskKey(task.getTaskDefinitionKey());
-		opinion.setTaskName(task.getName());
-		opinion.setUserKey(user.getKey());
-		opinion.setUserName(user.getName());
-		opinionService.append(opinion);
-		runtimeService.setVariableLocal(task.getExecutionId(), ContVarname.OPINION,opinion.getResult().val());
-		taskService.complete(task.getId());
-		redirectAttributes
-			.addFlashAttribute(AppConstant.MESSAGE_NAME,info("任务完成"));
-		return "redirect:/task/list";
-	}
-	
 	@RequestMapping(value="{constructContId}/checkedit",method=RequestMethod.GET)
-	public String toCheckEdit(@PathVariable("constructContId")Long constructContId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
+	public String toCheckEdit(@PathVariable("projectId")Long projectId,@PathVariable("constructContId")Long constructContId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
 		ConstructCont constructCont = constructContService.find(constructContId);
 		map.put("constructCont", constructCont);
 		List<Contract> contractList = contractService.findByProject(constructCont.getConstructKey().getProject());
 		map.put("contractList", contractList);
-		map.put("userList", userService.findAll());
 		map.put("taskId", taskId);
 		List<Opinion> opinionList = opinionService.listOpinions(ConstructCont.BUSI_CODE, constructContId);
 		map.put("opinionList", opinionList);
@@ -297,5 +251,4 @@ public class ConstructContCtl {
 		
 		return "";
 	}
-	
 }

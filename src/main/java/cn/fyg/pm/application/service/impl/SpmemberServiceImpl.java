@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.fyg.pm.application.service.SpmemberService;
 import cn.fyg.pm.domain.model.spmember.Spmember;
 import cn.fyg.pm.domain.model.spmember.SpmemberRepository;
+import cn.fyg.pm.domain.model.user.User;
 
 @Service("spmemberService")
 public class SpmemberServiceImpl implements SpmemberService {
@@ -33,6 +34,11 @@ public class SpmemberServiceImpl implements SpmemberService {
 	@Transactional
 	public Spmember save(Spmember spmember) {
 		return this.spmemberRepository.save(spmember);
+	}
+
+	@Override
+	public Spmember findByUser(User user) {
+		return this.spmemberRepository.findByUser(user);
 	}
 
 }
