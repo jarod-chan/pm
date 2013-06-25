@@ -70,10 +70,10 @@
     		west__size:200
     	});    	
     	
-       	$('#btn_task').click(function(){
-    		window.open('${ctx}/task/contractor','_self');
+    	$('#btn_project').click(function(){
+    		window.open('${ctx}/first/contractor','_self');
     		return false;
-    	})
+    	});
     	
     });
     </script>
@@ -85,19 +85,19 @@
 			<div style="width: 50%;float: left;"><div style="width:300px;font-size: 30px; ">方远房产项目管理系统</div></div>
 			<div style="width: 50%;float: left; text-align: right;">
 				供应商:${supplier.name}&nbsp;&nbsp;用户:${user.name}<br>
-				<input type="button" id="btn_task" value="我的任务" >
-				<input type="button" id="btn_project" value="我的项目" disabled="disabled">
+				<input type="button" id="btn_task" value="我的任务" disabled="disabled">
+				<input type="button" id="btn_project" value="我的项目" >
 			</div>
 			<div style="clear: both;"></div>
 		</div>
 	</div>
 	<div class="ui-layout-west">
-		<c:forEach var="project" items="${projectList}">
-			<a href="${ctx}/contractor/${project.id}/constructcont/list" class="no_show" target="mainFrame" >${project.name}</a><br>
-		</c:forEach>
+		<a href="${ctx}/task/list" class="no_show" target="mainFrame" >全部任务</a><br>
+		<a href="${ctx}/task/list" class="no_show" target="mainFrame" >未处理任务</a><br>
+		<a href="${ctx}/task/list" class="no_show" target="mainFrame" >已处理任务</a><br>
 	</div>
 	
-	<iframe id="mainFrame" name="mainFrame" class="ui-layout-center" width="100%" height="600" frameborder="0" scrolling="auto" src="${ctx}/first/notfinish"></iframe> 
+	<iframe id="mainFrame" name="mainFrame" class="ui-layout-center" width="100%" height="600" frameborder="0" scrolling="auto" src="${ctx}/task/list"></iframe> 
 		
 	
 	
