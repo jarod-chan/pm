@@ -6,6 +6,7 @@ import org.springframework.data.repository.Repository;
 
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.shared.repositoryquery.RepositoryQuery;
 
 public interface ConstructContRepository extends Repository<ConstructCont, Long>, RepositoryQuery<ConstructCont> {
@@ -21,4 +22,6 @@ public interface ConstructContRepository extends Repository<ConstructCont, Long>
 	ConstructCont findByConstructKey(ConstructKey constructKey);
 
 	List<ConstructCont> findByConstructKey_Project(Project project);
+
+	List<ConstructCont> findByConstructKey_ProjectAndConstructKey_Supplier(Project project, Supplier supplier);
 }

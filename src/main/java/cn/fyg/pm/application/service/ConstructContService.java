@@ -7,6 +7,7 @@ import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
 
 
@@ -25,4 +26,6 @@ public interface ConstructContService extends ServiceQuery<ConstructCont> {
 	ConstructCont create(User creater,Project project, ConstructContState state,boolean generateNo);
 
 	List<ConstructCont> findByProject(Project project);
+	
+	List<ConstructCont> findByProjectAndSupplier(Project project,Supplier supplier);
 }

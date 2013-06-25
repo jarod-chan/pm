@@ -14,6 +14,7 @@ import cn.fyg.pm.domain.model.construct.constructcont.ConstructContRepository;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 
@@ -66,6 +67,12 @@ public class ConstructContServiceImpl implements ConstructContService {
 	@Override
 	public List<ConstructCont> query(QuerySpec<ConstructCont> querySpec) {
 		return this.constructContRepository.query(ConstructCont.class,querySpec);
+	}
+
+	@Override
+	public List<ConstructCont> findByProjectAndSupplier(Project project,
+			Supplier supplier) {
+		return this.constructContRepository.findByConstructKey_ProjectAndConstructKey_Supplier(project,supplier);
 	}
 
 }

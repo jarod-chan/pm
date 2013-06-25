@@ -217,10 +217,6 @@
 			</td>
 		</tr>
 		<tr>
-			<td>施工承包方：</td>
-			<td><span id="supplier_name"></span></td>
-		</tr>
-		<tr>
 			<td style="vertical-align: top">原因：</td><td><textarea name="reason" rows="6" cols="30" style="vertical-align: top">${constructCert.reason}</textarea></td>
 		</tr>
 		<tr>
@@ -312,3 +308,4 @@
 		</tbody>
 		</table>
 		
+		<%@ include file="selConstructcont.jsp" %>

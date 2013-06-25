@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.contractor;
+package cn.fyg.pm.interfaces.web.module.contractor.constructcont;
 
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
