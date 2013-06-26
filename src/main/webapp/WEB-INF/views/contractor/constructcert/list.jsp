@@ -121,13 +121,16 @@
 		</c:forEach>
 		
 	</table>
-
-
 	<script type="text/javascript">
 		$(function(){
 			$("#headdiv").css("width",$("#tblmain").css("width"));
 		})
 	</script>
+	
+	<c:set var="selectmenu" value="constructcert" />
+	<%@ include file="/component/contractorMenu.jsp" %>	
+
+
 	
 </body>
 </html>

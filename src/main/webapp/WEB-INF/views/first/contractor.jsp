@@ -93,7 +93,7 @@
 	</div>
 	<div class="ui-layout-west">
 		<c:forEach var="project" items="${projectList}">
-			<a href="${ctx}/contractor/${project.id}/constructcert/list" class="no_show" target="mainFrame" >${project.name}</a><br>
+			<a href="${ctx}/contractor/${project.id}/projectinfo" class="no_show" target="mainFrame" >${project.name}</a><br>
 		</c:forEach>
 	</div>
 	

@@ -142,5 +142,7 @@
 		})
 	</script>
 	
+	<c:set var="selectmenu" value="constructcont" />
+	<%@ include file="/component/contractorMenu.jsp" %>	
 </body>
 </html>
