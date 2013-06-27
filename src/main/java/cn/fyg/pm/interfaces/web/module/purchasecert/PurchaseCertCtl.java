@@ -25,11 +25,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import cn.fyg.pm.application.service.ContractService;
-import cn.fyg.pm.application.service.OpinionService;
-import cn.fyg.pm.application.service.PurchaseCertService;
-import cn.fyg.pm.application.service.PurchaseReqService;
-import cn.fyg.pm.application.service.SupplierService;
+import cn.fyg.pm.application.ContractService;
+import cn.fyg.pm.application.OpinionService;
+import cn.fyg.pm.application.PurchaseCertService;
+import cn.fyg.pm.application.PurchaseReqService;
+import cn.fyg.pm.application.SupplierService;
 import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCert;

@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cn.fyg.pm.application.service.WorkflowService;
+import cn.fyg.pm.application.WorkflowService;
 import cn.fyg.pm.domain.model.workflow.processfile.ProcessFile;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 

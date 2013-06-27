@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import cn.fyg.pm.application.service.PjmemberService;
-import cn.fyg.pm.application.service.ProjectService;
-import cn.fyg.pm.application.service.UserService;
+import cn.fyg.pm.application.PjmemberService;
+import cn.fyg.pm.application.ProjectService;
+import cn.fyg.pm.application.UserService;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;

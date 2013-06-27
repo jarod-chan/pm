@@ -4,8 +4,8 @@ import org.activiti.engine.delegate.DelegateExecution;
 import org.activiti.engine.delegate.Expression;
 import org.activiti.engine.delegate.JavaDelegate;
 
-import cn.fyg.pm.application.service.ConstructCertService;
-import cn.fyg.pm.application.service.OpinionService;
+import cn.fyg.pm.application.ConstructCertService;
+import cn.fyg.pm.application.OpinionService;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;

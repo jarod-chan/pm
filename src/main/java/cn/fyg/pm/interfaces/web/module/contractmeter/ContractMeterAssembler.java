@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cn.fyg.pm.application.service.PurchaseReqService;
+import cn.fyg.pm.application.PurchaseReqService;
 import cn.fyg.pm.domain.model.contract.purchase.ContractMeter;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 

@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import cn.fyg.pm.application.service.PjmemberService;
-import cn.fyg.pm.application.service.ProjectService;
+import cn.fyg.pm.application.PjmemberService;
+import cn.fyg.pm.application.ProjectService;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.project.Project;
 
