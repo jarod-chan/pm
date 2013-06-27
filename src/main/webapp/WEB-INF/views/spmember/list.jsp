@@ -46,12 +46,11 @@
 			<tr>
 				<td>${spmemberDto.user.name}</td>
 				<td>
-					<input type="hidden" name="spmembers_id" value="${spmemberDto.spmember.id}">
 					<input type="hidden" name="spmembers_user.key" value="${spmemberDto.user.key}">
 					<select name="spmembers_supplier.id">
 							<option value="">--</option>
 							<c:forEach var="supplier" items="${constructSupplier}">
-								<option value="${supplier.id}" <c:if test="${supplier.id==spmemberDto.spmember.supplier.id}">selected="true"</c:if>>${supplier.name}</option>
+								<option value="${supplier.id}" <c:if test="${supplier.id==spmemberDto.supplier.id}">selected="true"</c:if>>${supplier.name}</option>
 							</c:forEach>
 					</select>
 				</td>				

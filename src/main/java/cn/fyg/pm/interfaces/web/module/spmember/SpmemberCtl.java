@@ -14,7 +14,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import cn.fyg.pm.application.SpmemberService;
 import cn.fyg.pm.application.SupplierService;
 import cn.fyg.pm.application.UserService;
-import cn.fyg.pm.domain.model.spmember.Spmember;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.model.user.User;
@@ -33,35 +32,29 @@ public class SpmemberCtl {
 	SupplierService supplierService;
 	@Autowired
 	UserService userService;
+	@Autowired 
+	SpmemberService spmemberService;
 	@Autowired
-	SpmemberService spmemberService; 
+	SpmemberFacade spmemberFacade;
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String toList(Map<String,Object> map){
-		List<Supplier> constructSupplier = supplierService.findByType(Supptype.contra);
-		List<Spmember> spmembers = spmemberService.findAll();
+		
 		List<User> users = userService.findAll();
-		List<SpmemberDto> spmemberDtos = SpmemberAssembler.build(users, spmembers);
+		Map<User, Supplier> userSupplier = this.spmemberService.getAllUserSupplier();
+		List<SpmemberDto> spmemberDtos = SpmemberAssembler.build(users, userSupplier);
 		map.put("spmemberDtos", spmemberDtos);
+		
+		List<Supplier> constructSupplier = supplierService.findByType(Supptype.contra);
 		map.put("constructSupplier", constructSupplier);
+		
 		return Page.LIST;
 	}
 	
 	@RequestMapping(value="save",method=RequestMethod.POST)
 	public String save(SpmemberPage page,RedirectAttributes redirectAttributes){
-		List<Spmember> spmembers = page.getSpmembers();
-		for (Spmember spmember : spmembers) {
-			//TODO 当供应商没有选择时，对象清空
-			if(spmember.getSupplier().getId()==null){
-				spmember.setSupplier(null);
-			}
-			
-			if(spmember.getId()!=null&&spmember.getSupplier()==null){
-				spmemberService.delete(spmember.getId());
-			}else if(spmember.getSupplier()!=null){
-				spmemberService.save(spmember);
-			}
-		}
+		List<SpmemberDto> spmembers = page.getSpmembers();
+		spmemberFacade.saveSpmembers(spmembers);
 		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("保存成功"));
 		return "redirect:list";
 	}

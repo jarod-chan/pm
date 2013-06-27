@@ -1,7 +1,7 @@
 package cn.fyg.pm.application.impl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.fyg.pm.application.SpmemberService;
 import cn.fyg.pm.domain.model.spmember.Spmember;
 import cn.fyg.pm.domain.model.spmember.SpmemberRepository;
+import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
 
 @Service("spmemberService")
@@ -19,26 +20,44 @@ public class SpmemberServiceImpl implements SpmemberService {
 	SpmemberRepository spmemberRepository;
 
 	@Override
-	public List<Spmember> findAll() {
+	@Transactional
+	public void assignUserSupplier(User user, Supplier supplier) {
+		Spmember spmember = this.spmemberRepository.findByUser(user);
+		spmember=(spmember==null?new Spmember():spmember);
+		spmember.setUser(user);
+		spmember.setSupplier(supplier);
+		spmemberRepository.save(spmember);
+	}
+
+	@Override
+	public boolean isUserAssigned(User user) {
+		Spmember spmember = this.spmemberRepository.findByUser(user);
+		return spmember!=null;
+	}
+
+	@Override
+	public Supplier getUserSupplier(User user) {
+		Spmember spmember = this.spmemberRepository.findByUser(user);
+		return spmember.getSupplier();
+	}
+
+	@Override
+	public Map<User, Supplier> getAllUserSupplier() {
 		Iterable<Spmember> spmembers = this.spmemberRepository.findAll();
-		return spmembers!=null?(List<Spmember>)spmembers:new ArrayList<Spmember>();
+		HashMap<User, Supplier> userToSupplier = new HashMap<User,Supplier>();
+		for (Spmember spmember : spmembers) {
+			userToSupplier.put(spmember.getUser(),spmember.getSupplier());
+		}
+		return userToSupplier;
 	}
 
 	@Override
 	@Transactional
-	public void delete(Long id) {
-		this.spmemberRepository.delete(id);
-	}
-
-	@Override
-	@Transactional
-	public Spmember save(Spmember spmember) {
-		return this.spmemberRepository.save(spmember);
-	}
-
-	@Override
-	public Spmember findByUser(User user) {
-		return this.spmemberRepository.findByUser(user);
+	public void clearUserSupplier(User user) {
+		Spmember spmember = spmemberRepository.findByUser(user);
+		if(spmember!=null){
+			this.spmemberRepository.delete(spmember);
+		}
 	}
 
 }

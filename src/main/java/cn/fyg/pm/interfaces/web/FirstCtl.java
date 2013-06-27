@@ -20,7 +20,6 @@ import cn.fyg.pm.application.SpmemberService;
 import cn.fyg.pm.domain.model.contract.general.Contract;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.project.Project;
-import cn.fyg.pm.domain.model.spmember.Spmember;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
@@ -42,7 +41,6 @@ public class FirstCtl {
 	@RequestMapping(value="first",method=RequestMethod.GET)
 	public String toFirst(){
 		User user=sessionUtil.getValue("user");
-		//TODO 承包人账户处理
 		if(isSupplierUser(user)){
 			return "redirect:/first/contractor";
 		}
@@ -54,10 +52,7 @@ public class FirstCtl {
 
 	//判断用户是否承包人
 	private boolean isSupplierUser(User user) {
-		Spmember spmember=spmemberService.findByUser(user);
-		if(spmember==null)
-			return false;
-		return true;
+		return spmemberService.isUserAssigned(user);
 	}
 
 	@RequestMapping(value="first/project/{projectId}",method=RequestMethod.GET)
@@ -90,8 +85,7 @@ public class FirstCtl {
 	@RequestMapping(value="first/contractor",method=RequestMethod.GET)
 	public String toContractor(Map<String,Object> map){
 		User user=sessionUtil.getValue("user");
-		Spmember spmember=spmemberService.findByUser(user);
-		Supplier supplier = spmember.getSupplier();
+		Supplier supplier=spmemberService.getUserSupplier(user);
 		sessionUtil.setValue("supplier", supplier);
 		List<Contract> supplierContract = contractService.findBySupplier(supplier);
 		List<Project> projectList=getContractProject(supplierContract);
