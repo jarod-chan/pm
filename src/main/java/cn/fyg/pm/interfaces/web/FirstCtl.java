@@ -18,7 +18,6 @@ import cn.fyg.pm.application.PjmemberService;
 import cn.fyg.pm.application.ProjectService;
 import cn.fyg.pm.application.SpmemberService;
 import cn.fyg.pm.domain.model.contract.general.Contract;
-import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
@@ -44,7 +43,7 @@ public class FirstCtl {
 		if(isSupplierUser(user)){
 			return "redirect:/first/contractor";
 		}
-		List<Project> projectList=pjmemberService.findUserProject(user);
+		List<Project> projectList=pjmemberService.getUserProject(user);
 		return "redirect:/first/project/"+projectList.get(0).getId()+"?target=first/home";
 	}
 	
@@ -58,15 +57,15 @@ public class FirstCtl {
 	@RequestMapping(value="first/project/{projectId}",method=RequestMethod.GET)
 	public String toProject(@PathVariable("projectId")Long projectId,@RequestParam("target")String target,Map<String,Object> map){
 		User user=sessionUtil.getValue("user");
-		List<Project> projectList=pjmemberService.findUserProject(user);
+		List<Project> projectList=pjmemberService.getUserProject(user);
 		map.put("projectList", projectList);
 		Project project=projectService.find(projectId);
 		map.put("project", project);
 		sessionUtil.setValue("project", project);
 		List<Contract> contractList = contractService.findByProject(project);
 		map.put("contractList", contractList);
-		List<Pjmember> pjmemberList = pjmemberService.findByProject(project);
-		map.put("pjmemberList", pjmemberList);
+		List<User> projectUsers = pjmemberService.getProjectUser(project);
+		map.put("projectUsers", projectUsers);
 		
 		map.put("target", target);
 		return "first/first";

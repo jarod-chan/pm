@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import cn.fyg.pm.application.PjmemberService;
 import cn.fyg.pm.application.ProjectService;
-import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.user.User;
 
 @Controller
 @RequestMapping("contractor/{projectId}/projectinfo")
@@ -32,8 +32,8 @@ public class ProjectInfoCtl {
 	public String toProjectInfo(@PathVariable("projectId")Long projectId,Map<String,Object> map){
 		Project project=projectService.find(projectId);
 		map.put("project", project);
-		List<Pjmember> pjmemberList = pjmemberService.findByProject(project);
-		map.put("pjmemberList", pjmemberList);
+		List<User> projectUsers = pjmemberService.getProjectUser(project);
+		map.put("projectUsers", projectUsers);
 		return Page.PROJECTINFO;
 	}
 

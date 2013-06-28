@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ProjectService;
+import cn.fyg.pm.domain.model.pjmember.Pjmember;
+import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.project.ProjectFactory;
 import cn.fyg.pm.domain.model.project.ProjectRepository;
@@ -17,6 +19,8 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	@Autowired
 	ProjectRepository projectRepository;
+	@Autowired
+	PjmemberRepository pjmemberRepository;
 
 	@Override
 	@Transactional
@@ -32,6 +36,9 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	@Transactional
 	public void delete(Long id) {
+		Project project = this.projectRepository.findOne(id);
+		List<Pjmember> projectPjmembers = this.pjmemberRepository.findByProject(project);
+		this.pjmemberRepository.delete(projectPjmembers);
 		projectRepository.delete(id);
 	}
 

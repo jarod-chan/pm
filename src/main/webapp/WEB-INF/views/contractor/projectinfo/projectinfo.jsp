@@ -65,7 +65,7 @@
 		
 		<tr><td>
 		人员：</td><td>
-		<c:forEach var="item" items="${pjmemberList}" varStatus="status">${item.user.name}<c:if test="${!status.last}">,</c:if></c:forEach>
+		<c:forEach var="user" items="${projectUsers}" varStatus="status">${user.name}<c:if test="${!status.last}">,</c:if></c:forEach>
 		<td></tr>
 		
 	</table>

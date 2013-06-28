@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.base.Preconditions;
+
 import cn.fyg.pm.application.PjmemberService;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
@@ -20,30 +22,50 @@ public class PjmemberServiceImpl implements PjmemberService {
 	PjmemberRepository pjmemberRepository;
 
 	@Override
-	@Transactional
-	public List<Pjmember> save(List<Pjmember> pjmemberList) {
-		return (List<Pjmember>) pjmemberRepository.save(pjmemberList);
-	}
-
-	@Override
-	public List<Pjmember> findByProject(Project project) {
-		return pjmemberRepository.findByProject(project);
-	}
-
-	@Override
-	@Transactional
-	public void deleteByProject(Project project) {
-		List<Pjmember> pjmemberList = pjmemberRepository.findByProject(project);
-		pjmemberRepository.delete(pjmemberList);
-	}
-
-	@Override
-	public List<Project> findUserProject(User user) {
-		List<Pjmember> pjmemberList = pjmemberRepository.findByUser(user);
-		ArrayList<Project> projectList = new ArrayList<Project>();
-		for (Pjmember pjmember : pjmemberList) {
-			projectList.add(pjmember.getProject());
+	public List<Project> getUserProject(User user) {
+		List<Pjmember> pjmembers = this.pjmemberRepository.findByUser(user);
+		List<Project> userProject=new ArrayList<Project>();
+		for (Pjmember pjmember : pjmembers) {
+			userProject.add(pjmember.getProject());
 		}
-		return projectList;
+		return userProject;
+	}
+
+	@Override
+	public List<User> getProjectUser(Project project) {
+		List<Pjmember> pjmembers = this.pjmemberRepository.findByProject(project);
+		List<User> projectUser = new ArrayList<User>();
+		for (Pjmember pjmember : pjmembers) {
+			projectUser.add(pjmember.getUser());
+		}
+		return projectUser;
+	}
+
+	@Override
+	@Transactional
+	public void appendPrjectUser(Project project, User user) {
+		Preconditions.checkNotNull(project);
+		Preconditions.checkNotNull(project.getId());
+		Preconditions.checkNotNull(user);
+		Preconditions.checkNotNull(user.getKey());
+		Pjmember pjmember = this.pjmemberRepository.findByProjectAndUser(project, user);
+		pjmember= pjmember==null?new Pjmember():pjmember;
+		pjmember.setProject(project);
+		pjmember.setUser(user);
+		this.pjmemberRepository.save(pjmember);
+	}
+
+	@Override
+	@Transactional
+	public void removeProjectUser(Project project, User user) {
+		Preconditions.checkNotNull(project);
+		Preconditions.checkNotNull(project.getId());
+		Preconditions.checkNotNull(user);
+		Preconditions.checkNotNull(user.getKey());
+		Pjmember pjmember = this.pjmemberRepository.findByProjectAndUser(project, user);
+		if(pjmember==null){
+			return;
+		}
+		this.pjmemberRepository.delete(pjmember);
 	}
 }

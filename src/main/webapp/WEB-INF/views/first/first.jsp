@@ -176,7 +176,7 @@
 		编号：${project.no}<br>
 		负责人：${project.leader.name}<br>
 		开工日期：<br>
-		成员：<c:forEach var="item" items="${pjmemberList}" varStatus="status">${item.user.name}<c:if test="${!status.last}">,</c:if></c:forEach>
+		成员：<c:forEach var="user" items="${projectUsers}" varStatus="status">${user.name}<c:if test="${!status.last}">,</c:if></c:forEach>
 		<br>
 		状态：${project.state.name}<br>
 		联系单数：N/A<br>
