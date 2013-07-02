@@ -14,21 +14,21 @@ import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 @Controller
-public class LoginCtl {
+public class Login2Ctl {
 	
 	@Autowired
 	UserService userService;
 	@Autowired
 	SessionUtil sessionUtil;
 	
-	@RequestMapping(value="/login",method=RequestMethod.GET)
+	@RequestMapping(value="/login2",method=RequestMethod.GET)
 	public String toLogin(Map<String,Object> map){
 		List<User> userList = userService.findAll();
 		map.put("userList", userList);
 		return "login";
 	}
 	
-	@RequestMapping(value="/login",method=RequestMethod.POST)
+	@RequestMapping(value="/login2",method=RequestMethod.POST)
 	public String login(@RequestParam("userKey")String userKey){
 		User user = userService.find(userKey);
 		sessionUtil.setValue("user", user);

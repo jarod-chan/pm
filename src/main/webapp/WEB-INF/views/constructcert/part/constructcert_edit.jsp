@@ -312,3 +312,4 @@
 		</tbody>
 		</table>
 		
+		<%@ include file="selConstructcont.jsp" %>	

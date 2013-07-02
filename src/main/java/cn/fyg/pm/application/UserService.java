@@ -14,4 +14,6 @@ public interface UserService {
 	
 	User find(String key);
 
+	String login(String username, String password);
+
 }
