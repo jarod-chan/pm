@@ -76,20 +76,6 @@ public class ContractCtl {
 		return Page.LIST;
 	}
 	
-	@RequestMapping(value="{contractId}/edit",method=RequestMethod.GET)
-	public String toEdit(@PathVariable("contractType")ContractType contractType,@PathVariable("contractId") Long contractId,Map<String,Object> map){
-		Project project=sessionUtil.getValue("project");
-		Contract contract=contractId.longValue()>0?contractService.find(contractId):contractService.create(project);
-		map.put("contractType", contractType);
-		map.put("contract", contract);
-		map.put("supplierList", getSupplierList(contractType));
-		map.put("contractStateList", ContractState.values());
-		map.put("specialtyList", ContractSpec.values());
-		map.put("contractRiskList", ContractRisk.values());
-		map.put("userList", userService.findAll());
-		return Page.EDIT;
-	}
-	
 	private List<Supplier> getSupplierList(ContractType contractType){
 		if(ContractType.construct==contractType){
 			return supplierService.findByTypeIn(Supptype.contra,Supptype.construct);
@@ -101,6 +87,24 @@ public class ContractCtl {
 			return supplierService.findByTypeIn(Supptype.meter);
 		}
 		return null;
+	}
+	
+	@RequestMapping(value="{contractId}/edit",method=RequestMethod.GET)
+	public String toEdit(@PathVariable("contractType")ContractType contractType,@PathVariable("contractId") Long contractId,Map<String,Object> map){
+		Project project=sessionUtil.getValue("project");
+		Contract contract=contractId.longValue()>0?contractService.find(contractId):contractService.create(project);
+		map.put("contractType", contractType);
+		map.put("contract", contract);
+		map.put("supplierList", getSupplierList(contractType));
+		map.put("contractStateList", ContractState.values());
+		map.put("specialtyList", ContractSpec.values());
+		map.put("contractRiskList", ContractRisk.values());
+		if(contract.getId()!=null){			
+			BusiCode busiCode = BusiCode.pm_contract;
+			Long busiId=contract.getId();
+			map.put("filestores", this.busifileService.findFilestores(busiCode, busiId));
+		}
+		return Page.EDIT;
 	}
 	
 	@RequestMapping(value="save",method=RequestMethod.POST)
@@ -122,6 +126,7 @@ public class ContractCtl {
 		return "redirect:list";
 	}
 
+	//TODO  优化文件存储接口
 	private void reSaveBusifile(Contract contract, Long[] filestore_id,
 			BusiCode busiCode, Long busiId) {
 		List<Busifile> busifileList=new ArrayList<Busifile>();

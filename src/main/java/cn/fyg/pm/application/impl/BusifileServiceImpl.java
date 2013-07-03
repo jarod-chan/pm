@@ -30,7 +30,7 @@ public class BusifileServiceImpl implements BusifileService {
 		List<Busifile> busifileList = busifileRepository.findByBusiCodeAndBusiIdOrderByIdAsc(busiCode, busiId);
 		ArrayList<Filestore> filestoreList = new ArrayList<Filestore>();
 		for (Busifile busifile : busifileList) {
-			busifileList.add(busifile);
+			filestoreList.add(busifile.getFilestore());
 		}
 		return filestoreList;
 	}

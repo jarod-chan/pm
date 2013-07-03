@@ -33,4 +33,10 @@ public class FilestoreServiceImpl implements FilestoreService {
 		return filestore;
 	}
 
+
+	@Override
+	public Filestore find(Long id) {
+		return this.filestoreRepository.findOne(id);
+	}
+
 }
