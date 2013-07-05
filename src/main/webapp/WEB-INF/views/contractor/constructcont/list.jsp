@@ -79,7 +79,8 @@
 </head>
 
 <body>
-	<h2>施工联系单</h2>
+	<c:set var="selectmenu" value="constructcont" />
+	<%@ include file="/component/contractorMenu.jsp" %>	
 	
 	<%@ include file="/common/message.jsp" %>	
 	
@@ -142,7 +143,6 @@
 		})
 	</script>
 	
-	<c:set var="selectmenu" value="constructcont" />
-	<%@ include file="/component/contractorMenu.jsp" %>	
+
 </body>
 </html>

@@ -32,7 +32,9 @@
 </head>
 
 <body>
-	<h2>项目</h2>
+	<c:set var="selectmenu" value="projectinfo" />
+	<%@ include file="/component/contractorMenu.jsp" %>	
+	
 	<%@ include file="/common/message.jsp" %>	
 	
 	<div id="headdiv" style="width: 600px;">
@@ -70,8 +72,6 @@
 		
 	</table>
 	</div>	
-
-	<c:set var="selectmenu" value="projectinfo" />
-	<%@ include file="/component/contractorMenu.jsp" %>		
+	
 </body>
 </html>

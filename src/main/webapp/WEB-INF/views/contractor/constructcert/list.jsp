@@ -79,7 +79,8 @@
 </head>
 
 <body>
-	<h2>工程签证单</h2>
+	<c:set var="selectmenu" value="constructcert" />
+	<%@ include file="/component/contractorMenu.jsp" %>	
 	
 	<%@ include file="/common/message.jsp" %>	
 	<div style="text-align: right;" id="headdiv">
@@ -127,8 +128,7 @@
 		})
 	</script>
 	
-	<c:set var="selectmenu" value="constructcert" />
-	<%@ include file="/component/contractorMenu.jsp" %>	
+
 
 
 	
