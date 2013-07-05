@@ -2,7 +2,6 @@ package cn.fyg.pm.interfaces.web.module.contractmeter;
 
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +28,6 @@ import cn.fyg.pm.domain.model.contract.ContractRisk;
 import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.contract.ContractState;
 import cn.fyg.pm.domain.model.contract.purchase.ContractMeter;
-import cn.fyg.pm.domain.model.fileupload.busifile.Busifile;
-import cn.fyg.pm.domain.model.fileupload.filestore.Filestore;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
@@ -95,6 +92,7 @@ public class ContractMeterCtl {
 		map.put("contractStateList", ContractState.values());
 		map.put("specialtyList", ContractSpec.values());
 		map.put("contractRiskList", ContractRisk.values());
+		map.put("userList", userService.findAll());
 		List<PurchaseReq> purchaseReqList = purchaseReqService.findByProject(project);
 		map.put("purchaseReqList", purchaseReqList);
 		PurchaseReq purchaseReq = purchaseReqService.findByPurchaseKey(contractMeter.getPurchaseKey());
@@ -116,11 +114,10 @@ public class ContractMeterCtl {
 		}
 		
 		contractMeter=contractMeterService.save(contractMeter);
-		if(filestore_id!=null){			
-			BusiCode busiCode = BusiCode.pm_contractmeter;
-			Long busiId=contractMeter.getId();
-			reSaveBusifile(contractMeter, filestore_id, busiCode, busiId);
-		}
+		
+		BusiCode busiCode = BusiCode.pm_contract;
+		Long busiId=contractMeter.getId();
+		this.busifileService.associateFile(busiCode, busiId, filestore_id);
 		
 		purchaseReqService.upReqItemList(UptypeEnum.pm_contractmeter, contractMeter.getId(), contractMeter.getNo(), reqItemIds);
 		
@@ -128,25 +125,11 @@ public class ContractMeterCtl {
 		return "redirect:list";
 	}
 
-	private void reSaveBusifile(ContractMeter contractMeter, Long[] filestore_id,
-			BusiCode busiCode, Long busiId) {
-		List<Busifile> busifileList=new ArrayList<Busifile>();
-		for (Long filestoreId : filestore_id) {
-			Busifile busifile=new Busifile();
-			busifile.setBusiCode(busiCode);
-			busifile.setBusiId(contractMeter.getId());
-			Filestore filestore=new Filestore();
-			filestore.setId(filestoreId);
-			busifile.setFilestore(filestore);
-			busifileList.add(busifile);
-		}
-		this.busifileService.deleteByBusiCodeAndBusiId(busiCode, busiId);
-		this.busifileService.save(busifileList);
-	}
+	
 	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
 	public String delete(@RequestParam("contractMeterId") Long contractMeterId,RedirectAttributes redirectAttributes){
-		this.busifileService.deleteByBusiCodeAndBusiId(BusiCode.pm_contractmeter, contractMeterId);
+		this.busifileService.removeAssociatedFile(BusiCode.pm_contractmeter, contractMeterId);
 		purchaseReqService.rmReqItemList(UptypeEnum.pm_contractmeter, contractMeterId);
 		contractMeterService.delete(contractMeterId);
 		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("删除成功"));
