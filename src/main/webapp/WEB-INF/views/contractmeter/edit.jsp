@@ -43,6 +43,19 @@
 	 	background-color: #5BADFF;
 	 }
 	 
+	 .fl_name a {
+	    background-color: #5BADFF;  
+	    text-decoration: none;
+	    color:#000000;
+	    white-space: nowrap;
+	}
+	.fl_name a:hover {
+	    background-color:  #FF8080;
+	}
+	.fl_name a:visited {
+	    color: #000000;
+	}
+	 
 	 .fl_remove a {
 	    background-color: #FECF78;  
 	    text-decoration: none;
@@ -109,6 +122,9 @@
 		    	return newspan;
 		    } 
 		    
+		    $(".fl_span").find(".fl_remove a").click(function(){
+	   			$(this).parent().parent().remove();
+	   		});
 		   
 		});
 	 	 
@@ -271,6 +287,12 @@
 			<td></td>
 			<td>
 				<div style="clear: both;"  id="uploadify_result">
+					<c:forEach var="filestore" items="${filestores}">
+						<span class="fl_span"> 
+							<span class="fl_name"><a href="${ctx}/uploadify/filestore/${filestore.id}">${filestore.filename}.${filestore.suffix}</a></span><span class="fl_remove"><a href="javascript:void(0);">--</a></span>
+							<span class="fl_id"><input type="hidden" name="filestore_id" value="${filestore.id}"></span>
+						</span>
+					</c:forEach>
 				</div>
 				<div id="uploadify_queue">
 				</div>

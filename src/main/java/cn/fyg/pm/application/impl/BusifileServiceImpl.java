@@ -42,7 +42,7 @@ public class BusifileServiceImpl implements BusifileService {
 	@Transactional
 	public void associateFile(BusiCode busiCode, Long busiId,Long[] filestoreIds) {
 		List<Busifile> busifileList = busifileRepository.findByBusiCodeAndBusiIdOrderByIdAsc(busiCode, busiId);
-		List<Long> filestoreIdList =new ArrayList<Long>(Arrays.asList(filestoreIds));
+		List<Long> filestoreIdList = filestoreIds==null?new ArrayList<Long>():new ArrayList<Long>(Arrays.asList(filestoreIds));
 		for(Busifile busifile:busifileList){
 			Long filestoreId = busifile.getFilestore().getId();
 			if(filestoreIdList.contains(filestoreId)){

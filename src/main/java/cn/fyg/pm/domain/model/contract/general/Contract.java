@@ -21,6 +21,7 @@ import cn.fyg.pm.domain.model.contract.ContractState;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.domain.shared.BusiCode;
 
 /**
  *合同：
@@ -29,6 +30,8 @@ import cn.fyg.pm.domain.model.user.User;
 @Entity
 @Table(name="pm_contract")
 public class Contract {
+	
+	public static final BusiCode BUSI_CODE = BusiCode.pm_contract;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -98,7 +98,7 @@ public class ContractCtl {
 		map.put("contractRiskList", ContractRisk.values());
 		map.put("userList", userService.findAll());
 		if(contract.getId()!=null){			
-			BusiCode busiCode = BusiCode.pm_contract;
+			BusiCode busiCode = Contract.BUSI_CODE;
 			Long busiId=contract.getId();
 			map.put("filestores", this.busifileService.findFilestores(busiCode, busiId));
 		}
@@ -116,7 +116,7 @@ public class ContractCtl {
 		
 		contract=contractService.save(contract);
 		
-		BusiCode busiCode = BusiCode.pm_contract;
+		BusiCode busiCode =  Contract.BUSI_CODE;
 		Long busiId=contract.getId();
 		this.busifileService.associateFile(busiCode, busiId, filestore_id);
 	

@@ -97,6 +97,11 @@ public class ContractMeterCtl {
 		map.put("purchaseReqList", purchaseReqList);
 		PurchaseReq purchaseReq = purchaseReqService.findByPurchaseKey(contractMeter.getPurchaseKey());
 		map.put("purchaseReq", purchaseReq);
+		if(contractMeter.getId()!=null){			
+			BusiCode busiCode = ContractMeter.BUSI_CODE;
+			Long busiId=contractMeter.getId();
+			map.put("filestores", this.busifileService.findFilestores(busiCode, busiId));
+		}
 		return Page.EDIT;
 	}
 	
@@ -115,7 +120,7 @@ public class ContractMeterCtl {
 		
 		contractMeter=contractMeterService.save(contractMeter);
 		
-		BusiCode busiCode = BusiCode.pm_contract;
+		BusiCode busiCode = ContractMeter.BUSI_CODE;
 		Long busiId=contractMeter.getId();
 		this.busifileService.associateFile(busiCode, busiId, filestore_id);
 		
