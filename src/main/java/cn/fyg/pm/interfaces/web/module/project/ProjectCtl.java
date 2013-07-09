@@ -82,6 +82,7 @@ public class ProjectCtl {
 	public String delete(@RequestParam("projectId") Long projectId,RedirectAttributes redirectAttributes){
 		try {
 			projectService.delete(projectId);
+			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("操作完成"));
 		} catch (NoNotLastException e) {
 			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info(e.getMessage()));
 		}

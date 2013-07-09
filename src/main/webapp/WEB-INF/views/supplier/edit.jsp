@@ -40,7 +40,8 @@
 	<table id="tabmain">
 		
 		<tr><td>编号：</td><td>
-		<input type="text" name="no" value="${supplier.no}"/>
+		<c:set var="parma_no" value="${supplier.no}" />
+		<%@ include file="/component/noShow.jsp" %>	
 		</td></tr>
 		
 		<tr><td>

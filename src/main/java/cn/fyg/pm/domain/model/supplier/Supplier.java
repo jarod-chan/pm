@@ -8,13 +8,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
+import cn.fyg.pm.domain.model.nogenerator.NoKey;
+import cn.fyg.pm.domain.model.nogenerator.NoPattern;
+import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
+
 /**
  *供应商：
  *合同签订对象
  */
 @Entity
 @Table(name="pm_supplier")
-public class Supplier {
+public class Supplier implements NoPatternUnit {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -124,6 +130,31 @@ public class Supplier {
 	}
 	public void setAccount(String account) {
 		this.account = account;
+	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+	
+	@Override
+	public NoPattern getNoPattern() {
+		NoKey nokey=new NoKey();
+		nokey.setSys("D");
+		nokey.setFlag("GF");
+		nokey.setPref(this.type.getCode());
+		Long limit=Long.valueOf(99999);
+	    return new NoPattern(nokey,limit);
+	}
+	
+	@Override
+	public void setGenerateNo(String generateNo) {
+		this.no=generateNo;
+	}
+	
+	@Override
+	public String getGenerateNo() {
+		return this.no;
 	}
 	
 	

@@ -1,5 +1,7 @@
 package cn.fyg.pm.interfaces.web.module.supplier;
 
+import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
+
 import java.util.List;
 import java.util.Map;
 
@@ -15,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cn.fyg.pm.application.SupplierService;
+import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
 import cn.fyg.pm.domain.model.supplier.CreditRank;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.interfaces.web.module.supplier.query.SupplierQuery;
+import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 
 @Controller
 @RequestMapping("supplier/{supptype}")
@@ -62,8 +66,13 @@ public class SupplierCtl {
 	}
 	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
-	public String delete(@RequestParam("supplierId") Long supplierId){
-		supplierService.delete(supplierId);
+	public String delete(@RequestParam("supplierId") Long supplierId,RedirectAttributes redirectAttributes){
+		try {
+			supplierService.delete(supplierId);
+			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("操作完成"));
+		} catch (NoNotLastException e) {
+			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info(e.getMessage()));
+		}
 		return "redirect:list";
 	}
 
