@@ -11,5 +11,10 @@ public class DateUtil {
 		dateTime=dateTime.plusDays(1);
 		return dateTime.toDate();   
 	}
+	
+	public static int year(){
+		DateTime dateTime = new DateTime(new Date());  
+		return dateTime.getYear();
+	}
 
 }

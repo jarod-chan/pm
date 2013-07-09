@@ -17,14 +17,18 @@ import javax.persistence.TemporalType;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import cn.fyg.pm.domain.model.nogenerator.NoKey;
+import cn.fyg.pm.domain.model.nogenerator.NoPattern;
+import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
 import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.infrastructure.tool.DateUtil;
 
 /**
  * 项目： 项目基础信息
  */
 @Entity
 @Table(name = "pm_project")
-public class Project {
+public class Project implements NoPatternUnit {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -206,5 +210,29 @@ public class Project {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
+
+	@Override
+	public NoPattern getNoPattern() {
+		NoKey nokey=new NoKey();
+		nokey.setSys("D");
+		nokey.setFlag("XM");
+		int year=DateUtil.year();
+		String pref=String.valueOf(year).substring(2);
+		nokey.setPref(pref);
+		Long limit=Long.valueOf(99);
+	    return new NoPattern(nokey,limit);
+	}
+
+	@Override
+	public void setGenerateNo(String generateNo) {
+		this.no=generateNo;
+	}
+
+	@Override
+	public String getGenerateNo() {
+		return this.no;
+	}
+	
+	
 
 }

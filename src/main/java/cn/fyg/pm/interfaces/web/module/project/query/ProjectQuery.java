@@ -32,7 +32,7 @@ public class ProjectQuery implements QuerySpec<Project> {
 	public ProjectQuery() {
 		super();
 		this.orderAttribute = "no";
-		this.orderType = "asc";
+		this.orderType = "desc";
 	}
 	
 

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import cn.fyg.pm.application.PjmemberService;
 import cn.fyg.pm.application.ProjectService;
 import cn.fyg.pm.application.UserService;
+import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.module.project.query.ProjectQuery;
@@ -78,8 +79,12 @@ public class ProjectCtl {
 	}
 	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
-	public String delete(@RequestParam("projectId") Long projectId){
-		projectService.delete(projectId);
+	public String delete(@RequestParam("projectId") Long projectId,RedirectAttributes redirectAttributes){
+		try {
+			projectService.delete(projectId);
+		} catch (NoNotLastException e) {
+			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info(e.getMessage()));
+		}
 		return "redirect:list";
 	}
 	

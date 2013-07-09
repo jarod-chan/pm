@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ProjectService;
+import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
+import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.project.Project;
@@ -21,10 +23,15 @@ public class ProjectServiceImpl implements ProjectService {
 	ProjectRepository projectRepository;
 	@Autowired
 	PjmemberRepository pjmemberRepository;
+	@Autowired
+	NoGeneratorBusi noGeneratorBusi;
 
 	@Override
 	@Transactional
 	public Project save(Project project) {
+		if(project.getId()==null){
+			noGeneratorBusi.generateNextNo(project);
+		}
 		return projectRepository.save(project);
 	}
 
@@ -35,8 +42,9 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	@Transactional
-	public void delete(Long id) {
+	public void delete(Long id) throws NoNotLastException {
 		Project project = this.projectRepository.findOne(id);
+		this.noGeneratorBusi.rollbackLastNo(project);
 		List<Pjmember> projectPjmembers = this.pjmemberRepository.findByProject(project);
 		this.pjmemberRepository.delete(projectPjmembers);
 		projectRepository.delete(id);
