@@ -11,6 +11,8 @@ import cn.fyg.pm.domain.model.contract.general.Contract;
 import cn.fyg.pm.domain.model.contract.general.ContractFactory;
 import cn.fyg.pm.domain.model.contract.general.ContractRepository;
 import cn.fyg.pm.domain.model.contract.general.ContractType;
+import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
+import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
@@ -20,6 +22,8 @@ public class ContractServiceImpl implements ContractService {
 	
 	@Autowired
 	ContractRepository contractRepository;
+	@Autowired
+	NoGeneratorBusi noGeneratorBusi;
 
 	@Override
 	public List<Contract> findAll() {
@@ -29,12 +33,17 @@ public class ContractServiceImpl implements ContractService {
 	@Override
 	@Transactional
 	public Contract save(Contract contract) {
+		if(contract.getId()==null){
+			noGeneratorBusi.generateNextNo(contract);
+		}
 		return contractRepository.save(contract);
 	}
 
 	@Override
 	@Transactional
-	public void delete(Long id) {
+	public void delete(Long id) throws NoNotLastException {
+		Contract contract =this.contractRepository.findOne(id);
+		this.noGeneratorBusi.rollbackLastNo(contract);
 		contractRepository.delete(id);
 	}
 

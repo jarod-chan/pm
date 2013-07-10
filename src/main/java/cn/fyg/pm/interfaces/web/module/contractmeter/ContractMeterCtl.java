@@ -28,6 +28,7 @@ import cn.fyg.pm.domain.model.contract.ContractRisk;
 import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.contract.ContractState;
 import cn.fyg.pm.domain.model.contract.purchase.ContractMeter;
+import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
@@ -134,10 +135,16 @@ public class ContractMeterCtl {
 	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
 	public String delete(@RequestParam("contractMeterId") Long contractMeterId,RedirectAttributes redirectAttributes){
-		this.busifileService.removeAssociatedFile(BusiCode.pm_contractmeter, contractMeterId);
-		purchaseReqService.rmReqItemList(UptypeEnum.pm_contractmeter, contractMeterId);
-		contractMeterService.delete(contractMeterId);
-		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("删除成功"));
+		//TODO 控制此处事务 
+		try {
+			this.contractMeterService.delete(contractMeterId);
+			this.busifileService.removeAssociatedFile(BusiCode.pm_contractmeter, contractMeterId);
+			this.purchaseReqService.rmReqItemList(UptypeEnum.pm_contractmeter, contractMeterId);
+			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("删除成功"));
+		} catch (NoNotLastException e) {
+			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info(e.getMessage()));
+		}
+		
 		return "redirect:list";
 	}
 

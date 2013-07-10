@@ -15,9 +15,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import cn.fyg.pm.domain.model.contract.ContractRisk;
 import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.contract.ContractState;
+import cn.fyg.pm.domain.model.nogenerator.NoKey;
+import cn.fyg.pm.domain.model.nogenerator.NoPattern;
+import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
@@ -29,7 +34,7 @@ import cn.fyg.pm.domain.shared.BusiCode;
  */
 @Entity
 @Table(name="pm_contract")
-public class Contract {
+public class Contract  implements NoPatternUnit {
 	
 	public static final BusiCode BUSI_CODE = BusiCode.pm_contract;
 	
@@ -214,6 +219,35 @@ public class Contract {
 	public void setSaveCopies(Long saveCopies) {
 		this.saveCopies = saveCopies;
 	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+
+	@Override
+	public NoPattern getNoPattern() {
+		NoKey nokey=new NoKey();
+		nokey.setSys("D");
+		nokey.setFlag("HT");
+		String projectNo=this.project.getNo();
+		String[] noParts=projectNo.split("-");
+		nokey.setPref(noParts[2]+noParts[3]+"/"+this.type.getCode());
+		Long limit=Long.valueOf(9999);
+	    return new NoPattern(nokey,limit);
+	}
+
+	@Override
+	public void setGenerateNo(String generateNo) {
+		this.no=generateNo;
+	}
+
+	@Override
+	public String getGenerateNo() {
+		return this.no;
+	}
+	
+	
 
 	
 }

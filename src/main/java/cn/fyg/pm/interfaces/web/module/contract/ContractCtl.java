@@ -27,6 +27,7 @@ import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.contract.ContractState;
 import cn.fyg.pm.domain.model.contract.general.Contract;
 import cn.fyg.pm.domain.model.contract.general.ContractType;
+import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.supplier.Supptype;
@@ -107,8 +108,8 @@ public class ContractCtl {
 	
 	@RequestMapping(value="save",method=RequestMethod.POST)
 	public String save(@RequestParam("id") Long contractId,@RequestParam(value="filestore_id",required=false)Long[] filestore_id,HttpServletRequest request,RedirectAttributes redirectAttributes){
-		
-		Contract contract=contractId!=null?contractService.find(contractId):contractService.create(null);
+		Project project=sessionUtil.getValue("project");
+		Contract contract=contractId!=null?contractService.find(contractId):contractService.create(project);
 		
 		ServletRequestDataBinder dataBinder = new ServletRequestDataBinder(contract);
 		dataBinder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
@@ -127,9 +128,13 @@ public class ContractCtl {
 	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
 	public String delete(@RequestParam("contractId") Long contractId,RedirectAttributes redirectAttributes){
-		this.busifileService.removeAssociatedFile(BusiCode.pm_contract, contractId);
-		contractService.delete(contractId);
-		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("删除成功"));
+		try {
+			this.contractService.delete(contractId);
+			this.busifileService.removeAssociatedFile(BusiCode.pm_contract, contractId);
+			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("操作完成"));
+		} catch (NoNotLastException e) {
+			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info(e.getMessage()));
+		}
 		return "redirect:list";
 	}
 }

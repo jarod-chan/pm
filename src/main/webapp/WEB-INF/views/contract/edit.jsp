@@ -144,7 +144,8 @@
 		
 		<tr><td>
 		编号：</td><td>
-		<input type="text" name="no" value="${contract.no}"/>
+		<c:set var="parma_no" value="${contract.no}" />
+		<%@ include file="/component/noShow.jsp" %>	
 		</td></tr>
 		
 		<tr><td>

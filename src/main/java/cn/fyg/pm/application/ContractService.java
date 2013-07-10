@@ -5,6 +5,7 @@ import java.util.List;
 import cn.fyg.pm.application.common.ServiceQuery;
 import cn.fyg.pm.domain.model.contract.general.Contract;
 import cn.fyg.pm.domain.model.contract.general.ContractType;
+import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 
@@ -21,7 +22,7 @@ public interface ContractService extends ServiceQuery<Contract> {
 	
 	Contract save(Contract contract);
 	
-	void delete(Long id);
+	void delete(Long id) throws NoNotLastException;
 	
 	List<Contract> findByProject(Project project);
 

@@ -10,6 +10,8 @@ import cn.fyg.pm.application.ContractMeterService;
 import cn.fyg.pm.domain.model.contract.purchase.ContractMeter;
 import cn.fyg.pm.domain.model.contract.purchase.ContractMeterFactory;
 import cn.fyg.pm.domain.model.contract.purchase.ContractMeterRepository;
+import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
+import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 
@@ -18,7 +20,8 @@ public class ContractMeterServiceImpl implements ContractMeterService {
 	
 	@Autowired
 	ContractMeterRepository contractMeterRepository;
-
+	@Autowired
+	NoGeneratorBusi noGeneratorBusi;
 
 	@Override
 	public List<ContractMeter> findByProject(Project project) {
@@ -41,12 +44,17 @@ public class ContractMeterServiceImpl implements ContractMeterService {
 	@Override
 	@Transactional
 	public ContractMeter save(ContractMeter contractMeter) {
+		if(contractMeter.getId()==null){
+			noGeneratorBusi.generateNextNo(contractMeter);
+		}
 		return this.contractMeterRepository.save(contractMeter);
 	}
 
 
 	@Override
-	public void delete(Long contractMeterId) {
+	public void delete(Long contractMeterId) throws NoNotLastException {
+		ContractMeter contractMeter = this.contractMeterRepository.findOne(contractMeterId);
+		this.noGeneratorBusi.rollbackLastNo(contractMeter);
 		this.contractMeterRepository.delete(contractMeterId);
 	}
 
