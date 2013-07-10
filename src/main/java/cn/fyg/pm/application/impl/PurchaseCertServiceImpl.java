@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.PurchaseCertService;
+import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCert;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertFactory;
@@ -21,6 +22,8 @@ public class PurchaseCertServiceImpl implements PurchaseCertService {
 
 	@Autowired
 	PurchaseCertRepository purchaseCertRepository;
+	@Autowired
+	NoGeneratorBusi noGeneratorBusi;
 	
 	@Override
 	public List<PurchaseCert> query(QuerySpec<PurchaseCert> querySpec) {
@@ -33,14 +36,16 @@ public class PurchaseCertServiceImpl implements PurchaseCertService {
 	}
 
 	@Override
-	public PurchaseCert create(User creater, Project project,
-			PurchaseCertState state, boolean generateNo) {
-		return PurchaseCertFactory.create(creater, project, state, generateNo);
+	public PurchaseCert create(User creater, Project project,PurchaseCertState state) {
+		return PurchaseCertFactory.create(creater, project, state);
 	}
 
 	@Override
 	@Transactional
 	public PurchaseCert save(PurchaseCert purchaseCert) {
+		if(purchaseCert.getId()==null){
+			noGeneratorBusi.generateNextNo(purchaseCert);
+		}
 		for (PurchaseCertItem purchaseCertItem : purchaseCert.getPurchaseCertItems()) {
 			purchaseCertItem.setPurchaseCert(purchaseCert);
 		}

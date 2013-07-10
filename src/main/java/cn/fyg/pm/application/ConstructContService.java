@@ -23,7 +23,7 @@ public interface ConstructContService extends ServiceQuery<ConstructCont> {
 
 	ConstructCont findByConstructKey(ConstructKey constructKey);
 
-	ConstructCont create(User creater,Project project, ConstructContState state,boolean generateNo);
+	ConstructCont create(User creater,Project project, ConstructContState state);
 
 	List<ConstructCont> findByProject(Project project);
 	

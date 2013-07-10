@@ -165,7 +165,10 @@
 	<input type="hidden" name="id"  value="${constructCont.id}">
 	<table id="tabmain">
 		<tr>
-			<td>编号：</td><td>${constructCont.no}<c:if test="${empty constructCont.no}">自动生成</c:if></td>
+			<td>编号：</td><td>
+			<c:set var="parma_no" value="${constructCont.no}" />
+			<%@ include file="/component/noShow.jsp" %>	
+			</td>
 		</tr>
 		<tr>
 			<td>项目负责人：</td><td>${constructCont.leader.name}</td>

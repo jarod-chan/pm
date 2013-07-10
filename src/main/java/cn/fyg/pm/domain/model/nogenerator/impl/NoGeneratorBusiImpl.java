@@ -25,25 +25,25 @@ public class NoGeneratorBusiImpl implements NoGeneratorBusi {
 			this.noRecordRepository.save(noRecord);
 		}
 		NoRecord noRecord = this.noRecordRepository.findByNoKey(noPattern.getNoKey());
-		String nextNo=noRecord.generateNextNo();
-		noPatternUnit.setGenerateNo(nextNo);
+		String nextNo=noRecord.generateNextNo(noPattern.getSeparator());
+		noPatternUnit.setNo(nextNo);
 	}
 	
 	@Override
 	public void rollbackLastNo(NoPatternUnit noPatternUnit) throws NoNotLastException{
 		NoPattern noPattern = noPatternUnit.getNoPattern();
 		NoRecord noRecord = this.noRecordRepository.findByNoKey(noPattern.getNoKey());
-		if(!thisIsLastNo(noRecord,noPatternUnit.getGenerateNo())){
-			throw new NoNotLastException(String.format("对象编码[%s]不是最新数据，无法删除", noPatternUnit.getGenerateNo()));
+		if(!thisIsLastNo(noRecord,noPattern.getSeparator(),noPatternUnit.getNo())){
+			throw new NoNotLastException(String.format("对象编码[%s]不是最新数据，无法删除", noPatternUnit.getNo()));
 		}
 		noRecord.generatePrevNo();
 	}
 
-	private boolean thisIsLastNo(NoRecord noRecord,String unitNo) {
+	private boolean thisIsLastNo(NoRecord noRecord,String separator,String unitNo) {
 		if(noRecord==null){
 			return false;
 		}
-		return noRecord.generateCurrNo().equals(unitNo);
+		return noRecord.generateCurrNo(separator).equals(unitNo);
 	}
 
 }

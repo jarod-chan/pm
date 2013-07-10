@@ -13,6 +13,7 @@ import cn.fyg.pm.domain.model.construct.constructcont.ConstructContItem;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContRepository;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
+import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
@@ -23,6 +24,8 @@ public class ConstructContServiceImpl implements ConstructContService {
 	
 	@Autowired
 	ConstructContRepository constructContRepository;
+	@Autowired
+	NoGeneratorBusi noGeneratorBusi;
 
 	@Override
 	public List<ConstructCont> findAll() {
@@ -32,6 +35,9 @@ public class ConstructContServiceImpl implements ConstructContService {
 	@Override
 	@Transactional
 	public ConstructCont save(ConstructCont constructCont) {
+		if(constructCont.getId()==null){
+			this.noGeneratorBusi.generateNextNo(constructCont);
+		}
 		for(ConstructContItem constructContItem:constructCont.getConstructContItems()){
 			constructContItem.setConstructCont(constructCont);
 		}
@@ -55,8 +61,8 @@ public class ConstructContServiceImpl implements ConstructContService {
 	}
 
 	@Override
-	public ConstructCont create(User creater,Project project, ConstructContState state,boolean generateNo) {
-		return ConstructContFactory.create(creater,project,state,generateNo);
+	public ConstructCont create(User creater,Project project, ConstructContState state) {
+		return ConstructContFactory.create(creater,project,state);
 	}
 
 	@Override

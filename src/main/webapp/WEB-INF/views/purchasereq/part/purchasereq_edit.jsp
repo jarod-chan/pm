@@ -116,7 +116,10 @@
 	<input type="hidden" name="purchaseKey.id"  value="${purchaseKey.id}">
 	<table id="tabmain">
 		<tr>
-			<td>编号：</td><td>${purchaseReq.no}<c:if test="${empty purchaseReq.no}">自动生成</c:if></td>
+			<td>编号：</td><td>
+			<c:set var="parma_no" value="${purchaseReq.no}" />
+			<%@ include file="/component/noShow.jsp" %>	
+			</td>
 		</tr>
 		<tr>
 			<td>项目负责人：</td><td>${purchaseReq.leader.name}</td>

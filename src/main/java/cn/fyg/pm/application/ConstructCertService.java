@@ -23,6 +23,6 @@ public interface ConstructCertService extends ServiceQuery<ConstructCert> {
 
 	ConstructCert find(Long certid);
 	
-	ConstructCert create(User user,Project project,ConstructCertState state,boolean generateNo);
+	ConstructCert create(User user,Project project,ConstructCertState state);
 
 }

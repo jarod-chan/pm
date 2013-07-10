@@ -24,13 +24,14 @@ import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.PurchaseReqItem;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.BusiCode;
+import cn.fyg.pm.domain.shared.CommonNoPatternUnit;
 
 /**
  *采购申请单
  */
 @Entity
 @Table(name="pm_purchasereq")
-public class PurchaseReq {
+public class PurchaseReq extends CommonNoPatternUnit{
 	
 	public static final BusiCode BUSI_CODE = BusiCode.pm_purchasereq;
 

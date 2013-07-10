@@ -15,12 +15,13 @@ public interface NoPatternUnit {
 	 * 设置编号
 	 * @param generateNo
 	 */
-	void setGenerateNo(String generateNo);
+	void setNo(String no);
 	
 	/**
 	 * 返回编号
 	 * @return 
 	 */
-	String getGenerateNo();
+	String getNo();
+
 	
 }

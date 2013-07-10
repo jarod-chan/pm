@@ -35,10 +35,10 @@ public class NoRecord {
 	 * 获得当前编号
 	 * @return
 	 */
-	public String generateCurrNo(){
+	public String generateCurrNo(String separator){
 		int flownoLength=this.limmit.toString().length();
 		String flowno=Strings.padStart(this.currno.toString(), flownoLength, '0');
-		return Joiner.on("-").join(this.noKey.getSys(),this.noKey.getFlag(),this.noKey.getPref(),flowno);
+		return Joiner.on(separator).join(this.noKey.getSys(),this.noKey.getFlag(),this.noKey.getPref(),flowno);
 	}
 	
 	/**
@@ -52,12 +52,10 @@ public class NoRecord {
 	 * 获得下个编号，使编号向下推一位
 	 * @return
 	 */
-	public String generateNextNo(){
+	public String generateNextNo(String separator){
 		this.currno=this.currno+1;
 		if(this.currno.compareTo(this.limmit)>0) throw new RuntimeException(this.toString()+"系统编码越界");
-		int flownoLength=this.limmit.toString().length();
-		String flowno=Strings.padStart(this.currno.toString(), flownoLength, '0');
-		return Joiner.on("-").join(this.noKey.getSys(),this.noKey.getFlag(),this.noKey.getPref(),flowno);
+		return generateCurrNo(separator);
 	}
 
 	public NoKey getNoKey() {

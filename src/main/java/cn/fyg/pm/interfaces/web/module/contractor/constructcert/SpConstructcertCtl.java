@@ -112,7 +112,7 @@ public class SpConstructcertCtl {
 		User user = sessionUtil.getValue("user");
 		Supplier supplier=sessionUtil.getValue("supplier");
 		 
-		ConstructCert constructCert =constructCertId.longValue()>0?constructCertService.find(constructCertId):constructCertService.create(user,project,ConstructCertState.new_,false) ;
+		ConstructCert constructCert =constructCertId.longValue()>0?constructCertService.find(constructCertId):constructCertService.create(user,project,ConstructCertState.new_) ;
 		map.put("constructCert", constructCert);
 		List<ConstructCont> constructContList = constructContService.findByProjectAndSupplier(project, supplier);
 		map.put("constructContList", constructContList);
@@ -142,7 +142,7 @@ public class SpConstructcertCtl {
 	public String saveEdit(@PathVariable("projectId")Long projectId,@RequestParam("id")Long constructCertId,@RequestParam(value="constructCertItemsId",required=false) Long[] constructCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes){
 		Project project = projectService.find(projectId);
 		User user = sessionUtil.getValue("user");
-		ConstructCert constructCert = constructCertId!=null?constructCertService.find(constructCertId):constructCertService.create(user, project,ConstructCertState.saved,true);
+		ConstructCert constructCert = constructCertId!=null?constructCertService.find(constructCertId):constructCertService.create(user, project,ConstructCertState.saved);
 		
 		Map<Long,ConstructCertItem> constructCertMap=getConstructCertMap(constructCert.getConstructCertItems());
 		

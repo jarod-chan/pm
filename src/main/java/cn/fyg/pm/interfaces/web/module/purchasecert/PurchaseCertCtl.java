@@ -108,7 +108,7 @@ public class PurchaseCertCtl {
 	public String toEdit(@PathVariable("purchaseCertId")Long purchaseCertId,Map<String,Object> map){
 		Project project = sessionUtil.getValue("project");
 		User user = sessionUtil.getValue("user");
-		PurchaseCert purchaseCert = purchaseCertId.longValue()>0?purchaseCertService.find(purchaseCertId):purchaseCertService.create(user,project,PurchaseCertState.new_,false);
+		PurchaseCert purchaseCert = purchaseCertId.longValue()>0?purchaseCertService.find(purchaseCertId):purchaseCertService.create(user,project,PurchaseCertState.new_);
 		map.put("purchaseCert", purchaseCert);
 		List<PurchaseReq> purchaseReqList = purchaseReqService.findByProject(project);
 		map.put("purchaseReqList", purchaseReqList);
@@ -121,7 +121,7 @@ public class PurchaseCertCtl {
 	public String saveEdit(@RequestParam("id")Long purchaseCertId,@RequestParam(value="reqItemIds",required=false)Long[] reqItemIds,@RequestParam(value="purchaseCertItemsId",required=false) Long[] purchaseCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes){
 		Project project = sessionUtil.getValue("project");
 		User user = sessionUtil.getValue("user");
-		PurchaseCert purchaseCert = purchaseCertId!=null?purchaseCertService.find(purchaseCertId):purchaseCertService.create(user, project,PurchaseCertState.saved,true);
+		PurchaseCert purchaseCert = purchaseCertId!=null?purchaseCertService.find(purchaseCertId):purchaseCertService.create(user, project,PurchaseCertState.saved);
 		
 		Map<Long,PurchaseCertItem> purchaseCertItemMap=getConstructCertMap(purchaseCert.getPurchaseCertItems());
 		

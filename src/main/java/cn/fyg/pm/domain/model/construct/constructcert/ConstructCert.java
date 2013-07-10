@@ -24,13 +24,14 @@ import javax.persistence.TemporalType;
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.BusiCode;
+import cn.fyg.pm.domain.shared.CommonNoPatternUnit;
 
 /**
  * 施工签证单
  */
 @Entity
 @Table(name = "pm_constructcert")
-public class ConstructCert {
+public class ConstructCert  extends CommonNoPatternUnit{
 
 	public static final BusiCode BUSI_CODE = BusiCode.pm_constructcert;
 

@@ -9,6 +9,8 @@ public class NoPattern {
 	
 	private Long limmit;//最大序号
 	
+	private String separator="-";//连接分隔符
+	
 	public NoPattern(NoKey noKey, Long limmit) {
 		super();
 		this.noKey = noKey;
@@ -29,6 +31,14 @@ public class NoPattern {
 
 	public void setLimmit(Long limmit) {
 		this.limmit = limmit;
+	}
+
+	public String getSeparator() {
+		return separator;
+	}
+
+	public void setSeparator(String separator) {
+		this.separator = separator;
 	}
 	
 	

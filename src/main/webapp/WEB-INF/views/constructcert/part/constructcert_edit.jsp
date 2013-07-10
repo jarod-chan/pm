@@ -200,7 +200,10 @@
 	<input type="hidden" name="id" value="${constructCert.id}">
 	<table id="tabmain">
 		<tr>
-			<td>编号：</td><td>${constructCert.no}<c:if test="${empty constructCert.no}">自动生成</c:if></td>
+			<td>编号：</td><td>
+			<c:set var="parma_no" value="${constructCert.no}" />
+			<%@ include file="/component/noShow.jsp" %>	
+			</td>
 		</tr>
 		<tr>
 			<td>项目负责人：</td><td>${constructCert.leader.name}</td>

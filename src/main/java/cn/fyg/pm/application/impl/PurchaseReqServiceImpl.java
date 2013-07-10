@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.PurchaseReqService;
+import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
 import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqBusi;
@@ -26,6 +27,8 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 	PurchaseReqRepository purchaseReqRepository;
 	@Autowired
 	PurchaseReqBusi purchaseReqBusi;
+	@Autowired
+	NoGeneratorBusi noGeneratorBusi;
 
 	@Override
 	public List<PurchaseReq> query(QuerySpec<PurchaseReq> querySpec) {
@@ -38,14 +41,16 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 	}
 
 	@Override
-	public PurchaseReq create(User creater, Project project,
-			PurchaseReqState state, boolean generateNo) {
-		return PurchaseReqFactory.create(creater, project, state, generateNo);
+	public PurchaseReq create(User creater, Project project,PurchaseReqState state) {
+		return PurchaseReqFactory.create(creater, project, state);
 	}
 
 	@Override
 	@Transactional
 	public PurchaseReq save(PurchaseReq purchaseReq) {
+		if(purchaseReq.getId()==null){
+			noGeneratorBusi.generateNextNo(purchaseReq);
+		}
 		for(PurchaseReqItem purchaseReqItem:purchaseReq.getPurchaseReqItems()){
 			purchaseReqItem.setPurchaseReq(purchaseReq);
 		}

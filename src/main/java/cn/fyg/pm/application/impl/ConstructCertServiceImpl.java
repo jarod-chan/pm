@@ -12,6 +12,7 @@ import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertFactory;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertRepository;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
+import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
@@ -21,6 +22,8 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 	
 	@Autowired
 	ConstructCertRepository constructCertRepository;
+	@Autowired
+	NoGeneratorBusi noGeneratorBusi;
 
 	@Override
 	public List<ConstructCert> findAll() {
@@ -30,6 +33,9 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 	@Override
 	@Transactional
 	public ConstructCert save(ConstructCert constructCert) {
+		if(constructCert.getId()==null){
+			noGeneratorBusi.generateNextNo(constructCert);
+		}
 		return constructCertRepository.save(constructCert);
 	}
 
@@ -50,8 +56,8 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 	}
 
 	@Override
-	public ConstructCert create(User user,Project project,ConstructCertState state,boolean generateNo) {
-		return ConstructCertFactory.create(user,project,state,generateNo);
+	public ConstructCert create(User user,Project project,ConstructCertState state) {
+		return ConstructCertFactory.create(user,project,state);
 	}
 
 	@Override

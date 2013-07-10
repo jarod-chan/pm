@@ -24,10 +24,11 @@ import javax.persistence.TemporalType;
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.BusiCode;
+import cn.fyg.pm.domain.shared.CommonNoPatternUnit;
 
 @Entity
 @Table(name="pm_purchasecert")
-public class PurchaseCert {
+public class PurchaseCert extends CommonNoPatternUnit{
 	
 	public static final BusiCode BUSI_CODE = BusiCode.pm_purchasecert;
 	

@@ -10,7 +10,7 @@ public interface PurchaseCertService extends ServiceQuery<PurchaseCert> {
 
 	PurchaseCert find(Long purchaseCertId);
 
-	PurchaseCert create(User creater, Project project, PurchaseCertState state, boolean generateNo);
+	PurchaseCert create(User creater, Project project, PurchaseCertState state);
 	
 	PurchaseCert save(PurchaseCert purchaseCert);
 

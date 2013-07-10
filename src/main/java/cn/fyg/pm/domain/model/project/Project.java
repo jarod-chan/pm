@@ -182,10 +182,12 @@ public class Project implements NoPatternUnit {
 		this.id = id;
 	}
 
+	@Override
 	public String getNo() {
 		return no;
 	}
 
+	@Override
 	public void setNo(String no) {
 		this.no = no;
 	}
@@ -222,17 +224,5 @@ public class Project implements NoPatternUnit {
 		Long limit=Long.valueOf(99);
 	    return new NoPattern(nokey,limit);
 	}
-
-	@Override
-	public void setGenerateNo(String generateNo) {
-		this.no=generateNo;
-	}
-
-	@Override
-	public String getGenerateNo() {
-		return this.no;
-	}
 	
-	
-
 }

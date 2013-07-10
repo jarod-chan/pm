@@ -103,7 +103,7 @@ public class PurchaseReqCtl {
 	public String toEdit(@PathVariable("purchaseReqId")Long purchaseReqId,Map<String,Object> map){
 		Project project = sessionUtil.getValue("project");
 		User user = sessionUtil.getValue("user");
-		PurchaseReq purchaseReq = purchaseReqId.longValue()>0?purchaseReqService.find(purchaseReqId):purchaseReqService.create(user,project,PurchaseReqState.new_,false);
+		PurchaseReq purchaseReq = purchaseReqId.longValue()>0?purchaseReqService.find(purchaseReqId):purchaseReqService.create(user,project,PurchaseReqState.new_);
 		map.put("purchaseReq", purchaseReq);
 		List<Contract> contractList = contractService.findByProjectAndType(purchaseReq.getPurchaseKey().getProject(),ContractType.meter);
 		map.put("contractList", contractList);
@@ -115,7 +115,7 @@ public class PurchaseReqCtl {
 		Project project = sessionUtil.getValue("project");
 		User user = sessionUtil.getValue("user");
 		
-		PurchaseReq purchaseReq =purchaseReqId!=null?purchaseReqService.find(purchaseReqId):purchaseReqService.create(user,project,PurchaseReqState.saved,true);
+		PurchaseReq purchaseReq =purchaseReqId!=null?purchaseReqService.find(purchaseReqId):purchaseReqService.create(user,project,PurchaseReqState.saved);
 		 
 		Map<Long,PurchaseReqItem> purchaseReqItemsMap=getPurchaseReqItemsMap(purchaseReq.getPurchaseReqItems());	
 		List<PurchaseReqItem> purchaseReqItemList = new ArrayList<PurchaseReqItem>();

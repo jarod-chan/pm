@@ -113,7 +113,7 @@ public class SpConstructcontCtl {
 		Project project = projectService.find(projectId);
 		Supplier supplier=sessionUtil.getValue("supplier");
 		User user = sessionUtil.getValue("user");
-		ConstructCont constructCont = constructContId.longValue()>0?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.new_,false);
+		ConstructCont constructCont = constructContId.longValue()>0?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.new_);
 		map.put("constructCont", constructCont);
 		List<Contract> contractList = contractService.findByProjectAndSupplierAndType(constructCont.getConstructKey().getProject(),supplier,ContractType.construct);
 		map.put("contractList", contractList);
@@ -127,7 +127,7 @@ public class SpConstructcontCtl {
 		Project project = projectService.find(projectId);
 		User user = sessionUtil.getValue("user");
 		
-		ConstructCont constructCont =constructContId!=null?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.saved,true);
+		ConstructCont constructCont =constructContId!=null?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.saved);
 		 
 		Map<Long,ConstructContItem> constructContItemMap=getConstructContItemMap(constructCont.getConstructContItems());	
 		List<ConstructContItem> ConstructContItemList = new ArrayList<ConstructContItem>();

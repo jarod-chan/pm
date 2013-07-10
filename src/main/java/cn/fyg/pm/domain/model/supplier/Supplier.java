@@ -58,12 +58,15 @@ public class Supplier implements NoPatternUnit {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	@Override
 	public String getNo() {
 		return no;
 	}
+	@Override
 	public void setNo(String no) {
 		this.no = no;
 	}
+	
 	public String getName() {
 		return name;
 	}
@@ -145,16 +148,6 @@ public class Supplier implements NoPatternUnit {
 		nokey.setPref(this.type.getCode());
 		Long limit=Long.valueOf(99999);
 	    return new NoPattern(nokey,limit);
-	}
-	
-	@Override
-	public void setGenerateNo(String generateNo) {
-		this.no=generateNo;
-	}
-	
-	@Override
-	public String getGenerateNo() {
-		return this.no;
 	}
 	
 	

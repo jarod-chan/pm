@@ -104,7 +104,7 @@ public class ConstructContCtl {
 	public String toEdit(@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
 		Project project = sessionUtil.getValue("project");
 		User user = sessionUtil.getValue("user");
-		ConstructCont constructCont = constructContId.longValue()>0?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.new_,false);
+		ConstructCont constructCont = constructContId.longValue()>0?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.new_);
 		map.put("constructCont", constructCont);
 		List<Contract> contractList = contractService.findByProjectAndType(constructCont.getConstructKey().getProject(),ContractType.construct);
 		map.put("contractList", contractList);
@@ -118,7 +118,7 @@ public class ConstructContCtl {
 		Project project = sessionUtil.getValue("project");
 		User user = sessionUtil.getValue("user");
 		
-		ConstructCont constructCont =constructContId!=null?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.saved,true);
+		ConstructCont constructCont =constructContId!=null?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.saved);
 		 
 		Map<Long,ConstructContItem> constructContItemMap=getConstructContItemMap(constructCont.getConstructContItems());	
 		List<ConstructContItem> ConstructContItemList = new ArrayList<ConstructContItem>();
