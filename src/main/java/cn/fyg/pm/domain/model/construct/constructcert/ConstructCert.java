@@ -40,6 +40,8 @@ public class ConstructCert  extends CommonNoPatternUnit{
 	private Long id;// id
 
 	private String no;// 编号
+	
+	private String busino;//业务流水号
 
 	@ManyToOne(targetEntity = ConstructKey.class)
 	@JoinColumn(name = "constructkey_id")
@@ -192,6 +194,14 @@ public class ConstructCert  extends CommonNoPatternUnit{
 
 	public void setConstructCertItems(List<ConstructCertItem> constructCertItems) {
 		ConstructCertItems = constructCertItems;
+	}
+
+	public String getBusino() {
+		return busino;
+	}
+
+	public void setBusino(String busino) {
+		this.busino = busino;
 	}
 
 }

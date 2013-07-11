@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.fyg.pm.application.ConstructCertService;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertFactory;
+import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertPU;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertRepository;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
@@ -68,6 +69,15 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 	@Override
 	public List<ConstructCert> query(QuerySpec<ConstructCert> querySpec) {
 		return this.constructCertRepository.query(ConstructCert.class,querySpec);
+	}
+
+	@Override
+	public ConstructCert finish(ConstructCert constructCert) {
+		if(constructCert.getBusino()==null){
+			ConstructCertPU pu = new ConstructCertPU(constructCert);
+			this.noGeneratorBusi.generateNextNo(pu);
+		}
+		return this.save(constructCert);
 	}
 
 

@@ -28,7 +28,7 @@ public class CertEnd implements JavaDelegate {
 		constructCert.setSigner(leader);
 		constructCert.setSigndate(new Date());
 		constructCert.setState(ConstructCertState.finish);
-		constructCertService.save(constructCert);
+		constructCertService.finish(constructCert);
 	}
 
 }
