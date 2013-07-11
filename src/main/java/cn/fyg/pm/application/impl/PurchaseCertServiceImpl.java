@@ -8,10 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.PurchaseCertService;
 import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
+import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCert;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertFactory;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertItem;
+import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertPU;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertRepository;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertState;
 import cn.fyg.pm.domain.model.user.User;
@@ -56,6 +58,16 @@ public class PurchaseCertServiceImpl implements PurchaseCertService {
 	@Transactional
 	public void delete(Long purchaseCertId) {
 		this.purchaseCertRepository.delete(purchaseCertId);
+	}
+
+	@Override
+	@Transactional
+	public PurchaseCert finish(PurchaseCert purchaseCert) {
+		if(purchaseCert.getBusino()==null){
+			NoPatternUnit pu = new PurchaseCertPU(purchaseCert);
+			this.noGeneratorBusi.generateNextNo(pu);
+		}
+		return this.purchaseCertRepository.save(purchaseCert);
 	}
 
 }

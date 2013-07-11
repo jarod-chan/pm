@@ -27,7 +27,7 @@ public class CertEnd implements JavaDelegate {
 		purchaseCert.setSigner(leader);
 		purchaseCert.setSigndate(new Date());
 		purchaseCert.setState(PurchaseCertState.finish);
-		purchaseCertService.save(purchaseCert);
+		purchaseCertService.finish(purchaseCert);
 		
 	}
 

@@ -38,6 +38,8 @@ public class PurchaseCert extends CommonNoPatternUnit{
 	
 	private String no;//编号
 	
+	private String busino;//业务编号
+	
 	@ManyToOne(targetEntity=PurchaseKey.class)
 	@JoinColumn(name="purchasekey_id")
 	private PurchaseKey purchaseKey;
@@ -91,6 +93,14 @@ public class PurchaseCert extends CommonNoPatternUnit{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public String getBusino() {
+		return busino;
+	}
+
+	public void setBusino(String busino) {
+		this.busino = busino;
 	}
 
 	public String getNo() {

@@ -13,6 +13,8 @@ public interface PurchaseCertService extends ServiceQuery<PurchaseCert> {
 	PurchaseCert create(User creater, Project project, PurchaseCertState state);
 	
 	PurchaseCert save(PurchaseCert purchaseCert);
+	
+	PurchaseCert finish(PurchaseCert purchaseCert);
 
 	void delete(Long purchaseCertId);
 

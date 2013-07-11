@@ -127,8 +127,8 @@
 	<table id="tblmain" border="1">
 		<tr>
 			<td>编号</td>
+			<td>业务编号</td>
 			<td>采购申请单</td>
-			<td>说明</td>
 			<td>计划进场时间</td>
 			<td>状态</td>
 			<td>制单人</td>
@@ -142,8 +142,8 @@
 		<c:forEach var="item" items="${purchaseCertDtoList}">
 			<tr>
 				<td>${item.purchaseCert.no}</td>
+				<td>${item.purchaseCert.busino}</td>
 				<td>${item.purchaseReq.no}</td>
-				<td>${item.purchaseCert.descrp}</td>
 				<td>${item.purchaseCert.plandate}</td>
 				<td><span class="state state-${item.purchaseCert.state}" >${item.purchaseCert.state.name}</span></td>
 				<td>${item.purchaseCert.creater.name}</td>
