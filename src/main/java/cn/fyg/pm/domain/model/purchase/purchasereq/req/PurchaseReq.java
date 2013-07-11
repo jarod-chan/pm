@@ -41,6 +41,8 @@ public class PurchaseReq extends CommonNoPatternUnit{
 	
 	private String no;//编号
 	
+	private String busino;//业务编号
+	
 	@ManyToOne(targetEntity=PurchaseKey.class,cascade={CascadeType.ALL})
 	@JoinColumn(name="purchasekey_id")
 	private PurchaseKey purchaseKey;
@@ -197,6 +199,14 @@ public class PurchaseReq extends CommonNoPatternUnit{
 
 	public void setPurchaseReqItems(List<PurchaseReqItem> purchaseReqItems) {
 		this.purchaseReqItems = purchaseReqItems;
+	}
+
+	public String getBusino() {
+		return busino;
+	}
+
+	public void setBusino(String busino) {
+		this.busino = busino;
 	}
 	
 	

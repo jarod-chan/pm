@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.PurchaseReqService;
 import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
+import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
 import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqBusi;
@@ -15,6 +16,7 @@ import cn.fyg.pm.domain.model.purchase.purchasereq.item.PurchaseReqItem;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqFactory;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqPU;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqRepository;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqState;
 import cn.fyg.pm.domain.model.user.User;
@@ -83,6 +85,16 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 	@Transactional
 	public void rmReqItemList(UptypeEnum uptype, Long upid) {
 		purchaseReqBusi.rmReqItemList(uptype, upid);
+	}
+
+	@Override
+	@Transactional
+	public PurchaseReq finish(PurchaseReq purchaseReq) {
+		if(purchaseReq.getBusino()==null){
+			NoPatternUnit pu = new PurchaseReqPU(purchaseReq);
+			this.noGeneratorBusi.generateNextNo(pu);
+		}
+		return this.save(purchaseReq);
 	}
 
 }

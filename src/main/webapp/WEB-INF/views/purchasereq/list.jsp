@@ -127,7 +127,7 @@
 	<table id="tblmain" border="1">
 		<tr>
 			<td>编号</td>
-			<td>说明</td>
+			<td>业务编号</td>
 			<td>计划进场时间</td>
 			<td>状态</td>
 			<td>制单人</td>
@@ -141,7 +141,7 @@
 		<c:forEach var="purchaseReq" items="${purchaseReqList}">
 			<tr>
 				<td>${purchaseReq.no}</td>
-				<td>${purchaseReq.descrp}</td>
+				<td>${purchaseReq.busino}</td>
 				<td>${purchaseReq.plandate}</td>
 				<td><span class="state state-${purchaseReq.state}" >${purchaseReq.state.name}</span></td>
 				<td>${purchaseReq.creater.name}</td>

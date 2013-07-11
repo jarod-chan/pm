@@ -118,6 +118,7 @@
 		<tr>
 			<td>编号：</td><td>
 			<c:set var="parma_no" value="${purchaseReq.no}" />
+			<c:set var="parma_busino" value="${purchaseReq.busino}" />
 			<%@ include file="/component/noShow.jsp" %>	
 			</td>
 		</tr>

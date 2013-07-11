@@ -27,7 +27,7 @@ public class ReqEnd implements JavaDelegate {
 		purchaseReq.setSigner(leader);
 		purchaseReq.setSigndate(new Date());
 		purchaseReq.setState(PurchaseReqState.finish);
-		purchaseReqService.save(purchaseReq);
+		purchaseReqService.finish(purchaseReq);
 		
 	}
 
