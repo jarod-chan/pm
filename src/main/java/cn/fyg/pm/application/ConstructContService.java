@@ -2,19 +2,22 @@ package cn.fyg.pm.application;
 
 import java.util.List;
 
-import cn.fyg.pm.domain.model.constructcont.ConstructCont;
-import cn.fyg.pm.domain.model.constructcont.ConstructContState;
-import cn.fyg.pm.domain.model.constructkey.ConstructKey;
+import cn.fyg.pm.application.common.ServiceQuery;
+import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
+import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
+import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
-import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 
 
-public interface ConstructContService {
+public interface ConstructContService extends ServiceQuery<ConstructCont> {
 	
 	List<ConstructCont> findAll();
 	
 	ConstructCont save(ConstructCont constructCont);
+	
+	ConstructCont finish(ConstructCont constructCont);
 	
 	void delete(Long id);
 	
@@ -22,9 +25,9 @@ public interface ConstructContService {
 
 	ConstructCont findByConstructKey(ConstructKey constructKey);
 
-	ConstructCont create(User creater,Project project, ConstructContState state,boolean generateNo);
+	ConstructCont create(User creater,Project project, ConstructContState state);
 
 	List<ConstructCont> findByProject(Project project);
-
-	List<ConstructCont> query(QuerySpec<ConstructCont> querySpec);
+	
+	List<ConstructCont> findByProjectAndSupplier(Project project,Supplier supplier);
 }

@@ -7,5 +7,7 @@ public interface FilestoreService {
 	Filestore save(Filestore filestore);
 	
 	Filestore create(String fullname);
+	
+	Filestore find(Long id);
 
 }

@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ConstructKeyService;
-import cn.fyg.pm.domain.model.constructkey.ConstructKey;
-import cn.fyg.pm.domain.model.constructkey.ConstructKeyRepository;
+import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
+import cn.fyg.pm.domain.model.construct.constructkey.ConstructKeyRepository;
 import cn.fyg.pm.domain.model.project.Project;
 
 @Service("constructKeyService")

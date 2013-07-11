@@ -38,4 +38,15 @@ public class UserServiceImpl implements UserService {
 		return this.userRepository.findOne(key);
 	}
 
+	@Override
+	//TODO 重构登录方法
+	public String login(String username, String password) {
+		User user=this.userRepository.findByKey(username);
+		if(user==null) return null;
+		if(!user.getPassword().equals(password)){
+			return null;
+		}
+		return user.getKey();
+	}
+
 }

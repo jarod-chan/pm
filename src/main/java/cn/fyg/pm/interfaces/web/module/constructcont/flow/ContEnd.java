@@ -7,8 +7,8 @@ import org.activiti.engine.delegate.Expression;
 import org.activiti.engine.delegate.JavaDelegate;
 
 import cn.fyg.pm.application.ConstructContService;
-import cn.fyg.pm.domain.model.constructcont.ConstructCont;
-import cn.fyg.pm.domain.model.constructcont.ConstructContState;
+import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
+import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 
@@ -27,7 +27,7 @@ public class ContEnd implements JavaDelegate {
 		constructCont.setSigner(leader);
 		constructCont.setSigndate(new Date());
 		constructCont.setState(ConstructContState.finish);
-		constructContService.save(constructCont);
+		constructContService.finish(constructCont);
 		
 	
 	}

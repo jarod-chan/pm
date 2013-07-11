@@ -1,12 +1,12 @@
 package cn.fyg.pm.interfaces.web.module.project;
 
-import cn.fyg.pm.domain.model.pjmember.Pjmember;
+import cn.fyg.pm.domain.model.user.User;
 
 public class PjmemberDto {
 	
 	private boolean checked;
 	
-	private Pjmember pjmember;
+	private User user;
 
 	public boolean isChecked() {
 		return checked;
@@ -16,14 +16,12 @@ public class PjmemberDto {
 		this.checked = checked;
 	}
 
-	public Pjmember getPjmember() {
-		return pjmember;
+	public User getUser() {
+		return user;
 	}
 
-	public void setPjmember(Pjmember pjmember) {
-		this.pjmember = pjmember;
+	public void setUser(User user) {
+		this.user = user;
 	}
-	
-	
 
 }

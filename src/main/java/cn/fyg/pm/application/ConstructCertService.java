@@ -2,18 +2,20 @@ package cn.fyg.pm.application;
 
 import java.util.List;
 
-import cn.fyg.pm.domain.model.constructcert.ConstructCert;
-import cn.fyg.pm.domain.model.constructcert.ConstructCertState;
-import cn.fyg.pm.domain.model.constructkey.ConstructKey;
+import cn.fyg.pm.application.common.ServiceQuery;
+import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
+import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertState;
+import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
-import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 
-public interface ConstructCertService {
+public interface ConstructCertService extends ServiceQuery<ConstructCert> {
 	
 	List<ConstructCert> findAll();
 	
 	ConstructCert save(ConstructCert constructCert);
+	
+	ConstructCert finish(ConstructCert constructCert);
 	
 	void delete(Long id);
 
@@ -23,8 +25,6 @@ public interface ConstructCertService {
 
 	ConstructCert find(Long certid);
 	
-	ConstructCert create(User user,Project project,ConstructCertState state,boolean generateNo);
-
-	List<ConstructCert> query(QuerySpec<ConstructCert> querySpec);
+	ConstructCert create(User user,Project project,ConstructCertState state);
 
 }

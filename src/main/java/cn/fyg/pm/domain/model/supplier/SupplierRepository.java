@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.data.repository.Repository;
 
-public interface SupplierRepository extends Repository<Supplier,Long>{
+import cn.fyg.pm.domain.shared.repositoryquery.RepositoryQuery;
+
+public interface SupplierRepository extends Repository<Supplier,Long>,RepositoryQuery<Supplier>{
 	
 	Supplier save(Supplier supplier);
 

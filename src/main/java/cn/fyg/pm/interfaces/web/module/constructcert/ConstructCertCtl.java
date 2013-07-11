@@ -30,12 +30,11 @@ import cn.fyg.pm.application.ConstructContService;
 import cn.fyg.pm.application.OpinionService;
 import cn.fyg.pm.application.SupplierService;
 import cn.fyg.pm.application.UserService;
-import cn.fyg.pm.domain.model.constructcert.CertItemOpinion;
-import cn.fyg.pm.domain.model.constructcert.ConstructCert;
-import cn.fyg.pm.domain.model.constructcert.ConstructCertItem;
-import cn.fyg.pm.domain.model.constructcert.ConstructCertState;
-import cn.fyg.pm.domain.model.constructcont.ConstructCont;
-import cn.fyg.pm.domain.model.contract.ContractSpec;
+import cn.fyg.pm.domain.model.construct.constructcert.CertItemOpinion;
+import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
+import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertItem;
+import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertState;
+import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.model.user.User;
@@ -97,8 +96,6 @@ public class ConstructCertCtl {
 		map.put("ConstructCertDtoList", ConstructCertDtoList);
 		map.put("query", certQuery);
 		map.put("supplierList", supplierService.findByTypeIn(Supptype.contra,Supptype.construct));
-		map.put("stateList", CertQuery.State.values());
-		map.put("contractSpecList", ContractSpec.values());
 		return Page.LIST;
 	}
 
@@ -106,11 +103,12 @@ public class ConstructCertCtl {
 	public String toEdit(@PathVariable("constructCertId") Long constructCertId,Map<String,Object> map){
 		Project project = sessionUtil.getValue("project");
 		User user = sessionUtil.getValue("user");
-		ConstructCert constructCert =constructCertId.longValue()>0?constructCertService.find(constructCertId):constructCertService.create(user,project,ConstructCertState.new_,false) ;
+		ConstructCert constructCert =constructCertId.longValue()>0?constructCertService.find(constructCertId):constructCertService.create(user,project,ConstructCertState.new_) ;
 		map.put("constructCert", constructCert);
-		List<ConstructCont> constructContList = constructContService.findByProject(constructCert.getConstructKey().getProject());
+		List<ConstructCont> constructContList = constructContService.findByProject(project);
 		map.put("constructContList", constructContList);
-		map.put("userList", userService.findAll());
+		ConstructCont constructCont=constructContService.findByConstructKey(constructCert.getConstructKey());
+		map.put("constructCont", constructCont);
 		map.put("certItemOpinionList", CertItemOpinion.values());
 		attechTempFile(constructCert);
 		return Page.EDIT;
@@ -135,7 +133,7 @@ public class ConstructCertCtl {
 	public String saveEdit(@RequestParam("id")Long constructCertId,@RequestParam(value="constructCertItemsId",required=false) Long[] constructCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes){
 		Project project = sessionUtil.getValue("project");
 		User user = sessionUtil.getValue("user");
-		ConstructCert constructCert = constructCertId!=null?constructCertService.find(constructCertId):constructCertService.create(user, project,ConstructCertState.saved,true);
+		ConstructCert constructCert = constructCertId!=null?constructCertService.find(constructCertId):constructCertService.create(user, project,ConstructCertState.saved);
 		
 		Map<Long,ConstructCertItem> constructCertMap=getConstructCertMap(constructCert.getConstructCertItems());
 		
@@ -239,10 +237,11 @@ public class ConstructCertCtl {
 		map.put("constructCert", constructCert);
 		List<ConstructCont> constructContList = constructContService.findByProject(constructCert.getConstructKey().getProject());
 		map.put("constructContList", constructContList);
+		ConstructCont constructCont=constructContService.findByConstructKey(constructCert.getConstructKey());
+		map.put("constructCont", constructCont);
 		map.put("taskId", taskId);
 		List<Opinion> opinionList = opinionService.listOpinions(ConstructCert.BUSI_CODE, constructCertId);
 		map.put("opinionList", opinionList);
-		map.put("userList", userService.findAll());
 		map.put("certItemOpinionList", CertItemOpinion.values());
 		attechTempFile(constructCert);
 		return Page.CHECK_EDIT;

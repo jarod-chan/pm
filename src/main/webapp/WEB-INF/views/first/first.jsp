@@ -119,6 +119,7 @@
 						<li>
 							<ul>
 								<li><a href="${ctx}/project/list" class="no_show" target="mainFrame"  >项目信息</a></li>
+								<li><a href="${ctx}/spmember/list" class="no_show" target="mainFrame"  >供应商用户</a></li>
 								<li><a href="javascript:window.open('${ctx}/login','_self');" class="no_show" >退出系统</a></li>
 							</ul>
 							<span> 系统管理</span>
@@ -141,7 +142,7 @@
 						<li>
 							<ul>
 								<li><a href="${ctx}/contract/construct/list" class="no_show" target="mainFrame" >施工服务合同</a></li>
-								<li><a href="${ctx}/contract/meter/list" class="no_show" target="mainFrame" >材料采购合同</a></li>
+								<li><a href="${ctx}/contractmeter/list" class="no_show" target="mainFrame" >材料采购合同</a></li>
 								<li><a href="${ctx}/contract/design/list" class="no_show" target="mainFrame" >设计策划合同</a></li>
 							</ul>
 							<span>合同管理</span>
@@ -153,10 +154,10 @@
 							<ul>
 								<li><a href="${ctx}/constructcont/list" class="no_show" target="mainFrame" >施工联系单</a></li>
 								<li><a href="${ctx}/constructcert/list" class="no_show" target="mainFrame" >工程签证单</a></li>
-								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >采购申请单</a></li>
-								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >材料签证单</a></li>
-								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >问题报告单</a></li>
-								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >技术联系单</a></li>
+								<li><a href="${ctx}/purchasereq/list" class="no_show" target="mainFrame" >采购申请单</a></li>
+								<li><a href="${ctx}/purchasecert/list" class="no_show" target="mainFrame" >价格确认单</a></li>
+							<%-- 	<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >问题报告单</a></li>
+								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >技术联系单</a></li> --%>
 							</ul>
 							<span>项目跟踪</span>
 						</li>
@@ -175,7 +176,7 @@
 		编号：${project.no}<br>
 		负责人：${project.leader.name}<br>
 		开工日期：<br>
-		成员：<c:forEach var="item" items="${pjmemberList}" varStatus="status">${item.user.name}<c:if test="${!status.last}">,</c:if></c:forEach>
+		成员：<c:forEach var="user" items="${projectUsers}" varStatus="status">${user.name}<c:if test="${!status.last}">,</c:if></c:forEach>
 		<br>
 		状态：${project.state.name}<br>
 		联系单数：N/A<br>

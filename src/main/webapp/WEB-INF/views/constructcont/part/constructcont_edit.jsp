@@ -165,7 +165,11 @@
 	<input type="hidden" name="id"  value="${constructCont.id}">
 	<table id="tabmain">
 		<tr>
-			<td>编号：</td><td>${constructCont.no}<c:if test="${empty constructCont.no}">自动生成</c:if></td>
+			<td>编号：</td><td>
+			<c:set var="parma_no" value="${constructCont.no}" />
+			<c:set var="parma_busino" value="${constructCont.busino}" />
+			<%@ include file="/component/noShow.jsp" %>	
+			</td>
 		</tr>
 		<tr>
 			<td>项目负责人：</td><td>${constructCont.leader.name}</td>
@@ -173,11 +177,8 @@
 		<tr>
 			<td>合同：</td> 
 			<td>
-				<select name="constructKey.contract.id">
-					<c:forEach var="contract" items="${contractList}">
-						<option value="${contract.id}" <c:if test="${constructCont.constructKey.contract.id==contract.id}">selected="true"</c:if> >${contract.name}-${contract.supplier.name}</option>
-					</c:forEach>
-				</select>
+				<span id="spanContract">${contract.no}</span><input type="hidden" name="constructKey.contract.id" value="${contract.id}">
+				<input type="button" id="btn_selContract" value="选择" />
 			</td>
 		</tr>
 		<tr>
@@ -276,3 +277,5 @@
 		</c:forEach>
 	</tbody>
 	</table>
+	
+	<%@ include file="selContract.jsp" %>	

@@ -38,13 +38,12 @@
 	<%@ include file="/common/message.jsp" %>	
 	
 	<form action="${ctx}/project/${project.id}/pjmember" method="post">
-	<c:forEach var="pjmemberDto" items="${pjmemberPage.plt}">
+	<c:forEach var="pjmemberDto" items="${pjmemberDtos}">
 	<span>
 		<input type="checkbox" class="chk_plt" <c:if test="${pjmemberDto.checked}">checked="checked"</c:if> />
 		<input type="hidden" name="plt_checked" value="${pjmemberDto.checked}">
-		<input type="hidden" name="plt_pjmember.user.key" value="${pjmemberDto.pjmember.user.key}">
-		<input type="hidden" name="plt_pjmember.project.id" value="${pjmemberDto.pjmember.project.id}">
-		${pjmemberDto.pjmember.user.name}
+		<input type="hidden" name="plt_user.key" value="${pjmemberDto.user.key}">
+		${pjmemberDto.user.name}
 	</span>
 	<br/>
 	</c:forEach>

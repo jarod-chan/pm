@@ -3,6 +3,8 @@ package cn.fyg.pm.interfaces.web.module.process;
 
 public class ProcessTaskBean {
 	
+	private String executionId;//流程实例id
+	
 	private String processName;//流程名称
 	
 	private String taskName;//任务名称
@@ -12,6 +14,14 @@ public class ProcessTaskBean {
 	private String formKey;//任务页面
 	
 	private String businessId;//业务id
+	
+	public String getExecutionId() {
+		return executionId;
+	}
+
+	public void setExecutionId(String executionId) {
+		this.executionId = executionId;
+	}
 
 	public String getFormKey() {
 		return formKey;

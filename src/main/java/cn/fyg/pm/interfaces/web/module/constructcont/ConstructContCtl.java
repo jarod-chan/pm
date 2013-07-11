@@ -31,13 +31,12 @@ import cn.fyg.pm.application.ContractService;
 import cn.fyg.pm.application.OpinionService;
 import cn.fyg.pm.application.SupplierService;
 import cn.fyg.pm.application.UserService;
-import cn.fyg.pm.domain.model.constructcont.ConstructCont;
-import cn.fyg.pm.domain.model.constructcont.ConstructContItem;
-import cn.fyg.pm.domain.model.constructcont.ConstructContState;
-import cn.fyg.pm.domain.model.constructkey.ConstructKey;
-import cn.fyg.pm.domain.model.contract.Contract;
-import cn.fyg.pm.domain.model.contract.ContractSpec;
-import cn.fyg.pm.domain.model.contract.ContractType;
+import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
+import cn.fyg.pm.domain.model.construct.constructcont.ConstructContItem;
+import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
+import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
+import cn.fyg.pm.domain.model.contract.general.Contract;
+import cn.fyg.pm.domain.model.contract.general.ContractType;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.model.user.User;
@@ -96,9 +95,6 @@ public class ConstructContCtl {
 		query.setProject(project);
 		List<ConstructCont> constructContList = constructContService.query(query);
 		map.put("constructContList", constructContList);
-		map.put("userList", userService.findAll());
-		map.put("stateList", ContQuery.State.values());
-		map.put("contractSpecList", ContractSpec.values());
 		map.put("query", query);
 		map.put("supplierList", supplierService.findByTypeIn(Supptype.contra,Supptype.construct));
 		return Page.LIST;
@@ -108,11 +104,12 @@ public class ConstructContCtl {
 	public String toEdit(@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
 		Project project = sessionUtil.getValue("project");
 		User user = sessionUtil.getValue("user");
-		ConstructCont constructCont = constructContId.longValue()>0?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.new_,false);
+		ConstructCont constructCont = constructContId.longValue()>0?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.new_);
 		map.put("constructCont", constructCont);
 		List<Contract> contractList = contractService.findByProjectAndType(constructCont.getConstructKey().getProject(),ContractType.construct);
 		map.put("contractList", contractList);
-		map.put("userList", userService.findAll());
+		map.put("contract", constructCont.getConstructKey().getContract());
+		
 		return Page.EDIT;
 	}
 	
@@ -121,7 +118,7 @@ public class ConstructContCtl {
 		Project project = sessionUtil.getValue("project");
 		User user = sessionUtil.getValue("user");
 		
-		ConstructCont constructCont =constructContId!=null?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.saved,true);
+		ConstructCont constructCont =constructContId!=null?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.saved);
 		 
 		Map<Long,ConstructContItem> constructContItemMap=getConstructContItemMap(constructCont.getConstructContItems());	
 		List<ConstructContItem> ConstructContItemList = new ArrayList<ConstructContItem>();
@@ -185,6 +182,7 @@ public class ConstructContCtl {
 		return map;
 	}
 	
+	//TODO 可以去除 ？
 	@RequestMapping(value="commit",method=RequestMethod.POST)
 	public String commit(@RequestParam("constructContId") Long constructContId,RedirectAttributes redirectAttributes){
 		User user = sessionUtil.getValue("user");

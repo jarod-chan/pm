@@ -13,4 +13,6 @@ public interface UserRepository extends Repository<User, String>{
 	List<User> findAll();
 
 	User findOne(String key);
+
+	User findByKey(String username);
 }

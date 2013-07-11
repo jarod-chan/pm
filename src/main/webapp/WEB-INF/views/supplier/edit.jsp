@@ -40,7 +40,8 @@
 	<table id="tabmain">
 		
 		<tr><td>编号：</td><td>
-		<input type="text" name="no" value="${supplier.no}"/>
+		<c:set var="parma_no" value="${supplier.no}" />
+		<%@ include file="/component/noShow.jsp" %>	
 		</td></tr>
 		
 		<tr><td>
@@ -50,7 +51,7 @@
 		
 		<tr>
 			<td>
-			专业分类:
+			 信用等级:
 			</td><td>
 			<select name="creditRank" >
 					<c:forEach var="creditRank" items="${creditRankList}">

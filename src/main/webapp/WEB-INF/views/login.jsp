@@ -22,7 +22,7 @@
 <body>
 	
 	<%@ include file="/common/message.jsp" %>	
-	<form action="${ctx}/login" method="post">
+	<form action="${ctx}/login2" method="post">
 	<div style="top:150px;left: 300px;position: absolute;">
 		<div><h2>用户登录</h2></div>
 		<div>

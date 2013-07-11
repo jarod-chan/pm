@@ -2,7 +2,7 @@ package cn.fyg.pm.application;
 
 import java.util.List;
 
-import cn.fyg.pm.domain.model.constructkey.ConstructKey;
+import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
 
 

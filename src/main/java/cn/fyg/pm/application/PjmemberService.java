@@ -2,18 +2,38 @@ package cn.fyg.pm.application;
 
 import java.util.List;
 
-import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 
 public interface PjmemberService {
 	
-	List<Pjmember> save(List<Pjmember> pjmemberList);
 	
-	List<Pjmember> findByProject(Project project);
+	/**
+	 * 获得用户参与项目
+	 * @param user
+	 * @return
+	 */
+	List<Project> getUserProject(User user);
 	
-	void deleteByProject(Project project);
+	
+	/**
+	 * 获得项目成员
+	 * @param project
+	 * @return
+	 */
+	List<User> getProjectUser(Project project);
+	
+	/**
+	 * 给项目添加成员
+	 * @param project
+	 * @param user
+	 */
+	void appendPrjectUser(Project project,User user);
 
-	List<Project> findUserProject(User user);
-
+	/**
+	 * 
+	 * @param project
+	 * @param user
+	 */
+	void removeProjectUser(Project project,User user);
 }

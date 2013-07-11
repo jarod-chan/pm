@@ -148,17 +148,21 @@
 			tbody.append(cloneTR()); 
 			reIndexTable(tbody);
 		});
+		   	
+		var constructContIdMap={};
+		<c:forEach var="constructCont" items="${constructContList}" varStatus="status">constructContIdMap['${constructCont.constructKey.id}']='${constructCont.id}';</c:forEach>
 		
-		var constructContIdList=[<c:forEach var="constructCont" items="${constructContList}" varStatus="status">${constructCont.id}<c:if test="${!status.last}">,</c:if></c:forEach>];
-    	
     	$("#btn_cont").click(function(){
-    		window.open('${ctx}/constructcont/'+constructContIdList[$("select:eq(0)").get(0).selectedIndex]+'/view?notback=true','_blank');
+    		var constructContId=$("input[name='constructKey.id']").val();
+    		if(constructContId=="") return;
+    		window.open('${ctx}/constructcont/'+constructContIdMap[constructContId]+'/view?notback=true','_blank');
 			return false;
     	})
 		
 	   	$("#btn_load").click(function(){
-    		var constructContId=constructContIdList[$("select:eq(0)").get(0).selectedIndex];
-    		$.getJSON('${ctx}/constructcont/'+constructContId+'/items',function(itemlist){
+    		var constructContId=$("input[name='constructKey.id']").val();
+    		if(constructContId=="") return;
+    		$.getJSON('${ctx}/constructcont/'+constructContIdMap[constructContId]+'/items',function(itemlist){
     			var tbody=$("#tabitem tbody");
     			tbody.empty();
     			for(i=0;i<itemlist.length;i++){
@@ -196,7 +200,11 @@
 	<input type="hidden" name="id" value="${constructCert.id}">
 	<table id="tabmain">
 		<tr>
-			<td>编号：</td><td>${constructCert.no}<c:if test="${empty constructCert.no}">自动生成</c:if></td>
+			<td>编号：</td><td>
+			<c:set var="parma_no" value="${constructCert.no}" />
+			<c:set var="parma_busino" value="${constructCert.busino}" />
+			<%@ include file="/component/noShow.jsp" %>	
+			</td>
 		</tr>
 		<tr>
 			<td>项目负责人：</td><td>${constructCert.leader.name}</td>
@@ -204,12 +212,11 @@
 		<tr>
 			<td>施工联系单：</td>
 			<td>
-				<select name="constructKey.id">
-					<c:forEach var="constructCont" items="${constructContList}">
-						<option value="${constructCont.constructKey.id}" <c:if test="${constructCert.constructKey.id==constructCont.constructKey.id}">selected="true"</c:if> >${constructCont.no}-${constructCont.constructKey.contract.supplier.name}</option>
-					</c:forEach>
-				</select>
-				<input type="button" id="btn_cont" value="查看施工联系单"/>
+				
+				
+				<span id="spanConstructCont">${constructCont.no}</span><input type="hidden" name="constructKey.id" value="${constructCont.constructKey.id}">
+				<input type="button" id="btn_selConstructCont" value="选择" />
+				<input type="button" id="btn_cont" value="查看"/>
 				<input type="button" id="btn_load" value="加载联系单内容到当前明细"/>
 			</td>
 		</tr>
@@ -308,3 +315,5 @@
 			</c:forEach>
 		</tbody>
 		</table>
+		
+		<%@ include file="selConstructcont.jsp" %>	

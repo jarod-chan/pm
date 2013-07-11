@@ -69,5 +69,21 @@ public class User {
 	public String toString() {
 		 return ReflectionToStringBuilder.toString(this); 
 	}
+	
+	@Override
+	public boolean equals(final Object object) {
+		if (this == object)
+			return true;
+		if (object == null || getClass() != object.getClass())
+			return false;
+
+		final User other = (User) object;
+		return this.key.equals(other.getKey());
+	}
+
+	@Override
+	public int hashCode() {
+		return this.key.hashCode();
+	}
 
 }

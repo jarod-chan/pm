@@ -31,6 +31,17 @@
 			.submit();
     	})
     	
+    	$('#btn_query').click(function(){
+			var actionFrom=$("form:eq(0)");
+			var oldAction=actionFrom.attr("action"); 
+			actionFrom.attr("action",oldAction+"/list").submit();
+    	});
+    	
+    	$('#btn_clear').click(function(){
+    		window.open('${ctx}/supplier/${supptype}/list','_self');
+			return false;
+    	});
+    	
     	$("#headdiv").css("width",$("#tblmain").css("width"));
     });
     </script>
@@ -38,7 +49,38 @@
 
 <body>
 	<h2>${supptype.name}</h2>
-	<%@ include file="/common/message.jsp" %>	
+	<%@ include file="/common/message.jsp" %>
+	
+	<div style="text-align: left;">
+	<form action="${ctx}/supplier/${supptype}" method="post">
+		编号:<input type="text" name="no" value="${query.no}">
+		
+		名称:<input type="text" name="name" value="${query.name}">
+		
+		信用等级:<select name="creditRank">
+			<option value="" >-所有-</option>
+			<c:forEach var="creditRank" items="${query.creditRankList}">
+				<option value="${creditRank}" <c:if test="${creditRank== query.creditRank}">selected="true"</c:if> >${creditRank.name}</option>
+			</c:forEach>
+		</select>
+	
+		
+		<br>
+		排序:<select name="orderAttribute">
+				<c:forEach var="attr" items="${query.orderAttributeList}">
+					<option value="${attr.value}" <c:if test="${attr.value== query.orderAttribute}">selected="true"</c:if> >${attr.name}</option>
+				</c:forEach>
+			</select> 
+			<select name="orderType">
+				<c:forEach var="type" items="${query.orderTypeList}">
+					<option value="${type.value}" <c:if test="${type.value== query.orderType}">selected="true"</c:if> >${type.name}</option>
+				</c:forEach>
+			</select>  
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="button" value="查询" id="btn_query"> 
+		<input type="button" value="清空" id="btn_clear"> 
+	</form>
+	</div>	
 	
 	<div id="headdiv" style="text-align: right;">	
 	  <input type="button" value="新建"  id="btn_new">

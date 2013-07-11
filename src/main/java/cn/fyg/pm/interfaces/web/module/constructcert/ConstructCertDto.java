@@ -1,7 +1,7 @@
 package cn.fyg.pm.interfaces.web.module.constructcert;
 
-import cn.fyg.pm.domain.model.constructcert.ConstructCert;
-import cn.fyg.pm.domain.model.constructcont.ConstructCont;
+import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
+import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
 
 public class ConstructCertDto {
 

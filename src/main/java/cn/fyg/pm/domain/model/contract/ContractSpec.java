@@ -2,6 +2,9 @@ package cn.fyg.pm.domain.model.contract;
 
 import cn.fyg.pm.domain.shared.CommonEnum;
 
+/**
+ *专业分类
+ */
 public enum ContractSpec implements CommonEnum {
 	
 	municipal("市政工程"),
