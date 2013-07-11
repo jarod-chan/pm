@@ -17,6 +17,8 @@ public interface ConstructContService extends ServiceQuery<ConstructCont> {
 	
 	ConstructCont save(ConstructCont constructCont);
 	
+	ConstructCont finish(ConstructCont constructCont);
+	
 	void delete(Long id);
 	
 	ConstructCont find(Long id);

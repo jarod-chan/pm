@@ -43,6 +43,8 @@ public class ConstructCont extends CommonNoPatternUnit {
 	
 	private String no;//编号
 	
+	private String busino;//业务流水号
+	
 	@ManyToOne(targetEntity=ConstructKey.class,cascade={CascadeType.ALL})
 	@JoinColumn(name="constructkey_id")
 	private ConstructKey constructKey;//施工签证线索
@@ -102,6 +104,14 @@ public class ConstructCont extends CommonNoPatternUnit {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getBusino() {
+		return busino;
+	}
+
+	public void setBusino(String busino) {
+		this.busino = busino;
 	}
 
 	public BigDecimal getTolsum() {

@@ -137,7 +137,7 @@
 	<br>
 	<table id="tblmain" border="1">
 		<tr>
-			<td>编号</td><td>合同</td><td>施工承包方</td><td>专业分类</td><td>原因</td><td>状态</td>
+			<td>编号</td><td>业务编号</td><td>合同</td><td>施工承包方</td><td>专业分类</td><td>状态</td>
 			<td>总金额</td>
 			<td>制单人</td>
 			<td>制单日期</td>
@@ -153,10 +153,10 @@
 		<c:forEach var="constructCont" items="${constructContList}">
 			<tr>
 				<td>${constructCont.no}</td>
-				<td>${constructCont.constructKey.contract.name}</td>
+				<td>${constructCont.busino}</td>
+				<td>${constructCont.constructKey.contract.no}</td>
 				<td>${constructCont.constructKey.supplier.name}</td>
 				<td>${constructCont.constructKey.contract.specialty.name}</td>
-				<td>${constructCont.reason}</td>
 				<td><span class="state state-${constructCont.state}" >${constructCont.state.name}</span></td>
 				<td>${constructCont.tolsum}</td>
 				<td>${constructCont.creater.name}</td>

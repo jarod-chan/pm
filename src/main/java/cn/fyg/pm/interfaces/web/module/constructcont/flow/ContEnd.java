@@ -27,7 +27,7 @@ public class ContEnd implements JavaDelegate {
 		constructCont.setSigner(leader);
 		constructCont.setSigndate(new Date());
 		constructCont.setState(ConstructContState.finish);
-		constructContService.save(constructCont);
+		constructContService.finish(constructCont);
 		
 	
 	}
