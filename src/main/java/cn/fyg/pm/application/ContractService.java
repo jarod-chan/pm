@@ -15,7 +15,7 @@ public interface ContractService extends ServiceQuery<Contract> {
 	
 	List<Contract> findByProjectAndType(Project project,ContractType contractType);
 	
-	//TODO  可以重构为同意的规格查询
+	//TODO  可以重构为相同的规格查询
 	List<Contract> findByProjectAndSupplierAndType(Project project,Supplier supplier,ContractType contractType);
 	
 	Contract find(Long id);
