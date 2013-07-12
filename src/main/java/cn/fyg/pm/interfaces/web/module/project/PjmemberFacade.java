@@ -19,7 +19,7 @@ public class PjmemberFacade {
 	public void savePjmember(Project project,List<PjmemberDto> pjmemberDtos){
 		for (PjmemberDto pjmemberDto : pjmemberDtos) {
 			if(pjmemberDto.isChecked()){
-				pjmemberService.appendPrjectUser(project, pjmemberDto.getUser());
+				pjmemberService.appendPrjectUser(project, pjmemberDto.getUser(),pjmemberDto.getPjrole());
 			}else{
 				pjmemberService.removeProjectUser(project, pjmemberDto.getUser());
 			}

@@ -235,7 +235,7 @@ public class Contract  implements NoPatternUnit {
 		nokey.setFlag("HT");
 		String projectNo=this.project.getNo();
 		String[] noParts=projectNo.split("-");
-		nokey.setPref(noParts[2]+noParts[3]+"/"+this.type.getCode());
+		nokey.setPref(noParts[2]+noParts[3]+this.type.getCode());
 		Long limit=Long.valueOf(9999);
 	    return new NoPattern(nokey,limit);
 	}
