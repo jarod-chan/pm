@@ -49,4 +49,10 @@ public class UserServiceImpl implements UserService {
 		return user.getKey();
 	}
 
+	@Override
+	public boolean exist(String key) {
+		User user=this.userRepository.findByKey(key);
+		return user!=null;
+	}
+
 }
