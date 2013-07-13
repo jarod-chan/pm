@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +55,8 @@ public class PjmemberServiceImpl implements PjmemberService {
 		Preconditions.checkNotNull(user.getKey());
 		Preconditions.checkNotNull(pjrole);
 		Preconditions.checkNotNull(pjrole.getKey());
+		//TODO ?
+		if(StringUtils.isBlank(pjrole.getKey())) pjrole=null;
 		
 		Pjmember pjmember = this.pjmemberRepository.findByProjectAndUser(project, user);
 		pjmember= pjmember==null?new Pjmember():pjmember;

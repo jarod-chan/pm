@@ -30,7 +30,7 @@ public class UserCtl {
 		String LIST=PATH+"list";
 		String EDIT=PATH+"edit";
 	}
-	
+	//TODO 系统用户功能待进一步完善
 	@Autowired
 	UserService userService;
 	

@@ -47,6 +47,7 @@
 			<input type="hidden" name="plt_user.key" value="${pjmemberDto.user.key}">
 			${pjmemberDto.user.name}
 			<select name="plt_pjrole.key"  <c:if test="${not pjmemberDto.checked}">style="display:none;"</c:if>>
+				<option value="">--</option>
 				<c:forEach var="pjrole" items="${pjroles}">
 					<option value="${pjrole.key}" <c:if test="${pjmemberDto.pjrole.key==pjrole.key}">selected="true"</c:if> >${pjrole.name}</option>
 				</c:forEach>
