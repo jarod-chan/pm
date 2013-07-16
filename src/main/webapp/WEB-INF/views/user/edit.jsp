@@ -7,15 +7,30 @@
 	<%@ include file="/common/setting.jsp" %>
 	<%@ include file="/common/meta.jsp" %>
 	<%@ include file="/common/include.jsp" %>	
-	<%@ include file="/common/jqui.jsp" %>	
-
+	
 
     <script type="text/javascript">
     $(function() {
-		$("#btn_save").click(function(){
-			var actionFrom=$("form");
-			var oldAction=actionFrom.attr("action");
-			actionFrom.attr("action",oldAction+"/save").submit();
+    	
+    	var validator=$("form").validate({
+    		rules: {
+    			key:{
+    				required: true,
+    				minlength:3,
+    				maxlength: 6
+    			},
+    			name: {
+    				required: true,
+    				maxlength: 6
+    			}
+    		}
+    	});
+		
+    	$("#btn_save").click(function(){
+    			if(!validator.form()){return;}    			
+				var actionFrom=$("form");
+				var oldAction=actionFrom.attr("action");
+				actionFrom.attr("action",oldAction+"/save").submit(); 
 		});
 		
 		$("#btn_back").click(function(){
@@ -25,7 +40,7 @@
 		
 		$('#tabmain tr').find('td:eq(0)').css("text-align","right");
 		
-    });
+	 });
     </script>
 </head>
 
@@ -33,7 +48,7 @@
 	<h2>系统用户</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<form action="${ctx}/user" method="post">
+	<form id="jqueryForm" action="${ctx}/user" method="post">
 	
 	
 	<table id="tabmain">	
@@ -42,7 +57,7 @@
 		用户名：</td><td>
 		<c:choose>
 			<c:when test="${not empty user.key }">
-				 <input type="hidden" name="key" value="${user.key}"/>${user.key}
+				 <input type="hidden" name="key" value="${user.key}" />${user.key}
 			</c:when>
 			<c:otherwise>
 			 <input type="text" name="key" value="${user.key}"/>
@@ -53,12 +68,12 @@
 		
 		<tr><td>
 		真实姓名：</td><td>
-		<input type="text" name="name" value="${user.name}"/>
+		<input type="text" name="name" value="${user.name}"  type="text" />
 		</td></tr>
 		
 		<tr><td>
 		公司邮箱：</td><td>
-		<input type="text" name="email" value="${user.email}"/>
+		<input type="text" name="email" value="${user.email}" />
 		</td></tr>
 		
 		<tr>
@@ -90,9 +105,10 @@
 		</table>
 		
 		<br>
-		<input type="button" value="保存"  id="btn_save">
-		<input type="button" value="返回"  id="btn_back">
+	 	<input type="button" value="保存"  id="btn_save">
+		<input type="button" value="返回"  id="btn_back"> 
 		
+
 	</form>
 	
 </body>

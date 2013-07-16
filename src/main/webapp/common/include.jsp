@@ -11,3 +11,23 @@
 <script src="${ctx}/plu/uploadify/jquery.uploadify.js" type="text/javascript"></script>
 
 <script src="${ctx}/plu/layout/jquery.layout-latest.js" type="text/javascript"></script>
+
+
+<script src="${ctx}/plu/validation/jquery.validate.min.js" type="text/javascript"></script>
+<script src="${ctx}/plu/validation/messages_zh.js" type="text/javascript"></script>
+<style type="text/css">
+	label.vlderror {
+		color: #ea5200;
+	}
+</style>
+<script type="text/javascript">
+	$(function() {
+		$.validator.setDefaults({
+			errorClass : "vlderror"
+		});
+	})
+</script>
+
+
+
+
