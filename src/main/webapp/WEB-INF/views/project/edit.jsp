@@ -12,7 +12,17 @@
 
     <script type="text/javascript">
     $(function() {
+    	var validator=$("form").validate({
+    		rules: {
+    			name: {
+    				required: true,
+    				maxlength: 8
+    			}
+    		}
+    	});
+    	
 		$("#btn_save").click(function(){
+			if(!validator.form()){return;}
 			var actionFrom=$("form");
 			var oldAction=actionFrom.attr("action");
 			actionFrom.attr("action",oldAction+"/save").submit();

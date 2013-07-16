@@ -23,6 +23,7 @@
 <script type="text/javascript">
 	$(function() {
 		$.validator.setDefaults({
+			ignore: "",//处理必填字段
 			errorClass : "vlderror"
 		});
 	})

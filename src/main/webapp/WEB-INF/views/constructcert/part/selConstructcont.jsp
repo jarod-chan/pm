@@ -16,7 +16,7 @@
 			$( "#selConstructCont" ).dialog({
 				autoOpen: false,
 				position: ["center", 100],
-				width: 700,
+				width: 800,
 				buttons: {
 					'清空': function() {
 						$("#spanConstructCont").html("");
