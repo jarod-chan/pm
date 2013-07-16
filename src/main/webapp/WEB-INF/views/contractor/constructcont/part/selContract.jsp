@@ -17,7 +17,7 @@
 			$( "#selContract" ).dialog({
 				autoOpen: false,
 				position: ["center", 100],
-				width: 400,
+				width: 600,
 				buttons: {
 					'清空': function() {
 						$("#spanContract").html("");

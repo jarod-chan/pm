@@ -23,7 +23,15 @@
 
     <script type="text/javascript">
     $(function() {
+    	var validator=$("form").validate({
+    		rules: {
+    			"constructKey.id": {
+    				required: true
+    			}
+    		}
+    	});
     	$("#btn_save").click(function(){
+    		if(!validator.form()){return;}
 			$("#tabitem tbody tr").formatName();
 			var actionFrom=$("form");
 			var oldAction=actionFrom.attr("action"); 
@@ -32,6 +40,7 @@
 		});
 		
 		$("#btn_commit").click(function(){
+			if(!validator.form()){return;}
 			$("#tabitem tbody tr").formatName();
 			var actionFrom=$("form");
 			var oldAction=actionFrom.attr("action"); 
