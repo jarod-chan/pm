@@ -39,11 +39,19 @@
 			var actionFrom=$("form");
 			actionFrom.submit();
 		});
+    	
+    	$("body").bind('keyup',function(event) {
+    		if(event.keyCode==13){
+    			$("form").submit();
+    		}   
+    	}); 
+
     });
     </script>
 </head>
 <body>
-	
+
+
 	
 	
 	<div id="loginDiv" title="方远房产项目管理系统">
@@ -64,7 +72,26 @@
 			<button type="button" id="btn_fetchpwd">取回密码</button>
 		</div>
 		</form>
-	</div>
+		<table border="1" style="margin: 50px 0px 0px 0px;width: 380px;">
+			<thead>
+				<tr>
+					<th>测试用户名</th>
+					<th>用户姓名</th>
+					<th>用户密码</th>
+				</tr>
+			</thead>
+			<tbody>
+			<c:forEach var="user" items="${users}">
+				<tr>
+					<td>${user.key}</td>
+					<td>${user.name}</td>
+					<td>${user.password}</td>
+				</tr>
+			</c:forEach>
+			</tbody>
+		</table>
+		</div>
+	
 	
 	
 </body>

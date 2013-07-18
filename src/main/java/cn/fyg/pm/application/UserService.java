@@ -2,6 +2,7 @@ package cn.fyg.pm.application;
 
 import java.util.List;
 
+import cn.fyg.pm.domain.model.user.EnabledEnum;
 import cn.fyg.pm.domain.model.user.User;
 
 public interface UserService {
@@ -18,4 +19,5 @@ public interface UserService {
 	
 	boolean exist(String key);
 
+	List<User> findByEnabled(EnabledEnum enabled);
 }

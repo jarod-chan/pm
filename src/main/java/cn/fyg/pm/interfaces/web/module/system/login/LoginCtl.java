@@ -2,6 +2,9 @@ package cn.fyg.pm.interfaces.web.module.system.login;
 
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cn.fyg.pm.application.UserService;
+import cn.fyg.pm.domain.model.user.EnabledEnum;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
@@ -34,7 +38,9 @@ public static final Logger logger = LoggerFactory.getLogger(LoginCtl.class);
 	SessionUtil sessionUtil;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String toLogin() {
+	public String toLogin(Map<String,Object> map) {
+		List<User> users = this.userService.findByEnabled(EnabledEnum.y);
+		map.put("users", users);
 		return Page.LOGIN;
 	}
 	

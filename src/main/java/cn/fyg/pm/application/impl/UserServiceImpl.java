@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.UserService;
+import cn.fyg.pm.domain.model.user.EnabledEnum;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.user.UserRepository;
 
@@ -53,6 +54,11 @@ public class UserServiceImpl implements UserService {
 	public boolean exist(String key) {
 		User user=this.userRepository.findByKey(key);
 		return user!=null;
+	}
+
+	@Override
+	public List<User> findByEnabled(EnabledEnum enabled) {
+		return this.userRepository.findByEnabled(enabled);
 	}
 
 }

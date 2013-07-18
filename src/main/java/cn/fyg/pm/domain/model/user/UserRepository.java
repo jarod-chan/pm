@@ -15,4 +15,6 @@ public interface UserRepository extends Repository<User, String>{
 	User findOne(String key);
 
 	User findByKey(String username);
+
+	List<User> findByEnabled(EnabledEnum enabled);
 }
