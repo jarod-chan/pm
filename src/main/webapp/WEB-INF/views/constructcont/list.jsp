@@ -30,6 +30,9 @@
 	.state-finish{
 		background-color:#B94A48;
 	}
+	.state-invalid{
+		background-color:#FF8080;
+	}
 	</style>
 
 
@@ -38,7 +41,7 @@
     	
     	$(".datePK").datepicker();
     	
-     	var optColorArr=['#FFFFFF','#FFFFFF','#999999','#3A87AD','#F89406','#B94A48'];
+     	var optColorArr=['#FFFFFF','#FFFFFF','#999999','#3A87AD','#F89406','#B94A48','#FF8080'];
     	$("select[name='state']").each(function(){
 			$(this).find("option").each(function(idx){
 				$(this).css("background-color",optColorArr[idx]);

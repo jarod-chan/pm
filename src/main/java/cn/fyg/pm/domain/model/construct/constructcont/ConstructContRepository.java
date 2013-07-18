@@ -21,7 +21,7 @@ public interface ConstructContRepository extends Repository<ConstructCont, Long>
 
 	ConstructCont findByConstructKey(ConstructKey constructKey);
 
-	List<ConstructCont> findByConstructKey_Project(Project project);
+	List<ConstructCont> findByConstructKey_ProjectAndState(Project project,ConstructContState state);
 
 	List<ConstructCont> findByConstructKey_ProjectAndConstructKey_Supplier(Project project, Supplier supplier);
 }

@@ -29,7 +29,7 @@ public abstract class PurchaseQuery<T>  implements QuerySpec<T>{
 	private Project project;//项目
 	
 	public PurchaseQuery(){
-		this.state="ext-notf";
+		this.state="ext-all";
 		this.orderAttribute="createdate";
 		this.orderType="desc";
 	}
@@ -43,6 +43,7 @@ public abstract class PurchaseQuery<T>  implements QuerySpec<T>{
 		arrayList.add(new Qitem("saved","已保存"));
 		arrayList.add(new Qitem("commit","已提交"));
 		arrayList.add(new Qitem("finish","已完成"));
+		arrayList.add(new Qitem("invalid","已作废"));
 		return arrayList;
 	}
 	

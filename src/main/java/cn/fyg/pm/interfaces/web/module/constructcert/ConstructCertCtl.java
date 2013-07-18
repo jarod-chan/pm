@@ -35,6 +35,7 @@ import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertItem;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
+import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.model.user.User;
@@ -105,7 +106,7 @@ public class ConstructCertCtl {
 		User user = sessionUtil.getValue("user");
 		ConstructCert constructCert =constructCertId.longValue()>0?constructCertService.find(constructCertId):constructCertService.create(user,project,ConstructCertState.new_) ;
 		map.put("constructCert", constructCert);
-		List<ConstructCont> constructContList = constructContService.findByProject(project);
+		List<ConstructCont> constructContList = constructContService.findByProjectAndState(project,ConstructContState.finish);
 		map.put("constructContList", constructContList);
 		ConstructCont constructCont=constructContService.findByConstructKey(constructCert.getConstructKey());
 		map.put("constructCont", constructCont);
@@ -114,6 +115,7 @@ public class ConstructCertCtl {
 		return Page.EDIT;
 	}
 
+	//TODO 临时附件待处理
 	/**
 	 * 添加临时附件
 	 * @param constructCert
@@ -235,7 +237,7 @@ public class ConstructCertCtl {
 	public String toCheckEdit(@PathVariable("constructCertId") Long constructCertId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
 		ConstructCert constructCert = constructCertService.find(constructCertId);
 		map.put("constructCert", constructCert);
-		List<ConstructCont> constructContList = constructContService.findByProject(constructCert.getConstructKey().getProject());
+		List<ConstructCont> constructContList = constructContService.findByProjectAndState(constructCert.getConstructKey().getProject(),ConstructContState.finish);
 		map.put("constructContList", constructContList);
 		ConstructCont constructCont=constructContService.findByConstructKey(constructCert.getConstructKey());
 		map.put("constructCont", constructCont);

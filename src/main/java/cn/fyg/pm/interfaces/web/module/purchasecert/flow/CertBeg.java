@@ -19,13 +19,12 @@ public class CertBeg implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 		
-		//TODO 临时流程设置
 		OpinionService opinionService=(OpinionService) opinionServiceExp.getValue(execution);
 		PurchaseCertService purchaseCertService =(PurchaseCertService) purchaseCertServiceExp.getValue(execution);
 		Long businessId = (Long) execution.getVariableLocal(FlowConstant.BUSINESS_ID);
 		PurchaseCert purchaseCert = purchaseCertService.find(businessId);
 		
-		execution.setVariable(CertVarname.LEADER_KEY, "scfz");
+		execution.setVariable(CertVarname.PROJECTID, purchaseCert.getPurchaseKey().getProject().getId());
 		execution.setVariable(CertVarname.TOLSUM, purchaseCert.getTolsum());
 
 		opinionService.clear(PurchaseReq.BUSI_CODE, businessId);

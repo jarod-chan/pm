@@ -68,6 +68,7 @@ public class TaskCtl {
 
 	 @RequestMapping(value = "trace/{executionId}")
 	public void readResource(@PathVariable("executionId") String executionId, HttpServletResponse response)throws Exception {
+		 //TODO 并行节点出现问题
 		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(executionId).singleResult();
 		BpmnModel bpmnModel = repositoryService.getBpmnModel(processInstance.getProcessDefinitionId());
 		List<String> activeActivityIds = runtimeService.getActiveActivityIds(executionId);

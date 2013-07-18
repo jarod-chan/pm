@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.repository.Repository;
 
+import cn.fyg.pm.domain.model.pjrole.Pjrole;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 
@@ -22,4 +23,6 @@ public interface PjmemberRepository extends Repository<Pjmember,Long> {
 	Pjmember findByProjectAndUser(Project project,User user);
 	
 	void delete(Pjmember pjmember);
+	
+	List<Pjmember> findByProjectAndPjrole(Project project,Pjrole pjrole);
 }

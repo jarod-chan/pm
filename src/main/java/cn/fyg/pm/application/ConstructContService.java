@@ -27,7 +27,7 @@ public interface ConstructContService extends ServiceQuery<ConstructCont> {
 
 	ConstructCont create(User creater,Project project, ConstructContState state);
 
-	List<ConstructCont> findByProject(Project project);
+	List<ConstructCont> findByProjectAndState(Project project,ConstructContState state);
 	
 	List<ConstructCont> findByProjectAndSupplier(Project project,Supplier supplier);
 }

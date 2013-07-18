@@ -41,10 +41,10 @@ public class TaskFacade {
 			String formKey= formService.getTaskFormData(task.getId()).getFormKey();
 			processTaskBean.setFormKey(formKey);
 			
-			String executionId = task.getExecutionId();
+			String executionId = task.getProcessInstanceId();
 			processTaskBean.setExecutionId(executionId);
 			
-			Object obj=runtimeService.getVariableLocal(executionId, FlowConstant.BUSINESS_ID);
+			Object obj=runtimeService.getVariable(executionId, FlowConstant.BUSINESS_ID);
 			String businessId=obj==null?"":obj.toString();
 			processTaskBean.setBusinessId(businessId);
 			

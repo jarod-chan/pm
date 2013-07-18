@@ -66,8 +66,8 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 	}
 
 	@Override
-	public List<PurchaseReq> findByProject(Project project) {
-		return this.purchaseReqRepository.findByPurchaseKey_Project(project);
+	public List<PurchaseReq> findByProject(Project project,PurchaseReqState state) {
+		return this.purchaseReqRepository.findByPurchaseKey_ProjectAndState(project,state);
 	}
 
 	@Override

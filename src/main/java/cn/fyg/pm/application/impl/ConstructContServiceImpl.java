@@ -41,6 +41,7 @@ public class ConstructContServiceImpl implements ConstructContService {
 		if(constructCont.getId()==null){
 			this.noGeneratorBusi.generateNextNo(constructCont);
 		}
+		//TODO 待重构
 		for(ConstructContItem constructContItem:constructCont.getConstructContItems()){
 			constructContItem.setConstructCont(constructCont);
 		}
@@ -69,8 +70,8 @@ public class ConstructContServiceImpl implements ConstructContService {
 	}
 
 	@Override
-	public List<ConstructCont> findByProject(Project project) {
-		return this.constructContRepository.findByConstructKey_Project(project);
+	public List<ConstructCont> findByProjectAndState(Project project,ConstructContState state) {
+		return this.constructContRepository.findByConstructKey_ProjectAndState(project,state);
 	}
 
 	@Override

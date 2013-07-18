@@ -34,6 +34,7 @@ import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertItem;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
+import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
@@ -213,7 +214,7 @@ public class SpConstructcertCtl {
 	public String toCheckEdit(@PathVariable("constructCertId") Long constructCertId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
 		ConstructCert constructCert = constructCertService.find(constructCertId);
 		map.put("constructCert", constructCert);
-		List<ConstructCont> constructContList = constructContService.findByProject(constructCert.getConstructKey().getProject());
+		List<ConstructCont> constructContList = constructContService.findByProjectAndState(constructCert.getConstructKey().getProject(),ConstructContState.finish);
 		map.put("constructContList", constructContList);
 		ConstructCont constructCont=constructContService.findByConstructKey(constructCert.getConstructKey());
 		map.put("constructCont", constructCont);

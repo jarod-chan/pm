@@ -42,7 +42,6 @@ import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
-import cn.fyg.pm.interfaces.web.module.constructcont.flow.ContVarname;
 import cn.fyg.pm.interfaces.web.module.purchasereq.flow.ReqVarname;
 import cn.fyg.pm.interfaces.web.module.purchasereq.query.ReqQuery;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
@@ -201,11 +200,24 @@ public class PurchaseReqCtl {
 		opinion.setUserKey(user.getKey());
 		opinion.setUserName(user.getName());
 		opinionService.append(opinion);
-		runtimeService.setVariableLocal(task.getExecutionId(), ContVarname.OPINION,opinion.getResult().val());
+		//TODO runtimeService.setVariable(),runtimeService.setVariableLocal 两者区别
+		runtimeService.setVariable(task.getExecutionId(),getVarnameByTaskKey(opinion.getTaskKey()),opinion.getResult().val());
 		taskService.complete(task.getId());
 		redirectAttributes
 			.addFlashAttribute(AppConstant.MESSAGE_NAME,info("任务完成"));
 		return "redirect:/task/list";
+	}
+	
+	//TODO  根据任务类型来判断流程变量设置，待修改
+	private String getVarnameByTaskKey(String taskKey){
+		if(taskKey.equals("check-jszg")){
+			return ReqVarname.OPINION_JSZG;
+		}
+		if(taskKey.equals("check-cbzg")){
+			return ReqVarname.OPINION_CBZG;
+		}
+		
+		return ReqVarname.OPINION;
 	}
 	
 	@RequestMapping(value="{purchaseReqId}/checkedit",method=RequestMethod.GET)

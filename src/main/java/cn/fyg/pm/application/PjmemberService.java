@@ -10,6 +10,14 @@ import cn.fyg.pm.domain.model.user.User;
 //TODO 添加用户角色，修改原有方法 
 public interface PjmemberService {
 	
+	/**
+	 * 返回某一角色的用户
+	 * @param projectId
+	 * @param pjroleKey
+	 * @return
+	 */
+	String getUserKey(Long projectId,String pjroleKey);
+	
 	
 	/**
 	 * 获得用户参与项目

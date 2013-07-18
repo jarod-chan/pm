@@ -16,5 +16,16 @@ public interface CertVarname {
 	 *审批意见
 	 */
 	String OPINION="opinion";
+	
+	/**
+	 * 专业分类
+	 */
+	String SPECIALTY="specialty";
+	
+	/**
+	 * 项目id
+	 */
+	String PROJECTID="projectId";
+
 
 }

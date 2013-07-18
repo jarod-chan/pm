@@ -27,9 +27,10 @@ public class ContEnd implements JavaDelegate {
 		constructCont.setSigner(leader);
 		constructCont.setSigndate(new Date());
 		constructCont.setState(ConstructContState.finish);
+		
+		//TODO 重构完成业务逻辑到领域层
 		constructContService.finish(constructCont);
 		
-	
 	}
 
 }

@@ -89,4 +89,21 @@ public class PjmemberServiceImpl implements PjmemberService {
 		}
 		return userToRole;
 	}
+
+	@Override
+	//TODO 修改返回多个人员时的处理方式
+	public String getUserKey(Long projectId, String pjroleKey) {
+		Project project=new Project();
+		project.setId(projectId);
+		Pjrole pjrole=new Pjrole();
+		pjrole.setKey(pjroleKey);
+		List<Pjmember> pjmembers = this.pjmemberRepository.findByProjectAndPjrole(project, pjrole);
+		if(pjmembers.isEmpty()){
+			return "admin";
+		}else if(pjmembers.size()==1){
+			return pjmembers.get(0).getUser().getKey();
+		}else{
+			return "admin";
+		}
+	}
 }

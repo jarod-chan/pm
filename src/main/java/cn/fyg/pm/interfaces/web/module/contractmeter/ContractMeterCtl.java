@@ -32,6 +32,7 @@ import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqState;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.shared.BusiCode;
 import cn.fyg.pm.interfaces.web.module.contractmeter.query.ContractMeterQuery;
@@ -94,7 +95,7 @@ public class ContractMeterCtl {
 		map.put("specialtyList", ContractSpec.values());
 		map.put("contractRiskList", ContractRisk.values());
 		map.put("userList", userService.findAll());
-		List<PurchaseReq> purchaseReqList = purchaseReqService.findByProject(project);
+		List<PurchaseReq> purchaseReqList = purchaseReqService.findByProject(project,PurchaseReqState.finish);
 		map.put("purchaseReqList", purchaseReqList);
 		PurchaseReq purchaseReq = purchaseReqService.findByPurchaseKey(contractMeter.getPurchaseKey());
 		map.put("purchaseReq", purchaseReq);
