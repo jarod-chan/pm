@@ -1,5 +1,6 @@
 package cn.fyg.pm.application.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,12 +63,18 @@ public class PurchaseCertServiceImpl implements PurchaseCertService {
 
 	@Override
 	@Transactional
-	public PurchaseCert finish(PurchaseCert purchaseCert) {
+	public void finish(Long purchaseCertId,String userKey){
+		PurchaseCert purchaseCert = this.purchaseCertRepository.findOne(purchaseCertId);
+		User leader=new User();
+		leader.setKey(userKey);
+		purchaseCert.setSigner(leader);
+		purchaseCert.setSigndate(new Date());
+		purchaseCert.setState(PurchaseCertState.finish);
 		if(purchaseCert.getBusino()==null){
 			NoPatternUnit pu = new PurchaseCertPU(purchaseCert);
 			this.noGeneratorBusi.generateNextNo(pu);
 		}
-		return this.purchaseCertRepository.save(purchaseCert);
+		this.purchaseCertRepository.save(purchaseCert);
 	}
 
 }

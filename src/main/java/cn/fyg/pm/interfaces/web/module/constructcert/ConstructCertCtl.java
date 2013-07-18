@@ -43,7 +43,6 @@ import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
 import cn.fyg.pm.interfaces.web.module.constructcert.flow.CertVarname;
 import cn.fyg.pm.interfaces.web.module.constructcert.query.CertQuery;
-import cn.fyg.pm.interfaces.web.module.constructcont.flow.ContVarname;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
@@ -226,7 +225,8 @@ public class ConstructCertCtl {
 		opinion.setUserKey(user.getKey());
 		opinion.setUserName(user.getName());
 		opinionService.append(opinion);
-		runtimeService.setVariableLocal(task.getExecutionId(), ContVarname.OPINION,opinion.getResult().val());
+		runtimeService.setVariable(task.getProcessInstanceId(), CertVarname.OPINION,opinion.getResult().val());
+		runtimeService.setVariable(task.getProcessInstanceId(), CertVarname.LAST_USERKEY,user.getKey());
 		taskService.complete(task.getId());
 		redirectAttributes
 			.addFlashAttribute(AppConstant.MESSAGE_NAME,info("任务完成"));

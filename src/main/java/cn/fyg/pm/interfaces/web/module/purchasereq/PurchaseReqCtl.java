@@ -200,8 +200,8 @@ public class PurchaseReqCtl {
 		opinion.setUserKey(user.getKey());
 		opinion.setUserName(user.getName());
 		opinionService.append(opinion);
-		//TODO runtimeService.setVariable(),runtimeService.setVariableLocal 两者区别
-		runtimeService.setVariable(task.getExecutionId(),getVarnameByTaskKey(opinion.getTaskKey()),opinion.getResult().val());
+		runtimeService.setVariable(task.getProcessInstanceId(),getVarnameByTaskKey(opinion.getTaskKey()),opinion.getResult().val());
+		runtimeService.setVariable(task.getProcessInstanceId(),ReqVarname.LAST_USERKEY,user.getKey());
 		taskService.complete(task.getId());
 		redirectAttributes
 			.addFlashAttribute(AppConstant.MESSAGE_NAME,info("任务完成"));

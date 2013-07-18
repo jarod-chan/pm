@@ -8,7 +8,6 @@ import cn.fyg.pm.application.ConstructContService;
 import cn.fyg.pm.application.OpinionService;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.contract.ContractSpec;
-import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 
 public class ContBeg implements JavaDelegate {
@@ -23,11 +22,12 @@ public class ContBeg implements JavaDelegate {
 		OpinionService opinionService=(OpinionService) opinionServiceExp.getValue(execution);
 		Long businessId = (Long) execution.getVariableLocal(FlowConstant.BUSINESS_ID);
 		ConstructCont constructCont = constructContService.find(businessId);
-		User leader = constructCont.getLeader();
-		execution.setVariable(ContVarname.LEADER_KEY, leader.getKey());
+		
 		ContractSpec specialty = constructCont.getConstructKey().getContract().getSpecialty();
 		execution.setVariable(ContVarname.SPECIALTY, specialty);
-		execution.setVariable(ContVarname.PROJECTID, constructCont.getConstructKey().getProject().getId());
+		
+		Long projectId = constructCont.getConstructKey().getProject().getId();
+		execution.setVariable(ContVarname.PROJECTID, projectId);
 
 		opinionService.clear(ConstructCont.BUSI_CODE, businessId);
 	}

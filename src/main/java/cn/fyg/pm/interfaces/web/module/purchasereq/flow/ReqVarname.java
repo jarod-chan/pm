@@ -28,13 +28,9 @@ public interface ReqVarname {
 	 */
 	String PROJECTID="projectId";
 
-
 	/**
-	 * 项目负责人
+	 * 最后审批人
 	 */
-	//TODO 去掉
-	String LEADER_KEY="leaderKey";
-	
-
+	String LAST_USERKEY="lastUserKey";
 
 }

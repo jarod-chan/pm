@@ -1,5 +1,6 @@
 package cn.fyg.pm.application.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -87,12 +88,20 @@ public class ConstructContServiceImpl implements ConstructContService {
 
 	@Override
 	@Transactional
-	public ConstructCont finish(ConstructCont constructCont) {
+	public void finish(Long constructContId,String userKey) {
+		ConstructCont constructCont = this.constructContRepository.findOne(constructContId);
+		
+		User leader=new User();
+		leader.setKey(userKey);
+		constructCont.setSigner(leader);
+		constructCont.setSigndate(new Date());
+		constructCont.setState(ConstructContState.finish);
+		
 		if(StringUtils.isBlank(constructCont.getBusino())){			
 			NoPatternUnit pu = new ConstructContPU(constructCont);
 			this.noGeneratorBusi.generateNextNo(pu);
 		}
-		return this.constructContRepository.save(constructCont);
+		this.constructContRepository.save(constructCont);
 	}
 
 }

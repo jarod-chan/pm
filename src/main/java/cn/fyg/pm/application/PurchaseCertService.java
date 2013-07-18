@@ -14,7 +14,7 @@ public interface PurchaseCertService extends ServiceQuery<PurchaseCert> {
 	
 	PurchaseCert save(PurchaseCert purchaseCert);
 	
-	PurchaseCert finish(PurchaseCert purchaseCert);
+	void finish(Long purchaseCertId,String userKey);
 
 	void delete(Long purchaseCertId);
 

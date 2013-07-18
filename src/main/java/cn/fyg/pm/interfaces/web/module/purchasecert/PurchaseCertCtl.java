@@ -217,7 +217,8 @@ public class PurchaseCertCtl {
 		opinion.setUserKey(user.getKey());
 		opinion.setUserName(user.getName());
 		opinionService.append(opinion);
-		runtimeService.setVariableLocal(task.getExecutionId(), ContVarname.OPINION,opinion.getResult().val());
+		runtimeService.setVariable(task.getProcessInstanceId(), ContVarname.OPINION,opinion.getResult().val());
+		runtimeService.setVariable(task.getProcessInstanceId(), ContVarname.LAST_USERKEY,user.getKey());
 		taskService.complete(task.getId());
 		redirectAttributes
 			.addFlashAttribute(AppConstant.MESSAGE_NAME,info("任务完成"));

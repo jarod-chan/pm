@@ -8,9 +8,9 @@ public interface CertVarname {
 	String PROCESS_DEFINITION_KEY="pm-purchasecert-cert";
 
 	/**
-	 * 项目负责人
+	 * 最后审批人
 	 */
-	String LEADER_KEY="leaderKey";
+	String LAST_USERKEY="lastUserKey";
 	
 	/**
 	 *审批意见

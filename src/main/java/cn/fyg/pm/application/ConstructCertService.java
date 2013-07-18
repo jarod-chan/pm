@@ -15,7 +15,7 @@ public interface ConstructCertService extends ServiceQuery<ConstructCert> {
 	
 	ConstructCert save(ConstructCert constructCert);
 	
-	ConstructCert finish(ConstructCert constructCert);
+	void finish(Long constructCertId,String userKey);
 	
 	void delete(Long id);
 

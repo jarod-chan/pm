@@ -8,10 +8,9 @@ public interface ContVarname {
 	String PROCESS_DEFINITION_KEY="pm-constructcert-cont";
 
 	/**
-	 * 项目负责人
+	 * 最后审批人
 	 */
-	//TODO 去掉
-	String LEADER_KEY="leaderKey";
+	String LAST_USERKEY="lastUserKey";
 	
 	/**
 	 *审批意见

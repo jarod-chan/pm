@@ -18,7 +18,7 @@ public interface PurchaseReqService extends ServiceQuery<PurchaseReq> {
 
 	PurchaseReq save(PurchaseReq purchaseReq);
 	
-	PurchaseReq finish(PurchaseReq purchaseReq);
+	PurchaseReq finish(Long purchaseReqId,String userKey);
 	
 	List<PurchaseReq> findByProject(Project project,PurchaseReqState state);
 	

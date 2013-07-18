@@ -1,5 +1,6 @@
 package cn.fyg.pm.application.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,13 +72,21 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 		return this.constructCertRepository.query(ConstructCert.class,querySpec);
 	}
 
+
 	@Override
-	public ConstructCert finish(ConstructCert constructCert) {
+	public void finish(Long constructCertId, String userKey) {
+		ConstructCert constructCert = this.constructCertRepository.findOne(constructCertId);
+		User leader=new User();
+		leader.setKey(userKey);
+		constructCert.setSigner(leader);
+		constructCert.setSigndate(new Date());
+		constructCert.setState(ConstructCertState.finish);
+		
 		if(constructCert.getBusino()==null){
 			ConstructCertPU pu = new ConstructCertPU(constructCert);
 			this.noGeneratorBusi.generateNextNo(pu);
 		}
-		return this.save(constructCert);
+		this.save(constructCert);
 	}
 
 

@@ -182,24 +182,6 @@ public class ConstructContCtl {
 		return map;
 	}
 	
-	//TODO 可以去除 ？
-	@RequestMapping(value="commit",method=RequestMethod.POST)
-	public String commit(@RequestParam("constructContId") Long constructContId,RedirectAttributes redirectAttributes){
-		User user = sessionUtil.getValue("user");
-		String userKey=user.getKey();
-		ConstructCont constructCont = constructContService.find(constructContId);
-		try{
-			Map<String, Object> variableMap = new HashMap<String, Object>();
-			variableMap.put(FlowConstant.BUSINESS_ID, constructCont.getId());
-			variableMap.put(FlowConstant.APPLY_USER, userKey);
-			identityService.setAuthenticatedUserId(userKey);
-			runtimeService.startProcessInstanceByKey(ContVarname.PROCESS_DEFINITION_KEY, variableMap);			
-		} finally {
-			identityService.setAuthenticatedUserId(null);
-		}
-		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("施工联系单：%s已经提交流程！",constructCont.getNo()));
-		return "redirect:list";
-	}
 
 	@RequestMapping(value="delete",method=RequestMethod.POST)
 	public String delete(@RequestParam("constructContId") Long constructContId){
@@ -242,7 +224,8 @@ public class ConstructContCtl {
 		opinion.setUserKey(user.getKey());
 		opinion.setUserName(user.getName());
 		opinionService.append(opinion);
-		runtimeService.setVariableLocal(task.getExecutionId(), ContVarname.OPINION,opinion.getResult().val());
+		runtimeService.setVariable(task.getProcessInstanceId(), ContVarname.OPINION,opinion.getResult().val());
+		runtimeService.setVariable(task.getProcessInstanceId(), ContVarname.LAST_USERKEY,user.getKey());
 		taskService.complete(task.getId());
 		redirectAttributes
 			.addFlashAttribute(AppConstant.MESSAGE_NAME,info("任务完成"));

@@ -1,5 +1,6 @@
 package cn.fyg.pm.application.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +90,13 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 
 	@Override
 	@Transactional
-	public PurchaseReq finish(PurchaseReq purchaseReq) {
+	public PurchaseReq finish(Long purchaseReqId,String userKey){
+		PurchaseReq purchaseReq = this.purchaseReqRepository.findOne(purchaseReqId);
+		User leader=new User();
+		leader.setKey(userKey);
+		purchaseReq.setSigner(leader);
+		purchaseReq.setSigndate(new Date());
+		purchaseReq.setState(PurchaseReqState.finish);
 		if(purchaseReq.getBusino()==null){
 			NoPatternUnit pu = new PurchaseReqPU(purchaseReq);
 			this.noGeneratorBusi.generateNextNo(pu);
