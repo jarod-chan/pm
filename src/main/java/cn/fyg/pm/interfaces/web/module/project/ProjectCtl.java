@@ -56,7 +56,6 @@ public class ProjectCtl {
 	public String toList(ProjectQuery query,Map<String,Object> map){
 		List<Project> projectList = projectService.query(query);
 		map.put("projectList", projectList);
-		map.put("userList", userService.findAll());
 		map.put("query", query);
 		return Page.LIST;
 	}
@@ -66,8 +65,6 @@ public class ProjectCtl {
 	public String toEdit(@PathVariable("projectId") Long projectId,Map<String,Object> map){
 		Project project = projectId.longValue()>0?projectService.find(projectId):projectService.create();
 		map.put("project", project);
-		List<User> userList = userService.findAll();
-		map.put("userList", userList);
 		return Page.EDIT;
 	}
 	

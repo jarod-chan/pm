@@ -65,14 +65,6 @@
 		
 		名称:<input type="text" name="name" value="${query.name}">
 		
-		项目负责人:<select name="leader.key">
-			<option value="" >-所有-</option>
-			<c:forEach var="user" items="${userList}">
-				<option value="${user.key}" <c:if test="${user.key== query.leader.key}">selected="true"</c:if> >${user.name}</option>
-			</c:forEach>
-		</select>
-	
-		
 		<br>
 		排序:<select name="orderAttribute">
 				<c:forEach var="attr" items="${query.orderAttributeList}">
@@ -96,7 +88,8 @@
 	<br>
 	<table id="tblmain" border="1">
 		<tr>
-			<td>编号</td><td>名称</td><td>项目负责人</td>
+			<td>编号</td>
+			<td>名称</td>
 			<td>状态</td>
 			<td>项目投资计划批文</td>
 			<td>土地使用权证</td>
@@ -116,7 +109,8 @@
 		</tr>
 		<c:forEach var="project" items="${projectList}">
 			<tr>
-				<td>${project.no}</td><td>${project.name}</td><td>${project.leader.name}</td>
+				<td>${project.no}</td>
+				<td>${project.name}</td>
 				<td>${project.state.name}</td>
 				<td>${project.inveplan}</td>
 				<td>${project.landuseRight}</td>

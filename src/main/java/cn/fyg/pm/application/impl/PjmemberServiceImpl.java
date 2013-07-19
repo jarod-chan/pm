@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,8 @@ import cn.fyg.pm.domain.model.user.User;
 
 @Service("pjmemberService")
 public class PjmemberServiceImpl implements PjmemberService {
+	
+	private static final Logger logger=LoggerFactory.getLogger(PjmemberServiceImpl.class);
 	
 	@Autowired
 	PjmemberRepository pjmemberRepository;
@@ -99,10 +103,12 @@ public class PjmemberServiceImpl implements PjmemberService {
 		pjrole.setKey(pjroleKey);
 		List<Pjmember> pjmembers = this.pjmemberRepository.findByProjectAndPjrole(project, pjrole);
 		if(pjmembers.isEmpty()){
+			logger.info("cant find user by projectId:[%s] pjroleKey:[%s]", projectId,pjroleKey);
 			return "admin";
 		}else if(pjmembers.size()==1){
 			return pjmembers.get(0).getUser().getKey();
 		}else{
+			logger.info("find too many user  by projectId:[%s] pjroleKey:[%s]", projectId,pjroleKey);
 			return "admin";
 		}
 	}

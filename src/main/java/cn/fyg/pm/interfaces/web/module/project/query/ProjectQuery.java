@@ -12,7 +12,6 @@ import javax.persistence.criteria.Root;
 import org.apache.commons.lang.StringUtils;
 
 import cn.fyg.pm.domain.model.project.Project;
-import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 import cn.fyg.pm.interfaces.web.shared.query.Qitem;
 
@@ -21,8 +20,6 @@ public class ProjectQuery implements QuerySpec<Project> {
 	private String no;//编号
 	
 	private String name;//名称
-	
-	private User leader; // 项目负责人
 	
 	private String orderAttribute;//排序属性
 	
@@ -65,13 +62,6 @@ public class ProjectQuery implements QuerySpec<Project> {
 		this.name = name;
 	}
 
-	public User getLeader() {
-		return leader;
-	}
-
-	public void setLeader(User leader) {
-		this.leader = leader;
-	}
 
 	public String getOrderAttribute() {
 		return orderAttribute;
@@ -102,13 +92,7 @@ public class ProjectQuery implements QuerySpec<Project> {
 		if(StringUtils.isNotBlank(this.getName())){
 			criterias.add(builder.like(from.<String>get("name"), "%"+this.getName().trim()+"%"));
 		}
-		
-		if(this.getLeader()!=null){
-			if(StringUtils.isNotBlank(this.getLeader().getKey())){
-				criterias.add(builder.equal(from.get("leader"), this.getLeader()));
-			}
-		}
-		
+				
 		return criterias;
 	}
 

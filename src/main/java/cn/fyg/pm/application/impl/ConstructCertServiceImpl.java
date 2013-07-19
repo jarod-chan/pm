@@ -15,6 +15,9 @@ import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertRepository;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
+import cn.fyg.pm.domain.model.pjmember.Pjmember;
+import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
+import cn.fyg.pm.domain.model.pjrole.Pjrole;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
@@ -26,6 +29,8 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 	ConstructCertRepository constructCertRepository;
 	@Autowired
 	NoGeneratorBusi noGeneratorBusi;
+	@Autowired
+	PjmemberRepository pjmemberRepository;
 
 	@Override
 	public List<ConstructCert> findAll() {
@@ -59,7 +64,11 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 
 	@Override
 	public ConstructCert create(User user,Project project,ConstructCertState state) {
-		return ConstructCertFactory.create(user,project,state);
+		Pjrole pjrole = new Pjrole();
+		pjrole.setKey("xmfzr");//TODO 固定取项目负责人角色
+		List<Pjmember> pjmembers = this.pjmemberRepository.findByProjectAndPjrole(project, pjrole);
+		User xmfzr = pjmembers.get(0).getUser();
+		return ConstructCertFactory.create(user,xmfzr,project,state);
 	}
 
 	@Override

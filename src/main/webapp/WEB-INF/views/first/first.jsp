@@ -175,7 +175,6 @@
 		<br>
 		名称：${project.name}<br>
 		编号：${project.no}<br>
-		负责人：${project.leader.name}<br>
 		开工日期：<br>
 		成员：<c:forEach var="user" items="${projectUsers}" varStatus="status">${user.name}<c:if test="${!status.last}">,</c:if></c:forEach>
 		<br>

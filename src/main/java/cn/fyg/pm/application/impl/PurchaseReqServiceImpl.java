@@ -10,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.fyg.pm.application.PurchaseReqService;
 import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
 import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
+import cn.fyg.pm.domain.model.pjmember.Pjmember;
+import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
+import cn.fyg.pm.domain.model.pjrole.Pjrole;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
 import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqBusi;
@@ -32,6 +35,8 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 	PurchaseReqBusi purchaseReqBusi;
 	@Autowired
 	NoGeneratorBusi noGeneratorBusi;
+	@Autowired
+	PjmemberRepository pjmemberRepository;
 
 	@Override
 	public List<PurchaseReq> query(QuerySpec<PurchaseReq> querySpec) {
@@ -45,7 +50,11 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 
 	@Override
 	public PurchaseReq create(User creater, Project project,PurchaseReqState state) {
-		return PurchaseReqFactory.create(creater, project, state);
+		Pjrole pjrole = new Pjrole();
+		pjrole.setKey("xmfzr");//TODO 固定取项目负责人角色
+		List<Pjmember> pjmembers = this.pjmemberRepository.findByProjectAndPjrole(project, pjrole);
+		User xmfzr = pjmembers.get(0).getUser();
+		return PurchaseReqFactory.create(creater,xmfzr, project, state);
 	}
 
 	@Override

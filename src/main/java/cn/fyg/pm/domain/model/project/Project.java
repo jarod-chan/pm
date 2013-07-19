@@ -9,8 +9,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,7 +18,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import cn.fyg.pm.domain.model.nogenerator.NoKey;
 import cn.fyg.pm.domain.model.nogenerator.NoPattern;
 import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
-import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.infrastructure.tool.DateUtil;
 
 /**
@@ -36,10 +33,6 @@ public class Project implements NoPatternUnit {
 	private String no; // 编号
 	private String name; // 项目名称
 	
-	@ManyToOne(targetEntity = User.class)
-	@JoinColumn(name = "leader_key")
-	private User leader; // 项目负责人
-
 	@Enumerated(EnumType.STRING)
 	private ProjectStateEnum state;// 项目状态
 
@@ -200,13 +193,6 @@ public class Project implements NoPatternUnit {
 		this.name = name;
 	}
 
-	public User getLeader() {
-		return leader;
-	}
-
-	public void setLeader(User leader) {
-		this.leader = leader;
-	}
 
 	@Override
 	public String toString() {

@@ -10,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.fyg.pm.application.PurchaseCertService;
 import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
 import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
+import cn.fyg.pm.domain.model.pjmember.Pjmember;
+import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
+import cn.fyg.pm.domain.model.pjrole.Pjrole;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCert;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertFactory;
@@ -27,6 +30,8 @@ public class PurchaseCertServiceImpl implements PurchaseCertService {
 	PurchaseCertRepository purchaseCertRepository;
 	@Autowired
 	NoGeneratorBusi noGeneratorBusi;
+	@Autowired
+	PjmemberRepository pjmemberRepository;
 	
 	@Override
 	public List<PurchaseCert> query(QuerySpec<PurchaseCert> querySpec) {
@@ -40,7 +45,11 @@ public class PurchaseCertServiceImpl implements PurchaseCertService {
 
 	@Override
 	public PurchaseCert create(User creater, Project project,PurchaseCertState state) {
-		return PurchaseCertFactory.create(creater, project, state);
+		Pjrole pjrole = new Pjrole();
+		pjrole.setKey("xmfzr");//TODO 固定取项目负责人角色
+		List<Pjmember> pjmembers = this.pjmemberRepository.findByProjectAndPjrole(project, pjrole);
+		User xmfzr = pjmembers.get(0).getUser();
+		return PurchaseCertFactory.create(creater,xmfzr, project, state);
 	}
 
 	@Override

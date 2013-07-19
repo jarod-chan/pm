@@ -61,14 +61,6 @@
 		<input type="text" name="name" value="${project.name}"/>
 		</td></tr>
 		
-		<tr><td>
-		项目负责人：</td><td>
-		<select name="leader.key">
-			<c:forEach var="user" items="${userList}">
-				<option value="${user.key}" <c:if test="${project.leader.key==user.key}">selected="true"</c:if> >${user.name}</option>
-			</c:forEach>
-		</select>
-		</td></tr>
 		
 		<tr><td>
 		项目状态：</td><td>
