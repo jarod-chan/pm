@@ -37,9 +37,12 @@
 	<%@ include file="part/constructcont_view.jsp" %>
 	<br>
 	
+	
+	
 	<form action="${ctx}/constructcont/check" method="post">
 		<input type="hidden" name="taskId" value="${task.id}"/>
 		<input type="hidden" name="businessId" value="${constructCont.id}"/>
+		
 		<div class="chk_div" >
 			<div class="chk_result">
 				审批结果：<select name="result">

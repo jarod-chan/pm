@@ -191,6 +191,9 @@ public class PurchaseCertCtl {
 		PurchaseReq purchaseReq = purchaseReqService.findByPurchaseKey(purchaseCert.getPurchaseKey());
 		map.put("purchaseCert", purchaseCert);
 		map.put("purchaseReq", purchaseReq);
+		List<Opinion> opinions = opinionService.listOpinions(PurchaseCert.BUSI_CODE, purchaseCertId);
+		map.put("opinions", opinions);
+
 		return Page.VIEW;
 	}
 	
@@ -200,9 +203,10 @@ public class PurchaseCertCtl {
 		map.put("purchaseCert", purchaseCert);
 		PurchaseReq purchaseReq = purchaseReqService.findByPurchaseKey(purchaseCert.getPurchaseKey());
 		map.put("purchaseReq", purchaseReq);
-		
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 		map.put("task", task);
+		List<Opinion> opinions = opinionService.listOpinions(PurchaseCert.BUSI_CODE, purchaseCertId);
+		map.put("opinions", opinions);
 		map.put("resultList", ResultEnum.agreeItems());
 		return Page.CHECK;
 	}

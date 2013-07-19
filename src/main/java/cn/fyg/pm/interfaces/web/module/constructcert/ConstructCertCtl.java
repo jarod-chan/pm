@@ -198,6 +198,8 @@ public class ConstructCertCtl {
 		ConstructCont constructCont = constructContService.findByConstructKey(constructCert.getConstructKey());
 		map.put("constructCont", constructCont);
 		map.put("constructCert", constructCert);
+		List<Opinion> opinions = opinionService.listOpinions(ConstructCert.BUSI_CODE, constructCertId);
+		map.put("opinions", opinions);
 		attechTempFile(constructCert);
 		return Page.VIEW;
 	}
@@ -210,6 +212,8 @@ public class ConstructCertCtl {
 		map.put("constructCont", constructCont);
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 		map.put("task", task);
+		List<Opinion> opinions = opinionService.listOpinions(ConstructCert.BUSI_CODE, constructCertId);
+		map.put("opinions", opinions);
 		map.put("resultList", ResultEnum.agreeItems());
 		attechTempFile(constructCert);
 		return Page.CHECK;

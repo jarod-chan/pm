@@ -177,6 +177,8 @@ public class PurchaseReqCtl {
 	public String toView(@PathVariable("purchaseReqId")Long purchaseReqId,Map<String,Object> map){
 		PurchaseReq purchaseReq = purchaseReqService.find(purchaseReqId);
 		map.put("purchaseReq", purchaseReq);
+		List<Opinion> opinions = opinionService.listOpinions(PurchaseReq.BUSI_CODE, purchaseReqId);
+		map.put("opinions", opinions);
 		return Page.VIEW;
 	}
 	
@@ -186,6 +188,8 @@ public class PurchaseReqCtl {
 		map.put("purchaseReq", purchaseReq);
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 		map.put("task", task);
+		List<Opinion> opinions = opinionService.listOpinions(PurchaseReq.BUSI_CODE, purchaseReqId);
+		map.put("opinions", opinions);
 		map.put("resultList", ResultEnum.agreeItems());
 		return Page.CHECK;
 	}

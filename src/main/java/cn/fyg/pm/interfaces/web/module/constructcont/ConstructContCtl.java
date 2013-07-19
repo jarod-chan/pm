@@ -193,6 +193,8 @@ public class ConstructContCtl {
 	public String toView(@PathVariable("constructContId")Long constructContId,Map<String,Object> map,@RequestParam(value="notback",required=false)Boolean notback){
 		ConstructCont constructCont = constructContService.find(constructContId);
 		map.put("constructCont", constructCont);
+		List<Opinion> opinions = opinionService.listOpinions(ConstructCont.BUSI_CODE, constructContId);
+		map.put("opinions", opinions);
 		map.put("notback", notback);
 		return Page.VIEW;
 	}
@@ -210,6 +212,8 @@ public class ConstructContCtl {
 		map.put("constructCont", constructCont);
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 		map.put("task", task);
+		List<Opinion> opinions = opinionService.listOpinions(ConstructCont.BUSI_CODE, constructContId);
+		map.put("opinions", opinions);
 		map.put("resultList", ResultEnum.agreeItems());
 		return Page.CHECK;
 	}
