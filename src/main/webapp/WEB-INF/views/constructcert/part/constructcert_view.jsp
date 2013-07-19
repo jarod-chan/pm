@@ -18,13 +18,11 @@
   </script>
 
 <table id="tabmain">
-		<tr>
-			<td>编号：</td><td>
-			<c:set var="parma_no" value="${constructCert.no}" />
-			<c:set var="parma_busino" value="${constructCert.busino}" />
-			<%@ include file="/component/noShow.jsp" %>	
-			</td>
-		</tr>
+
+		<c:set var="parma_no" value="${constructCert.no}" />
+		<c:set var="parma_busino" value="${constructCert.busino}" />
+		<%@ include file="/component/noShow.jsp" %>	
+
 		<tr>
 			<td>项目：</td><td>${constructCert.constructKey.project.name}</td>
 		</tr>

@@ -199,13 +199,11 @@
 
 	<input type="hidden" name="id" value="${constructCert.id}">
 	<table id="tabmain">
-		<tr>
-			<td>编号：</td><td>
-			<c:set var="parma_no" value="${constructCert.no}" />
-			<c:set var="parma_busino" value="${constructCert.busino}" />
-			<%@ include file="/component/noShow.jsp" %>	
-			</td>
-		</tr>
+
+		<c:set var="parma_no" value="${constructCert.no}" />
+		<c:set var="parma_busino" value="${constructCert.busino}" />
+		<%@ include file="/component/noShow.jsp" %>	
+
 		<tr>
 			<td>项目负责人：</td><td>${constructCert.leader.name}</td>
 		</tr>

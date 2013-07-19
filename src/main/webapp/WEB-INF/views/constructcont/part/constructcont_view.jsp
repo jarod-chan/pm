@@ -12,13 +12,10 @@
     </script>
 
 <table id="tabmain">
-		<tr>
-			<td>编号：</td><td>
-			<c:set var="parma_no" value="${constructCont.no}" />
-			<c:set var="parma_busino" value="${constructCont.busino}" />
-			<%@ include file="/component/noShow.jsp" %>	
-			</td>
-		</tr>
+		<c:set var="parma_no" value="${constructCont.no}" />
+		<c:set var="parma_busino" value="${constructCont.busino}" />
+		<%@ include file="/component/noShow.jsp" %>
+		
 		<tr>
 			<td>项目负责人：</td><td>${constructCont.leader.name}</td>
 		</tr>

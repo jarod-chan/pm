@@ -96,7 +96,7 @@
 	
 	<div style="text-align: left;">
 	<form action="${ctx}/constructcert" method="post">
-		编号:<input type="text" name="no" value="${query.no}">
+		序号:<input type="text" name="no" value="${query.no}">
 		施工承包方:<select name="supplier.id" >
 					<option value="" >-所有-</option>
 					<c:forEach var="supplier" items="${supplierList}">
@@ -139,7 +139,7 @@
 	<br>
 	<table id="tblmain" border="1">
 		<tr>
-			<td>编号</td><td>业务编号</td><td>施工联系单</td><td>施工承包方</td><td>专业分类</td><td>状态</td>
+			<td>序号</td><td>业务编号</td><td>施工联系单</td><td>施工承包方</td><td>专业分类</td><td>状态</td>
 			<td>总金额</td>
 			<td>制单人</td><td>制单日期</td><td>签发人</td><td>签发日期</td><td>结算人</td><td>结算日期</td><td>操作</td>
 		</tr>

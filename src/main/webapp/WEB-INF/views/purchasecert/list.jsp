@@ -95,7 +95,7 @@
 	<h2>价格确认单</h2>
 	<div style="text-align: left;">
 	<form action="${ctx}/purchasecert" method="post">
-		编号:<input type="text" name="no" value="${query.no}">
+		序号:<input type="text" name="no" value="${query.no}">
 		制单日期:<input type="text" name="createdate_beg" class="datePK" value="<fmt:formatDate value="${query.createdate_beg}" pattern="yyyy-MM-dd"/>" >--<input type="text" name="createdate_end" class="datePK" value="<fmt:formatDate value="${query.createdate_end}" pattern="yyyy-MM-dd"/>">
 		<br>
 				状态:<select name="state" >
@@ -129,7 +129,7 @@
 	<br>
 	<table id="tblmain" border="1">
 		<tr>
-			<td>编号</td>
+			<td>序号</td>
 			<td>业务编号</td>
 			<td>采购申请单</td>
 			<td>计划进场时间</td>
