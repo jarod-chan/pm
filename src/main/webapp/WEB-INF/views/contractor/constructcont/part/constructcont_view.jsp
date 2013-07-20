@@ -14,7 +14,7 @@
 <table id="tabmain">
 		<c:set var="parma_no" value="${constructCont.no}" />
 		<c:set var="parma_busino" value="${constructCont.busino}" />
-		<%@ include file="/component/noShow.jsp" %>
+		<%@ include file="/component/noShowBill.jsp" %>
 		<tr>
 			<td>项目负责人：</td><td>${constructCont.leader.name}</td>
 		</tr>

@@ -210,7 +210,7 @@
 
 		<c:set var="parma_no" value="${purchaseCert.no}" />
 		<c:set var="parma_busino" value="${purchaseReq.busino}" />
-		<%@ include file="/component/noShow.jsp" %>	
+		<%@ include file="/component/noShowBill.jsp" %>	
 
 		<tr>
 			<td>项目负责人：</td><td>${purchaseCert.leader.name}</td>

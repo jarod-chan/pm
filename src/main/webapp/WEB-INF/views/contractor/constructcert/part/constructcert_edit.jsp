@@ -192,7 +192,7 @@
 	<table id="tabmain">
 		<c:set var="parma_no" value="${constructCert.no}" />
 		<c:set var="parma_busino" value="${constructCert.busino}" />
-		<%@ include file="/component/noShow.jsp" %>	
+		<%@ include file="/component/noShowBill.jsp" %>	
 		<tr>
 			<td>项目负责人：</td><td>${constructCert.leader.name}</td>
 		</tr>

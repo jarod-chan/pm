@@ -21,7 +21,7 @@
 
 		<c:set var="parma_no" value="${constructCert.no}" />
 		<c:set var="parma_busino" value="${constructCert.busino}" />
-		<%@ include file="/component/noShow.jsp" %>	
+		<%@ include file="/component/noShowBill.jsp" %>	
 
 		<tr>
 			<td>项目：</td><td>${constructCert.constructKey.project.name}</td>
