@@ -201,6 +201,8 @@ public class SpConstructcontCtl {
 	public String toView(@PathVariable("projectId")Long projectId,@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
 		ConstructCont constructCont = constructContService.find(constructContId);
 		map.put("constructCont", constructCont);
+		List<Opinion> opinions = opinionService.listOpinions(ConstructCont.BUSI_CODE, constructContId);
+		map.put("opinions", opinions);
 		return Page.VIEW;
 	}
 	

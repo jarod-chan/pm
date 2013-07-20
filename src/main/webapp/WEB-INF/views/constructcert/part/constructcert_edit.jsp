@@ -36,15 +36,6 @@
 		
 		$("<td>").append($("<input type='text' name='constructCertItems_amount' style='width:100px' />"))
 		  .appendTo(trdom);
-		
-		$("<td>").append($("<input type='button' value='上传文件'>"))
-		  .appendTo(trdom);
-		
-		$("<td>").appendTo(trdom);
-		
-		$("<td>").appendTo(trdom);
-		
-		$("<td>").appendTo(trdom);
 		  
 		 $("<td>")
 			.append($("<input type='button' class='add'  value='+'   />"))
@@ -264,10 +255,6 @@
 		<thead>
 			<tr>
 				<th>序号</th><th>内容</th><th>结算单价</th><th>结算数量</th><th>单位</th><th>结算价格	</th>
-				<th>签证依据	</th>
-				<th>监理意见	</th>
-				<th>现场管理人员意见	</th>
-				<th>项目负责人意见	</th>
 				<th>操作<input type="button" class="addLast" value="+"  /></th>
 			</tr>
 		</thead>
@@ -289,25 +276,6 @@
 					</td>
 					<td><input type='text' name='constructCertItems_amount' value='${item.amount}' style='width:100px' /></td>
 					
-					<td>
-						<c:choose>
-							<c:when test="${not empty item.imgPath}">
-								 <a href="${ctx}/img/${item.imgPath}" target="_blank" >示例图片</a>
-							</c:when>
-							<c:otherwise>
-									<input type="button" value="上传文件">
-							</c:otherwise>
-						</c:choose>
-					</td>
-					<td>
-						${item.superOpinion.name}
-					</td>
-					<td>
-						${item.manageOpinion.name}
-					</td>
-					<td>
-						${item.leaderOpinion.name}
-					</td>
 					<td><input type='button' class='add'  value='+'   /><input type='button' class='remove'  value='-'   /></td>
 				</tr>
 			</c:forEach>

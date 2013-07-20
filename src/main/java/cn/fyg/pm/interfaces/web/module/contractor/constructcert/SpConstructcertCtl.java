@@ -120,23 +120,7 @@ public class SpConstructcertCtl {
 		ConstructCont constructCont=constructContService.findByConstructKey(constructCert.getConstructKey());
 		map.put("constructCont", constructCont);
 		map.put("certItemOpinionList", CertItemOpinion.values());
-		attechTempFile(constructCert);
 		return Page.EDIT;
-	}
-	
-	/**
-	 * 添加临时附件
-	 * @param constructCert
-	 */
-	private void attechTempFile(ConstructCert constructCert) {
-		//临时附件
-		if(constructCert.getConstructCertItems()!=null&&!constructCert.getConstructCertItems().isEmpty()){
-			int i=0;
-			for (ConstructCertItem constructCertItem : constructCert.getConstructCertItems()) {
-				if(i%2==0) constructCertItem.setImgPath("imgpath.jpg");
-				i++;
-			}
-		}
 	}
 
 	@RequestMapping(value="saveEdit",method=RequestMethod.POST)
@@ -206,7 +190,6 @@ public class SpConstructcertCtl {
 		ConstructCont constructCont = constructContService.findByConstructKey(constructCert.getConstructKey());
 		map.put("constructCont", constructCont);
 		map.put("constructCert", constructCert);
-		attechTempFile(constructCert);
 		return Page.VIEW;
 	}
 	
@@ -222,7 +205,6 @@ public class SpConstructcertCtl {
 		List<Opinion> opinionList = opinionService.listOpinions(ConstructCert.BUSI_CODE, constructCertId);
 		map.put("opinionList", opinionList);
 		map.put("certItemOpinionList", CertItemOpinion.values());
-		attechTempFile(constructCert);
 		return Page.CHECK_EDIT;
 	}
 	

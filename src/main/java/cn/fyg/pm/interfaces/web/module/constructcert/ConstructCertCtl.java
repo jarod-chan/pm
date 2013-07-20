@@ -110,24 +110,7 @@ public class ConstructCertCtl {
 		ConstructCont constructCont=constructContService.findByConstructKey(constructCert.getConstructKey());
 		map.put("constructCont", constructCont);
 		map.put("certItemOpinionList", CertItemOpinion.values());
-		attechTempFile(constructCert);
 		return Page.EDIT;
-	}
-
-	//TODO 临时附件待处理
-	/**
-	 * 添加临时附件
-	 * @param constructCert
-	 */
-	private void attechTempFile(ConstructCert constructCert) {
-		//临时附件
-		if(constructCert.getConstructCertItems()!=null&&!constructCert.getConstructCertItems().isEmpty()){
-			int i=0;
-			for (ConstructCertItem constructCertItem : constructCert.getConstructCertItems()) {
-				if(i%2==0) constructCertItem.setImgPath("imgpath.jpg");
-				i++;
-			}
-		}
 	}
 
 	@RequestMapping(value="saveEdit",method=RequestMethod.POST)
@@ -200,7 +183,6 @@ public class ConstructCertCtl {
 		map.put("constructCert", constructCert);
 		List<Opinion> opinions = opinionService.listOpinions(ConstructCert.BUSI_CODE, constructCertId);
 		map.put("opinions", opinions);
-		attechTempFile(constructCert);
 		return Page.VIEW;
 	}
 	
@@ -215,7 +197,6 @@ public class ConstructCertCtl {
 		List<Opinion> opinions = opinionService.listOpinions(ConstructCert.BUSI_CODE, constructCertId);
 		map.put("opinions", opinions);
 		map.put("resultList", ResultEnum.agreeItems());
-		attechTempFile(constructCert);
 		return Page.CHECK;
 	}
 	
@@ -249,7 +230,6 @@ public class ConstructCertCtl {
 		List<Opinion> opinionList = opinionService.listOpinions(ConstructCert.BUSI_CODE, constructCertId);
 		map.put("opinionList", opinionList);
 		map.put("certItemOpinionList", CertItemOpinion.values());
-		attechTempFile(constructCert);
 		return Page.CHECK_EDIT;
 	}
 	

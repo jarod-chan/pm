@@ -18,9 +18,10 @@
   </script>
 
 <table id="tabmain">
-		<tr>
-			<td>编号：</td><td>${constructCert.no}</td>
-		</tr>
+		<c:set var="parma_no" value="${constructCert.no}" />
+		<c:set var="parma_busino" value="${constructCert.busino}" />
+		<%@ include file="/component/noShow.jsp" %>	
+		
 		<tr>
 			<td>项目：</td><td>${constructCert.constructKey.project.name}</td>
 		</tr>
@@ -75,10 +76,6 @@
 	<thead>
 		<tr>
 			<th>序号</th><th>内容</th><th>结算单价</th><th>结算数量</th><th>单位</th><th>结算价格	</th>
-			<th>签证依据	</th>
-			<th>监理意见	</th>
-			<th>现场管理人员意见	</th>
-			<th>项目负责人意见	</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -90,26 +87,9 @@
 				<td>${item.numb}</td>
 				<td>${item.unit}</td>
 				<td>${item.amount}</td>
-				<td>
-					<c:choose>
-						<c:when test="${not empty item.imgPath}">
-							 <a href="${ctx}/img/${item.imgPath}" target="_blank" >示例图片</a>
-						</c:when>
-						<c:otherwise>
-								----
-						</c:otherwise>
-					</c:choose>
-				</td>
-				<td>
-					${item.superOpinion.name}
-				</td>
-				<td>
-					${item.manageOpinion.name}
-				</td>
-				<td>
-					${item.leaderOpinion.name}
-				</td>
 			</tr>
 		</c:forEach>
 	</tbody>
 	</table>
+	
+	<%@ include file="/component/opinionDiv.jsp" %>
