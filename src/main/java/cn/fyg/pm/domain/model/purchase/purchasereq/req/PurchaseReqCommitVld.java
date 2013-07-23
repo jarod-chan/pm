@@ -29,7 +29,7 @@ public class PurchaseReqCommitVld extends CommonValidator<PurchaseReq> {
 	}
 
 	private void verifyItem(PurchaseReqItem purchaseReqItem, CommonResult result) {
-		String messsage=String.format("序号为%s的签证项目【材料名称】,【型号规格和技术指标】，【单位】，【数量】不能为空", purchaseReqItem.getSn());
+		String messsage=String.format("序号为%s的采购项目【材料名称】,【型号规格和技术指标】，【单位】，【数量】不能为空", purchaseReqItem.getSn());
 		if(StringUtils.isBlank(purchaseReqItem.getMetername())){
 			result.append(messsage);
 			return;

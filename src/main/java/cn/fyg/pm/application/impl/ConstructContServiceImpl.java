@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ConstructContService;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
+import cn.fyg.pm.domain.model.construct.constructcont.ConstructContCommitVld;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContFactory;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContItem;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContPU;
@@ -25,6 +26,7 @@ import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
+import cn.fyg.pm.domain.shared.verify.Result;
 
 @Service("constructContService")
 public class ConstructContServiceImpl implements ConstructContService {
@@ -110,6 +112,13 @@ public class ConstructContServiceImpl implements ConstructContService {
 			this.noGeneratorBusi.generateNextNo(pu);
 		}
 		this.constructContRepository.save(constructCont);
+	}
+
+	@Override
+	public Result verifyForCommit(ConstructCont constructCont) {
+		ConstructContCommitVld vld = new ConstructContCommitVld();
+		vld.setValObject(constructCont);
+		return vld.verify();
 	}
 
 }
