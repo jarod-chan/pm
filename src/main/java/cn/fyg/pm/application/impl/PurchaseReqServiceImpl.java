@@ -19,12 +19,14 @@ import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqBusi;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.PurchaseReqItem;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqCommitVld;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqFactory;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqPU;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqRepository;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqState;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
+import cn.fyg.pm.domain.shared.verify.Result;
 
 @Service("purchaseReqService")
 public class PurchaseReqServiceImpl implements PurchaseReqService {
@@ -111,6 +113,13 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 			this.noGeneratorBusi.generateNextNo(pu);
 		}
 		return this.save(purchaseReq);
+	}
+
+	@Override
+	public Result verifyForCommit(PurchaseReq purchaseReq) {
+		PurchaseReqCommitVld vld=new PurchaseReqCommitVld();
+		vld.setValObject(purchaseReq);
+		return vld.verify();
 	}
 
 }

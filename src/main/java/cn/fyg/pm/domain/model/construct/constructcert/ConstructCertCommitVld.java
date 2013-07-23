@@ -31,12 +31,12 @@ public class ConstructCertCommitVld extends CommonValidator<ConstructCert> {
 			return result.append("签证项目不能为空");
 		}
 		for (ConstructCertItem constructCertItem : constructCert.getConstructCertItems()) {
-			verify(constructCertItem,result);
+			verifyItem(constructCertItem,result);
 		}
 		return result;
 	}
 
-	private void verify(ConstructCertItem constructCertItem, CommonResult result) {
+	private void verifyItem(ConstructCertItem constructCertItem, CommonResult result) {
 		String messsage=String.format("序号为%s的签证项目【内容】,【结算单价】，【结算数量】，【结算价格】不能为空", constructCertItem.getSn());
 		if(StringUtils.isBlank(constructCertItem.getContent())){
 			result.append(messsage);
