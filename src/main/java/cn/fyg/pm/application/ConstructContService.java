@@ -27,7 +27,8 @@ public interface ConstructContService extends ServiceQuery<ConstructCont> {
 
 	ConstructCont create(User creater,Project project, ConstructContState state);
 
-	List<ConstructCont> findByProjectAndState(Project project,ConstructContState state);
+	List<ConstructCont> constructContCanBeSelected(Project project,ConstructContState state,Long constructCertId);
 	
-	List<ConstructCont> findByProjectAndSupplier(Project project,Supplier supplier);
+	List<ConstructCont> findConstructContCanBeSelectedSupplier(Project project,Long constructCertId,Supplier supplier);
+	
 }

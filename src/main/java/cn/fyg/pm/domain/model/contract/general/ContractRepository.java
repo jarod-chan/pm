@@ -20,7 +20,7 @@ public interface ContractRepository extends Repository<Contract,Long>,Repository
 	
 	List<Contract> findByProject(Project project);
 
-	List<Contract> findByProjectAndType(Project project,ContractType contractType);
+	List<Contract> findByProjectAndTypeOrderByIdDesc(Project project,ContractType contractType);
 
 	List<Contract> findBySupplier(Supplier supplier);
 

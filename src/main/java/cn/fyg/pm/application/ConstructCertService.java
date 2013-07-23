@@ -8,6 +8,7 @@ import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.domain.shared.verify.Result;
 
 public interface ConstructCertService extends ServiceQuery<ConstructCert> {
 	
@@ -16,6 +17,8 @@ public interface ConstructCertService extends ServiceQuery<ConstructCert> {
 	ConstructCert save(ConstructCert constructCert);
 	
 	void finish(Long constructCertId,String userKey);
+	
+	void Invalid(Long constructCertId);
 	
 	void delete(Long id);
 
@@ -26,5 +29,7 @@ public interface ConstructCertService extends ServiceQuery<ConstructCert> {
 	ConstructCert find(Long certid);
 	
 	ConstructCert create(User user,Project project,ConstructCertState state);
+	
+	Result verifyForCommit(ConstructCert constructCert);
 
 }

@@ -144,12 +144,6 @@
 		$(".add").bind("click",add);
 	 	$(".remove").bind("click",remove);
     	
-    	$("select:eq(0)").change(function(){
-    		var opt=$(this).find("option:selected").text();
-    		var idx=opt.lastIndexOf("-");
-    		$("#supplier_name").html(opt.substring(idx+1));
-    	})
-    	$("select:eq(0)").triggerHandler("change");
     	
     	<c:if test="${fn:length(constructCont.constructContItems)==0}">
     	$(".addLast").triggerHandler("click");
@@ -180,7 +174,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td>施工承包方：</td><td><span id="supplier_name"></span></td>
+			<td>施工承包方：</td><td><span id="supplier_name">${constructCont.constructKey.supplier.name}</span></td>
 		</tr>
 		<tr>
 			<td style="vertical-align: top">原因：</td><td><textarea name="reason" rows="6" cols="30" style="vertical-align: top">${constructCont.reason}</textarea></td>

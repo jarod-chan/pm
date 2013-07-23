@@ -22,6 +22,7 @@
 					'清空': function() {
 						$("#spanContract").html("");
 						$("#spanContract").next().val("");
+						$("#supplier_name").html("");
 						$(this).dialog( "close" );
 					}
 				}
@@ -30,6 +31,7 @@
 				var param=jQuery.parseJSON($(this).attr("param"));
 				$("#spanContract").html(param.no);
 				$("#spanContract").next().val(param.id);
+				$("#supplier_name").html(param.supplierName);
 				$( "#selContract" ).dialog("close");
 			})
 			$("#selContract tbody tr").mouseover(function() {
@@ -61,7 +63,7 @@
 					<td>${contract.supplier.name}</td>
 					<td>${contract.state.name}</td>
 					<td>${contract.specialty.name}</td>
-					<td><input class="chkreq" type="button" value="选中" param='{"id":"${contract.id}","no":"${contract.no}"}'> </td>
+					<td><input class="chkreq" type="button" value="选中" param='{"id":"${contract.id}","no":"${contract.no}","supplierName":"${contract.supplier.name}"}'> </td>
 				</tr>
 			</c:forEach>
 			</tbody>

@@ -64,7 +64,7 @@ public class ContractServiceImpl implements ContractService {
 
 	@Override
 	public List<Contract> findByProjectAndType(Project project,ContractType contractType) {
-		return contractRepository.findByProjectAndType(project,contractType);
+		return contractRepository.findByProjectAndTypeOrderByIdDesc(project,contractType);
 	}
 
 	@Override

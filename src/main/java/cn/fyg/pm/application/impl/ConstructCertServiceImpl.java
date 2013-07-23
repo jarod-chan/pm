@@ -9,11 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ConstructCertService;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
+import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertCommitVld;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertFactory;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertPU;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertRepository;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
+import cn.fyg.pm.domain.model.construct.constructkey.ConstructKeyRepository;
 import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
@@ -21,6 +23,7 @@ import cn.fyg.pm.domain.model.pjrole.Pjrole;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
+import cn.fyg.pm.domain.shared.verify.Result;
 
 @Service("constructCertService")
 public class ConstructCertServiceImpl implements ConstructCertService {
@@ -31,6 +34,8 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 	NoGeneratorBusi noGeneratorBusi;
 	@Autowired
 	PjmemberRepository pjmemberRepository;
+	@Autowired
+	ConstructKeyRepository constructKeyRepository;
 
 	@Override
 	public List<ConstructCert> findAll() {
@@ -96,6 +101,34 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 			this.noGeneratorBusi.generateNextNo(pu);
 		}
 		this.save(constructCert);
+	}
+
+	@Override
+	public Result verifyForCommit(ConstructCert constructCert) {
+		ConstructKey constructKey = this.constructKeyRepository.findOne(constructCert.getConstructKey().getId());
+		constructCert.setConstructKey(constructKey);
+		//TODO 检查是否被其它联系单关联
+		ConstructCert conflictConstructCert=null;
+		if(constructKey.getConstructcert_id()!=null&&!constructKey.getConstructcert_id().equals(constructCert.getId())){
+			conflictConstructCert=this.constructCertRepository.findOne(constructKey.getConstructcert_id());
+		}
+		ConstructCertCommitVld val=new ConstructCertCommitVld();
+		val.setValObject(constructCert);
+		val.setConflictConstructCert(conflictConstructCert);
+		Result result=val.verify();
+		this.constructKeyRepository.save(constructCert.getConstructKey());
+		return result;
+	}
+
+	@Override
+	@Transactional
+	public void Invalid(Long constructCertId) {
+		ConstructCert constructCert = this.constructCertRepository.findOne(constructCertId);
+		constructCert.setState(ConstructCertState.invalid);
+		ConstructKey constructKey = constructCert.getConstructKey();
+		constructKey.setConstructcert_id(null);
+		this.constructKeyRepository.save(constructKey);
+		this.constructCertRepository.save(constructCert);
 	}
 
 

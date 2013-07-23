@@ -35,6 +35,8 @@ public class ConstructKey {
 	@ManyToOne(targetEntity=Supplier.class)
 	@JoinColumn(name="supplier_id")
 	private Supplier supplier;  //供应商
+	
+	private Long constructcert_id;//签证单id 
 
 	public long getId() {
 		return id;
@@ -42,6 +44,14 @@ public class ConstructKey {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+	
+	public Long getConstructcert_id() {
+		return constructcert_id;
+	}
+
+	public void setConstructcert_id(Long constructcert_id) {
+		this.constructcert_id = constructcert_id;
 	}
 
 	public Contract getContract() {

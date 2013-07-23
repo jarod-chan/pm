@@ -1,5 +1,6 @@
 package cn.fyg.pm.interfaces.web.module.contractor.constructcert;
 
+import static cn.fyg.pm.interfaces.web.shared.message.Message.error;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,12 +36,12 @@ import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertItem;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
-import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
+import cn.fyg.pm.domain.shared.verify.Result;
 import cn.fyg.pm.interfaces.web.module.constructcert.ConstructCertAssembler;
 import cn.fyg.pm.interfaces.web.module.constructcert.ConstructCertDto;
 import cn.fyg.pm.interfaces.web.module.constructcert.flow.CertVarname;
@@ -115,7 +117,7 @@ public class SpConstructcertCtl {
 		 
 		ConstructCert constructCert =constructCertId.longValue()>0?constructCertService.find(constructCertId):constructCertService.create(user,project,ConstructCertState.new_) ;
 		map.put("constructCert", constructCert);
-		List<ConstructCont> constructContList = constructContService.findByProjectAndSupplier(project, supplier);
+		List<ConstructCont> constructContList = constructContService.findConstructContCanBeSelectedSupplier(project,constructCertId,supplier);
 		map.put("constructContList", constructContList);
 		ConstructCont constructCont=constructContService.findByConstructKey(constructCert.getConstructKey());
 		map.put("constructCont", constructCont);
@@ -147,11 +149,20 @@ public class SpConstructcertCtl {
 			return "redirect:list";
 		}
 		if(afteraction.equals("commit")){
-			constructCert.setState(ConstructCertState.commit);
-			constructCert=constructCertService.save(constructCert);
-			commit(constructCert, user);
-			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
-			return "redirect:list";
+			if(afteraction.equals("save")){
+				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("保存成功！"));
+				return "redirect:list";
+			}
+			if(afteraction.equals("commit")){
+				Result result=commit(constructCert, user);
+				if(result.notPass()){
+					redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
+					return String.format("redirect:%s/edit",constructCert.getId());
+				}else{				
+					redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
+					return "redirect:list";
+				}
+			}
 		}
 		
 		return "";
@@ -165,7 +176,12 @@ public class SpConstructcertCtl {
 		return constructCertMap;
 	}
 	
-	private void commit(ConstructCert constructCert, User user) {
+	@Transactional
+	private Result commit(ConstructCert constructCert, User user) {
+		Result result = this.constructCertService.verifyForCommit(constructCert);
+		if(result.notPass()) return result;
+		constructCert.setState(ConstructCertState.commit);
+		constructCert=constructCertService.save(constructCert);
 		String userKey=user.getKey();
 		try{
 			Map<String, Object> variableMap = new HashMap<String, Object>();
@@ -176,6 +192,7 @@ public class SpConstructcertCtl {
 		} finally {
 			identityService.setAuthenticatedUserId(null);
 		}
+		return result;
 	}
 	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
@@ -197,7 +214,7 @@ public class SpConstructcertCtl {
 	public String toCheckEdit(@PathVariable("constructCertId") Long constructCertId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
 		ConstructCert constructCert = constructCertService.find(constructCertId);
 		map.put("constructCert", constructCert);
-		List<ConstructCont> constructContList = constructContService.findByProjectAndState(constructCert.getConstructKey().getProject(),ConstructContState.finish);
+		List<ConstructCont> constructContList = constructContService.findConstructContCanBeSelectedSupplier(constructCert.getConstructKey().getProject(),constructCertId,constructCert.getConstructKey().getSupplier());
 		map.put("constructContList", constructContList);
 		ConstructCont constructCont=constructContService.findByConstructKey(constructCert.getConstructKey());
 		map.put("constructCont", constructCont);
@@ -230,17 +247,30 @@ public class SpConstructcertCtl {
 		}
 		if(afteraction.equals("commit")){
 			User user = sessionUtil.getValue("user");
-			try{
-				identityService.setAuthenticatedUserId(user.getKey());
-				taskService.complete(taskId);
-			} finally {
-				identityService.setAuthenticatedUserId(null);
+			Result result =commitCheck(constructCert,user,taskId);
+			if(result.notPass()){
+				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
+				return String.format("redirect:%s/checkedit",constructCert.getId());
+			}else{				
+				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
+				return "redirect:/task/list";
 			}
-			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
-			return "redirect:/task/list";
 		}
 		
 		return "";
 
+	}
+	
+	@Transactional
+	private Result commitCheck(ConstructCert constructCert,User user,String taskId){
+		Result result = this.constructCertService.verifyForCommit(constructCert);
+		if(result.notPass()) return result;
+		try{
+			identityService.setAuthenticatedUserId(user.getKey());
+			taskService.complete(taskId);
+		} finally {
+			identityService.setAuthenticatedUserId(null);
+		}
+		return result;
 	}
 }

@@ -21,6 +21,7 @@
 					'清空': function() {
 						$("#spanConstructCont").html("");
 						$("#spanConstructCont").next().val("");
+						$("#supplier_name").html("");
 						$(this).dialog( "close" );
 					}
 				}
@@ -29,7 +30,8 @@
 				var param=jQuery.parseJSON($(this).attr("param"));
 				$("#spanConstructCont").html(param.no);
 				$("#spanConstructCont").next().val(param.id);
-				$( "#selConstructCont" ).dialog("close");
+				$("#supplier_name").html(param.supplierName);
+				$("#selConstructCont" ).dialog("close");
 			})
 			$("#selConstructCont tbody tr").mouseover(function() {
 			  	$(this).addClass("high-color");
@@ -43,7 +45,7 @@
 			<table border="1">
 				<thead>
 					<tr>
-						<td>编号</td>
+						<td>序号</td>
 						<td>合同</td>
 						<td>施工承包方</td>
 						<td>专业分类</td>
@@ -63,7 +65,7 @@
 						<td>${constructCont.tolsum}</td>
 						<td>${constructCont.creater.name}</td>
 						<td><f:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
-						<td><input class="chkreq" type="button" value="选中" param='{"id":"${constructCont.constructKey.id}","no":"${constructCont.no}"}'> </td>
+						<td><input class="chkreq" type="button" value="选中" param='{"id":"${constructCont.constructKey.id}","no":"${constructCont.no}","supplierName":"${constructCont.constructKey.supplier.name}"}'> </td>
 					</tr>
 				</c:forEach>
 				</tbody>

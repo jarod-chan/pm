@@ -80,8 +80,8 @@ public class ConstructContServiceImpl implements ConstructContService {
 	}
 
 	@Override
-	public List<ConstructCont> findByProjectAndState(Project project,ConstructContState state) {
-		return this.constructContRepository.findByConstructKey_ProjectAndState(project,state);
+	public List<ConstructCont> constructContCanBeSelected(Project project,ConstructContState state,Long constructCertId) {
+		return this.constructContRepository.findConstructContCanBeSelected(project,state,constructCertId);
 	}
 
 	@Override
@@ -90,9 +90,8 @@ public class ConstructContServiceImpl implements ConstructContService {
 	}
 
 	@Override
-	public List<ConstructCont> findByProjectAndSupplier(Project project,
-			Supplier supplier) {
-		return this.constructContRepository.findByConstructKey_ProjectAndConstructKey_Supplier(project,supplier);
+	public List<ConstructCont> findConstructContCanBeSelectedSupplier(Project project,Long constructCertId,Supplier supplier) {
+		return this.constructContRepository.findConstructContCanBeSelectedSupplier(project,ConstructContState.finish,constructCertId,supplier);
 	}
 
 	@Override
