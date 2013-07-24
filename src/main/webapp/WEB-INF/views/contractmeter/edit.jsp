@@ -177,7 +177,7 @@
 				<table id="purchaseReqItem" border="1">
 				<thead>
 					<tr>
-						<th>勾选</th><th>序号</th><th>材料名称</th><th>型号规格和技术指标</th><th>执行结果</th>
+						<th>勾选</th><th>序号</th><th>材料名称</th><th>型号规格和技术指标</th><th>单位</th><th>数量</th><th>推荐品牌</th><th>执行结果</th>
 					</tr>
 				</thead>
 				<tbody>

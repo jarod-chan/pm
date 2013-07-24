@@ -1,5 +1,7 @@
 package cn.fyg.pm.interfaces.web.module.purchasereq;
 
+import java.math.BigDecimal;
+
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 
 public class ReqItemDto {
@@ -15,6 +17,12 @@ public class ReqItemDto {
 	private String metername;//材料名称
 	
 	private String spec;//规格型号，技术指标
+	
+	private String unit;//单位
+	
+	private BigDecimal numb;//数量
+	
+	private String brand;//推荐品牌
 
 	private String upno;//关联单据类型
 	
@@ -137,6 +145,30 @@ public class ReqItemDto {
 
 	public void setUptypeName(String uptypeName) {
 		this.uptypeName = uptypeName;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public BigDecimal getNumb() {
+		return numb;
+	}
+
+	public void setNumb(BigDecimal numb) {
+		this.numb = numb;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
 	}
 	
 	

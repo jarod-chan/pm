@@ -1,5 +1,6 @@
 package cn.fyg.pm.interfaces.web.module.purchasecert;
 
+import static cn.fyg.pm.interfaces.web.shared.message.Message.error;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -42,6 +44,7 @@ import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
+import cn.fyg.pm.domain.shared.verify.Result;
 import cn.fyg.pm.interfaces.web.module.constructcont.flow.ContVarname;
 import cn.fyg.pm.interfaces.web.module.purchasecert.flow.CertVarname;
 import cn.fyg.pm.interfaces.web.module.purchasecert.query.CertQuery;
@@ -145,18 +148,26 @@ public class PurchaseCertCtl {
 			return "redirect:list";
 		}
 		if(afteraction.equals("commit")){
-			purchaseCert.setState(PurchaseCertState.commit);
-			purchaseCert=purchaseCertService.save(purchaseCert);
-			commit(purchaseCert, user);
-			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
-			return "redirect:list";
+			Result result = commit(purchaseCert, user);
+			if(result.notPass()){
+				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
+				return String.format("redirect:%s/edit",purchaseCert.getId());
+			}else{				
+				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
+				return "redirect:list";
+			}
 		}
 		
 		return "";
 	
 	}
 
-	private void commit(PurchaseCert purchaseCert, User user) {
+	@Transactional
+	private Result commit(PurchaseCert purchaseCert, User user) {
+		Result result = this.purchaseCertService.verifyForCommit(purchaseCert);
+		if(result.notPass()) return result;
+		purchaseCert.setState(PurchaseCertState.commit);
+		purchaseCert=purchaseCertService.save(purchaseCert);
 		String userKey=user.getKey();
 		try{
 			Map<String, Object> variableMap = new HashMap<String, Object>();
@@ -167,6 +178,7 @@ public class PurchaseCertCtl {
 		} finally {
 			identityService.setAuthenticatedUserId(null);
 		}
+		 return result;
 	}
 
 	private Map<Long, PurchaseCertItem> getConstructCertMap(List<PurchaseCertItem> purchaseCertItems) {
@@ -269,18 +281,31 @@ public class PurchaseCertCtl {
 		}
 		if(afteraction.equals("commit")){
 			User user = sessionUtil.getValue("user");
-			try{
-				identityService.setAuthenticatedUserId(user.getKey());
-				taskService.complete(taskId);
-			} finally {
-				identityService.setAuthenticatedUserId(null);
-			}
-			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
-			return "redirect:/task/list";
+			Result result = commitCheck(purchaseCert,user,taskId);
+			if(result.notPass()){
+				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
+				return String.format("redirect:%s/checkedit",purchaseCert.getId());
+			}else{				
+				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
+				return "redirect:/task/list";
+			}	
 		}
 		
 		return "";
 	
+	}
+	
+	@Transactional
+	private Result commitCheck(PurchaseCert purchaseCert,User user,String taskId){
+		Result result = this.purchaseCertService.verifyForCommit(purchaseCert);
+		if(result.notPass()) return result;
+		try{
+			identityService.setAuthenticatedUserId(user.getKey());
+			taskService.complete(taskId);
+		} finally {
+			identityService.setAuthenticatedUserId(null);
+		}
+		return result;
 	}
 
 }

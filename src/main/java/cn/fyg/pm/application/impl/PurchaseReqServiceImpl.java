@@ -79,7 +79,7 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 
 	@Override
 	public List<PurchaseReq> findByProject(Project project,PurchaseReqState state) {
-		return this.purchaseReqRepository.findByPurchaseKey_ProjectAndState(project,state);
+		return this.purchaseReqRepository.findByPurchaseKey_ProjectAndStateOrderByIdDesc(project,state);
 	}
 
 	@Override

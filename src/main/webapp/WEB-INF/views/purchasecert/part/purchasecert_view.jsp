@@ -31,7 +31,7 @@
 				<table id="purchaseReqItem" border="1">
 				<thead>
 					<tr>
-						<th>序号</th><th>材料名称</th><th>型号规格和技术指标</th><th>执行结果</th>
+						<th>序号</th><th>材料名称</th><th>型号规格和技术指标</th><th>单位</th><th>数量</th><th>推荐品牌</th><th>执行结果</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -40,6 +40,9 @@
 							<td>${item.sn}</td>
 							<td>${item.metername}</td>
 							<td>${item.spec}</td>
+							<td>${item.unit}</td>
+							<td>${item.numb}</td>
+							<td>${item.brand}</td>
 							<td>
 							<c:if test="${not empty item.upid}">
 							${item.uptype.name}[${item.upno}]执行采购
@@ -53,12 +56,6 @@
 		</tr>
 		<tr>
 			<td style="vertical-align: top">说明：</td><td>${purchaseCert.descrp}</td>
-		</tr>
-			<tr>
-			<td>计划进场日期：</td>
-			<td>
-				<fmt:formatDate value="${purchaseCert.plandate}" pattern="yyyy-MM-dd"/>
-			</td>
 		</tr>
 		<tr>
 			<td>状态：</td><td>${purchaseCert.state.name}</td>
@@ -94,7 +91,7 @@
 
 	</table>
 	<br>
-	<br>
+	确认项目
 	<table id="tabitem" border="1">
 	<thead>
 		<tr>

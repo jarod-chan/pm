@@ -132,7 +132,6 @@
 			<td>序号</td>
 			<td>业务编号</td>
 			<td>采购申请单</td>
-			<td>计划进场时间</td>
 			<td>状态</td>
 			<td>制单人</td>
 			<td>制单日期</td>
@@ -147,7 +146,6 @@
 				<td>${item.purchaseCert.no}</td>
 				<td>${item.purchaseCert.busino}</td>
 				<td>${item.purchaseReq.no}</td>
-				<td>${item.purchaseCert.plandate}</td>
 				<td><span class="state state-${item.purchaseCert.state}" >${item.purchaseCert.state.name}</span></td>
 				<td>${item.purchaseCert.creater.name}</td>
 				<td><fmt:formatDate value="${item.purchaseCert.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>

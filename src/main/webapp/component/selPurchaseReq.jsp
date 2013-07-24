@@ -22,7 +22,12 @@
 	   		$("<td>").appendTo(itemdom);
 	   		
 	   		$("<td>").appendTo(itemdom);
-	    		  
+	   		
+	   		$("<td>").appendTo(itemdom);
+	    	
+	   		$("<td>").appendTo(itemdom);
+	   		
+	   		$("<td>").appendTo(itemdom);
 	    		 
 	       	var warpLi=function(item){
 	       		var newItemdom=itemdom.clone();
@@ -35,8 +40,11 @@
 	       		newItemdom.find("td:eq(1)").html(item.sn);
 	       		newItemdom.find("td:eq(2)").html(item.metername);
 	       		newItemdom.find("td:eq(3)").html(item.spec);
+	       		newItemdom.find("td:eq(4)").html(item.unit);
+	       		newItemdom.find("td:eq(5)").html(item.numb);
+	       		newItemdom.find("td:eq(6)").html(item.brand);
 	       		if(item.upid!=null){       			
-	       			newItemdom.find("td:eq(4)").html(item.uptypeName+"["+item.upno+"]执行采购");
+	       			newItemdom.find("td:eq(7)").html(item.uptypeName+"["+item.upno+"]执行采购");
 	       		}
 	       		$("#purchaseReqItem tbody").append(newItemdom);
 	       	}
@@ -93,8 +101,7 @@
 		<table border="1">
 			<thead>
 				<tr>
-					<td>编号</td>
-					<td>说明</td>
+					<td>序号</td>
 					<td>计划进场时间</td>
 					<td>状态</td>
 					<td>制单人</td>
@@ -106,7 +113,6 @@
 				<c:forEach var="purchaseReq" items="${purchaseReqList}">
 				<tr>
 					<td>${purchaseReq.no}</td>
-					<td>${purchaseReq.descrp}</td>
 					<td>${purchaseReq.plandate}</td>
 					<td>${purchaseReq.state.name}</td>
 					<td>${purchaseReq.creater.name}</td>
