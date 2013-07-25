@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.OpinionService;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
+import cn.fyg.pm.domain.model.workflow.opinion.OpinionItem;
 import cn.fyg.pm.domain.model.workflow.opinion.OpinionRepository;
 import cn.fyg.pm.domain.shared.BusiCode;
 
@@ -22,6 +23,10 @@ public class OpinionServiceImpl implements OpinionService {
 	@Transactional
 	public Opinion append(Opinion opinion) {
 		opinion.setDate(new Date());
+		for (OpinionItem opinionItem : opinion.getOpinionItems()) {
+			opinionItem.setBusinessId(opinion.getBusinessId());
+			opinionItem.setBusiCode(opinion.getBusiCode());
+		}
 		return opinionRepository.save(opinion);
 	}
 
@@ -33,7 +38,8 @@ public class OpinionServiceImpl implements OpinionService {
 	@Override
 	@Transactional
 	public void clear(BusiCode busiCode, Long businessId) {
-		opinionRepository.deleteByBusiCodeAndBusinessId(busiCode, businessId);
+		List<Opinion> opinions = opinionRepository.findByBusiCodeAndBusinessIdOrderByIdAsc(busiCode, businessId);
+		this.opinionRepository.delete(opinions);
 	}
 
 }

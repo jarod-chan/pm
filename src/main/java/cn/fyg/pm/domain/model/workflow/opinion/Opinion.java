@@ -1,14 +1,21 @@
 package cn.fyg.pm.domain.model.workflow.opinion;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,6 +55,14 @@ public class Opinion {
 	@Column(name="date_")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;//日期
+	
+	@OneToMany(fetch = FetchType.EAGER, 
+			cascade = {CascadeType.ALL},
+			targetEntity = OpinionItem.class,
+			orphanRemoval=true)
+	@JoinColumn(name="opinion_id")
+	@OrderBy("id ASC")
+	private List<OpinionItem> opinionItems=new ArrayList<OpinionItem>();
 		
 
 	public Long getId() {
@@ -131,6 +146,14 @@ public class Opinion {
 
 	public void setBusinessId(Long businessId) {
 		this.businessId = businessId;
+	}
+
+	public List<OpinionItem> getOpinionItems() {
+		return opinionItems;
+	}
+
+	public void setOpinionItems(List<OpinionItem> opinionItems) {
+		this.opinionItems = opinionItems;
 	}
 
 		

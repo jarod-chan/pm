@@ -43,6 +43,7 @@ import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
+import cn.fyg.pm.domain.model.workflow.opinion.OpinionItem;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
 import cn.fyg.pm.domain.shared.verify.Result;
 import cn.fyg.pm.interfaces.web.module.constructcont.flow.ContVarname;
@@ -228,7 +229,7 @@ public class ConstructContCtl {
 	}
 	
 	@RequestMapping(value="check/commit",method=RequestMethod.POST)
-	public String checkCommit(Opinion opinion,RedirectAttributes redirectAttributes,@RequestParam(value="taskId",required=false)String taskId){
+	public String checkCommit(Opinion opinion,RedirectAttributes redirectAttributes,@RequestParam(value="taskId",required=false)String taskId,@RequestParam(value="ignoreItem")boolean ignoreItem){
 		User user = sessionUtil.getValue("user");
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 		opinion.setBusiCode(ConstructCont.BUSI_CODE);
@@ -236,6 +237,9 @@ public class ConstructContCtl {
 		opinion.setTaskName(task.getName());
 		opinion.setUserKey(user.getKey());
 		opinion.setUserName(user.getName());
+		if(ignoreItem){
+			opinion.setOpinionItems(new ArrayList<OpinionItem>());
+		}
 		opinionService.append(opinion);
 		runtimeService.setVariable(task.getProcessInstanceId(), ContVarname.OPINION,opinion.getResult().val());
 		runtimeService.setVariable(task.getProcessInstanceId(), ContVarname.LAST_USERKEY,user.getKey());

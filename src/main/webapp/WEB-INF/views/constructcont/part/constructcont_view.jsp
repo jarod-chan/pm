@@ -1,6 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
     <script type="text/javascript">
@@ -74,7 +75,7 @@
 		</tr>
 		<tr>
 			<td>接收日期：</td>
-			<td>
+			<td >
 				${constructCont.receivedate}
 			</td>
 		</tr>
@@ -90,10 +91,16 @@
 	</thead>
 	<tbody>
 		<c:forEach items="${constructCont.constructContItems}" var="item">
-		<tr>
+		<tr class="datacls {itemId: '${item.id}'} ">
 			<td>${item.sn}</td><td>${item.content}</td><td>${item.price}</td><td>${item.numb}</td><td>${item.unit}</td><td>${item.amount}</td>
 		</tr>
 		</c:forEach>
 	</tbody>
 	</table>
+	
 	<%@ include file="/component/opinionDiv.jsp" %>
+	
+	<c:set var="parma_itemLen" value="${fn:length(constructCont.constructContItems)}" />
+
+	
+	

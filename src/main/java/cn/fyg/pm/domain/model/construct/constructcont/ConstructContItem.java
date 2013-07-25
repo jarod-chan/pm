@@ -23,7 +23,7 @@ public class ConstructContItem {
 
 	private Long sn;//序号
 	
-	@JsonIgnore//转化json是去掉，防止出现循环
+	@JsonIgnore//TODO 转化json是去掉，防止出现循环
 	@ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH }, optional = true)  
 	@JoinColumn(name="constructcont_id")
 	private ConstructCont constructCont;//主表
