@@ -124,4 +124,12 @@ public class ConstructContServiceImpl implements ConstructContService {
 		return vld.verify();
 	}
 
+	@Override
+	@Transactional
+	public void invalid(Long constructContId) {
+		ConstructCont constructCont = this.constructContRepository.findOne(constructContId);
+		constructCont.setState(ConstructContState.invalid);
+		this.constructContRepository.save(constructCont);
+	}
+
 }

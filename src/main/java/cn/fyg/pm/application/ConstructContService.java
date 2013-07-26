@@ -31,5 +31,7 @@ public interface ConstructContService extends ServiceQuery<ConstructCont>,Commit
 	List<ConstructCont> constructContCanBeSelected(Project project,ConstructContState state,Long constructCertId);
 	
 	List<ConstructCont> findConstructContCanBeSelectedSupplier(Project project,Long constructCertId,Supplier supplier);
+
+	void invalid(Long constructContId);
 	
 }
