@@ -77,6 +77,9 @@ public class ConstructContServiceImpl implements ConstructContService {
 		Pjrole pjrole = new Pjrole();
 		pjrole.setKey("xmfzr");//TODO 固定取项目负责人角色
 		List<Pjmember> pjmembers = this.pjmemberRepository.findByProjectAndPjrole(project, pjrole);
+		if(pjmembers==null||pjmembers.isEmpty()){
+			throw new RuntimeException("项目未设置项目负责人");
+		}
 		User xmfzr = pjmembers.get(0).getUser();
 		return ConstructContFactory.create(creater,xmfzr,project,state);
 	}

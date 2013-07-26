@@ -38,7 +38,7 @@ public class NoRecord {
 	public String generateCurrNo(String separator){
 		int flownoLength=this.limmit.toString().length();
 		String flowno=Strings.padStart(this.currno.toString(), flownoLength, '0');
-		return Joiner.on(separator).join(this.noKey.getSys(),this.noKey.getFlag(),this.noKey.getPref(),flowno);
+		return Joiner.on("").join(this.noKey.getSys(),this.noKey.getFlag(),this.noKey.getPref(),separator,flowno);
 	}
 	
 	/**

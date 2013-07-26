@@ -40,8 +40,8 @@
 	
 	<form action="${ctx}/task/check" method="post">
 		<input type="hidden" name="taskId" value="${task.id}"/>
-		<input type="text" name="busiCode" value="${busiCode}"/>
-		<input type="text" name="businessId" value="${parma_businessId}"/>
+		<input type="hidden" name="busiCode" value="${busiCode}"/>
+		<input type="hidden" name="businessId" value="${parma_businessId}"/>
 		<input type="hidden" name="ignoreItem" id="ignoreItem" value="true"/>
 		
 		<table id="tabcheck" style="margin-top: 10px;">
@@ -79,7 +79,7 @@
 										<tr>
 											<td>
 												${status.count}
-												<input class="opionionItem_itemId" name="opinionItems[${status.index}].itemId" type="text">
+												<input class="opionionItem_itemId" name="opinionItems[${status.index}].itemId" type="hidden">
 												<input name="opinionItems[${status.index}].itemSn" value="${status.count}" type="hidden">
 											</td>
 											<td>
