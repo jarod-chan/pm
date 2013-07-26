@@ -45,7 +45,6 @@ import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
 import cn.fyg.pm.domain.shared.verify.Result;
-import cn.fyg.pm.interfaces.web.module.constructcont.flow.ContVarname;
 import cn.fyg.pm.interfaces.web.module.purchasecert.flow.CertVarname;
 import cn.fyg.pm.interfaces.web.module.purchasecert.query.CertQuery;
 import cn.fyg.pm.interfaces.web.module.purchasereq.ReqItemFacade;
@@ -220,25 +219,8 @@ public class PurchaseCertCtl {
 		List<Opinion> opinions = opinionService.listOpinions(PurchaseCert.BUSI_CODE, purchaseCertId);
 		map.put("opinions", opinions);
 		map.put("resultList", ResultEnum.agreeItems());
+		map.put("busiCode",PurchaseCert.BUSI_CODE );
 		return Page.CHECK;
-	}
-	
-	@RequestMapping(value="check/commit",method=RequestMethod.POST)
-	public String checkCommit(Opinion opinion,RedirectAttributes redirectAttributes,@RequestParam(value="taskId",required=false)String taskId){
-		User user = sessionUtil.getValue("user");
-		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-		opinion.setBusiCode(PurchaseCert.BUSI_CODE);
-		opinion.setTaskKey(task.getTaskDefinitionKey());
-		opinion.setTaskName(task.getName());
-		opinion.setUserKey(user.getKey());
-		opinion.setUserName(user.getName());
-		opinionService.append(opinion);
-		runtimeService.setVariable(task.getProcessInstanceId(), ContVarname.OPINION,opinion.getResult().val());
-		runtimeService.setVariable(task.getProcessInstanceId(), ContVarname.LAST_USERKEY,user.getKey());
-		taskService.complete(task.getId());
-		redirectAttributes
-			.addFlashAttribute(AppConstant.MESSAGE_NAME,info("任务完成"));
-		return "redirect:/task/list";
 	}
 	
 	@RequestMapping(value="{purchaseCertId}/checkedit",method=RequestMethod.GET)

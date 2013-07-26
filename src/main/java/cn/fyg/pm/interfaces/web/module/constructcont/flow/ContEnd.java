@@ -15,7 +15,7 @@ public class ContEnd implements JavaDelegate {
 	public void execute(DelegateExecution execution) throws Exception {
 		ConstructContService constructContService =(ConstructContService) constructContServiceExp.getValue(execution);
 		Long businessId = (Long) execution.getVariableLocal(FlowConstant.BUSINESS_ID);
-		String userKey=(String) execution.getVariable(ContVarname.LAST_USERKEY);
+		String userKey=(String) execution.getVariable(FlowConstant.LAST_USERKEY);
 		constructContService.finish(businessId,userKey);
 		
 	}

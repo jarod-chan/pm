@@ -100,7 +100,7 @@
 	</thead>
 	<tbody>
 		<c:forEach items="${purchaseCert.purchaseCertItems}" var="item">
-		<tr>
+		<tr class="datacls {itemId: '${item.id}'} ">
 			<td>${item.sn}</td>
 			
 			<td>${item.metername}</td>

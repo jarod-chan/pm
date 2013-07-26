@@ -15,7 +15,7 @@ public class CertEnd implements JavaDelegate {
 	public void execute(DelegateExecution execution) throws Exception {
 		PurchaseCertService purchaseCertService =(PurchaseCertService) purchaseCertServiceExp.getValue(execution);
 		Long businessId = (Long) execution.getVariableLocal(FlowConstant.BUSINESS_ID);
-		String userKey=(String) execution.getVariable(CertVarname.LAST_USERKEY);
+		String userKey=(String) execution.getVariable(FlowConstant.LAST_USERKEY);
 		purchaseCertService.finish(businessId,userKey);
 	}
 

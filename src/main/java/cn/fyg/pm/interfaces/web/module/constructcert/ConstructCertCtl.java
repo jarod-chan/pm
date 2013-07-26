@@ -209,25 +209,8 @@ public class ConstructCertCtl {
 		List<Opinion> opinions = opinionService.listOpinions(ConstructCert.BUSI_CODE, constructCertId);
 		map.put("opinions", opinions);
 		map.put("resultList", ResultEnum.agreeItems());
+		map.put("busiCode", ConstructCert.BUSI_CODE);
 		return Page.CHECK;
-	}
-	
-	@RequestMapping(value="check/commit",method=RequestMethod.POST)
-	public String checkCommit(Opinion opinion,RedirectAttributes redirectAttributes,@RequestParam(value="taskId",required=false)String taskId){
-		User user = sessionUtil.getValue("user");
-		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-		opinion.setBusiCode(ConstructCert.BUSI_CODE);
-		opinion.setTaskKey(task.getTaskDefinitionKey());
-		opinion.setTaskName(task.getName());
-		opinion.setUserKey(user.getKey());
-		opinion.setUserName(user.getName());
-		opinionService.append(opinion);
-		runtimeService.setVariable(task.getProcessInstanceId(), CertVarname.OPINION,opinion.getResult().val());
-		runtimeService.setVariable(task.getProcessInstanceId(), CertVarname.LAST_USERKEY,user.getKey());
-		taskService.complete(task.getId());
-		redirectAttributes
-			.addFlashAttribute(AppConstant.MESSAGE_NAME,info("任务完成"));
-		return "redirect:/task/list";
 	}
 	
 	@RequestMapping(value="{constructCertId}/checkedit",method=RequestMethod.GET)

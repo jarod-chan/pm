@@ -17,4 +17,15 @@ public interface FlowConstant {
 	 * 流程key
 	 */
 	String PROCESS_DEFINITION_KEY="processDefinitionKey";
+	
+	/**
+	 * 最后审批人
+	 */
+	String LAST_USERKEY="lastUserKey";
+
+	
+	/**
+	 *审批意见
+	 */
+	String OPINION="opinion";
 }

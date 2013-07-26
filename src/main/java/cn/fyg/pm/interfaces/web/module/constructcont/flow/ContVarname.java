@@ -7,15 +7,6 @@ public interface ContVarname {
 	 */
 	String PROCESS_DEFINITION_KEY="pm-constructcert-cont";
 
-	/**
-	 * 最后审批人
-	 */
-	String LAST_USERKEY="lastUserKey";
-	
-	/**
-	 *审批意见
-	 */
-	String OPINION="opinion";
 	
 	/**
 	 * 专业分类

@@ -85,7 +85,7 @@
 	</thead>
 	<tbody>
 		<c:forEach items="${constructCert.constructCertItems}" var="item">
-			<tr>
+			<tr class="datacls {itemId: '${item.id}'} ">
 				<td>${item.sn}</td>
 				<td>${item.content}</td>
 				<td>${item.price}</td>

@@ -30,7 +30,7 @@
 	}
 </style>
 
-<div class="chk_opinions" style="margin-top: 5px;">
+<div class="chk_opinions" style="margin-top: 10px;">
 	流程历史审批意见
 	<div>
 		<c:forEach var="opinion" items="${opinions}" varStatus="status">

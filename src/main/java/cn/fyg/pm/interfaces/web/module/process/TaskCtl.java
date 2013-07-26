@@ -1,6 +1,9 @@
 package cn.fyg.pm.interfaces.web.module.process;
 
+import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
+
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,17 +12,26 @@ import javax.servlet.http.HttpServletResponse;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.bpmn.diagram.ProcessDiagramGenerator;
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import cn.fyg.pm.application.OpinionService;
 import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
+import cn.fyg.pm.domain.model.workflow.opinion.OpinionItem;
+import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
+import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 
@@ -45,6 +57,10 @@ public class TaskCtl {
 	RepositoryService repositoryService;
 	@Autowired
 	ProcessEngineFactoryBean processEngine;
+	@Autowired
+	TaskService taskService;
+	@Autowired
+	OpinionService opinionService;
 	
 	@RequestMapping(value="first",method=RequestMethod.GET)
 	public String toFirst(){
@@ -83,6 +99,27 @@ public class TaskCtl {
 		while ((len = imageStream.read(b, 0, 1024)) != -1) {
 			response.getOutputStream().write(b, 0, len);
 		}
+	}
+	 
+	//公共提交方法
+	@RequestMapping(value="check/commit",method=RequestMethod.POST)
+	public String checkCommit(Opinion opinion,RedirectAttributes redirectAttributes,@RequestParam(value="taskId",required=false)String taskId,@RequestParam(value="ignoreItem")boolean ignoreItem){
+		User user = sessionUtil.getValue("user");
+		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+		opinion.setTaskKey(task.getTaskDefinitionKey());
+		opinion.setTaskName(task.getName());
+		opinion.setUserKey(user.getKey());
+		opinion.setUserName(user.getName());
+		if(ignoreItem){
+			opinion.setOpinionItems(new ArrayList<OpinionItem>());
+		}
+		opinionService.append(opinion);
+		runtimeService.setVariable(task.getProcessInstanceId(), FlowConstant.OPINION,opinion.getResult().val());
+		runtimeService.setVariable(task.getProcessInstanceId(), FlowConstant.LAST_USERKEY,user.getKey());
+		taskService.complete(task.getId());
+		redirectAttributes
+			.addFlashAttribute(AppConstant.MESSAGE_NAME,info("任务完成"));
+		return "redirect:/task/list";
 	}
 
 }
