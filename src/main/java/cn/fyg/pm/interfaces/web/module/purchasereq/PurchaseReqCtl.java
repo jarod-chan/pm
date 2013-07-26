@@ -203,6 +203,7 @@ public class PurchaseReqCtl {
 		List<Opinion> opinions = opinionService.listOpinions(PurchaseReq.BUSI_CODE, purchaseReqId);
 		map.put("opinions", opinions);
 		map.put("resultList", ResultEnum.agreeItems());
+		map.put("busiCode", PurchaseReq.BUSI_CODE);
 		return Page.CHECK;
 	}
 	
@@ -219,6 +220,7 @@ public class PurchaseReqCtl {
 		runtimeService.setVariable(task.getProcessInstanceId(),getVarnameByTaskKey(opinion.getTaskKey()),opinion.getResult().val());
 		runtimeService.setVariable(task.getProcessInstanceId(),ReqVarname.LAST_USERKEY,user.getKey());
 		taskService.complete(task.getId());
+
 		redirectAttributes
 			.addFlashAttribute(AppConstant.MESSAGE_NAME,info("任务完成"));
 		return "redirect:/task/list";

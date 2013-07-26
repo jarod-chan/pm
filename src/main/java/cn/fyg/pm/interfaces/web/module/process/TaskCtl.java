@@ -20,6 +20,7 @@ import org.activiti.engine.task.Task;
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -113,13 +114,19 @@ public class TaskCtl {
 		if(ignoreItem){
 			opinion.setOpinionItems(new ArrayList<OpinionItem>());
 		}
-		opinionService.append(opinion);
-		runtimeService.setVariable(task.getProcessInstanceId(), FlowConstant.OPINION,opinion.getResult().val());
-		runtimeService.setVariable(task.getProcessInstanceId(), FlowConstant.LAST_USERKEY,user.getKey());
-		taskService.complete(task.getId());
+
+		doCheckCommit(user, task, opinion);
 		redirectAttributes
 			.addFlashAttribute(AppConstant.MESSAGE_NAME,info("任务完成"));
 		return "redirect:/task/list";
 	}
 
+	@Transactional
+	public void doCheckCommit(User user, Task task, Opinion opinion) {
+		opinionService.append(opinion);
+		runtimeService.setVariable(task.getProcessInstanceId(), FlowConstant.OPINION,opinion.getResult().val());
+		runtimeService.setVariable(task.getProcessInstanceId(), FlowConstant.LAST_USERKEY,user.getKey());
+		taskService.complete(task.getId());
+	}
+	
 }

@@ -66,7 +66,7 @@
 	</thead>
 	<tbody>
 		<c:forEach items="${purchaseReq.purchaseReqItems}" var="item">
-		<tr>
+		<tr class="datacls {itemId: '${item.id}'} ">
 
 			<td>${item.sn}</td>
 			<td>${item.metername}</td>
