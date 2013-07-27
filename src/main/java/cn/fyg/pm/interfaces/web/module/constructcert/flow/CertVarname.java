@@ -12,10 +12,4 @@ public interface CertVarname {
 	 */
 	String SPECIALTY="specialty";
 	
-	/**
-	 * 项目id
-	 */
-	String PROJECTID="projectId";
-
-
 }

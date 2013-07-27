@@ -8,6 +8,7 @@ import cn.fyg.pm.application.ConstructCertService;
 import cn.fyg.pm.application.OpinionService;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.contract.ContractSpec;
+import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 
 public class CertBeg implements JavaDelegate{
@@ -23,10 +24,14 @@ public class CertBeg implements JavaDelegate{
 		Long businessId = (Long) execution.getVariableLocal(FlowConstant.BUSINESS_ID);
 		ConstructCert constructCert = constructCertService.find(businessId);
 		
+		execution.setVariable(FlowConstant.BUSINESS_NO,constructCert.getNo());
+		
 		ContractSpec specialty = constructCert.getConstructKey().getContract().getSpecialty();
 		execution.setVariable(CertVarname.SPECIALTY, specialty);
-		Long projectId = constructCert.getConstructKey().getProject().getId();
-		execution.setVariable(CertVarname.PROJECTID, projectId);
+		
+		Project project = constructCert.getConstructKey().getProject();
+		execution.setVariable(FlowConstant.PROJECT_ID, project.getId());
+		execution.setVariable(FlowConstant.PROJECT_NAME, project.getName());
 
 		opinionService.clear(ConstructCert.BUSI_CODE, businessId);
 	}

@@ -12,10 +12,5 @@ public interface CertVarname {
 	 * 总金额
 	 */
 	String TOLSUM = "tolsum";
-	
-	/**
-	 * 项目id
-	 */
-	String PROJECTID="projectId";
 
 }
