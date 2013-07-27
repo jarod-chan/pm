@@ -13,9 +13,5 @@ public interface ContVarname {
 	 */
 	String SPECIALTY="specialty";
 	
-	/**
-	 * 项目id
-	 */
-	String PROJECTID="projectId";
 
 }

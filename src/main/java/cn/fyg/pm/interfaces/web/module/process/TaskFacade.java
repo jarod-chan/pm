@@ -28,7 +28,7 @@ public class TaskFacade {
 	
 	public List<ProcessTaskBean> getProcessTasks(String userKey){
 		List<ProcessTaskBean> result=new ArrayList<ProcessTaskBean>();
-		List<Task> tasks = taskService.createTaskQuery().taskAssignee(userKey).list();
+		List<Task> tasks = taskService.createTaskQuery().taskAssignee(userKey).orderByTaskCreateTime().asc().list();
 		for (Task task : tasks) {
 			ProcessTaskBean processTaskBean=new ProcessTaskBean();
 			
@@ -44,13 +44,33 @@ public class TaskFacade {
 			String executionId = task.getProcessInstanceId();
 			processTaskBean.setExecutionId(executionId);
 			
-			Object obj=runtimeService.getVariable(executionId, FlowConstant.BUSINESS_ID);
-			String businessId=obj==null?"":obj.toString();
+			String businessId = getProcessVariable(executionId, FlowConstant.BUSINESS_ID);
 			processTaskBean.setBusinessId(businessId);
+			
+			String businessNo = getProcessVariable(executionId, FlowConstant.BUSINESS_NO);
+			processTaskBean.setBusinessNo(businessNo);
+			
+			String projectId = getProcessVariable(executionId, FlowConstant.PROJECT_ID);
+			processTaskBean.setProjectId(projectId);
+			
+			String projectName = getProcessVariable(executionId, FlowConstant.PROJECT_NAME);
+			processTaskBean.setProjectName(projectName);
+			
+			processTaskBean.setCreateDate(task.getCreateTime());
+			
+			processTaskBean.setDueDate(task.getDueDate());
 			
 			result.add(processTaskBean);
 		}
 		return result;
+	}
+
+	/**
+	 * 流程变量设置
+	 */
+	private String getProcessVariable(String executionId,String varName) {
+		Object obj=runtimeService.getVariable(executionId,varName);
+		return obj==null?"":obj.toString();
 	}
 
 }
