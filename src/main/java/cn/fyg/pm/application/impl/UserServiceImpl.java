@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 	public String login(String username, String password) {
 		User user=this.userRepository.findByKey(username);
 		if(user==null) return null;
-		if(!user.getPassword().equals(password)){
+		if(user.getPassword()==null||!user.getPassword().equals(password)){
 			return null;
 		}
 		return user.getKey();

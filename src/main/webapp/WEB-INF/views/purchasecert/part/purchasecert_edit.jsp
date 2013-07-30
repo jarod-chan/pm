@@ -199,7 +199,21 @@
        				warpLi(itemlist[i]);
        			}
        		})
-       	}).triggerHandler("change");		
+       	}).triggerHandler("change");	
+       	
+       	$("#btn_load").click(function(){
+       		$("#tabitem tbody").empty();
+       		$("#purchaseReqItem tbody .inp_chk:enabled:checked").each(function(){
+       			$(".addLast").triggerHandler("click");
+       			var fromtr=$(this).parents("tr");
+       			var totr=$("#tabitem tbody tr:last");
+       			totr.find("td:eq(2) input").val(fromtr.find("td:eq(4)").html());
+       			totr.find("td:eq(3) input").val(fromtr.find("td:eq(5)").html());
+       			totr.find("td:eq(4) input").val(fromtr.find("td:eq(8)").html());
+       			totr.find("td:eq(5) input").val(fromtr.find("td:eq(6)").html());
+       			totr.find("td:eq(6) input").val(fromtr.find("td:eq(7)").html());
+       		})
+       	});
     
     })
 	 
@@ -220,6 +234,7 @@
 			<td>
 				<span id="spanReq">${purchaseReq.no}</span><input type="hidden" name="purchaseKey.id" value="${purchaseReq.purchaseKey.id}">
 				<input type="button" id="btn_selreq" value="选择" />
+				<input type="button" id="btn_load" value="加载申请单内容到当前单据"/>
 			</td>
 		</tr>
 		<tr>
