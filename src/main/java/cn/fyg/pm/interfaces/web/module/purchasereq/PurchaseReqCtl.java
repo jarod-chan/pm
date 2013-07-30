@@ -109,6 +109,7 @@ public class PurchaseReqCtl {
 		map.put("purchaseReq", purchaseReq);
 		List<Contract> contractList = contractService.findByProjectAndType(purchaseReq.getPurchaseKey().getProject(),ContractType.meter);
 		map.put("contractList", contractList);
+		map.put("maxPurchaseReqDay", 30);
 		return Page.EDIT;
 	}
 	

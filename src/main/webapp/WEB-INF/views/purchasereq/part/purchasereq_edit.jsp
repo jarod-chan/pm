@@ -105,7 +105,26 @@
     	$(".addLast").triggerHandler("click");
     	</c:if>
     	
-    	$(".datePK").datepicker();
+    	$(".datePK").datepicker({
+    		onSelect:function(dateText){
+    			plandateCheck(dateText);
+    		}
+    	});
+    	
+    	var plandateCheck=function (dateText){
+    		var seldate=new Date(dateText.replace(/\-/g,'/'));
+			var now=new Date();
+			var today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+			var days = (seldate.getTime() - today.getTime()) / 86400000;    
+			if(days>=${maxPurchaseReqDay}){
+				$("#plandateError").hide();
+			}else{
+				$("#plandateError").show();
+			}
+    	}
+    	<c:if test="${not empty purchaseReq.plandate}">
+    	plandateCheck('${purchaseReq.plandate}');
+    	</c:if>
     	
     	$('#tabmain tr').find('td:eq(0)').css("text-align","right");
     })
@@ -129,7 +148,7 @@
 			<tr>
 			<td>计划进场日期：</td>
 			<td>
-				<input type="text" class="datePK" name="plandate" value="${purchaseReq.plandate}">
+				<input type="text" class="datePK" name="plandate" value="${purchaseReq.plandate}"><span id="plandateError" style="color: red;display: none;">计划进场日期小于${maxPurchaseReqDay}天，可能无法及时完成审批！</span>
 			</td>
 		</tr>
 		<tr>
