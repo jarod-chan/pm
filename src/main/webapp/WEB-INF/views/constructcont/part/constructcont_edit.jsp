@@ -4,12 +4,6 @@
 
 	 <script type="text/javascript">
     $(function(){
-    	var seldom=$("<select>");
-    	seldom.attr("name","constructContItems_unit")
-    		.append($("<option ></option>"))
-    		.append($("<option value='元/立方米'>元/立方米</option>"))
-    		.append($("<option value='元/立方米'>元/立方米</option>"))
-    		.append($("<option value='元/工作日'>元/工作日</option>"));
     	
     	var trdom = $("<tr>");
 		$("<td>")
@@ -29,7 +23,7 @@
 		$("<td>").append($("<input type='text' name='constructContItems_numb' style='width:50px' />"))
 		  .appendTo(trdom);
 		
-		$("<td>").append(seldom)
+		$("<td>").append($("<input type='text' name='constructContItems_unit' style='width:50px' />"))
 		  .appendTo(trdom);
 		
 		$("<td>").append($("<input type='text' name='constructContItems_amount' style='width:100px' />"))
@@ -253,14 +247,7 @@
 	
 			<td><input type='text' name='constructContItems_numb' value='<fmt:formatNumber value="${item.numb}" pattern="#.#"/>' style='width:50px' /></td>
 	
-			<td>
-				<select name='constructContItems_unit'>
-					<option <c:if test="${item.unit==''}">selected="true"</c:if> ></option>
-					<option value="元/平方米" <c:if test="${item.unit=='元/平方米'}">selected="true"</c:if> >元/平方米</option>
-					<option value="元/立方米" <c:if test="${item.unit=='元/立方米'}">selected="true"</c:if> >元/立方米</option>
-					<option value="元/工作日" <c:if test="${item.unit=='元/工作日'}">selected="true"</c:if> >元/工作日</option>
-				</select>
-			</td>
+			<td><input type='text' name='constructContItems_unit' value='${item.unit}' style='width:50px' /></td>
 	
 			<td><input type='text' name='constructContItems_amount' value='${item.amount}' style='width:100px' /></td>
 	  

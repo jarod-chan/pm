@@ -65,7 +65,7 @@
     $(function() {
     	myLayout=$('body').layout({ 
     		applyDemoStyles: true, 
-    		north__size:90,//pane的大小
+    		north__size:60,//pane的大小
     		north__closable: false,
     		west__size:200
     	});
@@ -95,7 +95,7 @@
 			</div>
 			<div style="clear: both;"></div>
 		</div>
-		<div style="width: 1024px;">
+		<%-- <div style="width: 1024px;">
 			<div style="width: 50%;float: left; ">
 				<div id="menu-nav" style="margin-top: 15px;">任务首页</div>
 			</div>
@@ -150,7 +150,7 @@
 					
 			</div>
 			<div style="clear: both;"></div>
-		</div>
+		</div> --%>
 	</div>
 	<div class="ui-layout-west">
 		<a href="${ctx}/task/list" class="no_show" target="mainFrame" >全部任务</a><br>
