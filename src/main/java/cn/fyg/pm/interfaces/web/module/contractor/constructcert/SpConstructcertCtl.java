@@ -207,6 +207,8 @@ public class SpConstructcertCtl {
 		ConstructCont constructCont = constructContService.findByConstructKey(constructCert.getConstructKey());
 		map.put("constructCont", constructCont);
 		map.put("constructCert", constructCert);
+		List<Opinion> opinions = opinionService.listOpinions(ConstructCert.BUSI_CODE, constructCertId);
+		map.put("opinions", opinions);
 		return Page.VIEW;
 	}
 	

@@ -145,77 +145,72 @@
     	
     	$(".datePK").datepicker();
     	
-    	$('#tabmain tr').find('td:eq(0)').css("text-align","right");
     })
+	</script>
 	 
-	 </script>
+    <%@ include file="/script/fmttable.jsp" %>	
 
 	<input type="hidden" name="id"  value="${constructCont.id}">
-	<table id="tabmain">
+	<table id="tabmain" class="fmttable">
 		
 		<c:set var="parma_no" value="${constructCont.no}" />
 		<c:set var="parma_busino" value="${constructCont.busino}" />
 		<%@ include file="/component/noShowBill.jsp" %>	
 		
 		<tr>
-			<td>项目负责人：</td><td>${constructCont.leader.name}</td>
+			<td>项目负责人：</td>
+			<td>${constructCont.leader.name}</td>
+			<td>状态：</td>
+			<td>${constructCont.state.name}</td>
 		</tr>
+		
 		<tr>
 			<td>合同：</td> 
 			<td>
 				<span id="spanContract">${contract.no}</span><input type="hidden" name="constructKey.contract.id" value="${contract.id}">
 				<input type="button" id="btn_selContract" value="选择" />
 			</td>
+			<td>施工承包方：</td>
+			<td><span id="supplier_name">${constructCont.constructKey.supplier.name}</span></td>
 		</tr>
 		<tr>
-			<td>施工承包方：</td><td><span id="supplier_name">${constructCont.constructKey.supplier.name}</span></td>
+			<td style="vertical-align: top">原因：</td><td colspan="3"><textarea name="reason" rows="6" cols="30" style="vertical-align: top">${constructCont.reason}</textarea></td>
 		</tr>
+		
 		<tr>
-			<td style="vertical-align: top">原因：</td><td><textarea name="reason" rows="6" cols="30" style="vertical-align: top">${constructCont.reason}</textarea></td>
-		</tr>
-			<tr>
 			<td>计划完成日期：</td>
 			<td>
 				<input type="text" class="datePK" name="plandate" value="${constructCont.plandate}">
 			</td>
-		</tr>
-		<tr>
 			<td>实际完成日期：</td>
 			<td>
 				${constructCont.realdate}
 			</td>
 		</tr>
+		
 		<tr>
 			<td>实际执行结果：</td>
 			<td>
 				${constructCont.result}
 			</td>
-		</tr>
-		<tr>
-			<td>状态：</td><td>${constructCont.state.name}</td>
-		</tr>
-		<tr>
 			<td>总金额：</td><td><span id="sp_tolsum">${constructCont.tolsum}</span><input type="hidden" name="tolsum" value="${constructCont.tolsum}"></td>
 		</tr>
+		
 		<tr>
 			<td>制单人：</td><td>${constructCont.creater.name}</td>
-		</tr>
-		<tr>
 			<td>制单日期：</td><td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+		
 		<tr>
 			<td>签发人：</td><td>${constructCont.signer.name}</td>
-		</tr>
-		<tr>
 			<td>签发日期：</td><td><fmt:formatDate value="${constructCont.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+		
 		<tr>
 			<td>接收人：</td>
 			<td>
 				${constructCont.receiver.name}
 			</td>
-		</tr>
-		<tr>
 			<td>接收日期：</td>
 			<td>
 				${constructCont.receivedate}

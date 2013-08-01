@@ -6,12 +6,6 @@
 <script type="text/javascript">
 	$(function(){
 		
-		var seldom=$("<select>");
-    	seldom.attr("name","constructCertItems_unit")
-    		.append($("<option ></option>"))
-    		.append($("<option value='元/立方米'>元/立方米</option>"))
-    		.append($("<option value='元/立方米'>元/立方米</option>"))
-    		.append($("<option value='元/工作日'>元/工作日</option>"));
 		
 		var trdom = $("<tr>");
 		$("<td>")
@@ -31,7 +25,7 @@
 		$("<td>").append($("<input type='text' name='constructCertItems_numb' style='width:50px' />"))
 		  .appendTo(trdom);
 		
-		$("<td>").append(seldom)
+		$("<td>").append($("<input type='text' name='constructCertItems_unit' style='width:50px' />"))
 		  .appendTo(trdom);
 		
 		$("<td>").append($("<input type='text' name='constructCertItems_amount' style='width:100px' />"))
@@ -184,21 +178,24 @@
     	$(".addLast").triggerHandler("click");
     	</c:if>
     	
-    	$('#tabmain tr').find('td:eq(0)').css("text-align","right");
 	})
 </script>
 
+	<%@ include file="/script/fmttable.jsp" %>
+
 	<input type="hidden" name="id" value="${constructCert.id}">
-	<table id="tabmain">
+	<table id="tabmain" class="fmttable">
 		<c:set var="parma_no" value="${constructCert.no}" />
 		<c:set var="parma_busino" value="${constructCert.busino}" />
 		<%@ include file="/component/noShowBill.jsp" %>	
 		<tr>
 			<td>项目负责人：</td><td>${constructCert.leader.name}</td>
+			<td>状态：</td><td>${constructCert.state.name}</td>
 		</tr>
+		
 		<tr>
 			<td>施工联系单：</td>
-			<td>
+			<td colspan='3'>
 				
 				
 				<span id="spanConstructCont">${constructCont.no}</span><input type="hidden" name="constructKey.id" value="${constructCont.constructKey.id}">
@@ -208,33 +205,28 @@
 			</td>
 		</tr>
 		<tr>
-			<td style="vertical-align: top">原因：</td><td><textarea name="reason" rows="6" cols="30" style="vertical-align: top">${constructCert.reason}</textarea></td>
+			<td style="vertical-align: top">原因：</td><td colspan='3'><textarea name="reason" rows="6" cols="30" style="vertical-align: top">${constructCert.reason}</textarea></td>
 		</tr>
-		<tr>
-			<td>状态：</td><td>${constructCert.state.name}</td>
-		</tr>
+		
 		<tr>
 			<td>总金额：</td><td><span id="sp_tolsum">${constructCert.tolsum}</span><input type="hidden" name="tolsum" value="${constructCert.tolsum}"></td>
 		</tr>
+		
 		<tr>
 			<td>制单人：</td><td>${constructCert.creater.name}</td>
-		</tr>
-		<tr>
 			<td>制单日期：</td><td><fmt:formatDate value="${constructCert.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+		
 		<tr>
 			<td>签发人：</td><td>${constructCont.signer.name}</td>
-		</tr>
-		<tr>
 			<td>签发日期：</td><td><fmt:formatDate value="${constructCont.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+		
 		<tr>
 			<td>结算人：</td>
 			<td>
 				${constructCert.settler.name}
 			</td>
-		</tr>
-		<tr>
 			<td>结算日期：</td>
 			<td>
 				<fmt:formatDate value="${constructCert.settledate}" pattern="yyyy-MM-dd"/>
@@ -260,14 +252,7 @@
 					<td><input type='text' name='constructCertItems_content' value='${item.content}' style='width:300px' /></td>
 					<td><input type='text' name='constructCertItems_price' value='${item.price}' style='width:50px' /></td>
 					<td><input type='text' name='constructCertItems_numb' value='<fmt:formatNumber value="${item.numb}" pattern="#.#"/>' style='width:50px' /></td>
-					<td>
-						<select name='constructContItems_unit'>
-							<option <c:if test="${item.unit==''}">selected="true"</c:if> ></option>
-							<option value="元/平方米" <c:if test="${item.unit=='元/平方米'}">selected="true"</c:if> >元/平方米</option>
-							<option value="元/立方米" <c:if test="${item.unit=='元/立方米'}">selected="true"</c:if> >元/立方米</option>
-							<option value="元/工作日" <c:if test="${item.unit=='元/工作日'}">selected="true"</c:if> >元/工作日</option>
-						</select>
-					</td>
+					<td><input type='text' name='constructCertItems_unit' value='${item.unit}' style='width:50px' /></td>
 					<td><input type='text' name='constructCertItems_amount' value='${item.amount}' style='width:100px' /></td>
 					
 					<td><input type='button' class='add'  value='+'   /><input type='button' class='remove'  value='-'   /></td>

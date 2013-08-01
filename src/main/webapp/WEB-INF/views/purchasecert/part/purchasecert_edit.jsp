@@ -153,7 +153,6 @@
         	
     	$(".datePK").datepicker();
     	
-    	$('#tabmain tr').find('td:eq(0)').css("text-align","right");
     })
     
     
@@ -218,9 +217,11 @@
     })
 	 
 	 </script>
+	 
+	  <%@ include file="/script/fmttable.jsp" %>
 
 	<input type="hidden" name="id"  value="${purchaseCert.id}">
-	<table id="tabmain">
+	<table id="tabmain" class="fmttable">
 
 		<c:set var="parma_no" value="${purchaseCert.no}" />
 		<c:set var="parma_busino" value="${purchaseReq.busino}" />
@@ -228,10 +229,12 @@
 
 		<tr>
 			<td>项目负责人：</td><td>${purchaseCert.leader.name}</td>
+			<td>状态：</td><td>${purchaseCert.state.name}</td>
 		</tr>
+		
 		<tr>
 			<td>采购申请单：</td> 
-			<td>
+			<td colspan="3">
 				<span id="spanReq">${purchaseReq.no}</span><input type="hidden" name="purchaseKey.id" value="${purchaseReq.purchaseKey.id}">
 				<input type="button" id="btn_selreq" value="选择" />
 				<input type="button" id="btn_load" value="加载申请单内容到当前单据"/>
@@ -239,7 +242,7 @@
 		</tr>
 		<tr>
 			<td style="vertical-align: top">关联采购明细：</td>
-			<td>
+			<td colspan="3" >
 				<table id="purchaseReqItem" border="1">
 				<thead>
 					<tr>
@@ -252,33 +255,29 @@
 			</td>
 		</tr>
 		<tr>
-			<td style="vertical-align: top">说明：</td><td><textarea name="descrp" rows="6" cols="30" style="vertical-align: top">${purchaseCert.descrp}</textarea></td>
+			<td style="vertical-align: top">说明：</td>
+			<td colspan="3" ><textarea name="descrp" rows="6" cols="30" style="vertical-align: top">${purchaseCert.descrp}</textarea></td>
 		</tr>
-		<tr>
-			<td>状态：</td><td>${purchaseCert.state.name}</td>
-		</tr>
+		
 		<tr>
 			<td>总金额：</td><td><span id="sp_tolsum">${purchaseCert.tolsum}</span><input type="hidden" name="tolsum" value="${purchaseCert.tolsum}"></td>
 		</tr>
+		
 		<tr>
 			<td>制单人：</td><td>${purchaseCert.creater.name}</td>
-		</tr>
-		<tr>
 			<td>制单日期：</td><td><fmt:formatDate value="${purchaseCert.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+
 		<tr>
 			<td>签发人：</td><td>${purchaseCert.signer.name}</td>
-		</tr>
-		<tr>
 			<td>签发日期：</td><td><fmt:formatDate value="${purchaseCert.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+		
 		<tr>
 			<td>接收人：</td>
 			<td>
 				${purchaseCert.receiver.name}
 			</td>
-		</tr>
-		<tr>
 			<td>接收日期：</td>
 			<td>
 				${purchaseCert.receivedate}

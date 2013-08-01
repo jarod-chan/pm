@@ -2,15 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-	 <script type="text/javascript">
-    $(function(){
-    	$('#tabmain tr').find('td:eq(0)').css("text-align","right");
-    })
-	 
-	 </script>
+	 <%@ include file="/script/fmttable.jsp" %>
 
 	<input type="hidden" name="id"  value="${purchaseCert.id}">
-	<table id="tabmain">
+	<table id="tabmain" class="fmttable">
 
 		<c:set var="parma_no" value="${purchaseCert.no}" />
 		<c:set var="parma_busino" value="${purchaseReq.busino}" />
@@ -18,16 +13,19 @@
 
 		<tr>
 			<td>项目负责人：</td><td>${purchaseCert.leader.name}</td>
+			<td>状态：</td><td>${purchaseCert.state.name}</td>
 		</tr>
+		
+		
 		<tr>
 			<td>采购申请单：</td> 
-			<td>
+			<td colspan="3" >
 				${purchaseReq.no}
 			</td>
 		</tr>
 		<tr>
 			<td>关联采购明细：</td> 
-			<td>
+			<td colspan="3">
 				<table id="purchaseReqItem" border="1">
 				<thead>
 					<tr>
@@ -54,34 +52,31 @@
 				</table>
 			</td>
 		</tr>
+		
 		<tr>
-			<td style="vertical-align: top">说明：</td><td>${purchaseCert.descrp}</td>
+			<td style="vertical-align: top">说明：</td>
+			<td colspan="3" >${purchaseCert.descrp}</td>
 		</tr>
-		<tr>
-			<td>状态：</td><td>${purchaseCert.state.name}</td>
-		</tr>
+		
 		<tr>
 			<td>总金额：</td><td>${purchaseCert.tolsum}</td>
 		</tr>
+		
 		<tr>
 			<td>制单人：</td><td>${purchaseCert.creater.name}</td>
-		</tr>
-		<tr>
 			<td>制单日期：</td><td><fmt:formatDate value="${purchaseCert.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+		
 		<tr>
 			<td>签发人：</td><td>${purchaseCert.signer.name}</td>
-		</tr>
-		<tr>
 			<td>签发日期：</td><td><fmt:formatDate value="${purchaseCert.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+		
 		<tr>
 			<td>接收人：</td>
 			<td>
 				${purchaseCert.receiver.name}
 			</td>
-		</tr>
-		<tr>
 			<td>接收日期：</td>
 			<td>
 				${purchaseCert.receivedate}

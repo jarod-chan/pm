@@ -2,13 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-	<script type="text/javascript">
-    $(function(){
-    	$('#tabmain tr').find('td:eq(0)').css("text-align","right");
-    })
-	</script>
+	<%@ include file="/script/fmttable.jsp" %>
 
-	<table id="tabmain">
+	<table id="tabmain" class="fmttable">
 
 		<c:set var="parma_no" value="${purchaseReq.no}" />
 		<c:set var="parma_busino" value="${purchaseReq.busino}" />
@@ -16,38 +12,35 @@
 
 		<tr>
 			<td>项目负责人：</td><td>${purchaseReq.leader.name}</td>
+			<td>状态：</td><td>${purchaseReq.state.name}</td>
 		</tr>
+		
 		<tr>
-			<td style="vertical-align: top">说明：</td><td>${purchaseReq.descrp}</td>
+			<td style="vertical-align: top">说明：</td><td colspan="3">${purchaseReq.descrp}</td>
 		</tr>
-			<tr>
+		
+		<tr>
 			<td>计划进场日期：</td>
-			<td>
+			<td colspan="3">
 				<fmt:formatDate value="${purchaseReq.plandate}" pattern="yyyy-MM-dd"/>
 			</td>
 		</tr>
-		<tr>
-			<td>状态：</td><td>${purchaseReq.state.name}</td>
-		</tr>
+
 		<tr>
 			<td>制单人：</td><td>${purchaseReq.creater.name}</td>
-		</tr>
-		<tr>
 			<td>制单日期：</td><td><fmt:formatDate value="${purchaseReq.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+		
 		<tr>
 			<td>签发人：</td><td>${purchaseReq.signer.name}</td>
-		</tr>
-		<tr>
 			<td>签发日期：</td><td><fmt:formatDate value="${purchaseReq.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+		
 		<tr>
 			<td>接收人：</td>
 			<td>
 				${purchaseReq.receiver.name}
 			</td>
-		</tr>
-		<tr>
 			<td>接收日期：</td>
 			<td>
 				${purchaseReq.receivedate}

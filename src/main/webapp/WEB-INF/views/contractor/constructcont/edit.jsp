@@ -33,6 +33,7 @@
 		});
 		
 		$("#btn_commit").click(function(){
+			if(!validator.form()){return;}
 			$("#tabitem tbody tr").formatName();
 			var actionFrom=$("form");
 			var oldAction=actionFrom.attr("action"); 

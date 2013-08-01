@@ -172,12 +172,13 @@
     	$(".addLast").triggerHandler("click");
     	</c:if>
     	
-    	$('#tabmain tr').find('td:eq(0)').css("text-align","right");
 	})
 </script>
 
+	<%@ include file="/script/fmttable.jsp" %>
+
 	<input type="hidden" name="id" value="${constructCert.id}">
-	<table id="tabmain">
+	<table id="tabmain" class="fmttable">
 
 		<c:set var="parma_no" value="${constructCert.no}" />
 		<c:set var="parma_busino" value="${constructCert.busino}" />
@@ -185,10 +186,12 @@
 
 		<tr>
 			<td>项目负责人：</td><td>${constructCert.leader.name}</td>
+			<td>状态：</td><td>${constructCert.state.name}</td>
 		</tr>
+		
 		<tr>
 			<td>施工联系单：</td>
-			<td>
+			<td colspan="3">
 				
 				
 				<span id="spanConstructCont">${constructCont.no}</span><input type="hidden" name="constructKey.id" value="${constructCont.constructKey.id}">
@@ -199,36 +202,31 @@
 		</tr>
 		<tr>
 			<td>施工承包方：</td>
-			<td><span id="supplier_name">${constructCont.constructKey.contract.supplier.name}</span></td>
+			<td colspan="3"><span id="supplier_name">${constructCont.constructKey.contract.supplier.name}</span></td>
 		</tr>
+		
 		<tr>
-			<td style="vertical-align: top">原因：</td><td><textarea name="reason" rows="6" cols="30" style="vertical-align: top">${constructCert.reason}</textarea></td>
-		</tr>
-		<tr>
-			<td>状态：</td><td>${constructCert.state.name}</td>
+			<td style="vertical-align: top">原因：</td><td colspan="3"><textarea name="reason" rows="6" cols="30" style="vertical-align: top">${constructCert.reason}</textarea></td>
 		</tr>
 		<tr>
 			<td>总金额：</td><td><span id="sp_tolsum">${constructCert.tolsum}</span><input type="hidden" name="tolsum" value="${constructCert.tolsum}"></td>
 		</tr>
+		
 		<tr>
 			<td>制单人：</td><td>${constructCert.creater.name}</td>
-		</tr>
-		<tr>
 			<td>制单日期：</td><td><fmt:formatDate value="${constructCert.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+		
 		<tr>
 			<td>签发人：</td><td>${constructCont.signer.name}</td>
-		</tr>
-		<tr>
 			<td>签发日期：</td><td><fmt:formatDate value="${constructCont.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+		
 		<tr>
 			<td>结算人：</td>
 			<td>
 				${constructCert.settler.name}
 			</td>
-		</tr>
-		<tr>
 			<td>结算日期：</td>
 			<td>
 				<fmt:formatDate value="${constructCert.settledate}" pattern="yyyy-MM-dd"/>

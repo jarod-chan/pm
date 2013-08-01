@@ -5,8 +5,6 @@
 <tr>
 	<td>序号：</td>
 	<td>${parma_no}<c:if test="${empty parma_no}">系统自动生成</c:if></td>
-</tr>
-<tr>
 	<td>业务编号：</td>
 	<td>${parma_busino}</td>
 </tr>

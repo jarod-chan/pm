@@ -4,12 +4,6 @@
 
 	 <script type="text/javascript">
     $(function(){
-    	var seldom=$("<select>");
-    	seldom.attr("name","constructContItems_unit")
-    		.append($("<option ></option>"))
-    		.append($("<option value='元/立方米'>元/立方米</option>"))
-    		.append($("<option value='元/立方米'>元/立方米</option>"))
-    		.append($("<option value='元/工作日'>元/工作日</option>"));
     	
     	var trdom = $("<tr>");
 		$("<td>")
@@ -29,7 +23,7 @@
 		$("<td>").append($("<input type='text' name='constructContItems_numb' style='width:50px' />"))
 		  .appendTo(trdom);
 		
-		$("<td>").append(seldom)
+		$("<td>").append($("<input type='text' name='constructContItems_unit' style='width:50px' />"))
 		  .appendTo(trdom);
 		
 		$("<td>").append($("<input type='text' name='constructContItems_amount' style='width:100px' />"))
@@ -157,20 +151,24 @@
     	
     	$(".datePK").datepicker();
     	
-    	$('#tabmain tr').find('td:eq(0)').css("text-align","right");
     })
 	 
 	 </script>
 
+	<%@ include file="/script/fmttable.jsp" %>	
+	
+	
 	<input type="hidden" name="id"  value="${constructCont.id}">
-	<table id="tabmain">
+	<table id="tabmain" class="fmttable">
 		<c:set var="parma_no" value="${constructCont.no}" />
 		<c:set var="parma_busino" value="${constructCont.busino}" />
 		<%@ include file="/component/noShowBill.jsp" %>
 		
 		<tr>
 			<td>项目负责人：</td><td>${constructCont.leader.name}</td>
+			<td>状态：</td><td>${constructCont.state.name}</td>
 		</tr>
+		
 		<tr>
 			<td>合同：</td> 
 			<td>
@@ -179,51 +177,43 @@
 			</td>
 		</tr>
 		<tr>
-			<td style="vertical-align: top">原因：</td><td><textarea name="reason" rows="6" cols="30" style="vertical-align: top">${constructCont.reason}</textarea></td>
+			<td style="vertical-align: top">原因：</td><td colspan="3"><textarea name="reason" rows="6" cols="30" style="vertical-align: top">${constructCont.reason}</textarea></td>
 		</tr>
-			<tr>
+		
+		<tr>
 			<td>计划完成日期：</td>
 			<td>
 				<input type="text" class="datePK" name="plandate" value="${constructCont.plandate}">
 			</td>
-		</tr>
-		<tr>
 			<td>实际完成日期：</td>
 			<td>
 				${constructCont.realdate}
 			</td>
 		</tr>
+		
 		<tr>
 			<td>实际执行结果：</td>
 			<td>
 				${constructCont.result}
 			</td>
-		</tr>
-		<tr>
-			<td>状态：</td><td>${constructCont.state.name}</td>
-		</tr>
-		<tr>
 			<td>总金额：</td><td><span id="sp_tolsum">${constructCont.tolsum}</span><input type="hidden" name="tolsum" value="${constructCont.tolsum}"></td>
 		</tr>
+		
 		<tr>
 			<td>制单人：</td><td>${constructCont.creater.name}</td>
-		</tr>
-		<tr>
 			<td>制单日期：</td><td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+		
 		<tr>
 			<td>签发人：</td><td>${constructCont.signer.name}</td>
-		</tr>
-		<tr>
 			<td>签发日期：</td><td><fmt:formatDate value="${constructCont.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+		
 		<tr>
 			<td>接收人：</td>
 			<td>
 				${constructCont.receiver.name}
 			</td>
-		</tr>
-		<tr>
 			<td>接收日期：</td>
 			<td>
 				${constructCont.receivedate}
@@ -255,14 +245,7 @@
 	
 			<td><input type='text' name='constructContItems_numb' value='<fmt:formatNumber value="${item.numb}" pattern="#.#"/>' style='width:50px' /></td>
 	
-			<td>
-				<select name='constructContItems_unit'>
-					<option <c:if test="${item.unit==''}">selected="true"</c:if> ></option>
-					<option value="元/平方米" <c:if test="${item.unit=='元/平方米'}">selected="true"</c:if> >元/平方米</option>
-					<option value="元/立方米" <c:if test="${item.unit=='元/立方米'}">selected="true"</c:if> >元/立方米</option>
-					<option value="元/工作日" <c:if test="${item.unit=='元/工作日'}">selected="true"</c:if> >元/工作日</option>
-				</select>
-			</td>
+			<td><input type='text' name='constructContItems_unit' value='${item.unit}' style='width:50px' /></td>
 	
 			<td><input type='text' name='constructContItems_amount' value='${item.amount}' style='width:100px' /></td>
 	  
