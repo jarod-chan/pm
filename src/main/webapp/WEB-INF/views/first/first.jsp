@@ -153,10 +153,10 @@
 					<ul style="float: right;width: 13ex;" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
 						<li>
 							<ul>
-								<li><a href="${ctx}/constructcont/list" class="no_show" target="mainFrame" >施工联系单</a></li>
-								<li><a href="${ctx}/constructcert/list" class="no_show" target="mainFrame" >工程签证单</a></li>
-								<li><a href="${ctx}/purchasereq/list" class="no_show" target="mainFrame" >采购申请单</a></li>
-								<li><a href="${ctx}/purchasecert/list" class="no_show" target="mainFrame" >价格确认单</a></li>
+								<li><a href="${ctx}/${project.id}/constructcont/list" class="no_show" target="mainFrame" >施工联系单</a></li>
+								<li><a href="${ctx}/${project.id}/constructcert/list" class="no_show" target="mainFrame" >工程签证单</a></li>
+								<li><a href="${ctx}/${project.id}/purchasereq/list" class="no_show" target="mainFrame" >采购申请单</a></li>
+								<li><a href="${ctx}/${project.id}/purchasecert/list" class="no_show" target="mainFrame" >价格确认单</a></li>
 							<%-- 	<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >问题报告单</a></li>
 								<li><a href="${ctx}/first/notfinish" class="no_show" target="mainFrame" >技术联系单</a></li> --%>
 							</ul>

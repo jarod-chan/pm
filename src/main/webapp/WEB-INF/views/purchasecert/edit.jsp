@@ -42,7 +42,7 @@
 		});
 		
 		$("#btn_back").click(function(){
-			window.open('${ctx}/purchasecert/list','_self');
+			window.open('${ctx}/${projectId}/purchasecert/list','_self');
 			return false;
 		});
 		
@@ -56,7 +56,7 @@
 	<h2>价格确认单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<form action="${ctx}/purchasecert" method="post">
+	<form action="${ctx}/${projectId}/purchasecert" method="post">
 	<input type="hidden" name="afteraction"  >
 	
 	<%@ include file="part/purchasecert_edit.jsp" %>	

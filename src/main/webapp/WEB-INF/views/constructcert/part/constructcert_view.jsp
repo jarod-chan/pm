@@ -6,7 +6,7 @@
 <script type="text/javascript">
   $(function() {
 	$("#btn_cont").click(function(){
-	  		window.open('${ctx}/constructcont/${constructCont.id}/view?notback=true','_blank');
+	  		window.open('${ctx}/${projectId}/constructcont/${constructCont.id}/view?notback=true','_blank');
 		return false;
 	}) 
   })

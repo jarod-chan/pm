@@ -52,20 +52,20 @@
 		}); 
     	
     	$("#btn_new").click(function(){
-			window.open('${ctx}/constructcont/-1/edit','_self');
+			window.open('${ctx}/${projectId}/constructcont/-1/edit','_self');
 			return false;
 		});
     	
 
     	$('.btn_edit').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-    		window.open('${ctx}/constructcont/{id}/edit'.replace('{id}',param.id),'_self');
+    		window.open('${ctx}/${projectId}/constructcont/{id}/edit'.replace('{id}',param.id),'_self');
         	return false;
     	});
     	
     	$('.btn_delete').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-        	$('<form/>',{action:'${ctx}/constructcont/delete',method:'post'})
+        	$('<form/>',{action:'${ctx}/${projectId}/constructcont/delete',method:'post'})
 	    		.append($('<input/>',{type:'hidden',name:'constructContId',value:param.id}))
 				.appendTo($("body"))
 			.submit();
@@ -73,7 +73,7 @@
     	
     	$('.btn_view').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-    		window.open('${ctx}/constructcont/{id}/view'.replace('{id}',param.id),'_self');
+    		window.open('${ctx}/${projectId}/constructcont/{id}/view'.replace('{id}',param.id),'_self');
         	return false;
     	});
     	
@@ -84,7 +84,7 @@
     	});
     	
     	$('#btn_clear').click(function(){
-    		window.open('${ctx}/constructcont/list','_self');
+    		window.open('${ctx}/${projectId}/constructcont/list','_self');
 			return false;
     	});
     });
@@ -94,7 +94,7 @@
 <body>
 	<h2>施工联系单</h2>
 	<div style="text-align: left;">
-	<form action="${ctx}/constructcont" method="post">
+	<form action="${ctx}/${projectId}/constructcont" method="post">
 		序号:<input type="text" name="no" value="${query.no}">
 		施工承包方:<select name="supplier.id" >
 					<option value="" >-所有-</option>

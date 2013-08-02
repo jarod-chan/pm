@@ -53,19 +53,19 @@
     	
     	
     	$("#btn_new").click(function(){
-			window.open('${ctx}/constructcert/-1/edit','_self');
+			window.open('${ctx}/${projectId}/constructcert/-1/edit','_self');
 			return false;
 		});
     	
     	$(".btn_edit").click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-			window.open('${ctx}/constructcert/'+param.id+'/edit','_self');
+			window.open('${ctx}/${projectId}/constructcert/'+param.id+'/edit','_self');
 			return false;
 		});
     	
     	$('.btn_delete').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-        	$('<form/>',{action:'${ctx}/constructcert/delete',method:'post'})
+        	$('<form/>',{action:'${ctx}/${projectId}/constructcert/delete',method:'post'})
 	    		.append($('<input/>',{type:'hidden',name:'constructCertId',value:param.id}))
 				.appendTo($("body"))
 			.submit();
@@ -73,7 +73,7 @@
     	
     	$('.btn_view').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-    		window.open('${ctx}/constructcert/{id}/view'.replace('{id}',param.id),'_self');
+    		window.open('${ctx}/${projectId}/constructcert/{id}/view'.replace('{id}',param.id),'_self');
         	return false;
     	});
     	
@@ -84,7 +84,7 @@
     	})
     	
     	$('#btn_clear').click(function(){
-    		window.open('${ctx}/constructcert/list','_self');
+    		window.open('${ctx}/${projectId}/constructcert/list','_self');
 			return false;
     	})
     });
@@ -95,7 +95,7 @@
 	<h2>工程签证单</h2>
 	
 	<div style="text-align: left;">
-	<form action="${ctx}/constructcert" method="post">
+	<form action="${ctx}/${projectId}/constructcert" method="post">
 		序号:<input type="text" name="no" value="${query.no}">
 		施工承包方:<select name="supplier.id" >
 					<option value="" >-所有-</option>

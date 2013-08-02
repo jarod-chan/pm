@@ -139,14 +139,14 @@
     	$("#btn_cont").click(function(){
     		var constructContId=$("input[name='constructKey.id']").val();
     		if(constructContId=="") return;
-    		window.open('${ctx}/constructcont/'+constructContIdMap[constructContId]+'/view?notback=true','_blank');
+    		window.open('${ctx}/${projectId}/constructcont/'+constructContIdMap[constructContId]+'/view?notback=true','_blank');
 			return false;
     	})
 		
 	   	$("#btn_load").click(function(){
     		var constructContId=$("input[name='constructKey.id']").val();
     		if(constructContId=="") return;
-    		$.getJSON('${ctx}/constructcont/'+constructContIdMap[constructContId]+'/items',function(itemlist){
+    		$.getJSON('${ctx}/${projectId}/constructcont/'+constructContIdMap[constructContId]+'/items',function(itemlist){
     			var tbody=$("#tabitem tbody");
     			tbody.empty();
     			for(i=0;i<itemlist.length;i++){

@@ -53,7 +53,7 @@ import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 @Controller
-@RequestMapping("purchasereq")
+@RequestMapping("{projectId}/purchasereq")
 public class PurchaseReqCtl {
 	
 	private static final String PATH="purchasereq/";
@@ -90,8 +90,9 @@ public class PurchaseReqCtl {
 	}
 	
 	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
-	public String toList(ReqQuery query,Map<String,Object> map){
-		Project project = sessionUtil.getValue("project");
+	public String toList(@PathVariable("projectId")Long projectId,ReqQuery query,Map<String,Object> map){
+		Project project = new Project();
+		project.setId(projectId);
 		query.setProject(project);
 		List<PurchaseReq>  purchaseReqList= purchaseReqService.query(query);
 		map.put("purchaseReqList", purchaseReqList);
@@ -102,8 +103,9 @@ public class PurchaseReqCtl {
 	}
 	
 	@RequestMapping(value="{purchaseReqId}/edit",method=RequestMethod.GET)
-	public String toEdit(@PathVariable("purchaseReqId")Long purchaseReqId,Map<String,Object> map){
-		Project project = sessionUtil.getValue("project");
+	public String toEdit(@PathVariable("projectId")Long projectId,@PathVariable("purchaseReqId")Long purchaseReqId,Map<String,Object> map){
+		Project project = new Project();
+		project.setId(projectId);
 		User user = sessionUtil.getValue("user");
 		PurchaseReq purchaseReq = purchaseReqId.longValue()>0?purchaseReqService.find(purchaseReqId):purchaseReqService.create(user,project,PurchaseReqState.new_);
 		map.put("purchaseReq", purchaseReq);
@@ -114,8 +116,9 @@ public class PurchaseReqCtl {
 	}
 	
 	@RequestMapping(value="saveEdit",method=RequestMethod.POST)
-	public String saveEdit(@RequestParam("id")Long purchaseReqId,@RequestParam("afteraction")String afteraction,@RequestParam(value="purchaseReqItemsId",required=false) Long[] purchaseReqItemsId,HttpServletRequest request,RedirectAttributes redirectAttributes){
-		Project project = sessionUtil.getValue("project");
+	public String saveEdit(@PathVariable("projectId")Long projectId,@RequestParam("id")Long purchaseReqId,@RequestParam("afteraction")String afteraction,@RequestParam(value="purchaseReqItemsId",required=false) Long[] purchaseReqItemsId,HttpServletRequest request,RedirectAttributes redirectAttributes){
+		Project project = new Project();
+		project.setId(projectId);
 		User user = sessionUtil.getValue("user");
 		
 		PurchaseReq purchaseReq =purchaseReqId!=null?purchaseReqService.find(purchaseReqId):purchaseReqService.create(user,project,PurchaseReqState.saved);
@@ -187,7 +190,7 @@ public class PurchaseReqCtl {
 	}
 
 	@RequestMapping(value="{purchaseReqId}/view",method=RequestMethod.GET)
-	public String toView(@PathVariable("purchaseReqId")Long purchaseReqId,Map<String,Object> map){
+	public String toView(@PathVariable("projectId")Long projectId,@PathVariable("purchaseReqId")Long purchaseReqId,Map<String,Object> map){
 		PurchaseReq purchaseReq = purchaseReqService.find(purchaseReqId);
 		map.put("purchaseReq", purchaseReq);
 		List<Opinion> opinions = opinionService.listOpinions(PurchaseReq.BUSI_CODE, purchaseReqId);
@@ -196,7 +199,7 @@ public class PurchaseReqCtl {
 	}
 	
 	@RequestMapping(value="{purchaseReqId}/check",method=RequestMethod.GET)
-	public String toCheck(@PathVariable(value="purchaseReqId")Long purchaseReqId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
+	public String toCheck(@PathVariable("projectId")Long projectId,@PathVariable(value="purchaseReqId")Long purchaseReqId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
 		PurchaseReq purchaseReq = purchaseReqService.find(purchaseReqId);
 		map.put("purchaseReq", purchaseReq);
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
@@ -207,6 +210,23 @@ public class PurchaseReqCtl {
 		map.put("busiCode", PurchaseReq.BUSI_CODE);
 		return Page.CHECK;
 	}
+	
+	
+	/**
+	 * 供外部接口调用
+	 */
+	@RequestMapping(value="{purchaseKeyId}/items/{uptype}/{upid}",method=RequestMethod.GET)
+	@ResponseBody 
+	public List<ReqItemDto> getReqItemList(@PathVariable("purchaseKeyId")Long purchaseKeyId,@PathVariable("uptype")UptypeEnum uptype,@PathVariable("upid")Long upid){
+		return reqItemFacade.getReqItemList(purchaseKeyId, uptype, upid);
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	@RequestMapping(value="{purchaseReqId}/checkedit",method=RequestMethod.GET)
 	public String toCheckEdit(@PathVariable("purchaseReqId")Long purchaseReqId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
@@ -269,12 +289,5 @@ public class PurchaseReqCtl {
 		return result;
 	}
 	
-	/**
-	 * 供外部接口调用
-	 */
-	@RequestMapping(value="{purchaseKeyId}/items/{uptype}/{upid}",method=RequestMethod.GET)
-	@ResponseBody 
-	public List<ReqItemDto> getReqItemList(@PathVariable("purchaseKeyId")Long purchaseKeyId,@PathVariable("uptype")UptypeEnum uptype,@PathVariable("upid")Long upid){
-		return reqItemFacade.getReqItemList(purchaseKeyId, uptype, upid);
-	}
+	
 }

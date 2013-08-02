@@ -15,7 +15,7 @@
     $(function() {
 
 		$("#btn_back").click(function(){
-			window.open('${ctx}/purchasecert/list','_self');
+			window.open('${ctx}/${projectId}/purchasecert/list','_self');
 			return false;
 		})
 

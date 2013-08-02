@@ -90,12 +90,15 @@
 		<input type="button" value="新建"  id="btn_new">
 	</div>
 	<br>
-	<table id="tblmain" border="1">
+	<table id="tblmain" border="1" class="hctable">
+		<thead>
 		<tr>
 			<td>序号</td><td>业务编号</td><td>施工联系单</td><td>专业分类</td><td>状态</td>
 			<td>总金额</td>
 			<td>制单人</td><td>制单日期</td><td>签发人</td><td>签发日期</td><td>结算人</td><td>结算日期</td><td>操作</td>
 		</tr>
+		</thead>
+		<tbody>
 		<c:forEach var="constructCertDto" items="${ConstructCertDtoList}">
 			<tr>
 				<td>${constructCertDto.constructCert.no}</td>
@@ -123,7 +126,7 @@
 				</td>
 			</tr>
 		</c:forEach>
-		
+		</tbody>
 	</table>
 	<script type="text/javascript">
 		$(function(){

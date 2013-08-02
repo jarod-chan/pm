@@ -2,11 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-	<style type="text/css">
-	.high-color{
-		background-color: #C8C8C8;
-	}
-	</style>
 	<script type="text/javascript">
 		$(function(){
 			
@@ -56,7 +51,7 @@
 	       		}
 	       		var certid="-1";
 	       		<c:if test="${not empty certid}">certid="${certid}";</c:if>
-	       		$.getJSON('${ctx}/purchasereq/'+purchaseKeyId+'/items/${uptype}/'+certid,function(itemlist){
+	       		$.getJSON('${ctx}/${projectId}/purchasereq/'+purchaseKeyId+'/items/${uptype}/'+certid,function(itemlist){
 	       			$("#purchaseReqItem tbody").empty();
 	       			for(i=0;i<itemlist.length;i++){
 	       				warpLi(itemlist[i]);
@@ -89,16 +84,11 @@
 				fetchReqItem(param.id);
 				$( "#selReq" ).dialog("close");
 			})
-			$("#selReq tbody tr").mouseover(function() {
-			  	$(this).addClass("high-color");
-			  }).mouseout(function(){
-			    $(this).removeClass("high-color");
-			  });
 		})
 	</script>
 	
 	<div id="selReq" title="采购申请单" >
-		<table border="1">
+		<table border="1" class="hctable">
 			<thead>
 				<tr>
 					<td>序号</td>

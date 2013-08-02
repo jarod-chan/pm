@@ -192,7 +192,7 @@
        		var val=$(this).val();
        		var certid="-1";
        		<c:if test="${not empty purchaseCert.id}">certid="${purchaseCert.id}";</c:if>
-       		$.getJSON('${ctx}/purchasereq/'+val+'/items/pm_purchasecert/'+certid,function(itemlist){
+       		$.getJSON('${ctx}/${projectId}/purchasereq/'+val+'/items/pm_purchasecert/'+certid,function(itemlist){
        			$("#purchaseReqItem tbody").empty();
        			for(i=0;i<itemlist.length;i++){
        				warpLi(itemlist[i]);

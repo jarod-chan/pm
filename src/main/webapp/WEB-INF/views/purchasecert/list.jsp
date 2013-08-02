@@ -52,20 +52,20 @@
 		}); 
     	
     	$("#btn_new").click(function(){
-			window.open('${ctx}/purchasecert/-1/edit','_self');
+			window.open('${ctx}/${projectId}/purchasecert/-1/edit','_self');
 			return false;
 		});
     	
 
     	$('.btn_edit').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-    		window.open('${ctx}/purchasecert/{id}/edit'.replace('{id}',param.id),'_self');
+    		window.open('${ctx}/${projectId}/purchasecert/{id}/edit'.replace('{id}',param.id),'_self');
         	return false;
     	});
     	
     	$('.btn_delete').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-        	$('<form/>',{action:'${ctx}/purchasecert/delete',method:'post'})
+        	$('<form/>',{action:'${ctx}/${projectId}/purchasecert/delete',method:'post'})
 	    		.append($('<input/>',{type:'hidden',name:'purchaseCertId',value:param.id}))
 				.appendTo($("body"))
 			.submit();
@@ -73,7 +73,7 @@
     	
     	$('.btn_view').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-    		window.open('${ctx}/purchasecert/{id}/view'.replace('{id}',param.id),'_self');
+    		window.open('${ctx}/${projectId}/purchasecert/{id}/view'.replace('{id}',param.id),'_self');
         	return false;
     	});
     	
@@ -84,7 +84,7 @@
     	});
     	
     	$('#btn_clear').click(function(){
-    		window.open('${ctx}/purchasecert/list','_self');
+    		window.open('${ctx}/${projectId}/purchasecert/list','_self');
 			return false;
     	});
     });
@@ -94,7 +94,7 @@
 <body>
 	<h2>价格确认单</h2>
 	<div style="text-align: left;">
-	<form action="${ctx}/purchasecert" method="post">
+	<form action="${ctx}/${projectId}/purchasecert" method="post">
 		序号:<input type="text" name="no" value="${query.no}">
 		制单日期:<input type="text" name="createdate_beg" class="datePK" value="<fmt:formatDate value="${query.createdate_beg}" pattern="yyyy-MM-dd"/>" >--<input type="text" name="createdate_end" class="datePK" value="<fmt:formatDate value="${query.createdate_end}" pattern="yyyy-MM-dd"/>">
 		<br>

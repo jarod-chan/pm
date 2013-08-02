@@ -15,7 +15,7 @@
     $(function() {
 
 		$("#btn_back").click(function(){
-			window.open('${ctx}/purchasereq/list','_self');
+			window.open('${ctx}/${projectId}/purchasereq/list','_self');
 			return false;
 		})
 

@@ -31,7 +31,7 @@
 		});
 		
 		$("#btn_back").click(function(){
-			window.open('${ctx}/purchasereq/list','_self');
+			window.open('${ctx}/${projectId}/purchasereq/list','_self');
 			return false;
 		});
 		
@@ -45,7 +45,7 @@
 	<h2>采购申请单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<form action="${ctx}/purchasereq" method="post">
+	<form action="${ctx}/${projectId}/purchasereq" method="post">
 	<input type="hidden" name="afteraction"  >
 	
 	<%@ include file="part/purchasereq_edit.jsp" %>	

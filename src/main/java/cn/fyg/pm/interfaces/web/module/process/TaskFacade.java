@@ -28,7 +28,7 @@ public class TaskFacade {
 	
 	public List<ProcessTaskBean> getProcessTasks(String userKey){
 		List<ProcessTaskBean> result=new ArrayList<ProcessTaskBean>();
-		List<Task> tasks = taskService.createTaskQuery().taskAssignee(userKey).orderByTaskCreateTime().asc().list();
+		List<Task> tasks = taskService.createTaskQuery().taskAssignee(userKey).orderByTaskCreateTime().desc().list();
 		for (Task task : tasks) {
 			ProcessTaskBean processTaskBean=new ProcessTaskBean();
 			

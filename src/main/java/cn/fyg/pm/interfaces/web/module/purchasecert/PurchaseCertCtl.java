@@ -54,7 +54,7 @@ import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 @Controller
-@RequestMapping("purchasecert")
+@RequestMapping("{projectId}/purchasecert")
 public class PurchaseCertCtl {
 	
 	private static final String PATH="purchasecert/";
@@ -95,8 +95,9 @@ public class PurchaseCertCtl {
 	}
 	
 	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
-	public String toList(CertQuery query,Map<String,Object> map){
-		Project project = sessionUtil.getValue("project");
+	public String toList(@PathVariable("projectId")Long projectId,CertQuery query,Map<String,Object> map){
+		Project project = new Project();
+		project.setId(projectId);
 		query.setProject(project);
 		List<PurchaseCert>  purchaseCertList= purchaseCertService.query(query);
 		List<PurchaseCertDto> purchaseCertDtoList = purchaseCertAssembler.buildDto(purchaseCertList);
@@ -108,8 +109,9 @@ public class PurchaseCertCtl {
 	}
 	
 	@RequestMapping(value="{purchaseCertId}/edit",method=RequestMethod.GET)
-	public String toEdit(@PathVariable("purchaseCertId")Long purchaseCertId,Map<String,Object> map){
-		Project project = sessionUtil.getValue("project");
+	public String toEdit(@PathVariable("projectId")Long projectId,@PathVariable("purchaseCertId")Long purchaseCertId,Map<String,Object> map){
+		Project project = new Project();
+		project.setId(projectId);
 		User user = sessionUtil.getValue("user");
 		PurchaseCert purchaseCert = purchaseCertId.longValue()>0?purchaseCertService.find(purchaseCertId):purchaseCertService.create(user,project,PurchaseCertState.new_);
 		map.put("purchaseCert", purchaseCert);
@@ -121,8 +123,9 @@ public class PurchaseCertCtl {
 	}
 	
 	@RequestMapping(value="saveEdit",method=RequestMethod.POST)
-	public String saveEdit(@RequestParam("id")Long purchaseCertId,@RequestParam(value="reqItemIds",required=false)Long[] reqItemIds,@RequestParam(value="purchaseCertItemsId",required=false) Long[] purchaseCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes){
-		Project project = sessionUtil.getValue("project");
+	public String saveEdit(@PathVariable("projectId")Long projectId,@RequestParam("id")Long purchaseCertId,@RequestParam(value="reqItemIds",required=false)Long[] reqItemIds,@RequestParam(value="purchaseCertItemsId",required=false) Long[] purchaseCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes){
+		Project project = new Project();
+		project.setId(projectId);
 		User user = sessionUtil.getValue("user");
 		PurchaseCert purchaseCert = purchaseCertId!=null?purchaseCertService.find(purchaseCertId):purchaseCertService.create(user, project,PurchaseCertState.saved);
 		
@@ -197,7 +200,7 @@ public class PurchaseCertCtl {
 	}
 	
 	@RequestMapping(value="{purchaseCertId}/view",method=RequestMethod.GET)
-	public String toView(@PathVariable("purchaseCertId")Long purchaseCertId,Map<String,Object> map){
+	public String toView(@PathVariable("projectId")Long projectId,@PathVariable("purchaseCertId")Long purchaseCertId,Map<String,Object> map){
 		PurchaseCert purchaseCert = purchaseCertService.find(purchaseCertId);
 		PurchaseReq purchaseReq = purchaseReqService.findByPurchaseKey(purchaseCert.getPurchaseKey());
 		map.put("purchaseCert", purchaseCert);
@@ -222,6 +225,10 @@ public class PurchaseCertCtl {
 		map.put("busiCode",PurchaseCert.BUSI_CODE );
 		return Page.CHECK;
 	}
+	
+	
+	
+	
 	
 	@RequestMapping(value="{purchaseCertId}/checkedit",method=RequestMethod.GET)
 	public String toCheckEdit(@PathVariable("purchaseCertId")Long purchaseCertId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
