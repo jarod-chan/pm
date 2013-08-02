@@ -3,11 +3,7 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 	
-	<style type="text/css">
-		.high-color{
-			background-color: #C8C8C8;
-		}
-	</style>
+
 	<script type="text/javascript">
 		$(function(){
 			
@@ -34,17 +30,13 @@
 				$("#supplier_name").html(param.supplierName);
 				$( "#selContract" ).dialog("close");
 			})
-			$("#selContract tbody tr").mouseover(function() {
-			  	$(this).addClass("high-color");
-			  }).mouseout(function(){
-			    $(this).removeClass("high-color");
-			  });
+
 		})
 	</script>
 	
 	
 	<div id="selContract" title="施工服务合同" >
-		<table border="1">
+		<table border="1" class="hctable">
 			<thead>
 				<tr>
 					<td>编号</td>

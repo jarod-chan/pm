@@ -34,7 +34,7 @@
 				</thead>
 				<tbody>
 					<c:forEach  items="${purchaseReq.purchaseReqItems}" var="item">
-						<tr>
+						<tr  <c:if test="${item.upid==purchaseCert.id}">style="background-color:#A6CAF0;"</c:if>>
 							<td>${item.sn}</td>
 							<td>${item.metername}</td>
 							<td>${item.spec}</td>

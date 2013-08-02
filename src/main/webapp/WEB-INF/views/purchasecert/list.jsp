@@ -127,20 +127,23 @@
 		<input type="button" value="新建"  id="btn_new">
 	</div>
 	<br>
-	<table id="tblmain" border="1">
-		<tr>
-			<td>序号</td>
-			<td>业务编号</td>
-			<td>采购申请单</td>
-			<td>状态</td>
-			<td>制单人</td>
-			<td>制单日期</td>
-			<td>签发人</td>
-			<td>签发日期</td>
-			<td>接收人</td>
-			<td>接收日期</td>
-			<td>操作</td>
-		</tr>
+	<table id="tblmain" border="1" class="hctable">
+		<thead>
+			<tr>
+				<td>序号</td>
+				<td>业务编号</td>
+				<td>采购申请单</td>
+				<td>状态</td>
+				<td>制单人</td>
+				<td>制单日期</td>
+				<td>签发人</td>
+				<td>签发日期</td>
+				<td>接收人</td>
+				<td>接收日期</td>
+				<td>操作</td>
+			</tr>
+		</thead>
+		<tbody>
 		<c:forEach var="item" items="${purchaseCertDtoList}">
 			<tr>
 				<td>${item.purchaseCert.no}</td>
@@ -162,7 +165,7 @@
 				</td>
 			</tr>
 		</c:forEach>
-		
+		</tbody>
 	</table>
 	<br>
 	<script type="text/javascript">

@@ -138,7 +138,8 @@
 		<input type="button" value="新建"  id="btn_new">
 	</div>
 	<br>
-	<table id="tblmain" border="1">
+	<table id="tblmain" border="1" class="hctable">
+		<thead>
 		<tr>
 			<td>序号</td><td>业务编号</td><td>合同</td><td>施工承包方</td><td>专业分类</td><td>状态</td>
 			<td>总金额</td>
@@ -153,6 +154,8 @@
 			<td>实际执行结果</td>
 			<td>操作</td>
 		</tr>
+		</thead>
+		<tbody>
 		<c:forEach var="constructCont" items="${constructContList}">
 			<tr>
 				<td>${constructCont.no}</td>
@@ -180,6 +183,7 @@
 				</td>
 			</tr>
 		</c:forEach>
+		</tbody>
 		
 	</table>
 	

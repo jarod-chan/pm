@@ -13,7 +13,7 @@
 
 <script src="${ctx}/plu/layout/jquery.layout-latest.js" type="text/javascript"></script>
 
-
+<!-- 校验处理 -->
 <script src="${ctx}/plu/validation/jquery.validate.min.js" type="text/javascript"></script>
 <script src="${ctx}/plu/validation/messages_zh.js" type="text/javascript"></script>
 <style type="text/css">
@@ -30,6 +30,21 @@
 	})
 </script>
 
+<style type="text/css">
+	.high-color{
+		background-color: #C8C8C8;
+	}
+</style>
+<script type="text/javascript">
+	$(function(){
+		$(".hctable tbody tr").mouseover(function() {
+			$(this).addClass("high-color");
+		}).mouseout(function() {
+			$(this).removeClass("high-color");
+		})		
+	})
+</script>
+	 		
 
 
 
