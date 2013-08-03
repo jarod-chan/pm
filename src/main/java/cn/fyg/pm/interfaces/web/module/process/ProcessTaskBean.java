@@ -21,6 +21,8 @@ public class ProcessTaskBean {
 	
 	private String projectName;//项目名称
 	
+	private Date startTime;//流程开始时间
+	
 	private Date createDate;//任务创建日期
 	
 	private Date dueDate;//任务期限
@@ -35,6 +37,14 @@ public class ProcessTaskBean {
 
 	public void setExecutionId(String executionId) {
 		this.executionId = executionId;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
 	}
 
 	public Date getCreateDate() {

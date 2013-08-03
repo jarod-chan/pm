@@ -47,7 +47,8 @@
 				<th>序号</th>
 				<th>项目名称</th>
 				<th>待办任务</th>
-				<th>接收时间</th>
+				<th>发起时间</th>
+				<th>交办时间</th>
 				<th>任务期限</th>
 				<th>操作</th>
 			</tr>
@@ -59,6 +60,7 @@
 					<td>${processTask.businessNo}</td>
 					<td>${processTask.projectName}</td>
 					<td>${processTask.taskName}</td>
+					<td><fmt:formatDate value="${processTask.startTime}" pattern="yyyy-MM-dd HH:mm"/></td>
 					<td><fmt:formatDate value="${processTask.createDate}" pattern="yyyy-MM-dd HH:mm"/></td>
 					<td><fmt:formatDate value="${processTask.dueDate}" pattern="yyyy-MM-dd HH:mm"/></td>
 					<td>

@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.activiti.engine.FormService;
+import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class TaskFacade {
 	FormService formService;
 	@Autowired
 	RepositoryService repositoryService;
+	@Autowired
+	HistoryService historyService;
+	
 	
 	public List<ProcessTaskBean> getProcessTasks(String userKey){
 		List<ProcessTaskBean> result=new ArrayList<ProcessTaskBean>();
@@ -34,6 +39,9 @@ public class TaskFacade {
 			
 			ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionId(task.getProcessDefinitionId()).singleResult();
 			processTaskBean.setProcessName(processDefinition.getName());
+			
+			HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
+			processTaskBean.setStartTime(historicProcessInstance.getStartTime());
 			
 			processTaskBean.setTaskName(task.getName());
 			processTaskBean.setTaskId(task.getId());
