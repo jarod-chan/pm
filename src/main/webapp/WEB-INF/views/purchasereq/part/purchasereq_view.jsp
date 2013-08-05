@@ -49,9 +49,9 @@
 	
 
 	</table>
-	<br>
-	采购项目
-	<table id="tabitem" border="1">
+	
+	<h3>采购项目</h3>
+	<table id="tabitem" class="deftable">
 	<thead>
 		<tr>
 			<th>序号</th><th>材料名称</th><th>型号规格和技术指标</th><th>单位</th><th>数量</th><th>推荐品牌</th><th>执行结果</th>

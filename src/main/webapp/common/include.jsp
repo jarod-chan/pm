@@ -60,7 +60,22 @@
 	}
 </style>
 
-	 		
+<!-- 表格统一样式处理 -->
+<style type="text/css">
+
+table.deftable{
+	border: 1px solid #AAAAAA;
+}
+
+table.deftable>thead>tr>th {
+    background-color: #D5D5D5;
+    border: 1px solid #AAAAAA;
+    vertical-align: baseline;
+}
+table.deftable>tbody>tr>td {
+    border: 1px solid #AAAAAA;
+}
+</style>		
 
 
 

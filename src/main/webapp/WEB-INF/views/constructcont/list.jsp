@@ -132,27 +132,26 @@
 	</div>
 	
 	<%@ include file="/common/message.jsp" %>	
-	
-	
+
 	<div style="text-align: right;" id="headdiv">
 		<input type="button" value="新建"  id="btn_new">
 	</div>
 	<br>
-	<table id="tblmain" border="1" class="hctable">
+	<table id="tblmain" class="hctable deftable">
 		<thead>
 		<tr>
-			<td>序号</td><td>业务编号</td><td>合同</td><td>施工承包方</td><td>专业分类</td><td>状态</td>
-			<td>总金额</td>
-			<td>制单人</td>
-			<td>制单日期</td>
-			<td>签发人</td>
-			<td>签发日期</td>
-			<td>接收人</td>
-			<td>接收日期</td>
-			<td>计划完成日期</td>
-			<td>实际完成日期</td>
-			<td>实际执行结果</td>
-			<td>操作</td>
+			<th>序号</th><th>业务编号</th><th>合同</th><th>施工承包方</th><th>专业分类</th><th>状态</th>
+			<th>总金额</th>
+			<th>制单人</th>
+			<th>制单日期</th>
+			<th>签发人</th>
+			<th>签发日期</th>
+			<th>接收人</th>
+			<th>接收日期</th>
+			<th>计划完成日期</th>
+			<th>实际完成日期</th>
+			<th>实际执行结果</th>
+			<th>操作</th>
 		</tr>
 		</thead>
 		<tbody>

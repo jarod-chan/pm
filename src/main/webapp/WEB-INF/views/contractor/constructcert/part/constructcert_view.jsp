@@ -33,7 +33,7 @@
 		</tr>
 		
 		<tr>
-			<td style="vertical-align: top">原因：</td><td colspan="3">${constructCert.reason}</td>
+			<td style="vertical-align: top">原因：</td><td colspan="3" class="viewtextarea_td">${constructCert.reason}</td>
 		</tr>
 		
 		<tr>

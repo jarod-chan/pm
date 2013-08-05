@@ -32,17 +32,17 @@
 	</script>
 		
 		<div id="selConstructCont" title="施工联系单" style="display: none;">
-			<table border="1" class="hctable">
+			<table border="1" class="hctable deftable">
 				<thead>
 					<tr>
-						<td>序号</td>
-						<td>合同</td>
-						<td>施工承包方</td>
-						<td>专业分类</td>
-						<td>总金额</td>
-						<td>制单人</td>
-						<td>制单日期</td>
-						<td>操作</td>
+						<th>序号</th>
+						<th>合同</th>
+						<th>施工承包方</th>
+						<th>专业分类</th>
+						<th>总金额</th>
+						<th>制单人</th>
+						<th>制单日期</th>
+						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>

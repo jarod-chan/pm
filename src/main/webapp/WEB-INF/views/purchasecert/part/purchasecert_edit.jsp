@@ -243,7 +243,7 @@
 		<tr>
 			<td style="vertical-align: top">关联采购明细：</td>
 			<td colspan="3" >
-				<table id="purchaseReqItem" border="1" style="background-color: #FFFFFF;width: 504px;">
+				<table id="purchaseReqItem" class="deftable" style="background-color: #FFFFFF;width: 504px;">
 				<thead>
 					<tr>
 						<th>勾选</th><th>序号</th><th>材料名称</th><th>型号规格和技术指标</th><th>单位</th><th>数量</th><th>推荐品牌</th><th>执行结果</th>
@@ -286,9 +286,9 @@
 	
 
 	</table>
-	<br>
-	确认项目
-	<table id="tabitem" border="1">
+	
+	<h3>确认项目</h3>
+	<table id="tabitem" class="deftable">
 	<thead>
 		<tr>
 			<th>序号</th><th>材料名称</th><th>型号规格和技术指标</th><th>品牌</th><th>单位</th><th>数量</th><th>单价</th><th>金额</th><th>操作<input type="button" class="addLast" value="+"  /></th>

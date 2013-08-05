@@ -127,20 +127,20 @@
 		<input type="button" value="新建"  id="btn_new">
 	</div>
 	<br>
-	<table id="tblmain" border="1" class="hctable">
+	<table id="tblmain" class="hctable deftable">
 		<thead>
 			<tr>
-				<td>序号</td>
-				<td>业务编号</td>
-				<td>计划进场时间</td>
-				<td>状态</td>
-				<td>制单人</td>
-				<td>制单日期</td>
-				<td>签发人</td>
-				<td>签发日期</td>
-				<td>接收人</td>
-				<td>接收日期</td>
-				<td>操作</td>
+				<th>序号</th>
+				<th>业务编号</th>
+				<th>计划进场时间</th>
+				<th>状态</th>
+				<th>制单人</th>
+				<th>制单日期</th>
+				<th>签发人</th>
+				<th>签发日期</th>
+				<th>接收人</th>
+				<th>接收日期</th>
+				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody>

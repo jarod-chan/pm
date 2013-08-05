@@ -36,15 +36,15 @@
 	
 	
 	<div id="selContract" title="施工服务合同" >
-		<table border="1" class="hctable">
+		<table border="1" class="hctable deftable">
 			<thead>
 				<tr>
-					<td>编号</td>
-					<td>名称</td>
-					<td>供应商</td>
-					<td>状态</td>
-					<td>专业分类</td>
-					<td>操作</td>
+					<th>编号</th>
+					<th>名称</th>
+					<th>供应商</th>
+					<th>状态</th>
+					<th>专业分类</th>
+					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>

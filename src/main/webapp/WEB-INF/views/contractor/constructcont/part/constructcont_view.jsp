@@ -21,7 +21,7 @@
 		</tr>
 		
 		<tr>
-			<td style="vertical-align: top">原因：</td><td colspan="3">${constructCont.reason}</td>
+			<td style="vertical-align: top">原因：</td><td colspan="3" class="viewtextarea_td">${constructCont.reason}</td>
 		</tr>
 		
 		<tr>

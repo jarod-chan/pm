@@ -219,10 +219,9 @@
 	
 
 	</table>
-	<br>
-	<br>
-	联系项目
-	<table id="tabitem" border="1">
+	
+	<h3>联系项目</h3>
+	<table id="tabitem" class="deftable">
 	<thead>
 		<tr>
 			<th>序号</th><th>内容</th><th>暂定单价</th><th>暂定数量</th><th>单位</th><th>暂定结算价</th><th>操作<input type="button" class="addLast" value="+"  /></th>

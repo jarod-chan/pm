@@ -196,8 +196,6 @@
 		<tr>
 			<td>施工联系单：</td>
 			<td colspan='3'>
-				
-				
 				<span id="spanConstructCont">${constructCont.no}</span><input type="hidden" name="constructKey.id" value="${constructCont.constructKey.id}">
 				<input type="button" id="btn_selConstructCont" value="选择" />
 				<input type="button" id="btn_cont" value="查看"/>
@@ -205,7 +203,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td style="vertical-align: top">原因：</td><td colspan='3'><textarea name="reason" rows="6" cols="30" style="vertical-align: top">${constructCert.reason}</textarea></td>
+			<td style="vertical-align: top">原因：</td><td colspan='3'><textarea name="reason" class="edittextarea">${constructCert.reason}</textarea></td>
 		</tr>
 		
 		<tr>

@@ -177,13 +177,13 @@
 			</td>
 		</tr>
 		<tr>
-			<td style="vertical-align: top">原因：</td><td colspan="3"><textarea name="reason" rows="6" cols="30" style="vertical-align: top">${constructCont.reason}</textarea></td>
+			<td style="vertical-align: top">原因：</td><td colspan="3"><textarea name="reason" class="edittextarea">${constructCont.reason}</textarea></td>
 		</tr>
 		
 		<tr>
 			<td>计划完成日期：</td>
 			<td>
-				<input type="text" class="datePK" name="plandate" value="${constructCont.plandate}">
+				<input type="text" class="datePK editdate" name="plandate" value="${constructCont.plandate}">
 			</td>
 			<td>实际完成日期：</td>
 			<td>

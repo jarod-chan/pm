@@ -88,15 +88,15 @@
 	</script>
 	
 	<div id="selReq" title="采购申请单" >
-		<table border="1" class="hctable">
+		<table border="1" class="hctable deftable">
 			<thead>
 				<tr>
-					<td>序号</td>
-					<td>计划进场时间</td>
-					<td>状态</td>
-					<td>制单人</td>
-					<td>制单日期</td>
-					<td>操作</td>
+					<th>序号</th>
+					<th>计划进场时间</th>
+					<th>状态</th>
+					<th>制单人</th>
+					<th>制单日期</th>
+					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
