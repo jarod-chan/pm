@@ -40,7 +40,7 @@
 	<h2>任务列表</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<table border="1" class="hctable">
+	<table border="1" class="hctable deftable">
 		<thead>
 			<tr>
 				<th>业务流程</th>

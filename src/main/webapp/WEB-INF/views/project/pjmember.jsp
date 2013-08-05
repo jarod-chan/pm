@@ -40,7 +40,7 @@
 	<%@ include file="/common/message.jsp" %>	
 	
 	<form action="${ctx}/project/${project.id}/pjmember" method="post">
-	<table id="tblmain" border="1">
+	<table id="tblmain" class="deftable" >
 		<thead>
 			<tr>
 				<th>勾选</th>

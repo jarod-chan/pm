@@ -91,27 +91,31 @@
 		<input type="button" value="新建"  id="btn_new">
 	</div>
 	<br>
-	<table id="tblmain" border="1">
-		<tr>
-			<td>编号</td><td>名称</td><td>供应商</td>
-
-			<td>状态</td>
-			<td>专业分类</td>
-			<td>签订日期</td>
-			<td>交付日期</td>
-			<td>合同金额</td>
-			<td>首付比例</td>
-			<td>结算金额</td>
-			<td>来源形式</td>
-			<td>责任部门</td>
-			<td>风险等级</td>
-			<td>风险提示</td>
-			<td>评审结论</td>
-			<td>签订责任人</td>
-			<td>总份数</td>
-			<td>留存份数</td>
-			<td>操作</td>
-		</tr>
+	<table id="tblmain" class="hctable deftable">
+		<thead>
+			<tr>
+				<th>编号</th>
+				<th>名称</th>
+				<th>供应商</th>
+				<th>状态</th>
+				<th>专业分类</th>
+				<th>签订日期</th>
+				<th>交付日期</th>
+				<th>合同金额</th>
+				<th>首付比例</th>
+				<th>结算金额</th>
+				<th>来源形式</th>
+				<th>责任部门</th>
+				<th>风险等级</th>
+				<th>风险提示</th>
+				<th>评审结论</th>
+				<th>签订责任人</th>
+				<th>总份数</th>
+				<th>留存份数</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
 		<c:forEach var="contract" items="${contractList}">
 			<tr>
 				<td>${contract.no}</td>
@@ -138,7 +142,7 @@
 				</td>
 			</tr>
 		</c:forEach>
-		
+		</tbody>
 	</table>
 	
 </body>

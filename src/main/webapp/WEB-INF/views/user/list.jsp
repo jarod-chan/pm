@@ -49,16 +49,19 @@
 	<input type="button" value="新建"  id="btn_new">
 	</div>
 	<br>
-	<table id="tblmain" border="1">
+	<table id="tblmain" class="hctable deftable">
+		<thead>
 		<tr>
-			<td>用户名</td>
-			<td>真实姓名</td>
-			<td>公司邮箱</td>
-			<td>电话</td>
-			<td>密码</td>
-			<td>状态</td>
-			<td>操作</td>
+			<th>用户名</th>
+			<th>真实姓名</th>
+			<th>公司邮箱</th>
+			<th>电话</th>
+			<th>密码</th>
+			<th>状态</th>
+			<th>操作</th>
 		</tr>
+		</thead>
+		<tbody>
 		<c:forEach var="user" items="${users}">
 			<tr>
 				<td>${user.key}</td>
@@ -72,7 +75,7 @@
 				</td>
 			</tr>
 		</c:forEach>
-		
+		</tbody>
 	</table>
 	
 </body>

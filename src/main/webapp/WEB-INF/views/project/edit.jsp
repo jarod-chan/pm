@@ -132,8 +132,7 @@
 		<input type="text" name="totalinve" value="${project.totalinve}"/>
 		<td></tr>
 		</table>
-		
-		<br>
+
 		<input type="button" value="保存"  id="btn_save">
 		<input type="button" value="返回"  id="btn_back">
 		

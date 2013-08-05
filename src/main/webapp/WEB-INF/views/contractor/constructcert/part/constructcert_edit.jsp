@@ -233,9 +233,9 @@
 		
 	</table>
 		
-		<br>
-		签证项目
-		<table border="1" id="tabitem">
+
+		<h3>签证项目</h3>
+		<table class="deftable">
 		<thead>
 			<tr>
 				<th>序号</th><th>内容</th><th>结算单价</th><th>结算数量</th><th>单位</th><th>结算价格	</th>

@@ -34,7 +34,7 @@
 	
 	<br>
 	<form action="${ctx}/spmember" method="post">
-	<table id="tblmain" border="1">
+	<table id="tblmain" class="deftable">
 		<thead>
 			<tr>
 				<th>系统用户</th>
