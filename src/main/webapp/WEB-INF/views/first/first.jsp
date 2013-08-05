@@ -176,11 +176,14 @@
 		名称：${project.name}<br>
 		编号：${project.no}<br>
 		开工日期：<br>
-		成员：<c:forEach var="user" items="${projectUsers}" varStatus="status">${user.name}<c:if test="${!status.last}">,</c:if></c:forEach>
-		<br>
 		状态：${project.state.name}<br>
 		联系单数：N/A<br>
 		签证单数：N/A<br>
+		项目成员<br>
+		<c:forEach var="item" items="${userRole}" varStatus="status">
+			<c:if test="${not empty item.value.name}">${item.value.name}:</c:if>${item.key.name}<br>
+		</c:forEach>
+		<br>
 	</div>
 	
 	<iframe id="mainFrame" name="mainFrame" class="ui-layout-center" width="100%" height="600" frameborder="0" scrolling="auto" src="${ctx}/${target}"></iframe> 

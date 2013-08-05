@@ -29,17 +29,15 @@
 		
 		<tr>
 			<td>施工联系单：</td>
-			<td colspan="3">
+			<td>
 				${constructCont.no}<input type="button" id="btn_cont" value="查看"/>
 			</td>
-		</tr>
-		<tr>
 			<td>施工承包方：</td>
-			<td colspan="3">${constructCont.constructKey.contract.supplier.name}</td>
+			<td>${constructCont.constructKey.contract.supplier.name}</td>
 		</tr>
 		
 		<tr>
-			<td style="vertical-align: top">原因：</td><td colspan="3">${constructCert.reason}</td>
+			<td style="vertical-align: top">原因：</td><td class="viewtextarea_td" colspan="3">${constructCert.reason}</td>
 		</tr>
 		<tr>
 			<td>总金额：</td><td>${constructCert.tolsum}</td>

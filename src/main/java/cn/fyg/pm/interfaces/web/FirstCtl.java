@@ -18,6 +18,7 @@ import cn.fyg.pm.application.PjmemberService;
 import cn.fyg.pm.application.ProjectService;
 import cn.fyg.pm.application.SpmemberService;
 import cn.fyg.pm.domain.model.contract.general.Contract;
+import cn.fyg.pm.domain.model.pjrole.Pjrole;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
@@ -64,8 +65,8 @@ public class FirstCtl {
 		sessionUtil.setValue("project", project);
 		List<Contract> contractList = contractService.findByProject(project);
 		map.put("contractList", contractList);
-		List<User> projectUsers = pjmemberService.getProjectUser(project);
-		map.put("projectUsers", projectUsers);
+		Map<User, Pjrole> userRole = pjmemberService.getProjectUserRole(project);
+		map.put("userRole", userRole);
 		
 		map.put("target", target);
 		return "first/first";

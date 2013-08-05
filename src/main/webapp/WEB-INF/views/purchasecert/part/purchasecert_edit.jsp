@@ -243,7 +243,7 @@
 		<tr>
 			<td style="vertical-align: top">关联采购明细：</td>
 			<td colspan="3" >
-				<table id="purchaseReqItem" border="1">
+				<table id="purchaseReqItem" border="1" style="background-color: #FFFFFF;width: 504px;">
 				<thead>
 					<tr>
 						<th>勾选</th><th>序号</th><th>材料名称</th><th>型号规格和技术指标</th><th>单位</th><th>数量</th><th>推荐品牌</th><th>执行结果</th>
@@ -256,7 +256,7 @@
 		</tr>
 		<tr>
 			<td style="vertical-align: top">说明：</td>
-			<td colspan="3" ><textarea name="descrp" rows="6" cols="30" style="vertical-align: top">${purchaseCert.descrp}</textarea></td>
+			<td colspan="3" ><textarea name="descrp" class="edittextarea" >${purchaseCert.descrp}</textarea></td>
 		</tr>
 		
 		<tr>

@@ -16,12 +16,12 @@
 		</tr>
 		
 		<tr>
-			<td style="vertical-align: top">说明：</td><td colspan="3">${purchaseReq.descrp}</td>
+			<td style="vertical-align: top">说明：</td><td colspan="3" class="viewtextarea_td">${purchaseReq.descrp}</td>
 		</tr>
 		
 		<tr>
 			<td>计划进场日期：</td>
-			<td colspan="3">
+			<td>
 				<fmt:formatDate value="${purchaseReq.plandate}" pattern="yyyy-MM-dd"/>
 			</td>
 		</tr>

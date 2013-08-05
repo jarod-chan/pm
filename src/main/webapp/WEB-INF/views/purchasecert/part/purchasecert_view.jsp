@@ -19,14 +19,14 @@
 		
 		<tr>
 			<td>采购申请单：</td> 
-			<td colspan="3" >
+			<td>
 				${purchaseReq.no}
 			</td>
 		</tr>
 		<tr>
 			<td>关联采购明细：</td> 
 			<td colspan="3">
-				<table id="purchaseReqItem" border="1">
+				<table id="purchaseReqItem" border="1" style="background-color: #FFFFFF;width: 504px;">
 				<thead>
 					<tr>
 						<th>序号</th><th>材料名称</th><th>型号规格和技术指标</th><th>单位</th><th>数量</th><th>推荐品牌</th><th>执行结果</th>
@@ -55,7 +55,7 @@
 		
 		<tr>
 			<td style="vertical-align: top">说明：</td>
-			<td colspan="3" >${purchaseCert.descrp}</td>
+			<td colspan="3" class="viewtextarea_td">${purchaseCert.descrp}</td>
 		</tr>
 		
 		<tr>

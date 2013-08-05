@@ -202,11 +202,11 @@
 		</tr>
 		<tr>
 			<td>施工承包方：</td>
-			<td colspan="3"><span id="supplier_name">${constructCont.constructKey.contract.supplier.name}</span></td>
+			<td><span id="supplier_name">${constructCont.constructKey.contract.supplier.name}</span></td>
 		</tr>
 		
 		<tr>
-			<td style="vertical-align: top">原因：</td><td colspan="3"><textarea name="reason" rows="6" cols="30" style="vertical-align: top">${constructCert.reason}</textarea></td>
+			<td style="vertical-align: top">原因：</td><td colspan="3"><textarea name="reason" class="edittextarea">${constructCert.reason}</textarea></td>
 		</tr>
 		<tr>
 			<td>总金额：</td><td><span id="sp_tolsum">${constructCert.tolsum}</span><input type="hidden" name="tolsum" value="${constructCert.tolsum}"></td>

@@ -147,13 +147,14 @@
 		</tr>
 		
 		<tr>
-			<td style="vertical-align: top">说明：</td><td colspan="3"><textarea name="descrp" rows="6" cols="30" style="vertical-align: top">${purchaseReq.descrp}</textarea></td>
+			<td style="vertical-align: top">说明：</td>
+			<td colspan="3"><textarea name="descrp" class="edittextarea">${purchaseReq.descrp}</textarea></td>
 		</tr>
 		
 		<tr>
 			<td>计划进场日期：</td>
-			<td colspan="3">
-				<input type="text" class="datePK" name="plandate" value="${purchaseReq.plandate}"><span id="plandateError" style="color: red;display: none;">计划进场日期小于${maxPurchaseReqDay}天，可能无法及时完成审批！</span>
+			<td>
+				<input type="text" class="datePK editdate" name="plandate" value="${purchaseReq.plandate}"><span id="plandateError" style="color: red;display: none;">计划进场日期小于${maxPurchaseReqDay}天，可能无法及时完成审批！</span>
 			</td>
 		</tr>
 		

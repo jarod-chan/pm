@@ -22,8 +22,8 @@
 			</td>
 			<td>施工承包方：</td><td>${constructCont.constructKey.contract.supplier.name}</td>
 		</tr>
-		<tr>
-			<td style="vertical-align: top">原因：</td><td colspan="3">${constructCont.reason}</td>
+		<tr >
+			<td style="vertical-align: top">原因：</td><td colspan="3" class="viewtextarea_td">${constructCont.reason}</td>
 		</tr>
 		
 		<tr>

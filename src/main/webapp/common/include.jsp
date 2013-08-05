@@ -44,6 +44,22 @@
 		})		
 	})
 </script>
+
+<!-- 业务界面统一css  -->
+<style type="text/css">
+	.edittextarea{
+	 	width:500px;
+	 	height: 140px;
+	}
+	.viewtextarea_td{
+		vertical-align: top;
+		height: 35px;
+	}
+	.editdate{
+		width:198px;
+	}
+</style>
+
 	 		
 
 
