@@ -142,9 +142,9 @@
 					<ul style="float: right;width: 15ex;" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
 						<li>
 							<ul>
-								<li><a href="${ctx}/contract/construct/list" class="no_show" target="mainFrame" >施工服务合同</a></li>
-								<li><a href="${ctx}/contractmeter/list" class="no_show" target="mainFrame" >材料采购合同</a></li>
-								<li><a href="${ctx}/contract/design/list" class="no_show" target="mainFrame" >设计策划合同</a></li>
+								<li><a href="${ctx}/${project.id}/contract/construct/list" class="no_show" target="mainFrame" >施工服务合同</a></li>
+								<li><a href="${ctx}/${project.id}/contractmeter/list" class="no_show" target="mainFrame" >材料采购合同</a></li>
+								<li><a href="${ctx}/${project.id}/contract/design/list" class="no_show" target="mainFrame" >设计策划合同</a></li>
 							</ul>
 							<span>合同管理</span>
 						</li>

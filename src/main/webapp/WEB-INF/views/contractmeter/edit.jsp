@@ -30,7 +30,7 @@
 		});
 		
 		$("#btn_back").click(function(){
-			window.open('${ctx}/contractmeter/list','_self');
+			window.open('${ctx}/${projectId}/contractmeter/list','_self');
 			return false;
 		})
 		
@@ -147,7 +147,7 @@
 	<h2>材料采购合同</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<form action="${ctx}/contractmeter" method="post">
+	<form action="${ctx}/${projectId}/contractmeter" method="post">
 	
 	<input type="hidden" name="id" value="${contractMeter.id}"/>	
 	

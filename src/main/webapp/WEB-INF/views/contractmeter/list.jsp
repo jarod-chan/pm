@@ -13,13 +13,13 @@
     $(function() {
     	
     	$("#btn_new").click(function(){
-			window.open('${ctx}/contractmeter/-1/edit','_self');
+			window.open('${ctx}/${projectId}/contractmeter/-1/edit','_self');
 			return false;
 		})
     	
     	$('.btn_delete').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-        	$('<form/>',{action:'${ctx}/contractmeter/delete',method:'post'})
+        	$('<form/>',{action:'${ctx}/${projectId}/contractmeter/delete',method:'post'})
 	    		.append($('<input/>',{type:'hidden',name:'contractMeterId',value:param.id}))
 				.appendTo($("body"))
 			.submit();
@@ -27,7 +27,7 @@
     	
     	$('.btn_edit').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-    		window.open('${ctx}/contractmeter/'+param.id+'/edit','_self');
+    		window.open('${ctx}/${projectId}/contractmeter/'+param.id+'/edit','_self');
     		return false;
     	})
     	
@@ -38,7 +38,7 @@
     	});
     	
     	$('#btn_clear').click(function(){
-    		window.open('${ctx}/contractmeter/list','_self');
+    		window.open('${ctx}/${projectId}/contractmeter/list','_self');
 			return false;
     	});
     	
@@ -50,7 +50,7 @@
 <body>
 	<h2>材料采购合同</h2>
 	<div style="text-align: left;">
-	<form action="${ctx}/contractmeter" method="post">
+	<form action="${ctx}/${projectId}/contractmeter" method="post">
 		编号:<input type="text" name="no" value="${query.no}">
 		
 		名称:<input type="text" name="name" value="${query.name}">

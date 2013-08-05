@@ -13,13 +13,13 @@
     $(function() {
     	
     	$("#btn_new").click(function(){
-			window.open('${ctx}/contract/${contractType}/-1/edit','_self');
+			window.open('${ctx}/${projectId}/contract/${contractType}/-1/edit','_self');
 			return false;
 		})
     	
     	$('.btn_delete').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-        	$('<form/>',{action:'${ctx}/contract/${contractType}/delete',method:'post'})
+        	$('<form/>',{action:'${ctx}/${projectId}/contract/${contractType}/delete',method:'post'})
 	    		.append($('<input/>',{type:'hidden',name:'contractId',value:param.id}))
 				.appendTo($("body"))
 			.submit();
@@ -27,7 +27,7 @@
     	
     	$('.btn_edit').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-    		window.open('${ctx}/contract/${contractType}/'+param.id+'/edit','_self');
+    		window.open('${ctx}/${projectId}/contract/${contractType}/'+param.id+'/edit','_self');
     		return false;
     	})
     	
@@ -38,7 +38,7 @@
     	});
     	
     	$('#btn_clear').click(function(){
-    		window.open('${ctx}/contract/${contractType}/list','_self');
+    		window.open('${ctx}/${projectId}/contract/${contractType}/list','_self');
 			return false;
     	});
     	
@@ -50,7 +50,7 @@
 <body>
 	<h2>${contractType.name}</h2>
 	<div style="text-align: left;">
-	<form action="${ctx}/contract/${contractType}" method="post">
+	<form action="${ctx}/${projectId}/contract/${contractType}" method="post">
 		编号:<input type="text" name="no" value="${query.no}">
 		
 		名称:<input type="text" name="name" value="${query.name}">

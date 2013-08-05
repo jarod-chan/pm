@@ -28,7 +28,7 @@
 		});
 		
 		$("#btn_back").click(function(){
-			window.open('${ctx}/contract/${contractType}/list','_self');
+			window.open('${ctx}/${projectId}/contract/${contractType}/list','_self');
 			return false;
 		})
 		
@@ -144,7 +144,7 @@
 	<h2>${contractType.name}</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<form action="${ctx}/contract/${contractType}" method="post">
+	<form action="${ctx}/${projectId}/contract/${contractType}" method="post">
 	
 	<input type="hidden" name="id" value="${contract.id}"/>	
 	<input type="hidden" name="project.id" value="${contract.project.id}"/>	

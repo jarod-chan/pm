@@ -38,7 +38,7 @@ import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 @Controller
-@RequestMapping("contract/{contractType}")
+@RequestMapping("{projectId}/contract/{contractType}")
 public class ContractCtl {
 
 	private static final String PATH = "contract/";
@@ -61,8 +61,9 @@ public class ContractCtl {
 	UserService userService;
 
 	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
-	public String toList(ContractQuery query,@PathVariable("contractType")ContractType contractType,Map<String,Object> map){
-		Project project=sessionUtil.getValue("project");
+	public String toList(@PathVariable("projectId")Long projectId,ContractQuery query,@PathVariable("contractType")ContractType contractType,Map<String,Object> map){
+		Project project=new Project();
+		project.setId(projectId);
 		query.setProject(project);
 		query.setContractType(contractType);
 		List<Contract> contractList = contractService.query(query);
@@ -88,8 +89,9 @@ public class ContractCtl {
 	}
 	
 	@RequestMapping(value="{contractId}/edit",method=RequestMethod.GET)
-	public String toEdit(@PathVariable("contractType")ContractType contractType,@PathVariable("contractId") Long contractId,Map<String,Object> map){
-		Project project=sessionUtil.getValue("project");
+	public String toEdit(@PathVariable("projectId")Long projectId,@PathVariable("contractType")ContractType contractType,@PathVariable("contractId") Long contractId,Map<String,Object> map){
+		Project project=new Project();
+		project.setId(projectId);
 		Contract contract=contractId.longValue()>0?contractService.find(contractId):contractService.create(project);
 		map.put("contractType", contractType);
 		map.put("contract", contract);
@@ -107,8 +109,8 @@ public class ContractCtl {
 	}
 	
 	@RequestMapping(value="save",method=RequestMethod.POST)
-	public String save(@RequestParam("id") Long contractId,@RequestParam(value="filestore_id",required=false)Long[] filestore_id,HttpServletRequest request,RedirectAttributes redirectAttributes){
-		Project project=sessionUtil.getValue("project");
+	public String save(@PathVariable("projectId")Long projectId,@RequestParam("id") Long contractId,@RequestParam(value="filestore_id",required=false)Long[] filestore_id,HttpServletRequest request,RedirectAttributes redirectAttributes){
+		Project project=this.projectService.find(projectId);
 		Contract contract=contractId!=null?contractService.find(contractId):contractService.create(project);
 		
 		ServletRequestDataBinder dataBinder = new ServletRequestDataBinder(contract);
