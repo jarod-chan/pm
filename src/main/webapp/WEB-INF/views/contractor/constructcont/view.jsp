@@ -15,7 +15,7 @@
     
     $(function(){
 		$("#btn_back").click(function(){
-			window.open('${ctx}/contractor/${projectId}/constructcont/list','_self');
+			window.open('${ctx}/${projectId}/contractor/${supplierId}/constructcont/list','_self');
 			return false;
 		});
     	

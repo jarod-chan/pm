@@ -50,7 +50,7 @@ import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 @Controller
-@RequestMapping("contractor/{projectId}/constructcert")
+@RequestMapping("{projectId}/contractor/{supplierId}/constructcert")
 public class SpConstructcertCtl {
 	
 	private static final String PATH = "contractor/constructcert/";
@@ -82,8 +82,9 @@ public class SpConstructcertCtl {
 	
 
 	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
-	public String toList(@PathVariable("projectId")Long projectId,Map<String,Object> map){
-		final Supplier supplier=sessionUtil.getValue("supplier");
+	public String toList(@PathVariable("supplierId")Long supplierId,@PathVariable("projectId")Long projectId,Map<String,Object> map){
+		final Supplier supplier=new Supplier();
+		supplier.setId(supplierId);
 		final Project project=new Project();
 		project.setId(projectId);
 		
@@ -110,10 +111,12 @@ public class SpConstructcertCtl {
 	}
 	
 	@RequestMapping(value="{constructCertId}/edit",method=RequestMethod.GET)
-	public String toEdit(@PathVariable("projectId")Long projectId,@PathVariable("constructCertId") Long constructCertId,Map<String,Object> map){
-		Project project = projectService.find(projectId);
+	public String toEdit(@PathVariable("supplierId")Long supplierId,@PathVariable("projectId")Long projectId,@PathVariable("constructCertId") Long constructCertId,Map<String,Object> map){
 		User user = sessionUtil.getValue("user");
-		Supplier supplier=sessionUtil.getValue("supplier");
+
+		Project project = projectService.find(projectId);
+		Supplier supplier=new Supplier();
+		supplier.setId(supplierId);
 		 
 		ConstructCert constructCert =constructCertId.longValue()>0?constructCertService.find(constructCertId):constructCertService.create(user,project,ConstructCertState.new_) ;
 		map.put("constructCert", constructCert);
@@ -126,7 +129,7 @@ public class SpConstructcertCtl {
 	}
 
 	@RequestMapping(value="saveEdit",method=RequestMethod.POST)
-	public String saveEdit(@PathVariable("projectId")Long projectId,@RequestParam("id")Long constructCertId,@RequestParam(value="constructCertItemsId",required=false) Long[] constructCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes){
+	public String saveEdit(@PathVariable("supplierId")Long supplierId,@PathVariable("projectId")Long projectId,@RequestParam("id")Long constructCertId,@RequestParam(value="constructCertItemsId",required=false) Long[] constructCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes){
 		Project project = projectService.find(projectId);
 		User user = sessionUtil.getValue("user");
 		ConstructCert constructCert = constructCertId!=null?constructCertService.find(constructCertId):constructCertService.create(user, project,ConstructCertState.saved);
@@ -202,7 +205,7 @@ public class SpConstructcertCtl {
 	}
 	
 	@RequestMapping(value="{constructCertId}/view",method=RequestMethod.GET)
-	public String toView(@PathVariable("projectId")Long projectId,@PathVariable("constructCertId")Long constructCertId,Map<String,Object> map){
+	public String toView(@PathVariable("supplierId")Long supplierId,@PathVariable("projectId")Long projectId,@PathVariable("constructCertId")Long constructCertId,Map<String,Object> map){
 		ConstructCert constructCert = constructCertService.find(constructCertId);
 		ConstructCont constructCont = constructContService.findByConstructKey(constructCert.getConstructKey());
 		map.put("constructCont", constructCont);
@@ -211,6 +214,12 @@ public class SpConstructcertCtl {
 		map.put("opinions", opinions);
 		return Page.VIEW;
 	}
+	
+	
+	
+	
+	
+	
 	
 	@RequestMapping(value="{constructCertId}/checkedit",method=RequestMethod.GET)
 	public String toCheckEdit(@PathVariable("constructCertId") Long constructCertId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){

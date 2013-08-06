@@ -53,19 +53,19 @@
     	
     	
     	$("#btn_new").click(function(){
-			window.open('${ctx}/contractor/${projectId}/constructcert/-1/edit','_self');
+			window.open('${ctx}/${projectId}/contractor/${supplierId}/constructcert/-1/edit','_self');
 			return false;
 		});
     	
     	$(".btn_edit").click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-			window.open('${ctx}/contractor/${projectId}/constructcert/'+param.id+'/edit','_self');
+			window.open('${ctx}/${projectId}/contractor/${supplierId}/constructcert/'+param.id+'/edit','_self');
 			return false;
 		});
     	
     	$('.btn_delete').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-        	$('<form/>',{action:'${ctx}/contractor/${projectId}/constructcert/delete',method:'post'})
+        	$('<form/>',{action:'${ctx}/${projectId}/contractor/${supplierId}/constructcert/delete',method:'post'})
 	    		.append($('<input/>',{type:'hidden',name:'constructCertId',value:param.id}))
 				.appendTo($("body"))
 			.submit();
@@ -73,7 +73,7 @@
     	
     	$('.btn_view').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-    		window.open('${ctx}/contractor/${projectId}/constructcert/{id}/view'.replace('{id}',param.id),'_self');
+    		window.open('${ctx}/${projectId}/contractor/${supplierId}/constructcert/{id}/view'.replace('{id}',param.id),'_self');
         	return false;
     	});
     	

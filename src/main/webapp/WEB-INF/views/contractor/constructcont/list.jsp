@@ -52,20 +52,20 @@
 		}); 
     	
     	$("#btn_new").click(function(){
-			window.open('${ctx}/contractor/${projectId}/constructcont/-1/edit','_self');
+			window.open('${ctx}/${projectId}/contractor/${supplierId}/constructcont/-1/edit','_self');
 			return false;
 		});
     	
 
     	$('.btn_edit').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-    		window.open('${ctx}/contractor/${projectId}/constructcont/{id}/edit'.replace('{id}',param.id),'_self');
+    		window.open('${ctx}/${projectId}/contractor/${supplierId}/constructcont/{id}/edit'.replace('{id}',param.id),'_self');
         	return false;
     	});
     	
     	$('.btn_delete').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-        	$('<form/>',{action:'${ctx}/contractor/${projectId}/constructcont/delete',method:'post'})
+        	$('<form/>',{action:'${ctx}/${projectId}/contractor/${supplierId}/constructcont/delete',method:'post'})
 	    		.append($('<input/>',{type:'hidden',name:'constructContId',value:param.id}))
 				.appendTo($("body"))
 			.submit();
@@ -73,7 +73,7 @@
     	
     	$('.btn_view').click(function(){
     		var param=jQuery.parseJSON($(this).attr("param"));
-    		window.open('${ctx}/contractor/${projectId}/constructcont/{id}/view'.replace('{id}',param.id),'_self');
+    		window.open('${ctx}/${projectId}/contractor/${supplierId}/constructcont/{id}/view'.replace('{id}',param.id),'_self');
         	return false;
     	});
     	

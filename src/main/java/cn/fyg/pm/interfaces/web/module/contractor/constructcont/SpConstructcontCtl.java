@@ -54,7 +54,7 @@ import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
  *承包人施工联系单
  */
 @Controller
-@RequestMapping("contractor/{projectId}/constructcont")
+@RequestMapping("{projectId}/contractor/{supplierId}/constructcont")
 public class SpConstructcontCtl {
 	
 	private static final String PATH = "contractor/constructcont/";
@@ -83,8 +83,9 @@ public class SpConstructcontCtl {
 	SessionUtil sessionUtil;
 	
 	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
-	public String toList(@PathVariable("projectId")Long projectId,Map<String,Object> map){
-		final Supplier supplier=sessionUtil.getValue("supplier");
+	public String toList(@PathVariable("supplierId")Long supplierId,@PathVariable("projectId")Long projectId,Map<String,Object> map){
+		final Supplier supplier=new Supplier();
+		supplier.setId(supplierId);
 		final Project project=new Project();
 		project.setId(projectId);
 		
@@ -112,9 +113,12 @@ public class SpConstructcontCtl {
 	
 	
 	@RequestMapping(value="{constructContId}/edit",method=RequestMethod.GET)
-	public String toEdit(@PathVariable("projectId")Long projectId,@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
+	public String toEdit(@PathVariable("supplierId")Long supplierId,@PathVariable("projectId")Long projectId,@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
 		Project project = projectService.find(projectId);
-		Supplier supplier=sessionUtil.getValue("supplier");
+		
+		Supplier supplier=new Supplier();
+		supplier.setId(supplierId);
+		
 		User user = sessionUtil.getValue("user");
 		ConstructCont constructCont = constructContId.longValue()>0?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.new_);
 		map.put("constructCont", constructCont);
@@ -126,7 +130,7 @@ public class SpConstructcontCtl {
 	}
 	
 	@RequestMapping(value="saveEdit",method=RequestMethod.POST)
-	public String saveEdit(@PathVariable("projectId")Long projectId,@RequestParam("id")Long constructContId,@RequestParam("afteraction")String afteraction,@RequestParam(value="constructContItemsId",required=false) Long[] constructContItemsId,HttpServletRequest request,RedirectAttributes redirectAttributes){
+	public String saveEdit(@PathVariable("supplierId")Long supplierId,@PathVariable("projectId")Long projectId,@RequestParam("id")Long constructContId,@RequestParam("afteraction")String afteraction,@RequestParam(value="constructContItemsId",required=false) Long[] constructContItemsId,HttpServletRequest request,RedirectAttributes redirectAttributes){
 		Project project = projectService.find(projectId);
 		User user = sessionUtil.getValue("user");
 		
@@ -206,13 +210,18 @@ public class SpConstructcontCtl {
 	}
 	
 	@RequestMapping(value="{constructContId}/view",method=RequestMethod.GET)
-	public String toView(@PathVariable("projectId")Long projectId,@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
+	public String toView(@PathVariable("supplierId")Long supplierId,@PathVariable("projectId")Long projectId,@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
 		ConstructCont constructCont = constructContService.find(constructContId);
 		map.put("constructCont", constructCont);
 		List<Opinion> opinions = opinionService.listOpinions(ConstructCont.BUSI_CODE, constructContId);
 		map.put("opinions", opinions);
 		return Page.VIEW;
 	}
+	
+	
+	
+	
+	
 	
 	@RequestMapping(value="{constructContId}/checkedit",method=RequestMethod.GET)
 	public String toCheckEdit(@PathVariable("projectId")Long projectId,@PathVariable("constructContId")Long constructContId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){

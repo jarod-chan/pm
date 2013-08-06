@@ -42,7 +42,7 @@
 		});
 		
 		$("#btn_back").click(function(){
-			window.open('${ctx}/contractor/${projectId}/constructcert/list','_self');
+			window.open('${ctx}/${projectId}/contractor/${supplierId}/constructcert/list','_self');
 			return false;
 		})
 		
@@ -56,7 +56,7 @@
 	<h2>工程签证单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<form action="${ctx}/contractor/${projectId}/constructcert" method="post">
+	<form action="${ctx}/${projectId}/contractor/${supplierId}/constructcert" method="post">
 	<input type="hidden" name="afteraction"  >
 	
 	<%@ include file="part/constructcert_edit.jsp" %>

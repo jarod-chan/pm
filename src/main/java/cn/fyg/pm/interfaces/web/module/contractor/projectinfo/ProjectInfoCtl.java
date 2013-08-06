@@ -15,7 +15,7 @@ import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 
 @Controller
-@RequestMapping("contractor/{projectId}/projectinfo")
+@RequestMapping("{projectId}/contractor/{supplierId}/projectinfo")
 public class ProjectInfoCtl {
 	
 	private static final String PATH = "contractor/projectinfo/";
@@ -29,7 +29,7 @@ public class ProjectInfoCtl {
 	PjmemberService pjmemberService;
 	
 	@RequestMapping(value="",method=RequestMethod.GET)
-	public String toProjectInfo(@PathVariable("projectId")Long projectId,Map<String,Object> map){
+	public String toProjectInfo(@PathVariable("supplierId")Long supplierId,@PathVariable("projectId")Long projectId,Map<String,Object> map){
 		Project project=projectService.find(projectId);
 		map.put("project", project);
 		List<User> projectUsers = pjmemberService.getProjectUser(project);

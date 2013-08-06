@@ -42,7 +42,7 @@
 		});
 		
 		$("#btn_back").click(function(){
-			window.open('${ctx}/contractor/${projectId}/constructcont/list','_self');
+			window.open('${ctx}/${projectId}/contractor/${supplierId}/constructcont/list','_self');
 			return false;
 		});
 		
@@ -56,7 +56,7 @@
 	<h2>施工联系单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<form action="${ctx}/contractor/${projectId}/constructcont" method="post">
+	<form action="${ctx}/${projectId}/contractor/${supplierId}/constructcont" method="post">
 	<input type="hidden" name="afteraction"  >
 	
 	<%@ include file="part/constructcont_edit.jsp" %>	
