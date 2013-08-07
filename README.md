@@ -8,7 +8,7 @@
 * 项目管理信息化
 * 文件上传
 * activiti流程引擎：驱动业务流程
-* spring data jpa：快熟原型开发
+* spring data jpa：快速原型开发
 * 整合mybatis：定制sql
 
 ### 问题
