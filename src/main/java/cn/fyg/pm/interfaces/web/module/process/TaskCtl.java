@@ -43,9 +43,7 @@ public class TaskCtl {
 	
 	private static final String PATH = "task/";
 	private interface Page {
-		String FIRST = PATH + "first";
 		String TASK = PATH +"task";
-		String CONTRACTOR = PATH + "contractor";
 	}
 	
 	@Autowired
@@ -63,17 +61,6 @@ public class TaskCtl {
 	@Autowired
 	OpinionService opinionService;
 	
-	@RequestMapping(value="first",method=RequestMethod.GET)
-	public String toFirst(){
-		return Page.FIRST;
-		
-	}
-	
-	@RequestMapping(value="contractor",method=RequestMethod.GET)
-	public String toContractor(){
-		return Page.CONTRACTOR;
-	}
-
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String toList( Map<String,Object> map){
 		User user = sessionUtil.getValue("user");
