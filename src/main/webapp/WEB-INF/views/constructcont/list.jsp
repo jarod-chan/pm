@@ -58,13 +58,13 @@
     	
 
     	$('.btn_edit').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
     		window.open('${ctx}/${projectId}/constructcont/{id}/edit'.replace('{id}',param.id),'_self');
         	return false;
     	});
     	
     	$('.btn_delete').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
         	$('<form/>',{action:'${ctx}/${projectId}/constructcont/delete',method:'post'})
 	    		.append($('<input/>',{type:'hidden',name:'constructContId',value:param.id}))
 				.appendTo($("body"))
@@ -72,7 +72,7 @@
     	});
     	
     	$('.btn_view').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
     		window.open('${ctx}/${projectId}/constructcont/{id}/view'.replace('{id}',param.id),'_self');
         	return false;
     	});
@@ -175,10 +175,10 @@
 				<td>${constructCont.result}</td>
 				<td>
 					<c:if test="${constructCont.state=='saved'}">					
-					<input type="button" param='{"id":"${constructCont.id}"}' value="修改"  class="btn_edit">
-					<input type="button" param='{"id":"${constructCont.id}"}' value="删除"  class="btn_delete">
+					<input type="button" value="修改"  class="btn_edit {id:'${constructCont.id}'}">
+					<input type="button" value="删除"  class="btn_delete {id:'${constructCont.id}'}">
 					</c:if>
-					<input type="button" param='{"id":"${constructCont.id}"}' value="查看"  class="btn_view">
+					<input type="button" value="查看"  class="btn_view {id:'${constructCont.id}'}">
 				</td>
 			</tr>
 		</c:forEach>

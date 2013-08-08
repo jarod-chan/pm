@@ -58,13 +58,13 @@
     	
 
     	$('.btn_edit').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
     		window.open('${ctx}/${projectId}/purchasereq/{id}/edit'.replace('{id}',param.id),'_self');
         	return false;
     	});
     	
     	$('.btn_delete').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
         	$('<form/>',{action:'${ctx}/${projectId}/purchasereq/delete',method:'post'})
 	    		.append($('<input/>',{type:'hidden',name:'purchaseReqId',value:param.id}))
 				.appendTo($("body"))
@@ -72,7 +72,7 @@
     	});
     	
     	$('.btn_view').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
     		window.open('${ctx}/${projectId}/purchasereq/{id}/view'.replace('{id}',param.id),'_self');
         	return false;
     	});
@@ -158,10 +158,10 @@
 				<td><fmt:formatDate value="${purchaseReq.receivedate}" pattern="yyyy-MM-dd"/></td>
 				<td>
 					<c:if test="${purchaseReq.state=='saved'}">					
-					<input type="button" param='{"id":"${purchaseReq.id}"}' value="修改"  class="btn_edit">
-					<input type="button" param='{"id":"${purchaseReq.id}"}' value="删除"  class="btn_delete">
+					<input type="button" value="修改"  class="btn_edit {id:'${purchaseReq.id}'}">
+					<input type="button" value="删除"  class="btn_delete {id:'${purchaseReq.id}'}">
 					</c:if>
-					<input type="button" param='{"id":"${purchaseReq.id}"}' value="查看"  class="btn_view">
+					<input type="button" value="查看"  class="btn_view {id:'${purchaseReq.id}'}">
 				</td>
 			</tr>
 		</c:forEach>
