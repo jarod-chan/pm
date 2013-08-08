@@ -30,6 +30,7 @@
 	})
 </script>
 
+<!-- 表格高亮 -->
 <style type="text/css">
 	.high-color{
 		background-color: #C8C8C8;
@@ -45,7 +46,7 @@
 	})
 </script>
 
-<!-- 业务界面统一css  -->
+<!-- 业务界面输入文本框，日期控件样式  -->
 <style type="text/css">
 	.edittextarea{
 	 	width:500px;
@@ -62,20 +63,60 @@
 
 <!-- 表格统一样式处理 -->
 <style type="text/css">
-
-table.deftable{
-	border: 1px solid #AAAAAA;
-}
-
-table.deftable>thead>tr>th {
-    background-color: #D5D5D5;
-    border: 1px solid #AAAAAA;
-    vertical-align: baseline;
-}
-table.deftable>tbody>tr>td {
-    border: 1px solid #AAAAAA;
-}
+	table.deftable{
+		border: 1px solid #AAAAAA;
+	}
+	
+	table.deftable>thead>tr>th {
+	    background-color: #D5D5D5;
+	    border: 1px solid #AAAAAA;
+	    vertical-align: baseline;
+	}
+	table.deftable>tbody>tr>td {
+	    border: 1px solid #AAAAAA;
+	}
 </style>		
 
-
+<!-- 单据状态显示不同颜色处理 -->
+<style type="text/css">
+	span.state {
+		color: #FFFFFF;
+		display: inline-block;
+		line-height: 16px;
+		padding: 2px 4px;
+	}
+	
+	span.state-new_ {
+		background-color: #999999;
+	}
+	
+	span.state-saved {
+		background-color: #3A87AD;
+	}
+	
+	span.state-commit {
+		background-color: #F89406;
+	}
+	
+	span.state-finish {
+		background-color: #B94A48;
+	}
+	
+	span.state-invalid {
+		background-color: #FF8080;
+	}
+</style>
+<script type="text/javascript">
+	$(function(){
+		var optColorArr=['#FFFFFF','#FFFFFF','#999999','#3A87AD','#F89406','#B94A48','#FF8080'];
+    	$("select[name='state']").each(function(){
+			$(this).find("option").each(function(idx){
+				$(this).css("background-color",optColorArr[idx]);
+			});
+			$(this).bind("change",function(){
+				$(this).css("background-color",optColorArr[this.selectedIndex])
+			}).triggerHandler("change");
+		}); 
+	})
+</script>
 

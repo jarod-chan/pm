@@ -143,7 +143,7 @@
 			<td>项目负责人：</td>
 			<td>${purchaseReq.leader.name}</td>
 			<td>状态：</td>
-			<td>${purchaseReq.state.name}</td>
+			<td><span class="state state-${purchaseReq.state}" >${purchaseReq.state.name}</span></td>
 		</tr>
 		
 		<tr>
