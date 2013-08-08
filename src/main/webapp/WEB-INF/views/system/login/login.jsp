@@ -32,7 +32,7 @@
     		dialogClass: "no-close",
 			autoOpen: true,
 			position: ["center", 100],
-			width: 400
+			width: 410
 		});
     	
     	$("#btn_login").click(function(){

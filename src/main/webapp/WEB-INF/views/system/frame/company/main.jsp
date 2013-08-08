@@ -65,7 +65,7 @@
     $(function() {
     	myLayout=$('body').layout({ 
     		applyDemoStyles: true, 
-    		north__size:90,//pane的大小
+    		north__size:95,//pane的大小
     		north__closable: false,
     		west__size:200
     	});
@@ -120,13 +120,15 @@
 		<div style="width: 1024px;">
 			<div style="width: 50%;float: left;"><div style="width:300px;font-size: 30px; ">方远房产项目管理系统</div></div>
 			<div style="width: 50%;float: left; text-align: right;">
-				用户:${user.name}<br>
+				<div style="margin-bottom: 3px;">用户:${user.name}<%@ include file="/component/logout.jsp" %></div>
+				<div>
 				<input type="button" id="btn_task" value="我的任务" >
 				<input type="button" id="btn_project" value="我的项目" disabled="disabled">:<select id="sel_project">
 					<c:forEach var="item" items="${projectList}">
 						<option value="${item.id}" <c:if test="${item.id==project.id}">selected="true"</c:if> >${item.name}</option>
 					</c:forEach>
 				</select>
+				</div>
 			</div>
 			<div style="clear: both;"></div>
 		</div>
@@ -141,7 +143,6 @@
 								<li><a href="${ctx}/project/list" class="no_show" target="mainFrame"  >项目信息</a></li>
 								<li><a href="${ctx}/spmember/list" class="no_show" target="mainFrame"  >供应商用户</a></li>
 								<li><a href="${ctx}/user/list" class="no_show" target="mainFrame"  >系统用户</a></li>
-								<li><a href="javascript:window.open('${ctx}/login','_self');" class="no_show" >退出系统</a></li>
 							</ul>
 							<span> 系统管理</span>
 						</li>

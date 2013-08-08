@@ -53,11 +53,12 @@ public static final Logger logger = LoggerFactory.getLogger(LoginCtl.class);
 	public String login(LoginBean loginBean,RedirectAttributes redirectAttributes) {
 		String userKey=userService.login(loginBean.getUsername(), loginBean.getPassword());
 		if(userKey==null){
-			logger.error(String.format("key:[%s] password:[%s] login fail", loginBean.getUsername(),loginBean.getPassword()));	
+			logger.info(String.format("key:[%s] password:[%s] login fail", loginBean.getUsername(),loginBean.getPassword()));	
 			redirectAttributes.addFlashAttribute("loginBean", loginBean);
 			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("用户名或者密码错误！"));
 			return "redirect:/login";
 		}
+		logger.info(String.format("key:[%s] password:[%s] login sucess", loginBean.getUsername(),loginBean.getPassword()));	
 		User user = userService.find(userKey);
 		this.sessionUtil.setValue("user", user);
 		if(isSupplierUser(user)){
@@ -71,6 +72,12 @@ public static final Logger logger = LoggerFactory.getLogger(LoginCtl.class);
 	//判断用户是否承包人
 	private boolean isSupplierUser(User user) {
 		return this.spmemberService.isUserAssigned(user);
+	}
+	
+	@RequestMapping(value="out", method = RequestMethod.POST)
+	public String logout(LoginBean loginBean,RedirectAttributes redirectAttributes) {
+		sessionUtil.invalidate();
+		return "redirect:/login";
 	}
 
 

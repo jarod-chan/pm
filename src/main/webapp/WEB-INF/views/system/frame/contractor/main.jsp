@@ -58,6 +58,7 @@
 　　 li .no_show:hover { text-decoration:none;color: #000} 
 　　 li .no_show:visited { text-decoration: none;color: #000}
 
+
 	</style>
 
 
@@ -65,15 +66,30 @@
     $(function() {
     	myLayout=$('body').layout({ 
     		applyDemoStyles: true, 
-    		north__size:60,//pane的大小
+    		north__size:65,//pane的大小
     		north__closable: false,
     		west__size:200
-    	});
+    	}); 
     	
-       	$('#btn_project').click(function(){
-    		window.open('${ctx}/fm/company/main','_self');
+    	var projectId=${project.id};
+    	$("#mainFrame").attr("src","${ctx}/"+projectId+"/contractor/${supplier.id}/projectinfo");
+    	
+       	$('#btn_task').click(function(){
+    		$('<form/>',{action:'${ctx}/fm/contractor/task',method:'post'})
+    		.append($('<input/>',{type:'hidden',name:'projectId',value: projectId}))
+			.appendTo($("body"))
+			.submit();
     		return false;
+    	})
+    	
+    	
+    	
+    	$("#leftmenu .no_show").click(function(){
+    	 	projectId=$(this).metadata().id;
+    	 	$("#mainFrame").attr("src","${ctx}/"+projectId+"/contractor/${supplier.id}/projectinfo");
+    	 	
     	});
+
     });
     </script>
 </head>
@@ -83,18 +99,25 @@
 		<div style="width: 1024px;">
 			<div style="width: 50%;float: left;"><div style="width:300px;font-size: 30px; ">方远房产项目管理系统</div></div>
 			<div style="width: 50%;float: left; text-align: right;">
-				用户:${user.name}<br>
-				<input type="button" id="btn_task" value="我的任务" disabled="disabled">
-				<input type="button" id="btn_project" value="我的项目" >
+				<div style="margin-bottom: 3px;">供应商:${supplier.name}&nbsp;&nbsp;用户:${user.name}<%@ include file="/component/logout.jsp" %></div>
+				<div>
+				<input type="button" id="btn_task" value="我的任务" >
+				<input type="button" id="btn_project" value="我的项目" disabled="disabled">
+				</div>
 			</div>
 			<div style="clear: both;"></div>
 		</div>
 	</div>
 	<div class="ui-layout-west">
-		<a href="${ctx}/task/list" class="no_show" target="mainFrame" >我的任务</a><br>
+		<div id="leftmenu">
+			<c:forEach var="project" items="${projectList}">
+				<a class="no_show {id: '${project.id}'} "  href="javascript:void(0);"   >${project.name}</a><br>
+			</c:forEach>
+		</div>
 	</div>
+
 	
-	<iframe id="mainFrame" name="mainFrame" class="ui-layout-center" width="100%" height="600" frameborder="0" scrolling="auto" src="${ctx}/task/list"></iframe> 
+	<iframe id="mainFrame" name="mainFrame" class="ui-layout-center" width="100%" height="600" frameborder="0" scrolling="auto" ></iframe> 
 		
 	
 	

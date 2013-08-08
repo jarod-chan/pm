@@ -20,7 +20,7 @@ import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 @RequestMapping("fm/company")
 public class CompanyCtl {
 	
-	private static final String PATH = "frame/company/";
+	private static final String PATH = "system/frame/company/";
 	private interface Page {
 		String MAIN = PATH + "main";
 		String TASK = PATH +"task";

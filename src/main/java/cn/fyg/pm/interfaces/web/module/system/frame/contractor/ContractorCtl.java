@@ -26,7 +26,7 @@ import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 @RequestMapping("fm/contractor")
 public class ContractorCtl {
 	
-	private static final String PATH = "frame/contractor/";
+	private static final String PATH = "system/frame/contractor/";
 	private interface Page {
 		String MAIN = PATH + "main";
 		String TASK = PATH +"task";
