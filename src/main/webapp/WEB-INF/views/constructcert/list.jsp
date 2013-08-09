@@ -76,7 +76,7 @@
 					</c:forEach>
 				</select>
 		<br>
-		状态:<select name="state" >
+		状态:<select name="state" class="bkcolor-state">
 					<c:forEach var="state" items="${query.stateList}">
 						<option value="${state.value}" <c:if test="${state.value==query.state}">selected="true"</c:if> >${state.name}</option>
 					</c:forEach>

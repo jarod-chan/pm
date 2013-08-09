@@ -62,7 +62,7 @@
 		序号:<input type="text" name="no" value="${query.no}">
 		制单日期:<input type="text" name="createdate_beg" class="datePK" value="<fmt:formatDate value="${query.createdate_beg}" pattern="yyyy-MM-dd"/>" >--<input type="text" name="createdate_end" class="datePK" value="<fmt:formatDate value="${query.createdate_end}" pattern="yyyy-MM-dd"/>">
 		<br>
-		状态:<select name="state" >
+		状态:<select name="state" class="bkcolor-state">
 				<c:forEach var="state" items="${query.stateList}">
 					<option value="${state.value}" <c:if test="${state.value==query.state}">selected="true"</c:if> >${state.name}</option>
 				</c:forEach>

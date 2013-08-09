@@ -87,15 +87,15 @@
 	}
 	
 	span.state-new_ {
-		background-color: #999999;
+		background-color:#75BAFF;
 	}
 	
 	span.state-saved {
-		background-color: #3A87AD;
+		background-color:  #0080FF;
 	}
 	
 	span.state-commit {
-		background-color: #F89406;
+		background-color: #00BF60;
 	}
 	
 	span.state-finish {
@@ -103,13 +103,14 @@
 	}
 	
 	span.state-invalid {
-		background-color: #FF8080;
+		background-color: #999999;
 	}
+
 </style>
 <script type="text/javascript">
 	$(function(){
-		var optColorArr=['#FFFFFF','#FFFFFF','#999999','#3A87AD','#F89406','#B94A48','#FF8080'];
-    	$("select[name='state']").each(function(){
+		var optColorArr=['#FFFFFF','#FFFFFF','#75BAFF','#0080FF','#00BF60','#B94A48','#999999'];
+    	$("select.bkcolor-state").each(function(){
 			$(this).find("option").each(function(idx){
 				$(this).css("background-color",optColorArr[idx]);
 			});
