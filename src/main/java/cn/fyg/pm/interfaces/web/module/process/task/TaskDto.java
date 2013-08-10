@@ -1,9 +1,9 @@
-package cn.fyg.pm.interfaces.web.module.process;
+package cn.fyg.pm.interfaces.web.module.process.task;
 
 import java.util.Date;
 
 
-public class ProcessTaskBean {
+public class TaskDto {
 	
 	private String executionId;//流程实例id
 	
@@ -23,7 +23,11 @@ public class ProcessTaskBean {
 	
 	private Date startTime;//流程开始时间
 	
+	private TimeDuration startDuration;//已开始时间
+	
 	private Date createDate;//任务创建日期
+	
+	private TimeDuration createDuration;//已接收时间
 	
 	private Date dueDate;//任务期限
 
@@ -31,6 +35,22 @@ public class ProcessTaskBean {
 	
 	
 	
+	public TimeDuration getStartDuration() {
+		return startDuration;
+	}
+
+	public void setStartDuration(TimeDuration startDuration) {
+		this.startDuration = startDuration;
+	}
+
+	public TimeDuration getCreateDuration() {
+		return createDuration;
+	}
+
+	public void setCreateDuration(TimeDuration createDuration) {
+		this.createDuration = createDuration;
+	}
+
 	public String getExecutionId() {
 		return executionId;
 	}

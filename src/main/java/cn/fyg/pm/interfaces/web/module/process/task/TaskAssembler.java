@@ -1,6 +1,7 @@
-package cn.fyg.pm.interfaces.web.module.process;
+package cn.fyg.pm.interfaces.web.module.process.task;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.activiti.engine.FormService;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Component;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 
 @Component
-public class TaskFacade {
+public class TaskAssembler {
 	
 	@Autowired
 	RuntimeService runtimeService;
@@ -31,17 +32,21 @@ public class TaskFacade {
 	HistoryService historyService;
 	
 	
-	public List<ProcessTaskBean> getProcessTasks(String userKey){
-		List<ProcessTaskBean> result=new ArrayList<ProcessTaskBean>();
+	public List<TaskDto> getProcessTasks(String userKey){
+		List<TaskDto> result=new ArrayList<TaskDto>();
 		List<Task> tasks = taskService.createTaskQuery().taskAssignee(userKey).orderByTaskCreateTime().desc().list();
+		Date currentTime = new Date();
 		for (Task task : tasks) {
-			ProcessTaskBean processTaskBean=new ProcessTaskBean();
+			TaskDto processTaskBean=new TaskDto();
 			
 			ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionId(task.getProcessDefinitionId()).singleResult();
 			processTaskBean.setProcessName(processDefinition.getName());
 			
 			HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
-			processTaskBean.setStartTime(historicProcessInstance.getStartTime());
+			Date startTime = historicProcessInstance.getStartTime();
+			processTaskBean.setStartTime(startTime);
+			
+			processTaskBean.setStartDuration(new TimeDuration(startTime,currentTime));
 			
 			processTaskBean.setTaskName(task.getName());
 			processTaskBean.setTaskId(task.getId());
@@ -64,7 +69,10 @@ public class TaskFacade {
 			String projectName = getProcessVariable(executionId, FlowConstant.PROJECT_NAME);
 			processTaskBean.setProjectName(projectName);
 			
-			processTaskBean.setCreateDate(task.getCreateTime());
+			Date taskCreateTime = task.getCreateTime();
+			processTaskBean.setCreateDate(taskCreateTime);
+			
+			processTaskBean.setCreateDuration(new TimeDuration(taskCreateTime,currentTime));
 			
 			processTaskBean.setDueDate(task.getDueDate());
 			

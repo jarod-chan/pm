@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.process;
+package cn.fyg.pm.interfaces.web.module.process.task;
 
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
@@ -41,13 +41,13 @@ import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 @RequestMapping("task")
 public class TaskCtl {
 	
-	private static final String PATH = "task/";
+	private static final String PATH = "process/task/";
 	private interface Page {
 		String TASK = PATH +"task";
 	}
 	
 	@Autowired
-	TaskFacade taskFacade;
+	TaskAssembler taskAssembler;
 	@Autowired
 	SessionUtil sessionUtil;
 	@Autowired
@@ -64,8 +64,8 @@ public class TaskCtl {
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String toList( Map<String,Object> map){
 		User user = sessionUtil.getValue("user");
-		List<ProcessTaskBean> processTasks = taskFacade.getProcessTasks(user.getKey());
-		map.put("processTasks", processTasks);
+		List<TaskDto> taskDtos = taskAssembler.getProcessTasks(user.getKey());
+		map.put("taskDtos", taskDtos);
 		return Page.TASK;
 	}
 	

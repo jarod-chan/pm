@@ -48,24 +48,28 @@
 				<th>项目名称</th>
 				<th>待办任务</th>
 				<th>发起时间</th>
+				<th>已发起时间</th>
 				<th>交办时间</th>
+				<th>已交办时间</th>
 				<th>任务期限</th>
 				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="processTask" items="${processTasks}">
+			<c:forEach var="taskDto" items="${taskDtos}">
 				<tr>
-					<td>${processTask.processName}</td>
-					<td>${processTask.businessNo}</td>
-					<td>${processTask.projectName}</td>
-					<td>${processTask.taskName}</td>
-					<td><fmt:formatDate value="${processTask.startTime}" pattern="yyyy-MM-dd HH:mm"/></td>
-					<td><fmt:formatDate value="${processTask.createDate}" pattern="yyyy-MM-dd HH:mm"/></td>
-					<td><fmt:formatDate value="${processTask.dueDate}" pattern="yyyy-MM-dd HH:mm"/></td>
+					<td>${taskDto.processName}</td>
+					<td>${taskDto.businessNo}</td>
+					<td>${taskDto.projectName}</td>
+					<td>${taskDto.taskName}</td>
+					<td><fmt:formatDate value="${taskDto.startTime}" pattern="yyyy-MM-dd HH:mm"/></td>
+					<td>${taskDto.startDuration.formatText}</td>
+					<td><fmt:formatDate value="${taskDto.createDate}" pattern="yyyy-MM-dd HH:mm"/></td>
+					<td>${taskDto.createDuration.formatText}</td>
+					<td><fmt:formatDate value="${taskDto.dueDate}" pattern="yyyy-MM-dd HH:mm"/></td>
 					<td>
-						<button class="btn_execute" param='{"taskId":"${processTask.taskId }","formKey":"${processTask.formKey}","businessId":"${processTask.businessId}"}'>处理</button>
-						<button class="btn_trace" param='{"executionId":"${processTask.executionId}"}'>流程跟踪</button>
+						<button class="btn_execute" param='{"taskId":"${taskDto.taskId }","formKey":"${taskDto.formKey}","businessId":"${taskDto.businessId}"}'>处理</button>
+						<button class="btn_trace" param='{"executionId":"${taskDto.executionId}"}'>流程跟踪</button>
 					</td>
 				</tr>
 			</c:forEach>

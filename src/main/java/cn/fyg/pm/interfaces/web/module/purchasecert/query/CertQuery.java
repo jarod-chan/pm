@@ -13,7 +13,7 @@ import org.apache.commons.lang.StringUtils;
 
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCert;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertState;
-import cn.fyg.pm.infrastructure.tool.DateUtil;
+import cn.fyg.pm.infrastructure.tool.date.DateUtil;
 import cn.fyg.pm.interfaces.web.shared.query.PurchaseQuery;
 
 public class CertQuery extends PurchaseQuery<PurchaseCert>{

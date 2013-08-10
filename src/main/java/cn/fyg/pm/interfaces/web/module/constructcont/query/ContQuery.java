@@ -14,7 +14,7 @@ import org.apache.commons.lang.StringUtils;
 
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
-import cn.fyg.pm.infrastructure.tool.DateUtil;
+import cn.fyg.pm.infrastructure.tool.date.DateUtil;
 import cn.fyg.pm.interfaces.web.shared.query.ConstructcertQuery;
 
 public class ContQuery extends ConstructcertQuery<ConstructCont> {

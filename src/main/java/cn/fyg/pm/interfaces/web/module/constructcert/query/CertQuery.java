@@ -14,7 +14,7 @@ import org.apache.commons.lang.StringUtils;
 
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertState;
-import cn.fyg.pm.infrastructure.tool.DateUtil;
+import cn.fyg.pm.infrastructure.tool.date.DateUtil;
 import cn.fyg.pm.interfaces.web.shared.query.ConstructcertQuery;
 
 public class CertQuery extends ConstructcertQuery<ConstructCert> {
