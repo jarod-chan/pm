@@ -132,7 +132,7 @@
 	 <%@ include file="/script/fmttable.jsp" %>
 
 	<input type="hidden" name="id"  value="${purchaseReq.id}">
-	<input type="hidden" name="purchaseKey.id"  value="${purchaseKey.id}">
+	<input type="hidden" name="purchaseKey.id"  value="${purchaseReq.purchaseKey.id}">
 	<table id="tabmain" class="fmttable">
 
 		<c:set var="parma_no" value="${purchaseReq.no}" />

@@ -109,8 +109,6 @@ public class PurchaseReqCtl {
 		User user = sessionUtil.getValue("user");
 		PurchaseReq purchaseReq = purchaseReqId.longValue()>0?purchaseReqService.find(purchaseReqId):purchaseReqService.create(user,project,PurchaseReqState.new_);
 		map.put("purchaseReq", purchaseReq);
-		List<Contract> contractList = contractService.findByProjectAndType(purchaseReq.getPurchaseKey().getProject(),ContractType.meter);
-		map.put("contractList", contractList);
 		map.put("maxPurchaseReqDay", 30);
 		return Page.EDIT;
 	}

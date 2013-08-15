@@ -9,7 +9,10 @@ public enum BusiCode implements CommonEnum {
 	pm_constructcert("施工签证"),
 	
 	pm_purchasereq("采购申请"),
-	pm_purchasecert("价格确认");
+	pm_purchasecert("价格确认"),
+	
+	pm_technoti("问题通知单"),
+	pm_techcont("技术联系单");
 	
 	private final String name;
 	

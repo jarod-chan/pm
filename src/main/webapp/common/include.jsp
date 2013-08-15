@@ -61,12 +61,19 @@
 	.editdate{
 		width:198px;
 	}
+	.edittext{
+		width:198px;
+	}
+	.editlntext{
+		width:500px;
+	}
 </style>
 
 <!-- 表格统一样式处理 -->
 <style type="text/css">
 	table.deftable{
 		border: 1px solid #AAAAAA;
+		border-collapse: collapse;
 	}
 	
 	table.deftable>thead>tr>th {
