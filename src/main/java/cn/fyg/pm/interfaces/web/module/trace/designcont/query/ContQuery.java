@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.purchasecert.query;
+package cn.fyg.pm.interfaces.web.module.trace.designcont.query;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,19 +11,19 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang.StringUtils;
 
-import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCert;
-import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertState;
+import cn.fyg.pm.domain.model.design.designcont.DesignCont;
+import cn.fyg.pm.domain.model.design.designcont.DesignContState;
 import cn.fyg.pm.infrastructure.tool.date.DateUtil;
 import cn.fyg.pm.interfaces.web.shared.query.CommonQuery;
 
-public class CertQuery extends CommonQuery<PurchaseCert>{
+public class ContQuery extends CommonQuery<DesignCont> {
 
 	@Override
 	public List<Predicate> criterias(CriteriaBuilder builder,
-			Root<PurchaseCert> from) {
+			Root<DesignCont> from) {
 		List<Predicate> criterias=new ArrayList<Predicate>();
 		if(this.getProject()!=null){
-			criterias.add(builder.equal(from.get("purchaseKey").get("project"), this.getProject()));
+			criterias.add(builder.equal(from.get("designKey").get("project"), this.getProject()));
 		}
 		if(StringUtils.isNotBlank(this.getNo())){
 			criterias.add(builder.like(from.<String>get("no"), "%"+this.getNo().trim()+"%"));
@@ -49,10 +49,10 @@ public class CertQuery extends CommonQuery<PurchaseCert>{
 			return;
 		}
 		if(stateValue.equals("ext-notf")){
-			criterias.add(builder.notEqual(statePath, PurchaseCertState.finish));
+			criterias.add(builder.notEqual(statePath, DesignContState.finish));
 			return;
 		}
-		criterias.add(builder.equal(statePath,PurchaseCertState.valueOf(stateValue)));
+		criterias.add(builder.equal(statePath,DesignContState.valueOf(stateValue)));
 	}
 
 }

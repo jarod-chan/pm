@@ -11,8 +11,8 @@ public enum BusiCode implements CommonEnum {
 	pm_purchasereq("采购申请"),
 	pm_purchasecert("价格确认"),
 	
-	pm_technoti("问题通知单"),
-	pm_techcont("技术联系单");
+	pm_designnoti("问题通知单"),
+	pm_designcont("技术联系单");
 	
 	private final String name;
 	

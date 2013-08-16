@@ -14,9 +14,9 @@ import org.apache.commons.lang.StringUtils;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqState;
 import cn.fyg.pm.infrastructure.tool.date.DateUtil;
-import cn.fyg.pm.interfaces.web.shared.query.PurchaseQuery;
+import cn.fyg.pm.interfaces.web.shared.query.CommonQuery;
 
-public class ReqQuery extends PurchaseQuery<PurchaseReq> {
+public class ReqQuery extends CommonQuery<PurchaseReq> {
 
 	@Override
 	public List<Predicate> criterias(CriteriaBuilder builder,

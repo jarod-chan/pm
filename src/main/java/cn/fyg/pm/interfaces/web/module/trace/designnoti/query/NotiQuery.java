@@ -14,16 +14,16 @@ import org.apache.commons.lang.StringUtils;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiState;
 import cn.fyg.pm.infrastructure.tool.date.DateUtil;
-import cn.fyg.pm.interfaces.web.shared.query.PurchaseQuery;
+import cn.fyg.pm.interfaces.web.shared.query.CommonQuery;
 
-public class NotiQuery extends PurchaseQuery<DesignNoti> {
+public class NotiQuery extends CommonQuery<DesignNoti> {
 
 	@Override
 	public List<Predicate> criterias(CriteriaBuilder builder,
 			Root<DesignNoti> from) {
 		List<Predicate> criterias=new ArrayList<Predicate>();
 		if(this.getProject()!=null){
-			criterias.add(builder.equal(from.get("designKey").get("project"), this.getProject()));
+			criterias.add(builder.equal(from.get("project"), this.getProject()));
 		}
 		if(StringUtils.isNotBlank(this.getNo())){
 			criterias.add(builder.like(from.<String>get("no"), "%"+this.getNo().trim()+"%"));

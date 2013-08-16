@@ -88,7 +88,7 @@
 	</script>
 	
 	<div id="selReq" title="采购申请单" >
-		<table border="1" class="hctable deftable">
+		<table class="hctable deftable">
 			<thead>
 				<tr>
 					<th>序号</th>

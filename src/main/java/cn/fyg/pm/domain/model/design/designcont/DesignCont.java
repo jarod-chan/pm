@@ -1,4 +1,4 @@
-package cn.fyg.pm.domain.model.design.designnoti;
+package cn.fyg.pm.domain.model.design.designcont;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,21 +20,17 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-//import cn.fyg.pm.domain.model.design.designkey.DesignKey;
-import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.contract.general.Contract;
+import cn.fyg.pm.domain.model.design.designcont.reason.Reason;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.BusiCode;
 import cn.fyg.pm.domain.shared.CommonNoPatternUnit;
 
-/**
- *设计问题通知单
- *工程部向采购部提交问题，采购部使用技术联系单回复
- */
 @Entity
-@Table(name="pm_designnoti")
-public class DesignNoti extends CommonNoPatternUnit{
+@Table(name="pm_designcont")
+public class DesignCont  extends CommonNoPatternUnit{
 	
-	public static final BusiCode BUSI_CODE=BusiCode.pm_designnoti;
+	public static final BusiCode BUSI_CODE=BusiCode.pm_designcont;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -44,17 +40,20 @@ public class DesignNoti extends CommonNoPatternUnit{
 	
 	private String busino;//业务编号
 	
-	@ManyToOne(targetEntity=Project.class)
-	@JoinColumn(name="project_id")
-	private Project project;//项目
+//	@ManyToOne(targetEntity=DesignKey.class)
+//	@JoinColumn(name="designkey_id")
+//	private DesignKey designKey;//设计线索
 	
-	private String graphno;//图号
-	
-	private String postion;//变更部位
+	@ManyToOne(targetEntity=Contract.class)
+	@JoinColumn(name="contract_id")
+	private Contract contract;//合同
 	
 	@Enumerated(EnumType.STRING)
-	private DesignNotiState state;//状态
+	private Reason reason;
 	
+	@Enumerated(EnumType.STRING)
+	private DesignContState state;//状态
+
 	@ManyToOne(targetEntity=User.class)
 	@JoinColumn(name="leader_key")
 	private User leader;//当前项目负责人
@@ -80,13 +79,13 @@ public class DesignNoti extends CommonNoPatternUnit{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date receivedate;//接收日期
 	
-	@OneToMany(mappedBy = "designNoti",
+	@OneToMany(mappedBy = "designCont",
 			fetch = FetchType.EAGER, 
 			cascade = {CascadeType.ALL},
-			targetEntity = DesignNotiItem.class,
+			targetEntity = DesignContItem.class,
 			orphanRemoval=true)
 	@OrderBy("sn ASC")
-	private List<DesignNotiItem> designNotiItems=new ArrayList<DesignNotiItem>();
+	private List<DesignContItem> designContItems=new ArrayList<DesignContItem>();
 
 	public Long getId() {
 		return id;
@@ -112,35 +111,35 @@ public class DesignNoti extends CommonNoPatternUnit{
 		this.busino = busino;
 	}
 
-	public Project getProject() {
-		return project;
+//	public DesignKey getDesignKey() {
+//		return designKey;
+//	}
+//
+//	public void setDesignKey(DesignKey designKey) {
+//		this.designKey = designKey;
+//	}
+
+	public Contract getContract() {
+		return contract;
 	}
 
-	public void setProject(Project project) {
-		this.project = project;
+	public void setContract(Contract contract) {
+		this.contract = contract;
 	}
 
-	public String getGraphno() {
-		return graphno;
+	public Reason getReason() {
+		return reason;
 	}
 
-	public void setGraphno(String graphno) {
-		this.graphno = graphno;
+	public void setReason(Reason reason) {
+		this.reason = reason;
 	}
 
-	public String getPostion() {
-		return postion;
-	}
-
-	public void setPostion(String postion) {
-		this.postion = postion;
-	}
-
-	public DesignNotiState getState() {
+	public DesignContState getState() {
 		return state;
 	}
 
-	public void setState(DesignNotiState state) {
+	public void setState(DesignContState state) {
 		this.state = state;
 	}
 
@@ -200,14 +199,12 @@ public class DesignNoti extends CommonNoPatternUnit{
 		this.receivedate = receivedate;
 	}
 
-	public List<DesignNotiItem> getDesignNotiItems() {
-		return designNotiItems;
+	public List<DesignContItem> getDesignContItems() {
+		return designContItems;
 	}
 
-	public void setDesignNotiItems(List<DesignNotiItem> designNotiItems) {
-		this.designNotiItems = designNotiItems;
+	public void setDesignContItems(List<DesignContItem> designContItems) {
+		this.designContItems = designContItems;
 	}
-	
-	
 
 }

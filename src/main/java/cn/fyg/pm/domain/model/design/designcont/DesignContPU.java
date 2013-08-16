@@ -1,24 +1,24 @@
-package cn.fyg.pm.domain.model.design.designnoti;
+package cn.fyg.pm.domain.model.design.designcont;
 
 import cn.fyg.pm.domain.model.nogenerator.NoKey;
 import cn.fyg.pm.domain.model.nogenerator.NoPattern;
 import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
 
-public class DesignNotiPU implements NoPatternUnit {
+public class DesignContPU implements NoPatternUnit {
 	
-	private DesignNoti designNoti;
+	private DesignCont designCont;
 
-	private DesignNotiPU(DesignNoti designNoti) {
+	private DesignContPU(DesignCont designCont) {
 		super();
-		this.designNoti = designNoti;
+		this.designCont = designCont;
 	}
 
 	@Override
 	public NoPattern getNoPattern() {
 		NoKey nokey=new NoKey();
 		nokey.setSys("F");
-		nokey.setFlag("DN");
-		String projectNo=this.designNoti.getProject().getNo();
+		nokey.setFlag("DC");
+		String projectNo=null;//this.designCont.getDesignKey().getProject().getNo();
 		String[] noParts=projectNo.split("-");
 		nokey.setPref(noParts[0].substring(3)+noParts[1]);
 		Long limit=Long.valueOf(999);
@@ -28,12 +28,12 @@ public class DesignNotiPU implements NoPatternUnit {
 
 	@Override
 	public void setNo(String no) {
-		this.designNoti.setBusino(no);
+		this.designCont.setBusino(no);
 	}
 
 	@Override
 	public String getNo() {
-		return this.designNoti.getBusino();
+		return this.designCont.getBusino();
 	}
 
 }

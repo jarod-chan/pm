@@ -93,7 +93,6 @@
 	 <%@ include file="/script/fmttable.jsp" %>
 
 	<input type="hidden" name="id"  value="${designNoti.id}">
-	<input type="hidden" name="purchaseKey.id"  value="${designNoti.designKey.id}">
 	<table id="tabmain" class="fmttable">
 
 		<c:set var="parma_no" value="${designNoti.no}" />

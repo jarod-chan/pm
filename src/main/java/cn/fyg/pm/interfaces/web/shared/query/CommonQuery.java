@@ -12,7 +12,7 @@ import javax.persistence.criteria.Root;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 
-public abstract class PurchaseQuery<T>  implements QuerySpec<T>{
+public abstract class CommonQuery<T>  implements QuerySpec<T>{
 	
 	private String no;//编号
 	
@@ -28,7 +28,7 @@ public abstract class PurchaseQuery<T>  implements QuerySpec<T>{
 	
 	private Project project;//项目
 	
-	public PurchaseQuery(){
+	public CommonQuery(){
 		this.state="ext-all";
 		this.orderAttribute="createdate";
 		this.orderType="desc";

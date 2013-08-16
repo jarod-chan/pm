@@ -4,7 +4,6 @@ import java.util.List;
 
 import cn.fyg.pm.application.common.CommitValidator;
 import cn.fyg.pm.application.common.ServiceQuery;
-import cn.fyg.pm.domain.model.design.designkey.DesignKey;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiState;
 import cn.fyg.pm.domain.model.project.Project;
@@ -22,7 +21,7 @@ public interface DesignNotiService extends ServiceQuery<DesignNoti>,CommitValida
 	
 	List<DesignNoti> findByProject(Project project,DesignNotiState state);
 	
-	DesignNoti findByDesignNotiKey(DesignKey designKey);
+//	DesignNoti findByDesignKey(DesignKey designKey);
 
 	void delete(Long designNotiId);
 	

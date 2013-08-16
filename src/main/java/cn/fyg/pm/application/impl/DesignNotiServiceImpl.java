@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.DesignNotiService;
-import cn.fyg.pm.domain.model.design.designkey.DesignKey;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiFactory;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiItem;
@@ -18,7 +17,6 @@ import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.pjrole.Pjrole;
 import cn.fyg.pm.domain.model.project.Project;
-import cn.fyg.pm.domain.model.purchase.purchasereq.item.PurchaseReqItem;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 import cn.fyg.pm.domain.shared.verify.Result;
@@ -79,15 +77,9 @@ public class DesignNotiServiceImpl implements DesignNotiService {
 
 	@Override
 	public List<DesignNoti> findByProject(Project project, DesignNotiState state) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.designNotiRepository.findByProjectAndStateOrderByIdDesc(project, state);
 	}
 
-	@Override
-	public DesignNoti findByDesignNotiKey(DesignKey designKey) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	@Transactional
