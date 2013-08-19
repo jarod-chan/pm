@@ -6,83 +6,56 @@
 
 	<input type="hidden" name="id"  value="${purchaseCert.id}">
 	<table id="tabmain" class="fmttable">
-
-		<c:set var="parma_no" value="${purchaseCert.no}" />
-		<c:set var="parma_busino" value="${purchaseReq.busino}" />
+	<c:set var="parma_no" value="${designCont.no}" />
+	
+		<c:set var="parma_busino" value="${designCont.busino}" />
 		<%@ include file="/component/noShowBill.jsp" %>	
 
 		<tr>
-			<td>项目负责人：</td><td>${purchaseCert.leader.name}</td>
-			<td>状态：</td><td><span class="state state-${purchaseCert.state}" >${purchaseCert.state.name}</span></td>
+			<td>项目负责人：</td><td>${designCont.leader.name}</td>
+			<td>状态：</td><td><span class="state state-${designCont.state}" >${designCont.state.name}</span></td>
 		</tr>
 		
-		
 		<tr>
-			<td>采购申请单：</td> 
+			<td>问题通知单：</td> 
 			<td>
-				${purchaseReq.no}
+				<span id="spanNoti">${designCont.designNoti.no}</span>
 			</td>
 		</tr>
+		
 		<tr>
-			<td>关联采购明细：</td> 
+			<td>设计策划合同：</td>
+			<td>
+				<span id="spanContract">${designCont.contract.no}</span>
+			</td>
+			<td>设计服务商：</td>
+			<td>
+			 <span id="supplier_name">${designCont.contract.supplier.no}</span>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>技术变更原因：</td>
 			<td colspan="3">
-				<table id="purchaseReqItem" class="deftable" style="background-color: #FFFFFF;width: 504px;">
-				<thead>
-					<tr>
-						<th>序号</th><th>材料名称</th><th>型号规格和技术指标</th><th>单位</th><th>数量</th><th>推荐品牌</th><th>执行结果</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach  items="${purchaseReq.purchaseReqItems}" var="item">
-						<tr  <c:if test="${item.upid==purchaseCert.id}">style="background-color:#A6CAF0;"</c:if>>
-							<td>${item.sn}</td>
-							<td>${item.metername}</td>
-							<td>${item.spec}</td>
-							<td>${item.unit}</td>
-							<td>${item.numb}</td>
-							<td>${item.brand}</td>
-							<td>
-							<c:if test="${not empty item.upid}">
-							${item.uptype.name}[${item.upno}]执行采购
-							</c:if>
-							</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-				</table>
+				${designCont.reason.type.name}:${designCont.reason.en}.${designCont.reason.name}
 			</td>
+		</tr>	
+		
+		<tr>
+			<td>制单人：</td><td>${designCont.creater.name}</td>
+			<td>制单日期：</td><td><fmt:formatDate value="${designCont.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+		</tr>
+
+		<tr>
+			<td>签发人：</td><td>${designCont.signer.name}</td>
+			<td>签发日期：</td><td><fmt:formatDate value="${designCont.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
 		
 		<tr>
-			<td style="vertical-align: top">说明：</td>
-			<td colspan="3" class="viewtextarea_td">${purchaseCert.descrp}</td>
+			<td>接收人：</td>	<td>${designCont.receiver.name}</td>
+			<td>接收日期：</td><td><fmt:formatDate value="${designCont.receivedate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
-		
-		<tr>
-			<td>总金额：</td><td>${purchaseCert.tolsum}</td>
-		</tr>
-		
-		<tr>
-			<td>制单人：</td><td>${purchaseCert.creater.name}</td>
-			<td>制单日期：</td><td><fmt:formatDate value="${purchaseCert.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-		</tr>
-		
-		<tr>
-			<td>签发人：</td><td>${purchaseCert.signer.name}</td>
-			<td>签发日期：</td><td><fmt:formatDate value="${purchaseCert.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-		</tr>
-		
-		<tr>
-			<td>接收人：</td>
-			<td>
-				${purchaseCert.receiver.name}
-			</td>
-			<td>接收日期：</td>
-			<td>
-				${purchaseCert.receivedate}
-			</td>
-		</tr>
-	
+			
 
 	</table>
 	
@@ -90,27 +63,16 @@
 	<table id="tabitem" class="deftable">
 	<thead>
 		<tr>
-			<th>序号</th><th>材料名称</th><th>型号规格和技术指标</th><th>品牌</th><th>单位</th><th>数量</th><th>单价</th><th>金额</th>
+			<th>序号</th><th>变更内容</th>
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach items="${purchaseCert.purchaseCertItems}" var="item">
-		<tr class="datacls {itemId: '${item.id}'} ">
+		<c:forEach items="${designCont.designContItems}" var="item">
+		<tr>
+			
 			<td>${item.sn}</td>
 			
-			<td>${item.metername}</td>
-	
-			<td>${item.spec}</td>
-			
-			<td>${item.brand}</td>
-	
-		    <td>${item.unit}</td>
-	
-			<td><fmt:formatNumber value="${item.numb}" pattern="#.#"/></td>
-			
-			<td>${item.price}</td>
-			
-			<td>${item.amount}</td>
+			<td>${item.content}</td>
 	  
 		</tr>
 		</c:forEach>

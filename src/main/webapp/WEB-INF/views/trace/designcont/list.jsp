@@ -96,36 +96,32 @@
 			<tr>
 				<th>序号</th>
 				<th>业务编号</th>
-				<th>采购申请单</th>
+				<th>问题通知单</th>
+				<th>设计策划合同</th>
+				<th>设计服务商</th>
 				<th>状态</th>
 				<th>制单人</th>
 				<th>制单日期</th>
-				<th>签发人</th>
-				<th>签发日期</th>
-				<th>接收人</th>
-				<th>接收日期</th>
 				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach var="item" items="${purchaseCertDtoList}">
+		<c:forEach var="item" items="${designContList}">
 			<tr>
-				<td>${item.purchaseCert.no}</td>
-				<td>${item.purchaseCert.busino}</td>
-				<td>${item.purchaseReq.no}</td>
-				<td><span class="state state-${item.purchaseCert.state}" >${item.purchaseCert.state.name}</span></td>
-				<td>${item.purchaseCert.creater.name}</td>
-				<td><fmt:formatDate value="${item.purchaseCert.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
-				<td>${item.purchaseCert.signer.name}</td>
-				<td><fmt:formatDate value="${item.purchaseCert.signdate}" pattern="yyyy-MM-dd"/></td>
-				<td>${item.purchaseCert.receiver.name}</td>
-				<td><fmt:formatDate value="${item.purchaseCert.receivedate}" pattern="yyyy-MM-dd"/></td>
+				<td>${item.no}</td>
+				<td>${item.busino}</td>
+				<td>${item.designNoti.no}</td>
+				<td>${item.contract.no}</td>
+				<td>${item.contract.supplier.no}</td>
+				<td><span class="state state-${item.state}" >${item.state.name}</span></td>
+				<td>${item.creater.name}</td>
+				<td><fmt:formatDate value="${item.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
 				<td>
-					<c:if test="${item.purchaseCert.state=='saved'}">					
-					<input type="button" value="修改"  class="btn_edit {id:'${item.purchaseCert.id}'}">
-					<input type="button" value="删除"  class="btn_delete {id:'${item.purchaseCert.id}'}">
+					<c:if test="${item.state=='saved'}">					
+					<input type="button" value="修改"  class="btn_edit {id:'${item.id}'}">
+					<input type="button" value="删除"  class="btn_delete {id:'${item.id}'}">
 					</c:if>
-					<input type="button" value="查看"  class="btn_view {id:'${item.purchaseCert.id}'}">
+					<input type="button" value="查看"  class="btn_view {id:'${item.id}'}">
 				</td>
 			</tr>
 		</c:forEach>

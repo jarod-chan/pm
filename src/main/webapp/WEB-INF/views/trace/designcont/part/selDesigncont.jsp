@@ -22,7 +22,7 @@
 					}
 				}
 			});
-			$(".chkreq").click(function(){
+			$("#selDesignNoti .chkreq").click(function(){
 				var param=$(this).metadata();
 				$("#spanNoti").html(param.no);
 				$("#spanNoti").next().val(param.id);

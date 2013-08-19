@@ -53,7 +53,7 @@ public class DesignContServiceImpl implements DesignContService {
 		pjrole.setKey("xmfzr");//TODO 固定取项目负责人角色
 		List<Pjmember> pjmembers = this.pjmemberRepository.findByProjectAndPjrole(project, pjrole);
 		User xmfzr = pjmembers.get(0).getUser();
-		return DesignContFactory.create(creater,xmfzr,state);
+		return DesignContFactory.create(creater,xmfzr,project,state);
 	}
 
 	@Override
@@ -87,9 +87,9 @@ public class DesignContServiceImpl implements DesignContService {
 //	}
 
 	@Override
+	@Transactional
 	public void delete(Long designContId) {
-		// TODO Auto-generated method stub
-		
+		this.designContRepository.delete(designContId);
 	}
 
 }

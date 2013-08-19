@@ -18,7 +18,7 @@ public class DesignContPU implements NoPatternUnit {
 		NoKey nokey=new NoKey();
 		nokey.setSys("F");
 		nokey.setFlag("DC");
-		String projectNo=null;//this.designCont.getDesignKey().getProject().getNo();
+		String projectNo=this.designCont.getProject().getNo();
 		String[] noParts=projectNo.split("-");
 		nokey.setPref(noParts[0].substring(3)+noParts[1]);
 		Long limit=Long.valueOf(999);

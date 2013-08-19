@@ -20,8 +20,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import cn.fyg.pm.domain.model.contract.general.Contract;
 import cn.fyg.pm.domain.model.design.designcont.reason.Reason;
+import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
+import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.BusiCode;
 import cn.fyg.pm.domain.shared.CommonNoPatternUnit;
@@ -40,9 +45,14 @@ public class DesignCont  extends CommonNoPatternUnit{
 	
 	private String busino;//业务编号
 	
-//	@ManyToOne(targetEntity=DesignKey.class)
-//	@JoinColumn(name="designkey_id")
-//	private DesignKey designKey;//设计线索
+	@ManyToOne(targetEntity=Project.class)
+	@JoinColumn(name="project_id")
+	private Project project;//项目
+	
+	@ManyToOne(targetEntity=DesignNoti.class)
+	@JoinColumn(name="designnoti_id")
+	@Fetch(FetchMode.SELECT)
+	private DesignNoti designNoti;//问题通知单
 	
 	@ManyToOne(targetEntity=Contract.class)
 	@JoinColumn(name="contract_id")
@@ -102,6 +112,14 @@ public class DesignCont  extends CommonNoPatternUnit{
 	public void setNo(String no) {
 		this.no = no;
 	}
+	
+	public DesignNoti getDesignNoti() {
+		return designNoti;
+	}
+
+	public void setDesignNoti(DesignNoti designNoti) {
+		this.designNoti = designNoti;
+	}
 
 	public String getBusino() {
 		return busino;
@@ -111,13 +129,13 @@ public class DesignCont  extends CommonNoPatternUnit{
 		this.busino = busino;
 	}
 
-//	public DesignKey getDesignKey() {
-//		return designKey;
-//	}
-//
-//	public void setDesignKey(DesignKey designKey) {
-//		this.designKey = designKey;
-//	}
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
 
 	public Contract getContract() {
 		return contract;

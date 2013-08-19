@@ -1,27 +1,45 @@
 package cn.fyg.pm.interfaces.web.module.trace.designcont;
 
+import static cn.fyg.pm.interfaces.web.shared.message.Message.error;
+import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import cn.fyg.pm.application.ContractService;
 import cn.fyg.pm.application.DesignContService;
 import cn.fyg.pm.application.DesignNotiService;
 import cn.fyg.pm.application.OpinionService;
+import cn.fyg.pm.domain.model.contract.general.Contract;
+import cn.fyg.pm.domain.model.contract.general.ContractType;
 import cn.fyg.pm.domain.model.design.designcont.DesignCont;
+import cn.fyg.pm.domain.model.design.designcont.DesignContItem;
 import cn.fyg.pm.domain.model.design.designcont.DesignContState;
+import cn.fyg.pm.domain.model.design.designcont.reason.Reason;
+import cn.fyg.pm.domain.model.design.designcont.reason.ReasonItem;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiState;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
+import cn.fyg.pm.domain.shared.verify.Result;
 import cn.fyg.pm.interfaces.web.module.trace.designcont.query.ContQuery;
+import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
+import cn.fyg.pm.interfaces.web.shared.mvc.BindTool;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
@@ -46,6 +64,8 @@ public class DesignContCtl {
 	OpinionService opinionService;
 	@Autowired
 	DesignNotiService designNotiService;
+	@Autowired
+	ContractService contractService;
 	
 	@InitBinder
 	private void dateBinder(WebDataBinder binder) {
@@ -72,9 +92,88 @@ public class DesignContCtl {
 		map.put("designCont", designCont);
 		List<DesignNoti> designNotiList = this.designNotiService.findByProject(project,DesignNotiState.saved);
 		map.put("designNotiList", designNotiList);
-//		DesignNoti designNoti = this.designNotiService.findByDesignKey(designCont.getDesignKey());
-//		map.put("designNoti", designNoti);
+		List<Contract> contractList = this.contractService.findByProjectAndType(project, ContractType.design);
+		map.put("contractList", contractList);
+		List<ReasonItem> reasonItems = Reason.getReasonItemList();
+		map.put("reasonItems", reasonItems);
 		return Page.EDIT;
+	}
+	
+	@RequestMapping(value="saveEdit",method=RequestMethod.POST)
+	public String saveEdit(@PathVariable("projectId")Long projectId,@RequestParam("id")Long designContId,@RequestParam("afteraction")String afteraction,@RequestParam(value="designContItemsId",required=false) Long[] designContItemsId,HttpServletRequest request,RedirectAttributes redirectAttributes){
+		Project project = new Project();
+		project.setId(projectId);
+		User user = sessionUtil.getValue("user");
+		
+		DesignCont designCont =designContId!=null?this.designContService.find(designContId):this.designContService.create(user,project,DesignContState.saved);
+		 
+		List<DesignContItem> designContItemList = BindTool.changeEntityItems(DesignContItem.class,designCont.getDesignContItems(),designContItemsId);
+		designCont.setDesignContItems(designContItemList);
+		BindTool.bindRequest(designCont,request);
+
+		designCont=this.designContService.save(designCont);
+		
+		if(afteraction.equals("save")){
+			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("保存成功！"));
+			return "redirect:list";
+		}
+		
+		if(afteraction.equals("commit")){
+			Result result=commit(designCont, user);
+			if(result.notPass()){
+				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
+				return String.format("redirect:%s/edit",designCont.getId());
+			}else{				
+				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
+				return "redirect:list";
+			}
+		}
+		
+		return "";
+	}
+
+
+	
+	
+	
+	
+	
+	
+
+	@Transactional
+	private Result commit(DesignCont designCont, User user) {
+//		Result result = this.purchaseReqService.verifyForCommit(purchaseReq);
+//		if(result.notPass()) return result;
+//		purchaseReq.setState(PurchaseReqState.commit);
+//		purchaseReq=purchaseReqService.save(purchaseReq);
+//		String userKey=user.getKey();
+//		try{
+//			Map<String, Object> variableMap = new HashMap<String, Object>();
+//			variableMap.put(FlowConstant.BUSINESS_ID, purchaseReq.getId());
+//			variableMap.put(FlowConstant.APPLY_USER, userKey);
+//			identityService.setAuthenticatedUserId(userKey);
+//			runtimeService.startProcessInstanceByKey(ReqVarname.PROCESS_DEFINITION_KEY, variableMap);			
+//		} finally {
+//			identityService.setAuthenticatedUserId(null);
+//		}
+//		return result;
+		return null;
+	}
+	
+	@RequestMapping(value="{designContId}/view",method=RequestMethod.GET)
+	public String toView(@PathVariable("projectId")Long projectId,@PathVariable("designContId")Long designContId,Map<String,Object> map){
+		DesignCont designCont = this.designContService.find(designContId);
+		map.put("designCont", designCont);
+		List<Opinion> opinions = this.opinionService.listOpinions(DesignNoti.BUSI_CODE, designContId);
+		map.put("opinions", opinions);
+		return Page.VIEW;
+	}
+	
+	@RequestMapping(value="delete",method=RequestMethod.POST)
+	public String delete(@RequestParam("designContId") Long designContId,RedirectAttributes redirectAttributes){
+		this.designContService.delete(designContId);
+		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("删除成功！"));
+		return "redirect:list";
 	}
 
 }

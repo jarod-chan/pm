@@ -15,7 +15,7 @@
     $(function() {
 
 		$("#btn_back").click(function(){
-			window.open('${ctx}/${projectId}/purchasecert/list','_self');
+			window.open('${ctx}/${projectId}/designcont/list','_self');
 			return false;
 		})
 
@@ -27,7 +27,7 @@
 	<h2>技术联系单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<%@ include file="part/purchasecert_view.jsp" %>	
+	<%@ include file="part/designcont_view.jsp" %>	
 
 	<br>
 	<input type="button" value="返回"  id="btn_back">

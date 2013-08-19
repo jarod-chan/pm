@@ -23,7 +23,7 @@ public class ContQuery extends CommonQuery<DesignCont> {
 			Root<DesignCont> from) {
 		List<Predicate> criterias=new ArrayList<Predicate>();
 		if(this.getProject()!=null){
-			criterias.add(builder.equal(from.get("designKey").get("project"), this.getProject()));
+			criterias.add(builder.equal(from.get("project"), this.getProject()));
 		}
 		if(StringUtils.isNotBlank(this.getNo())){
 			criterias.add(builder.like(from.<String>get("no"), "%"+this.getNo().trim()+"%"));

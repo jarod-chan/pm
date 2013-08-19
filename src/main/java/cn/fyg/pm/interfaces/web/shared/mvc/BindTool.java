@@ -17,11 +17,11 @@ public class BindTool {
 	
 	/**
 	 * 绑定页面请求参数
-	 * @param designNoti
+	 * @param obj
 	 * @param request
 	 */
-	public static void bindRequest(DesignNoti designNoti,HttpServletRequest request) {
-		ServletRequestDataBinder binder = new ServletRequestDataBinder(designNoti);
+	public static void bindRequest(Object obj,HttpServletRequest request) {
+		ServletRequestDataBinder binder = new ServletRequestDataBinder(obj);
         binder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
 		binder.bind(request);
 	}
