@@ -16,6 +16,7 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -48,6 +49,7 @@ import cn.fyg.pm.interfaces.web.module.constructcert.flow.CertVarname;
 import cn.fyg.pm.interfaces.web.module.constructcert.query.CertQuery;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
+import cn.fyg.pm.interfaces.web.shared.flow.FlowUtil;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
@@ -60,6 +62,7 @@ public class ConstructCertCtl {
 		String LIST = PATH + "list";
 		String EDIT = PATH + "edit";
 		String VIEW = PATH + "view";
+		String PRINT =PATH + "print";
 		String CHECK = PATH + "check";
 		String CHECK_EDIT = PATH + "check_edit";
 	}
@@ -84,6 +87,9 @@ public class ConstructCertCtl {
 	UserService userService;
 	@Autowired
 	SupplierService supplierService;
+	@Autowired
+	@Qualifier("constructcert")
+	FlowUtil flowUtil;
 	
 	@InitBinder
 	private void dateBinder(WebDataBinder binder) {
@@ -199,6 +205,17 @@ public class ConstructCertCtl {
 		List<Opinion> opinions = opinionService.listOpinions(ConstructCert.BUSI_CODE, constructCertId);
 		map.put("opinions", opinions);
 		return Page.VIEW;
+	}
+	
+	@RequestMapping(value="{constructCertId}/print",method=RequestMethod.GET)
+	public String toPrint(@PathVariable("projectId")Long projectId,@PathVariable("constructCertId")Long constructCertId,Map<String,Object> map){
+		ConstructCert constructCert = constructCertService.find(constructCertId);
+		ConstructCont constructCont = constructContService.findByConstructKey(constructCert.getConstructKey());
+		map.put("constructCont", constructCont);
+		map.put("constructCert", constructCert);
+		List<Opinion> opinions = opinionService.listOpinions(ConstructCert.BUSI_CODE, constructCertId);
+		map.put("flowChecker", flowUtil.getFlowChecker(opinions));
+		return Page.PRINT;
 	}
 	
 	@RequestMapping(value="{constructCertId}/check",method=RequestMethod.GET)

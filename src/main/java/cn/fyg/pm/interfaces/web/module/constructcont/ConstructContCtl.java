@@ -16,6 +16,7 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -49,6 +50,7 @@ import cn.fyg.pm.interfaces.web.module.constructcont.flow.ContVarname;
 import cn.fyg.pm.interfaces.web.module.constructcont.query.ContQuery;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
+import cn.fyg.pm.interfaces.web.shared.flow.FlowUtil;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
@@ -61,6 +63,7 @@ public class ConstructContCtl {
 		String LIST = PATH + "list";
 		String EDIT = PATH + "edit";
 		String VIEW = PATH + "view";
+		String PRINT = PATH + "print";
 		String CHECK = PATH + "check";
 		String CHECK_EDIT = PATH + "check_edit";
 	}
@@ -86,6 +89,9 @@ public class ConstructContCtl {
 	ContractService ContractService;
 	@Autowired
 	SupplierService supplierService;
+	@Autowired
+	@Qualifier("constructcont")
+	FlowUtil flowUtil;
 	
 	@InitBinder
 	private void dateBinder(WebDataBinder binder) {
@@ -212,6 +218,15 @@ public class ConstructContCtl {
 		return Page.VIEW;
 	}
 	
+	@RequestMapping(value="{constructContId}/print",method=RequestMethod.GET)
+	public String toPrint(@PathVariable("projectId")Long projectId,@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
+		ConstructCont constructCont = constructContService.find(constructContId);
+		map.put("constructCont", constructCont);
+		List<Opinion> opinions = opinionService.listOpinions(ConstructCont.BUSI_CODE, constructContId);
+		map.put("flowChecker", flowUtil.getFlowChecker(opinions));
+		return Page.PRINT;
+	}
+	
 	@RequestMapping(value="{constructContId}/items",method=RequestMethod.GET)
 	@ResponseBody 
 	public List<ConstructContItem> loadConstructContItemList(@PathVariable("constructContId")Long constructContId){
@@ -231,11 +246,6 @@ public class ConstructContCtl {
 		map.put("busiCode", ConstructCont.BUSI_CODE);
 		return Page.CHECK;
 	}
-
-	
-	
-	
-	
 	
 	@RequestMapping(value="{constructContId}/checkedit",method=RequestMethod.GET)
 	public String toCheckEdit(@PathVariable("constructContId")Long constructContId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){

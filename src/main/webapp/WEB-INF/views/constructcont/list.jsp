@@ -41,6 +41,12 @@
         	return false;
     	});
     	
+    	$('.btn_print').click(function(){
+    		var param=$(this).metadata();
+    		window.open('${ctx}/${projectId}/constructcont/{id}/print'.replace('{id}',param.id),'_blank');
+        	return false;
+    	});
+    	
     	$('#btn_query').click(function(){
 			var actionFrom=$("form:eq(0)");
 			var oldAction=actionFrom.attr("action"); 
@@ -108,10 +114,6 @@
 			<th>总金额</th>
 			<th>制单人</th>
 			<th>制单日期</th>
-			<th>签发人</th>
-			<th>签发日期</th>
-			<th>接收人</th>
-			<th>接收日期</th>
 			<th>计划完成日期</th>
 			<th>实际完成日期</th>
 			<th>实际执行结果</th>
@@ -130,10 +132,6 @@
 				<td>${constructCont.tolsum}</td>
 				<td>${constructCont.creater.name}</td>
 				<td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
-				<td>${constructCont.signer.name}</td>
-				<td><fmt:formatDate value="${constructCont.signdate}" pattern="yyyy-MM-dd"/></td>
-				<td>${constructCont.receiver.name}</td>
-				<td><fmt:formatDate value="${constructCont.receivedate}" pattern="yyyy-MM-dd"/></td>
 				<td>${constructCont.plandate}</td>
 				<td>${constructCont.realdate}</td>
 				<td>${constructCont.result}</td>
@@ -143,6 +141,7 @@
 					<input type="button" value="删除"  class="btn_delete {id:'${constructCont.id}'}">
 					</c:if>
 					<input type="button" value="查看"  class="btn_view {id:'${constructCont.id}'}">
+					<input type="button" value="打印"  class="btn_print {id:'${constructCont.id}'}">
 				</td>
 			</tr>
 		</c:forEach>

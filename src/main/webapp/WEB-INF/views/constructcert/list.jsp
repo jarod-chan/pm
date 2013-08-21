@@ -42,6 +42,12 @@
         	return false;
     	});
     	
+    	$('.btn_print').click(function(){
+    		var param=$(this).metadata();
+    		window.open('${ctx}/${projectId}/constructcert/{id}/print'.replace('{id}',param.id),'_blank');
+        	return false;
+    	});
+    	
     	$('#btn_query').click(function(){
 			var actionFrom=$("form:eq(0)");
 			var oldAction=actionFrom.attr("action"); 
@@ -136,6 +142,7 @@
 					<input type="button" value="删除"  class="btn_delete {id:'${constructCertDto.constructCert.id}'}">
 					</c:if>
 					<input type="button" value="查看"  class="btn_view {id:'${constructCertDto.constructCert.id}'}">
+					<input type="button" value="打印"  class="btn_print {id:'${constructCertDto.constructCert.id}'}">
 				</td>
 			</tr>
 		</c:forEach>

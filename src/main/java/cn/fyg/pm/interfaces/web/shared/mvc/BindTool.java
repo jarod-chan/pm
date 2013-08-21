@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.ServletRequestDataBinder;
 
-import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
 import cn.fyg.pm.domain.shared.EntityItem;
 
 public class BindTool {
