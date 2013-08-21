@@ -113,7 +113,9 @@
 			<tr>
 				<th>序号</th><th>业务编号</th><th>施工联系单</th><th>施工承包方</th><th>专业分类</th><th>状态</th>
 				<th>总金额</th>
-				<th>制单人</th><th>制单日期</th><th>签发人</th><th>签发日期</th><th>结算人</th><th>结算日期</th><th>操作</th>
+				<th>制单人</th>
+				<th>制单日期</th>
+				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -128,14 +130,6 @@
 				<td>${constructCertDto.constructCert.tolsum}</td>
 				<td>${constructCertDto.constructCert.creater.name}</td>
 				<td><fmt:formatDate value="${constructCertDto.constructCert.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
-				<td>${constructCertDto.constructCert.signer.name}</td>
-				<td><fmt:formatDate value="${constructCertDto.constructCert.signdate}" pattern="yyyy-MM-dd"/></td>
-				<td>
-					${constructCert.settler.name}
-				</td>
-				<td>
-					<fmt:formatDate value="${constructCert.settledate}" pattern="yyyy-MM-dd"/>
-				</td>
 				<td>
 					<c:if test="${constructCertDto.constructCert.state=='saved'}">	
 					<input type="button" value="修改"  class="btn_edit {id:'${constructCertDto.constructCert.id}'}">

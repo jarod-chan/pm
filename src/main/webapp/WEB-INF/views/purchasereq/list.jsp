@@ -100,10 +100,6 @@
 				<th>状态</th>
 				<th>制单人</th>
 				<th>制单日期</th>
-				<th>签发人</th>
-				<th>签发日期</th>
-				<th>接收人</th>
-				<th>接收日期</th>
 				<th>操作</th>
 			</tr>
 		</thead>
@@ -116,10 +112,6 @@
 				<td><span class="state state-${purchaseReq.state}" >${purchaseReq.state.name}</span></td>
 				<td>${purchaseReq.creater.name}</td>
 				<td><fmt:formatDate value="${purchaseReq.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
-				<td>${purchaseReq.signer.name}</td>
-				<td><fmt:formatDate value="${purchaseReq.signdate}" pattern="yyyy-MM-dd"/></td>
-				<td>${purchaseReq.receiver.name}</td>
-				<td><fmt:formatDate value="${purchaseReq.receivedate}" pattern="yyyy-MM-dd"/></td>
 				<td>
 					<c:if test="${purchaseReq.state=='saved'}">					
 					<input type="button" value="修改"  class="btn_edit {id:'${purchaseReq.id}'}">

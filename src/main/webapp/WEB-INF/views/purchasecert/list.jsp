@@ -100,10 +100,6 @@
 				<th>状态</th>
 				<th>制单人</th>
 				<th>制单日期</th>
-				<th>签发人</th>
-				<th>签发日期</th>
-				<th>接收人</th>
-				<th>接收日期</th>
 				<th>操作</th>
 			</tr>
 		</thead>
@@ -116,10 +112,6 @@
 				<td><span class="state state-${item.purchaseCert.state}" >${item.purchaseCert.state.name}</span></td>
 				<td>${item.purchaseCert.creater.name}</td>
 				<td><fmt:formatDate value="${item.purchaseCert.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
-				<td>${item.purchaseCert.signer.name}</td>
-				<td><fmt:formatDate value="${item.purchaseCert.signdate}" pattern="yyyy-MM-dd"/></td>
-				<td>${item.purchaseCert.receiver.name}</td>
-				<td><fmt:formatDate value="${item.purchaseCert.receivedate}" pattern="yyyy-MM-dd"/></td>
 				<td>
 					<c:if test="${item.purchaseCert.state=='saved'}">					
 					<input type="button" value="修改"  class="btn_edit {id:'${item.purchaseCert.id}'}">
