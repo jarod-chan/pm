@@ -89,7 +89,7 @@
 		        }
 		    });
 		    
- 		    var fileSpan=$("<span class='fl_span'></span");
+ 		    var fileSpan=$("<span class='fl_span'></span>");
 	    	$("<span class='fl_name'></span>").appendTo(fileSpan);
 	    	$("<span class='fl_remove'><a href='javascript:void(0);''>--</a></span>").appendTo(fileSpan);
 	    	$("<span class='fl_id'><input type='hidden' name='filestore_id' /></span>").appendTo(fileSpan);
@@ -97,7 +97,7 @@
 		    function mkSpan(filename,file_id){
 		    	var newspan=fileSpan.clone();
 		    	var href=$("<a/>").html(filename).attr("href","${ctx}/uploadify/filestore/"+file_id);
-		    	newspan.find(".fl_name").html(href).end()
+		    	newspan.find(".fl_name").append(href).end()
 		    		.find(".fl_remove a").click(function(){
 		    			$(this).parent().parent().remove();
 		    		}).end()
