@@ -47,6 +47,8 @@
 	
 	</table>
 	
+	<%@ include file="/component/fileDnload.jsp" %>
+	
 	<h3>问题项目</h3>
 	<table id="tabitem" class="deftable">
 	<thead>

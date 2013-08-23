@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import cn.fyg.pm.application.BusifileService;
 import cn.fyg.pm.application.DesignNotiService;
 import cn.fyg.pm.application.OpinionService;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
@@ -28,6 +29,7 @@ import cn.fyg.pm.domain.model.design.designnoti.DesignNotiState;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
+import cn.fyg.pm.domain.shared.BusiCode;
 import cn.fyg.pm.domain.shared.verify.Result;
 import cn.fyg.pm.interfaces.web.module.trace.designnoti.query.NotiQuery;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
@@ -54,6 +56,8 @@ public class DesignNotiCtl {
 	DesignNotiService designNotiService;
 	@Autowired
 	OpinionService opinionService;
+	@Autowired
+	BusifileService busifileService;
 	
 	@InitBinder
 	private void dateBinder(WebDataBinder binder) {
@@ -78,12 +82,18 @@ public class DesignNotiCtl {
 		User user = sessionUtil.getValue("user");
 		DesignNoti designNoti = designNotiId.longValue()>0?this.designNotiService.find(designNotiId):this.designNotiService.create(user,project,DesignNotiState.new_);
 		map.put("designNoti", designNoti);
+		if(designNotiId.longValue()>0){
+			BusiCode busiCode=DesignNoti.BUSI_CODE;
+			Long busiId=designNoti.getId();
+			map.put("filestores", this.busifileService.findFilestores(busiCode, busiId));
+		}
 		return Page.EDIT;
 	}
 	
 	
 	@RequestMapping(value="saveEdit",method=RequestMethod.POST)
-	public String saveEdit(@PathVariable("projectId")Long projectId,@RequestParam("id")Long designNotiId,@RequestParam("afteraction")String afteraction,@RequestParam(value="designNotiItemsId",required=false) Long[] designNotiItemsId,HttpServletRequest request,RedirectAttributes redirectAttributes){
+	public String saveEdit(@PathVariable("projectId")Long projectId,@RequestParam("id")Long designNotiId,@RequestParam("afteraction")String afteraction,@RequestParam(value="designNotiItemsId",required=false) Long[] designNotiItemsId,
+			@RequestParam(value="filestore_id",required=false)Long[] filestore_id,HttpServletRequest request,RedirectAttributes redirectAttributes){
 		Project project = new Project();
 		project.setId(projectId);
 		User user = sessionUtil.getValue("user");
@@ -95,6 +105,10 @@ public class DesignNotiCtl {
 		BindTool.bindRequest(designNoti,request);
 
 		designNoti=this.designNotiService.save(designNoti);
+		
+		BusiCode busiCode=DesignNoti.BUSI_CODE;
+		Long busiId=designNoti.getId();
+		this.busifileService.associateFile(busiCode, busiId, filestore_id);
 		
 		if(afteraction.equals("save")){
 			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("保存成功！"));
@@ -149,6 +163,8 @@ public class DesignNotiCtl {
 		map.put("designNoti", designNoti);
 		List<Opinion> opinions = this.opinionService.listOpinions(DesignNoti.BUSI_CODE, designNotiId);
 		map.put("opinions", opinions);
+		
+		map.put("filestores", this.busifileService.findFilestores(DesignNoti.BUSI_CODE, designNotiId));
 		return Page.VIEW;
 	}
 	

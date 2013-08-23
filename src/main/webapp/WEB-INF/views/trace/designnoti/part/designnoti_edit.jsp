@@ -135,8 +135,9 @@
 			<td>接收日期：</td><td><fmt:formatDate value="${designNoti.receivedate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
 	
-
 	</table>
+	
+	<%@ include file="/component/fileUpload.jsp" %>
 
 	<h3>问题项目</h3>
 	<table id="tabitem"  class="deftable">
@@ -160,3 +161,4 @@
 		</c:forEach>
 	</tbody>
 	</table>
+	

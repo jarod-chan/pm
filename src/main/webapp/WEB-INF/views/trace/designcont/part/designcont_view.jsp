@@ -59,6 +59,8 @@
 
 	</table>
 	
+	<%@ include file="/component/fileDnload.jsp" %>
+	
 	<h3>联系内容</h3>
 	<table id="tabitem" class="deftable">
 	<thead>
