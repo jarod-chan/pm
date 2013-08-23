@@ -34,7 +34,7 @@
 				
 				<tr >
 					<td >施工联系单</td>
-					<td >${constructCont.no}</td>
+					<td >${constructCont.busino}</td>
 				</tr>
 				
 				<tr >
