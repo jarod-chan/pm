@@ -57,7 +57,7 @@ import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 @RequestMapping("{projectId}/purchasecert")
 public class PurchaseCertCtl {
 	
-	private static final String PATH="purchasecert/";
+	private static final String PATH="trace/purchasecert/";
 	private interface Page {
 		String LIST = PATH + "list";
 		String EDIT = PATH + "edit";

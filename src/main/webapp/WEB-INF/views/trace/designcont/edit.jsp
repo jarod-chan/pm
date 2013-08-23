@@ -17,7 +17,10 @@
     $(function() {
     	var validator=$("form").validate({
     		rules: {
-    			"purchaseKey.id": {
+    			"designNoti.id": {
+    				required: true
+    			},
+    			"contract.id":{
     				required: true
     			}
     		}

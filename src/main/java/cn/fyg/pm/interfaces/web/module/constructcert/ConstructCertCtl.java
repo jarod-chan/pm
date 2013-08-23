@@ -57,7 +57,7 @@ import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 @RequestMapping("{projectId}/constructcert")
 public class ConstructCertCtl {
 	
-	private static final String PATH="constructcert/";
+	private static final String PATH="trace/constructcert/";
 	private interface Page {
 		String LIST = PATH + "list";
 		String EDIT = PATH + "edit";

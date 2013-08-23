@@ -58,7 +58,7 @@ import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 @RequestMapping("{projectId}/constructcont")
 public class ConstructContCtl {
 	
-	private static final String PATH="constructcont/";
+	private static final String PATH="trace/constructcont/";
 	private interface Page {
 		String LIST = PATH + "list";
 		String EDIT = PATH + "edit";
