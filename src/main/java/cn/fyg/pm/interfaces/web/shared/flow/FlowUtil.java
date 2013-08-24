@@ -9,5 +9,5 @@ public interface FlowUtil {
 	
 	void addRoleTasks(List<RoleTask> reloTasks);
 
-	Map<String,CheckBean> getFlowChecker(List<Opinion> opinions);
+	Map<String,Opinion> getCheckerOpinion(List<Opinion> opinions);
 }

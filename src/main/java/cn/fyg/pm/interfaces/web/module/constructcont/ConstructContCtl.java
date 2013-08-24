@@ -223,7 +223,7 @@ public class ConstructContCtl {
 		ConstructCont constructCont = constructContService.find(constructContId);
 		map.put("constructCont", constructCont);
 		List<Opinion> opinions = opinionService.listOpinions(ConstructCont.BUSI_CODE, constructContId);
-		map.put("flowChecker", flowUtil.getFlowChecker(opinions));
+		map.put("checkerOpinion", flowUtil.getCheckerOpinion(opinions));
 		return Page.PRINT;
 	}
 	

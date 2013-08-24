@@ -43,6 +43,7 @@ import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
+import cn.fyg.pm.domain.model.workflow.opinion.OpinionItem;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
 import cn.fyg.pm.domain.shared.verify.Result;
 import cn.fyg.pm.interfaces.web.module.constructcert.flow.CertVarname;
@@ -214,10 +215,39 @@ public class ConstructCertCtl {
 		map.put("constructCont", constructCont);
 		map.put("constructCert", constructCert);
 		List<Opinion> opinions = opinionService.listOpinions(ConstructCert.BUSI_CODE, constructCertId);
-		map.put("flowChecker", flowUtil.getFlowChecker(opinions));
+		Map<String, Opinion> checkerOpinion = flowUtil.getCheckerOpinion(opinions);
+		map.put("checkerOpinion", checkerOpinion);
+		Map<Long,OpinionItem> checkerOpinionItem=getOpinionItem(checkerOpinion.get("shr"),constructCert.getConstructCertItems().size());
+		map.put("checkerOpinionItem", checkerOpinionItem);
 		return Page.PRINT;
 	}
 	
+	/**
+	 * TODO 领域逻辑处理存在一定问题
+	 * @param opinion
+	 * @param size
+	 * @return
+	 */
+	private Map<Long, OpinionItem> getOpinionItem(Opinion opinion, int size) {
+		HashMap<Long,OpinionItem> map = new HashMap<Long,OpinionItem>();
+		if(opinion==null||size==0) return map;
+		
+		for(int i=1;i<=size;i++){
+			OpinionItem opinionItem = new OpinionItem();
+			ResultEnum result = opinion.getResult();
+			opinionItem.setResult(result);
+			map.put(Long.valueOf(i), opinionItem);
+		}
+		
+		if(opinion.getOpinionItems().size()==0) return map;
+		
+		for (OpinionItem opinionItem : opinion.getOpinionItems()) {
+			map.put(opinionItem.getItemSn(), opinionItem);
+		}
+		
+		return map;
+	}
+
 	@RequestMapping(value="{constructCertId}/check",method=RequestMethod.GET)
 	public String toCheck(@PathVariable("projectId")Long projectId,@PathVariable(value="constructCertId")Long constructCertId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
 		ConstructCert constructCert = constructCertService.find(constructCertId);
