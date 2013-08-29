@@ -9,13 +9,22 @@
 	<%@ include file="/common/setting.jsp" %>
 	<%@ include file="/common/meta.jsp" %>
 	<%@ include file="/common/include.jsp" %>
-	<%@ include file="/common/jqui.jsp" %>		
+	<%@ include file="/common/jqui.jsp" %>	
+	<%@ include file="/common/jqui2.jsp" %>		
 
 
     <script type="text/javascript">
     $(function() {
+    	
+    	var formatFileSn=function(){
+    		$("#tabitem tbody tr").each(function(idx){
+    			$(this).find(".sp_itemfile").find("input[name='itemfileSn']").val(idx+1);
+    		})
+    	}
+    	
 		$("#btn_save").click(function(){
 			$("#tabitem tbody tr").formatName();
+			formatFileSn(); 
 			var actionFrom=$("form");
 			var oldAction=actionFrom.attr("action"); 
 			$("input[name=afteraction]").val("save");
@@ -24,6 +33,7 @@
 		
 		$("#btn_commit").click(function(){
 			$("#tabitem tbody tr").formatName();
+			formatFileSn();
 			var actionFrom=$("form");
 			var oldAction=actionFrom.attr("action"); 
 			$("input[name=afteraction]").val("commit");

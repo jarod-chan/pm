@@ -2,6 +2,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+	<script type="text/javascript">
+	 $(function(){
+		 function openItemFile(){
+			$(this).parent().prev().addClass("open_td");
+			$( ".uploadify_item" ).dialog( "open" );
+		 }
+		 $(".btn_itemfile").bind("click",openItemFile);
+	 })
+	</script>
+
 	<%@ include file="/script/fmttable.jsp" %>
 
 	<table id="tabmain" class="fmttable">
@@ -17,17 +27,7 @@
 		</tr>
 		
 		<tr>
-			<td>图号：</td>
-			<td>
-				${designNoti.graphno}
-			</td>
-		</tr>
-		
-		<tr>
-			<td>变更部位：</td>
-			<td colspan="3">
-				${designNoti.postion}
-			</td>
+			<td style="vertical-align: top">原因说明：</td><td colspan="3" class="viewtextarea_td">${designNoti.reason}</td>
 		</tr>
 		
 		<tr>
@@ -47,13 +47,13 @@
 	
 	</table>
 	
-	<%@ include file="/component/fileDnload.jsp" %>
+	<%@ include file="viewFileItem.jsp" %>
 	
 	<h3>问题项目</h3>
 	<table id="tabitem" class="deftable">
 	<thead>
 		<tr>
-				<th>序号</th><th>内容</th>
+				<th>序号</th><th>内容</th><th>图号</th><th colspan="2" style="width:200px;">附件</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -62,6 +62,14 @@
 
 			<td>${item.sn}</td>
 			<td>${item.content}</td>
+			<td>${item.graphno}</td>
+	  		
+	  		<td style="width: 150px;">
+	  			<c:forEach items="${fileMap[item.sn]}" var="file" varStatus="status"><span class='sp_itemfile'><a href="${ctx}/uploadify/filestore/${file.id}">${status.count}</a><input type='hidden' name='itemfileName' value="${file.filename}.${file.suffix}" /><input type='hidden' name='itemfileSn' /><input type='hidden' name='itemfileId' value="${file.id}"/></span></c:forEach>
+	  		</td>
+	  		<td>
+	  			<c:if test="${not empty  fileMap[item.sn]}"><input type='button' class='btn_itemfile'  value='打开'   /></c:if>
+	  		</td>
 		</tr>
 		</c:forEach>
 	</tbody>

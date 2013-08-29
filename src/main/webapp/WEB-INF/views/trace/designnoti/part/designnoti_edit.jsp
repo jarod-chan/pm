@@ -17,21 +17,21 @@
 		$("<td>").append($("<input type='text' name='designNotiItems_content' style='width:600px' />"))
 		  .appendTo(trdom);
 		
+		$("<td>").append($("<input type='text' name='designNotiItems_graphno'  />"))
+		  .appendTo(trdom);
+		
+		$("<td>").css("width","150px").appendTo(trdom);
+		$("<td>").append($("<input type='button' class='btn_itemfile'  value='打开'   />")).appendTo(trdom);
 		  
 		 $("<td>")
 			.append($("<input type='button' class='add'  value='+'   />"))
 			.append($("<input type='button' class='remove'  value='-'   />"))
 			.appendTo(trdom);
-	
-		var numbBlur=function(){
-			if(IsFloat($(this).val(),"+"))	{
-				var point=hold($(this).val(),0);
-				$(this).val(point);
-			}else{
-				$(this).val("");
-			}
-		}
 		
+		function openItemFile(){
+			$(this).parent().prev().addClass("open_td");
+			$( ".uploadify_item" ).dialog( "open" );
+		}
 		
 		function add() {
 			rowAction($(this),function(tr){
@@ -48,6 +48,7 @@
 		function cloneTR(){
 			var newtr=trdom.clone();
 			newtr
+			  .find(".btn_itemfile").bind("click",openItemFile).end()
 			  .find("td:last :button")
 			  .filter(".add").bind("click",add).end()
 			  .filter(".remove").bind("click",remove).end();
@@ -77,7 +78,7 @@
 			reIndexTable(tbody);
 		});
 		
-		$("input[name='designNotiItems_numb']").bind("blur",numbBlur);
+		$(".btn_itemfile").bind("click",openItemFile);
 		$(".add").bind("click",add);
 	 	$(".remove").bind("click",remove);
     	
@@ -107,17 +108,8 @@
 		</tr>
 		
 		<tr>
-			<td>图号：</td>
-			<td>
-				<input type="text" class="edittext" name="graphno" value="${designNoti.graphno}">
-			</td>
-		</tr>
-		
-		<tr>
-			<td>变更部位：</td>
-			<td colspan="3">
-				<input type="text" class="editlntext" name="postion" value="${designNoti.postion}">
-			</td>
+			<td style="vertical-align: top">原因说明：</td>
+			<td colspan="3"><textarea name="reason" class="edittextarea">${designNoti.reason}</textarea></td>
 		</tr>
 		
 		<tr>
@@ -137,13 +129,13 @@
 	
 	</table>
 	
-	<%@ include file="/component/fileUpload.jsp" %>
-
+	<%@ include file="selFileItem.jsp" %>
+	
 	<h3>问题项目</h3>
 	<table id="tabitem"  class="deftable">
 	<thead>
 		<tr>
-			<th>序号</th><th>内容</th><th>操作<input type="button" class="addLast" value="+"  /></th>
+			<th>序号</th><th>内容</th><th>图号</th><th colspan="2" style="width:200px;">附件</th><th>操作<input type="button" class="addLast" value="+"  /></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -155,7 +147,15 @@
 			</td>
 			<td>${item.sn}</td>
 			<td><input type='text' name='designNotiItems_content' value='${item.content}'  style='width:600px' /></td>
-	  
+			<td><input type='text' name='designNotiItems_graphno' value='${item.graphno}'  /></td>
+	  		
+	  		<td style="width: 150px;">
+	  			<c:forEach items="${fileMap[item.sn]}" var="file" varStatus="status"><span class='sp_itemfile'><a href="${ctx}/uploadify/filestore/${file.id}">${status.count}</a><input type='hidden' name='itemfileName' value="${file.filename}.${file.suffix}" /><input type='hidden' name='itemfileSn' /><input type='hidden' name='itemfileId' value="${file.id}"/></span></c:forEach>
+	  		</td>
+	  		<td>
+	  			<input type='button' class='btn_itemfile'  value='打开'   />
+	  		</td>
+	  		
 			<td><input type='button' class='add'  value='+'   /><input type='button' class='remove'  value='-'   /></td>
 		</tr>
 		</c:forEach>

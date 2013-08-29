@@ -29,6 +29,8 @@ public class DesignNotiItem implements EntityItem {
 	private DesignNoti designNoti;
 	
 	private String content;//内容
+	
+	private String graphno;//图号
 
 	public Long getId() {
 		return id;
@@ -60,6 +62,14 @@ public class DesignNotiItem implements EntityItem {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getGraphno() {
+		return graphno;
+	}
+
+	public void setGraphno(String graphno) {
+		this.graphno = graphno;
 	}
 	
 	
