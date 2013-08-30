@@ -24,7 +24,7 @@
 </head>
 
 <body>
-	<h2>技术联系单</h2>
+	<h2>变更通知单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
 	<%@ include file="part/designcont_view.jsp" %>	

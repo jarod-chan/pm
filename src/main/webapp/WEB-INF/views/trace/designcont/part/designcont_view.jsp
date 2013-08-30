@@ -35,6 +35,11 @@
 		</tr>
 		
 		<tr>
+			<td style="vertical-align: top">联系内容：</td>
+			<td colspan="3" class="viewtextarea_td" >${designCont.content}</td>
+		</tr>
+		
+		<tr>
 			<td>技术变更原因：</td>
 			<td colspan="3">
 				${designCont.reason.type.name}:${designCont.reason.en}.${designCont.reason.name}
@@ -55,12 +60,18 @@
 			<td>接收人：</td>	<td>${designCont.receiver.name}</td>
 			<td>接收日期：</td><td><fmt:formatDate value="${designCont.receivedate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+		
+		<tr>
+			<td style="vertical-align: top">附件说明：</td>
+			<td colspan="3" class="viewtextarea_td" >${designCont.filedesc}</td>
+		</tr>
 			
 
 	</table>
 	
 	<%@ include file="/component/fileDnload.jsp" %>
 	
+	<%-- 	
 	<h3>联系内容</h3>
 	<table id="tabitem" class="deftable">
 	<thead>
@@ -80,4 +91,5 @@
 		</c:forEach>
 	</tbody>
 	</table>
+	 --%>
 	<%@ include file="/component/opinionDiv.jsp" %>

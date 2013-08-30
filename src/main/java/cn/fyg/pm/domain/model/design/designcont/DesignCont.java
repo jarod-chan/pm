@@ -58,6 +58,10 @@ public class DesignCont  extends CommonNoPatternUnit{
 	@JoinColumn(name="contract_id")
 	private Contract contract;//合同
 	
+	private String content;//内容
+	
+	private String filedesc;//附件说明
+	
 	@Enumerated(EnumType.STRING)
 	private Reason reason;
 	
@@ -105,6 +109,14 @@ public class DesignCont  extends CommonNoPatternUnit{
 		this.id = id;
 	}
 
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 	public String getNo() {
 		return no;
 	}
@@ -119,6 +131,14 @@ public class DesignCont  extends CommonNoPatternUnit{
 
 	public void setDesignNoti(DesignNoti designNoti) {
 		this.designNoti = designNoti;
+	}
+
+	public String getFiledesc() {
+		return filedesc;
+	}
+
+	public void setFiledesc(String filedesc) {
+		this.filedesc = filedesc;
 	}
 
 	public String getBusino() {

@@ -56,7 +56,7 @@
 </head>
 
 <body>
-	<h2>技术联系单</h2>
+	<h2>变更通知单</h2>
 	<div style="text-align: left;">
 	<form action="${ctx}/${projectId}/designcont" method="post">
 		序号:<input type="text" name="no" value="${query.no}">

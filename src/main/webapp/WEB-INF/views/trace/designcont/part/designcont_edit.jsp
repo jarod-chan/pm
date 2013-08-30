@@ -149,6 +149,10 @@ $(function(){
 			 <span id="supplier_name">${designCont.contract.supplier.no}</span>
 			</td>
 		</tr>
+		<tr>
+			<td style="vertical-align: top">联系内容：</td>
+			<td colspan="3"><textarea name="content" class="edittextarea">${designCont.content}</textarea></td>
+		</tr>
 		
 		<tr>
 			<td>技术变更原因：</td>
@@ -179,12 +183,18 @@ $(function(){
 			<td>接收人：</td>	<td>${designCont.receiver.name}</td>
 			<td>接收日期：</td><td><fmt:formatDate value="${designCont.receivedate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+		
+		<tr>
+			<td style="vertical-align: top">附件说明：</td>
+			<td colspan="3"><textarea name="filedesc" class="edittextarea">${designCont.filedesc}</textarea></td>
+		</tr>
 	
 
 	</table>
 	
 	<%@ include file="/component/fileUpload.jsp" %>	
 	
+	<%-- 
 	<h3>联系内容</h3>
 	<table id="tabitem" class="deftable">
 	<thead>
@@ -208,7 +218,8 @@ $(function(){
 		</tr>
 		</c:forEach>
 	</tbody>
-	</table>
+	</table> 
+	--%>
 	
 	<%@ include file="selDesigncont.jsp" %>	
 	<%@ include file="selContract.jsp" %>	

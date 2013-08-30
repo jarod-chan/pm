@@ -187,6 +187,7 @@ public class DesignContCtl {
 	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
 	public String delete(@RequestParam("designContId") Long designContId,RedirectAttributes redirectAttributes){
+		this.busifileService.removeAssociatedFile(DesignCont.BUSI_CODE, designContId);
 		this.designContService.delete(designContId);
 		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("删除成功！"));
 		return "redirect:list";

@@ -179,7 +179,7 @@
 								<li><a href="${ctx}/${project.id}/purchasereq/list" class="no_show" target="mainFrame" >采购申请单</a></li>
 								<li><a href="${ctx}/${project.id}/purchasecert/list" class="no_show" target="mainFrame" >价格确认单</a></li>
 								<li><a href="${ctx}/${project.id}/designnoti/list" class="no_show" target="mainFrame" >问题通知书</a></li>
-								<li><a href="${ctx}/${project.id}/designcont/list" class="no_show" target="mainFrame" >技术联系书</a></li>
+								<li><a href="${ctx}/${project.id}/designcont/list" class="no_show" target="mainFrame" >变更通知单</a></li>
 							</ul>
 							<span>项目跟踪</span>
 						</li>
