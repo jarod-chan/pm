@@ -207,7 +207,6 @@ public class DesignNotiCtl {
 		for (DesignNotiItem designNotiItem : designNoti.getDesignNotiItems()) {
 			this.busifileService.removeAssociatedFile(BusiCode.pm_designnoti_item, designNotiItem.getId());
 		}
-		int x=1/0;
  		this.designNotiService.delete(designNotiId);
 	}
 	

@@ -18,12 +18,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cn.fyg.pm.application.PjmemberService;
-import cn.fyg.pm.application.PjroleService;
 import cn.fyg.pm.application.ProjectService;
+import cn.fyg.pm.application.RoleService;
 import cn.fyg.pm.application.UserService;
 import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
-import cn.fyg.pm.domain.model.pjrole.Pjrole;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.role.Role;
+import cn.fyg.pm.domain.model.role.RoleType;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.module.project.query.ProjectQuery;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
@@ -49,7 +50,7 @@ public class ProjectCtl {
 	@Autowired
 	PjmemberFacade pjmemberFacade;
 	@Autowired
-	PjroleService pjroleService;
+	RoleService roleService;
 	
 	
 	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
@@ -92,10 +93,10 @@ public class ProjectCtl {
 	
 	@RequestMapping(value="{projectId}/pjmember",method=RequestMethod.GET)
 	public String toPjmember(@PathVariable("projectId")Long projectId,Map<String,Object> map){
-		Project project=projectService.find(projectId);
-		List<User> userList = userService.findAll();
-		List<Pjrole> pjroles = pjroleService.findAll();
-		Map<User, Pjrole> projectUserRole = pjmemberService.getProjectUserRole(project);
+		Project project= this.projectService.find(projectId);
+		List<User> userList = this.userService.findAll();
+		List<Role> pjroles = this.roleService.findByRoleType(RoleType.project);
+		Map<User, Role> projectUserRole = pjmemberService.getProjectUserRole(project);
 		List<PjmemberDto> pjmemberDtos =PjmemberAssembler.build(userList, projectUserRole);
 
 		map.put("project", project);

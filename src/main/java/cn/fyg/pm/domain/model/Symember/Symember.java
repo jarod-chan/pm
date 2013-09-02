@@ -1,4 +1,4 @@
-package cn.fyg.pm.domain.model.pjmember;
+package cn.fyg.pm.domain.model.Symember;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +8,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.role.Role;
 import cn.fyg.pm.domain.model.user.User;
 
@@ -16,20 +15,16 @@ import cn.fyg.pm.domain.model.user.User;
  *项目成员
  */
 @Entity
-@Table(name="pm_pjmember")
-public class Pjmember {
+@Table(name="pm_symember")
+public class Symember {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@ManyToOne(targetEntity=Project.class)
-	@JoinColumn(name="project_id")
-	private Project project;	//项目
-	
 	@ManyToOne(targetEntity=User.class)
 	@JoinColumn(name="user_key")
-	private User user;	//项目成员
+	private User user;	//项目
 	
 	@ManyToOne(targetEntity=Role.class)
 	@JoinColumn(name="role_key")
@@ -41,14 +36,6 @@ public class Pjmember {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Project getProject() {
-		return project;
-	}
-
-	public void setProject(Project project) {
-		this.project = project;
 	}
 
 	public User getUser() {
@@ -67,7 +54,4 @@ public class Pjmember {
 		this.role = role;
 	}
 
-
-
-	
 }

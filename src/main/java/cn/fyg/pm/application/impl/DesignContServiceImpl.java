@@ -15,8 +15,8 @@ import cn.fyg.pm.domain.model.design.designcont.DesignContState;
 import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
-import cn.fyg.pm.domain.model.pjrole.Pjrole;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.role.Role;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 import cn.fyg.pm.domain.shared.verify.Result;
@@ -49,9 +49,9 @@ public class DesignContServiceImpl implements DesignContService {
 
 	@Override
 	public DesignCont create(User creater,Project project,DesignContState state) {
-		Pjrole pjrole = new Pjrole();
+		Role pjrole = new Role();
 		pjrole.setKey("xmfzr");//TODO 固定取项目负责人角色
-		List<Pjmember> pjmembers = this.pjmemberRepository.findByProjectAndPjrole(project, pjrole);
+		List<Pjmember> pjmembers = this.pjmemberRepository.findByProjectAndRole(project, pjrole);
 		User xmfzr = pjmembers.get(0).getUser();
 		return DesignContFactory.create(creater,xmfzr,project,state);
 	}
