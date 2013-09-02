@@ -196,13 +196,19 @@ public class DesignNotiCtl {
 	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
 	public String delete(@RequestParam("designNotiId") Long designNotiId,RedirectAttributes redirectAttributes){
+		deleteDesignNoti(designNotiId);
+		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("删除成功！"));
+		return "redirect:list";
+	}
+
+	@Transactional
+	public void deleteDesignNoti(Long designNotiId) {
 		DesignNoti designNoti =this.designNotiService.find(designNotiId);
 		for (DesignNotiItem designNotiItem : designNoti.getDesignNotiItems()) {
 			this.busifileService.removeAssociatedFile(BusiCode.pm_designnoti_item, designNotiItem.getId());
 		}
-		this.designNotiService.delete(designNotiId);
-		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("删除成功！"));
-		return "redirect:list";
+		int x=1/0;
+ 		this.designNotiService.delete(designNotiId);
 	}
 	
 	

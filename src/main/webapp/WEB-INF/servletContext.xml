@@ -5,10 +5,12 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" 
 	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
-        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd ">
 
 	
 	<mvc:annotation-driven />
@@ -43,7 +45,11 @@
 		<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
 	</util:list>
 	
+	
+	
 	<context:component-scan base-package="cn.fyg.pm.interfaces" />
+	
+	<tx:annotation-driven />
 	
 	<import resource="servletLog.xml" />
 
