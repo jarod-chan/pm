@@ -47,6 +47,19 @@
 		</tr>	
 		
 		<tr>
+			<td style="vertical-align: top">相关文件：</td>
+			<td colspan="3">
+					<c:set var="upload_width" value="500" />
+					<%@ include file="/component/fileDnload.jsp" %>
+			</td>
+		</tr>
+
+		<tr>
+			<td style="vertical-align: top">文件说明：</td>
+			<td colspan="3" class="viewtextarea_td" >${designCont.filedesc}</td>
+		</tr>
+		
+		<tr>
 			<td>制单人：</td><td>${designCont.creater.name}</td>
 			<td>制单日期：</td><td><fmt:formatDate value="${designCont.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
@@ -60,36 +73,8 @@
 			<td>接收人：</td>	<td>${designCont.receiver.name}</td>
 			<td>接收日期：</td><td><fmt:formatDate value="${designCont.receivedate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
-		
-		<tr>
-			<td style="vertical-align: top">附件说明：</td>
-			<td colspan="3" class="viewtextarea_td" >${designCont.filedesc}</td>
-		</tr>
 			
 
 	</table>
 	
-	<%@ include file="/component/fileDnload.jsp" %>
-	
-	<%-- 	
-	<h3>联系内容</h3>
-	<table id="tabitem" class="deftable">
-	<thead>
-		<tr>
-			<th>序号</th><th>变更内容</th>
-		</tr>
-	</thead>
-	<tbody>
-		<c:forEach items="${designCont.designContItems}" var="item">
-		<tr>
-			
-			<td>${item.sn}</td>
-			
-			<td>${item.content}</td>
-	  
-		</tr>
-		</c:forEach>
-	</tbody>
-	</table>
-	 --%>
 	<%@ include file="/component/opinionDiv.jsp" %>

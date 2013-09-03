@@ -12,6 +12,7 @@
 	 
 	 .uploadify_unit{
 	 	margin-bottom: 5px;
+	 	width: 600px;
 	 }
 	 
 	 .fl_span{
@@ -112,7 +113,7 @@
 		});
 	 	 
 	</script>
-		<div class="uploadify_unit" style="width: 600px;">
+		<div class="uploadify_unit"  <c:if test="${not empty upload_width}"> style="width:${upload_width}px;"</c:if> >
 				<div ><input id="file_upload" type="button" /></div>
 				<div id="uploadify_result">
 					<c:forEach var="filestore" items="${filestores}">
