@@ -11,6 +11,6 @@ public interface SymemberService {
 
 	void removeUserRole(User user);
 	
-	
+	String roleUser(String roleKey);
 
 }

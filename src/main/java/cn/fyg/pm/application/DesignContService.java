@@ -21,8 +21,6 @@ public interface DesignContService extends ServiceQuery<DesignCont>,CommitValida
 	
 	List<DesignCont> findByProject(Project project,DesignContState state);
 	
-//	DesignCont findByDesignContKey(DesignKey designKey);
-
 	void delete(Long designContId);
 	
 }

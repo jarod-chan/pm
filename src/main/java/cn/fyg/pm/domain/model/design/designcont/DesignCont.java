@@ -24,6 +24,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import cn.fyg.pm.domain.model.contract.general.Contract;
+import cn.fyg.pm.domain.model.design.TechType;
 import cn.fyg.pm.domain.model.design.designcont.reason.Reason;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
 import cn.fyg.pm.domain.model.project.Project;
@@ -53,6 +54,9 @@ public class DesignCont  extends CommonNoPatternUnit{
 	@JoinColumn(name="designnoti_id")
 	@Fetch(FetchMode.SELECT)
 	private DesignNoti designNoti;//问题通知单
+	
+	@Enumerated(EnumType.STRING)
+	private TechType techType;
 	
 	@ManyToOne(targetEntity=Contract.class)
 	@JoinColumn(name="contract_id")
@@ -245,4 +249,13 @@ public class DesignCont  extends CommonNoPatternUnit{
 		this.designContItems = designContItems;
 	}
 
+	public TechType getTechType() {
+		return techType;
+	}
+
+	public void setTechType(TechType techType) {
+		this.techType = techType;
+	}
+	
+	
 }

@@ -8,7 +8,7 @@ public class DesignNotiPU implements NoPatternUnit {
 	
 	private DesignNoti designNoti;
 
-	private DesignNotiPU(DesignNoti designNoti) {
+	public DesignNotiPU(DesignNoti designNoti) {
 		super();
 		this.designNoti = designNoti;
 	}
@@ -20,7 +20,8 @@ public class DesignNotiPU implements NoPatternUnit {
 		nokey.setFlag("DN");
 		String projectNo=this.designNoti.getProject().getNo();
 		String[] noParts=projectNo.split("-");
-		nokey.setPref(noParts[0].substring(3)+noParts[1]);
+		String typeCode = this.designNoti.getTechType().getCode();
+		nokey.setPref(noParts[0].substring(3)+noParts[1]+typeCode);
 		Long limit=Long.valueOf(999);
 	    NoPattern noPattern = new NoPattern(nokey,limit);
 	    return noPattern;

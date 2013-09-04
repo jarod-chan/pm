@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.DesignContService;
 import cn.fyg.pm.domain.model.design.designcont.DesignCont;
+import cn.fyg.pm.domain.model.design.designcont.DesignContCommitVld;
 import cn.fyg.pm.domain.model.design.designcont.DesignContFactory;
 import cn.fyg.pm.domain.model.design.designcont.DesignContItem;
 import cn.fyg.pm.domain.model.design.designcont.DesignContRepository;
@@ -37,9 +38,10 @@ public class DesignContServiceImpl implements DesignContService {
 	}
 
 	@Override
-	public Result verifyForCommit(DesignCont t) {
-		// TODO Auto-generated method stub
-		return null;
+	public Result verifyForCommit(DesignCont designCont) {
+		DesignContCommitVld vld = new DesignContCommitVld();
+		vld.setValObject(designCont);
+		return vld.verify();
 	}
 
 	@Override

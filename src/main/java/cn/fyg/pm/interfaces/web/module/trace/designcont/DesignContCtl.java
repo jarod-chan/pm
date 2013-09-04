@@ -27,6 +27,7 @@ import cn.fyg.pm.application.DesignNotiService;
 import cn.fyg.pm.application.OpinionService;
 import cn.fyg.pm.domain.model.contract.general.Contract;
 import cn.fyg.pm.domain.model.contract.general.ContractType;
+import cn.fyg.pm.domain.model.design.TechType;
 import cn.fyg.pm.domain.model.design.designcont.DesignCont;
 import cn.fyg.pm.domain.model.design.designcont.DesignContItem;
 import cn.fyg.pm.domain.model.design.designcont.DesignContState;
@@ -105,6 +106,7 @@ public class DesignContCtl {
 			Long busiId=designCont.getId();
 			map.put("filestores", this.busifileService.findFilestores(busiCode, busiId));
 		}
+		map.put("techTypes", TechType.values());
 		return Page.EDIT;
 	}
 	
@@ -156,10 +158,10 @@ public class DesignContCtl {
 
 	@Transactional
 	private Result commit(DesignCont designCont, User user) {
-//		Result result = this.purchaseReqService.verifyForCommit(purchaseReq);
+		Result result = this.designContService.verifyForCommit(designCont);
 //		if(result.notPass()) return result;
-//		purchaseReq.setState(PurchaseReqState.commit);
-//		purchaseReq=purchaseReqService.save(purchaseReq);
+//		designCont.setState(DesignContState.commit);
+//		designCont=.save(purchaseReq);
 //		String userKey=user.getKey();
 //		try{
 //			Map<String, Object> variableMap = new HashMap<String, Object>();
@@ -170,8 +172,7 @@ public class DesignContCtl {
 //		} finally {
 //			identityService.setAuthenticatedUserId(null);
 //		}
-//		return result;
-		return null;
+		return result;
 	}
 	
 	@RequestMapping(value="{designContId}/view",method=RequestMethod.GET)

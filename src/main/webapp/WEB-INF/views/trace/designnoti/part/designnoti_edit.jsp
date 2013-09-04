@@ -108,6 +108,18 @@
 		</tr>
 		
 		<tr>
+			<td>技术分类：</td>
+			<td>
+			<select name="techType">
+				<option value="">--</option>
+				<c:forEach var="techType" items="${techTypes}">
+					<option value="${techType}" <c:if test="${techType== designNoti.techType}">selected="true"</c:if> >${techType.name}</option>
+				</c:forEach>
+			</select>
+			</td>
+		</tr>
+		
+		<tr>
 			<td style="vertical-align: top">原因说明：</td>
 			<td colspan="3"><textarea name="reason" class="edittextarea">${designNoti.reason}</textarea></td>
 		</tr>

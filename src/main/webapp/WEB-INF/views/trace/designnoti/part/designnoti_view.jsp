@@ -27,6 +27,11 @@
 		</tr>
 		
 		<tr>
+			<td>技术分类：</td>
+			<td>${designNoti.techType.name}</td>
+		</tr>
+		
+		<tr>
 			<td style="vertical-align: top">原因说明：</td><td colspan="3" class="viewtextarea_td">${designNoti.reason}</td>
 		</tr>
 		

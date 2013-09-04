@@ -1,18 +1,23 @@
 package cn.fyg.pm.application.impl;
 
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.DesignNotiService;
+import cn.fyg.pm.domain.model.construct.constructcont.ConstructContPU;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiFactory;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiItem;
+import cn.fyg.pm.domain.model.design.designnoti.DesignNotiPU;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiRepository;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiState;
 import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
+import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.project.Project;
@@ -70,9 +75,22 @@ public class DesignNotiServiceImpl implements DesignNotiService {
 	}
 
 	@Override
+	@Transactional
 	public DesignNoti finish(Long designNotiId, String userKey) {
-		// TODO Auto-generated method stub
-		return null;
+		DesignNoti designNoti = this.designNotiRepository.findOne(designNotiId);
+		
+		User leader=new User();
+		leader.setKey(userKey);
+		designNoti.setSigner(leader);
+		designNoti.setSigndate(new Date());
+		designNoti.setState(DesignNotiState.finish);
+		
+		if(StringUtils.isBlank(designNoti.getBusino())){			
+			NoPatternUnit pu = new DesignNotiPU(designNoti);
+			this.noGeneratorBusi.generateNextNo(pu);
+		}
+		
+		return this.designNotiRepository.save(designNoti);
 	}
 
 	@Override

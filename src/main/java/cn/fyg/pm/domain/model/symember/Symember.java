@@ -1,4 +1,4 @@
-package cn.fyg.pm.domain.model.Symember;
+package cn.fyg.pm.domain.model.symember;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
