@@ -5,7 +5,7 @@ public interface NotiVarname {
 	/**
 	 * 流程名
 	 */
-	String PROCESS_DEFINITION_KEY="pm-design-noit";
+	String PROCESS_DEFINITION_KEY="pm-design-noti";
 
-	
+	String STATE="state";
 }

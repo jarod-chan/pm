@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.DesignNotiService;
-import cn.fyg.pm.domain.model.construct.constructcont.ConstructContPU;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
+import cn.fyg.pm.domain.model.design.designnoti.DesignNotiCommitVld;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiFactory;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiItem;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiPU;
@@ -42,9 +42,10 @@ public class DesignNotiServiceImpl implements DesignNotiService {
 	}
 
 	@Override
-	public Result verifyForCommit(DesignNoti t) {
-		// TODO Auto-generated method stub
-		return null;
+	public Result verifyForCommit(DesignNoti designNoti) {
+		DesignNotiCommitVld vld = new DesignNotiCommitVld();
+		vld.setValObject(designNoti);
+		return vld.verify();
 	}
 
 	@Override

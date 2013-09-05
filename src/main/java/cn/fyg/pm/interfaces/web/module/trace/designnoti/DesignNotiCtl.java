@@ -252,12 +252,13 @@ public class DesignNotiCtl {
 			map.put("fileMap", fileMap);
 		}
 		map.put("techTypes", TechType.values());
+		map.put("taskId", taskId);
 		List<Opinion> opinions = this.opinionService.listOpinions(DesignNoti.BUSI_CODE, designNotiId);
 		map.put("opinions", opinions);
 		return Page.CHECK_EDIT;
 	}
 	
-	@RequestMapping(value="checkedit",method=RequestMethod.POST)
+	@RequestMapping(value="checkedit/save",method=RequestMethod.POST)
 	public String saveCheckEdit(@PathVariable("projectId")Long projectId,@RequestParam("id")Long designNotiId,@RequestParam("afteraction")String afteraction,@RequestParam(value="designNotiItemsId",required=false) Long[] designNotiItemsId,
 			@RequestParam(value="itemfileSn",required=false)Long[] itemfileSn,@RequestParam(value="itemfileId",required=false)Long[] itemfileId,
 			@RequestParam(value="taskId",required=false)String taskId,
@@ -283,11 +284,29 @@ public class DesignNotiCtl {
 			Result result =commitCheck(designNoti,user,taskId);
 			if(result.notPass()){
 				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
-				return String.format("redirect:%s/edit",designNoti.getId());
+				String format = String.format("redirect:../%s/checkedit?taskId=%s",designNoti.getId(),taskId);
+				return format;
 			}else{				
 				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
 				return "redirect:/task/list";
 			}
+		}
+		
+		
+		if(afteraction.equals("invalid")){
+			User user = sessionUtil.getValue("user");
+			designNoti.setState(DesignNotiState.invalid);
+			this.designNotiService.save(designNoti);
+			Map<String, Object> variableMap = new HashMap<String, Object>();
+			variableMap.put(NotiVarname.STATE, designNoti.getState());
+			try{
+				identityService.setAuthenticatedUserId(user.getKey());
+				taskService.complete(taskId,variableMap);
+			} finally {
+				identityService.setAuthenticatedUserId(null);
+			}
+			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("单据已经作废！"));
+			return "redirect:/task/list";
 		}
 		
 		return "";

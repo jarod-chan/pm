@@ -55,8 +55,11 @@ public class UserCtl {
 	public String toEdit(@PathVariable("userKey") String userKey,Map<String,Object> map){
 		User user = !userKey.equals("-1")?this.userService.find(userKey):createUser();
 		map.put("user", user);
-		Role userRole=this.symemberService.findByUser(user);
-		map.put("userRole", userRole);
+		//TODO 修改此处方法，和-1判断放一块
+		if(user.getKey()!=null){
+			Role userRole=this.symemberService.findByUser(user);
+			map.put("userRole", userRole);
+		}
 		map.put("enableds", EnabledEnum.values());
 		List<Role> roles = this.roleService.findByRoleType(RoleType.system);
 		map.put("roles", roles);
