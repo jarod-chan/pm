@@ -107,6 +107,7 @@ public class DesignContServiceImpl implements DesignContService {
 		designCont.setSendnumb(sendnumb);
 		this.designContRepository.save(designCont);
 		SendLog sendLog = new SendLog();
+		sendLog.setDesigncont_id(designContId);
 		sendLog.setReceiver(receiver);
 		sendLog.setNumb(sendnumb);
 		sendLog.setDate(new Date());
