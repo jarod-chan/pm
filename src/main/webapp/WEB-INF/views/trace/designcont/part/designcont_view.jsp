@@ -21,7 +21,7 @@
 			<td>
 				<span id="spanNoti">${designCont.designNoti.no}</span>
 			</td>
-			<td>技术分类：</td>
+			<td>设计专业：</td>
 			<td>${designCont.techType.name}</td>
 		</tr>
 		

@@ -284,8 +284,7 @@ public class DesignNotiCtl {
 			Result result =commitCheck(designNoti,user,taskId);
 			if(result.notPass()){
 				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
-				String format = String.format("redirect:../%s/checkedit?taskId=%s",designNoti.getId(),taskId);
-				return format;
+				return String.format("redirect:../%s/checkedit?taskId=%s",designNoti.getId(),taskId);
 			}else{				
 				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
 				return "redirect:/task/list";
@@ -315,9 +314,11 @@ public class DesignNotiCtl {
 	private Result commitCheck(DesignNoti designNoti, User user, String taskId) {
 		Result result = this.designNotiService.verifyForCommit(designNoti);
 		if(result.notPass()) return result;
+		Map<String, Object> variableMap = new HashMap<String, Object>();
+		variableMap.put(NotiVarname.STATE, designNoti.getState());
 		try{
 			identityService.setAuthenticatedUserId(user.getKey());
-			taskService.complete(taskId);
+			taskService.complete(taskId,variableMap);
 		} finally {
 			identityService.setAuthenticatedUserId(null);
 		}

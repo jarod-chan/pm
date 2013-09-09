@@ -27,7 +27,7 @@
 		</tr>
 		
 		<tr>
-			<td>技术分类：</td>
+			<td>设计专业：</td>
 			<td>${designNoti.techType.name}</td>
 		</tr>
 		

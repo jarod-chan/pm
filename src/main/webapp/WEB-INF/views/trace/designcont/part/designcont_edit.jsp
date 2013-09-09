@@ -136,7 +136,7 @@ $(function(){
 				<span id="spanNoti">${designCont.designNoti.no}</span><input type="hidden" name="designNoti.id" value="${designCont.designNoti.id}">
 				<input type="button" id="btn_selnoti" value="选择" />
 			</td>
-			<td>技术分类：</td>
+			<td>设计专业：</td>
 			<td>
 			<select name="techType">
 				<option value="">--</option>

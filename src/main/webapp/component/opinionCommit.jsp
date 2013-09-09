@@ -1,29 +1,10 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<script type="text/javascript">
+	<script type="text/javascript">
 		$(function(){
-		  
-		  var tarInput=$(".opionionItem_itemId");
-          $(".datacls").each(function(index){
-        	  tarInput.eq(index).val($(this).metadata().itemId);
-          });
           
           $('#tabcheck tr').find('td:eq(0)').css({"text-align":"right","vertical-align": "top"});
-          
-          $("#btn_opinionitem").hover(
-				function () {
-					this.style.cursor='pointer';
-    			    $(this).css("background-color","#1E8EFF");
-    			 },
-    			function () {
-    				$(this).css("background-color","#FFFFFF");
-    			}
-    	  ).click(function(){
-    		  $("#spn_opinionitem").toggle();
-    		  $("#tab_opinionitem").toggle();
-    		  $("#ignoreItem").val($('#tab_opinionitem').is(":hidden"));
-    	  })
     	  
 	 	  $("#btn_back").click(function(){
 			window.open('${ctx}/task/list','_self');
@@ -62,6 +43,33 @@
 						<textarea name="content" style="height:180px;width: 470px; "></textarea>
 					</td>
 				</tr>
+               <c:if test="${not empty  parma_itemLength}">
+				<script type="text/javascript">
+				$(function(){
+				  
+					  var tarInput=$(".opionionItem_itemId");
+			          $(".datacls").each(function(index){
+			        	  tarInput.eq(index).val($(this).metadata().itemId);
+			          });
+			          
+			          $("#btn_opinionitem").hover(
+							function () {
+								this.style.cursor='pointer';
+			    			    $(this).css("background-color","#1E8EFF");
+			    			 },
+			    			function () {
+			    				$(this).css("background-color","#FFFFFF");
+			    			}
+			    	  ).click(function(){
+			    		  $("#spn_opinionitem").toggle();
+			    		  $("#tab_opinionitem").toggle();
+			    		  $("#ignoreItem").val($('#tab_opinionitem').is(":hidden"));
+			    	  })
+			    	  
+				});
+				</script>
+				
+				
 				<tr>
 					<td><span id="btn_opinionitem" >分项意见：</span></td>
 					<td>
@@ -98,6 +106,7 @@
 							</table>
 					</td>
 				</tr>
+				</c:if>
 			</tbody>
 		</table>
 		<br>

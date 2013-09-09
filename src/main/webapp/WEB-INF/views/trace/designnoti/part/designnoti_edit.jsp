@@ -108,7 +108,7 @@
 		</tr>
 		
 		<tr>
-			<td>技术分类：</td>
+			<td>设计专业：</td>
 			<td>
 			<select name="techType">
 				<option value="">--</option>

@@ -66,6 +66,8 @@ public class DesignCont  extends CommonNoPatternUnit{
 	
 	private String filedesc;//附件说明
 	
+	private Long sendnumb;//发放份数
+	
 	@Enumerated(EnumType.STRING)
 	private Reason reason;
 	
@@ -255,6 +257,14 @@ public class DesignCont  extends CommonNoPatternUnit{
 
 	public void setTechType(TechType techType) {
 		this.techType = techType;
+	}
+
+	public Long getSendnumb() {
+		return sendnumb;
+	}
+
+	public void setSendnumb(Long sendnumb) {
+		this.sendnumb = sendnumb;
 	}
 	
 	

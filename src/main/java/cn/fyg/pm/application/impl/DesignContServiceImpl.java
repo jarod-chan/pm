@@ -1,7 +1,9 @@
 package cn.fyg.pm.application.impl;
 
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,9 +13,13 @@ import cn.fyg.pm.domain.model.design.designcont.DesignCont;
 import cn.fyg.pm.domain.model.design.designcont.DesignContCommitVld;
 import cn.fyg.pm.domain.model.design.designcont.DesignContFactory;
 import cn.fyg.pm.domain.model.design.designcont.DesignContItem;
+import cn.fyg.pm.domain.model.design.designcont.DesignContPU;
 import cn.fyg.pm.domain.model.design.designcont.DesignContRepository;
 import cn.fyg.pm.domain.model.design.designcont.DesignContState;
+import cn.fyg.pm.domain.model.design.designcont.sendlog.SendLog;
+import cn.fyg.pm.domain.model.design.designcont.sendlog.SendLogRepository;
 import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
+import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.project.Project;
@@ -31,6 +37,8 @@ public class DesignContServiceImpl implements DesignContService {
 	NoGeneratorBusi noGeneratorBusi;
 	@Autowired
 	PjmemberRepository pjmemberRepository;
+	@Autowired
+	SendLogRepository sendLogRepository;
 
 	@Override
 	public List<DesignCont> query(QuerySpec<DesignCont> querySpec) {
@@ -71,27 +79,38 @@ public class DesignContServiceImpl implements DesignContService {
 	}
 
 	@Override
+	@Transactional
 	public DesignCont finish(Long designContId, String userKey) {
-		// TODO Auto-generated method stub
-		return null;
+		DesignCont designCont = this.designContRepository.findOne(designContId);
+		User leader=new User();
+		leader.setKey(userKey);
+		designCont.setSigner(leader);
+		designCont.setSigndate(new Date());
+		designCont.setState(DesignContState.finish);
+		if(StringUtils.isBlank(designCont.getBusino())){
+			NoPatternUnit pu = new DesignContPU(designCont);
+			this.noGeneratorBusi.generateNextNo(pu);
+		}
+		return this.designContRepository.save(designCont);
 	}
-
-	@Override
-	public List<DesignCont> findByProject(Project project, DesignContState state) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-//	@Override
-//	public DesignCont findByDesignContKey(DesignKey designKey) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 	@Override
 	@Transactional
 	public void delete(Long designContId) {
 		this.designContRepository.delete(designContId);
+	}
+
+	@Override
+	@Transactional
+	public void sendLog(Long designContId, String receiver, Long sendnumb) {
+		DesignCont designCont = this.designContRepository.findOne(designContId);
+		designCont.setSendnumb(sendnumb);
+		this.designContRepository.save(designCont);
+		SendLog sendLog = new SendLog();
+		sendLog.setReceiver(receiver);
+		sendLog.setNumb(sendnumb);
+		sendLog.setDate(new Date());
+		this.sendLogRepository.save(sendLog);
 	}
 
 }

@@ -98,7 +98,7 @@ public class TaskCtl {
 		opinion.setTaskName(task.getName());
 		opinion.setUserKey(user.getKey());
 		opinion.setUserName(user.getName());
-		if(ignoreItem){
+		if(ignoreItem||opinion.getOpinionItems()==null){
 			opinion.setOpinionItems(new ArrayList<OpinionItem>());
 		}
 
