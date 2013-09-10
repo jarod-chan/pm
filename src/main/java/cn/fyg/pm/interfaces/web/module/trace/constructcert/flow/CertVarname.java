@@ -1,11 +1,11 @@
-package cn.fyg.pm.interfaces.web.module.constructcert.flow;
+package cn.fyg.pm.interfaces.web.module.trace.constructcert.flow;
 
 public interface CertVarname {
 	
 	/**
 	 * 流程名
 	 */
-	String PROCESS_DEFINITION_KEY="pm-constructcert-cert";
+	String PROCESS_DEFINITION_KEY="pm-construct-cert";
 		
 	/**
 	 * 专业分类

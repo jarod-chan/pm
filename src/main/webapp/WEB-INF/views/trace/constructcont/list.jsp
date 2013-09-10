@@ -114,9 +114,6 @@
 			<th>总金额</th>
 			<th>制单人</th>
 			<th>制单日期</th>
-			<th>计划完成日期</th>
-			<th>实际完成日期</th>
-			<th>实际执行结果</th>
 			<th>操作</th>
 		</tr>
 		</thead>
@@ -132,9 +129,6 @@
 				<td>${constructCont.tolsum}</td>
 				<td>${constructCont.creater.name}</td>
 				<td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
-				<td>${constructCont.plandate}</td>
-				<td>${constructCont.realdate}</td>
-				<td>${constructCont.result}</td>
 				<td>
 					<c:if test="${constructCont.state=='saved'}">					
 					<input type="button" value="修改"  class="btn_edit {id:'${constructCont.id}'}">

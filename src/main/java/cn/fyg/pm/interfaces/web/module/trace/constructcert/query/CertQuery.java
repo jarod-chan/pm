@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.constructcert.query;
+package cn.fyg.pm.interfaces.web.module.trace.constructcert.query;
 
 
 import java.util.ArrayList;

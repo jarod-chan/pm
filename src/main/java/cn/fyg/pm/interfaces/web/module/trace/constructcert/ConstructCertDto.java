@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.constructcert;
+package cn.fyg.pm.interfaces.web.module.trace.constructcert;
 
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;

@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.constructcert.flow;
+package cn.fyg.pm.interfaces.web.module.trace.constructcert.flow;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class CertUtil extends CommonFlowUtil {
 		/**
 		 * 审核人
 		 */
-		reloTasks.add(new RoleTask("shr",new String[]{"check-azzg","check-zszg","check-szzg","check-jgzg"}));
+		reloTasks.add(new RoleTask("shr",new String[]{"check-tjzg","check-azzg","check-zszg","check-szzg","check-jgzg"}));
 		
 		/**
 		 * 核准人
