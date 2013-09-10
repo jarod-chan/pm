@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.purchasereq.query;
+package cn.fyg.pm.interfaces.web.module.trace.purchasecert.query;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,16 +11,16 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang.StringUtils;
 
-import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
-import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqState;
+import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCert;
+import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertState;
 import cn.fyg.pm.infrastructure.tool.date.DateUtil;
 import cn.fyg.pm.interfaces.web.shared.query.CommonQuery;
 
-public class ReqQuery extends CommonQuery<PurchaseReq> {
+public class CertQuery extends CommonQuery<PurchaseCert>{
 
 	@Override
 	public List<Predicate> criterias(CriteriaBuilder builder,
-			Root<PurchaseReq> from) {
+			Root<PurchaseCert> from) {
 		List<Predicate> criterias=new ArrayList<Predicate>();
 		if(this.getProject()!=null){
 			criterias.add(builder.equal(from.get("purchaseKey").get("project"), this.getProject()));
@@ -49,10 +49,10 @@ public class ReqQuery extends CommonQuery<PurchaseReq> {
 			return;
 		}
 		if(stateValue.equals("ext-notf")){
-			criterias.add(builder.notEqual(statePath, PurchaseReqState.finish));
+			criterias.add(builder.notEqual(statePath, PurchaseCertState.finish));
 			return;
 		}
-		criterias.add(builder.equal(statePath,PurchaseReqState.valueOf(stateValue)));
+		criterias.add(builder.equal(statePath,PurchaseCertState.valueOf(stateValue)));
 	}
 
 }

@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.purchasereq;
+package cn.fyg.pm.interfaces.web.module.trace.purchasereq;
 
 import static cn.fyg.pm.interfaces.web.shared.message.Message.error;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
@@ -45,8 +45,8 @@ import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
 import cn.fyg.pm.domain.shared.verify.Result;
-import cn.fyg.pm.interfaces.web.module.purchasereq.flow.ReqVarname;
-import cn.fyg.pm.interfaces.web.module.purchasereq.query.ReqQuery;
+import cn.fyg.pm.interfaces.web.module.trace.purchasereq.flow.ReqVarname;
+import cn.fyg.pm.interfaces.web.module.trace.purchasereq.query.ReqQuery;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;

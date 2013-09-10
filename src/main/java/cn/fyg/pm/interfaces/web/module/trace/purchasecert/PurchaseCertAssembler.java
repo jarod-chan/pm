@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.purchasecert;
+package cn.fyg.pm.interfaces.web.module.trace.purchasecert;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.purchasereq;
+package cn.fyg.pm.interfaces.web.module.trace.purchasereq;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;

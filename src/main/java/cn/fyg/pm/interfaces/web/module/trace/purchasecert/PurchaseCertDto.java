@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.purchasecert;
+package cn.fyg.pm.interfaces.web.module.trace.purchasecert;
 
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCert;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;

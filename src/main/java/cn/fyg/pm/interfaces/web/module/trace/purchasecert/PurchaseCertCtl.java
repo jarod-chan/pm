@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.purchasecert;
+package cn.fyg.pm.interfaces.web.module.trace.purchasecert;
 
 import static cn.fyg.pm.interfaces.web.shared.message.Message.error;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
@@ -45,9 +45,9 @@ import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
 import cn.fyg.pm.domain.shared.verify.Result;
-import cn.fyg.pm.interfaces.web.module.purchasecert.flow.CertVarname;
-import cn.fyg.pm.interfaces.web.module.purchasecert.query.CertQuery;
-import cn.fyg.pm.interfaces.web.module.purchasereq.ReqItemFacade;
+import cn.fyg.pm.interfaces.web.module.trace.purchasecert.flow.CertVarname;
+import cn.fyg.pm.interfaces.web.module.trace.purchasecert.query.CertQuery;
+import cn.fyg.pm.interfaces.web.module.trace.purchasereq.ReqItemFacade;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;

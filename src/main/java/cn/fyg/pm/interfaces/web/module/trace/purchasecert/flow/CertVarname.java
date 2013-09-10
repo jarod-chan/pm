@@ -1,11 +1,11 @@
-package cn.fyg.pm.interfaces.web.module.purchasecert.flow;
+package cn.fyg.pm.interfaces.web.module.trace.purchasecert.flow;
 
 public interface CertVarname {
 	
 	/**
 	 * 流程名
 	 */
-	String PROCESS_DEFINITION_KEY="pm-purchasecert-cert";
+	String PROCESS_DEFINITION_KEY="pm-purchase-cert";
 
 
 	/**
