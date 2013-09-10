@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.constructcont.flow;
+package cn.fyg.pm.interfaces.web.module.trace.constructcont.flow;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class ContUtil extends CommonFlowUtil {
 		/**
 		 * 审核人
 		 */
-		reloTasks.add(new RoleTask("shr",new String[]{"check-azzg","check-zszg","check-szzg","check-jgzg"}));
+		reloTasks.add(new RoleTask("shr",new String[]{"check-tjzg","check-azzg","check-zszg","check-szzg","check-jgzg"}));
 		
 		/**
 		 * 核准人
