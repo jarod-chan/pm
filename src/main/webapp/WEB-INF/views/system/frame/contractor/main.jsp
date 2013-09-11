@@ -97,7 +97,7 @@
 <body>
 	<div class="ui-layout-north" >
 		<div style="width: 1024px;">
-			<div style="width: 50%;float: left;"><div style="width:300px;font-size: 30px; ">方远房产项目管理系统</div></div>
+			<div style="width: 50%;float: left;"><%@ include file="../title.jsp" %></div>
 			<div style="width: 50%;float: left; text-align: right;">
 				<div style="margin-bottom: 3px;">供应商:${supplier.name}&nbsp;&nbsp;用户:${user.name}<%@ include file="/component/logout.jsp" %></div>
 				<div>
