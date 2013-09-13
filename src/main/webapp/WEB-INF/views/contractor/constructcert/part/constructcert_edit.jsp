@@ -6,12 +6,6 @@
 <script type="text/javascript">
 	$(function(){
 		
-		var seldom=$("<select>");
-    	seldom.attr("name","constructCertItems_unit")
-    		.append($("<option ></option>"))
-    		.append($("<option value='元/立方米'>元/立方米</option>"))
-    		.append($("<option value='元/立方米'>元/立方米</option>"))
-    		.append($("<option value='元/工作日'>元/工作日</option>"));
 		
 		var trdom = $("<tr>");
 		$("<td>")
@@ -31,20 +25,11 @@
 		$("<td>").append($("<input type='text' name='constructCertItems_numb' style='width:50px' />"))
 		  .appendTo(trdom);
 		
-		$("<td>").append(seldom)
+		$("<td>").append($("<input type='text' name='constructCertItems_unit' style='width:50px' />"))
 		  .appendTo(trdom);
 		
 		$("<td>").append($("<input type='text' name='constructCertItems_amount' style='width:100px' />"))
 		  .appendTo(trdom);
-		
-		$("<td>").append($("<input type='button' value='上传文件'>"))
-		  .appendTo(trdom);
-		
-		$("<td>").appendTo(trdom);
-		
-		$("<td>").appendTo(trdom);
-		
-		$("<td>").appendTo(trdom);
 		  
 		 $("<td>")
 			.append($("<input type='button' class='add'  value='+'   />"))
@@ -155,14 +140,14 @@
     	$("#btn_cont").click(function(){
     		var constructContId=$("input[name='constructKey.id']").val();
     		if(constructContId=="") return;
-    		window.open('${ctx}/constructcont/'+constructContIdMap[constructContId]+'/view?notback=true','_blank');
+    		window.open('${ctx}/${projectId}/constructcont/'+constructContIdMap[constructContId]+'/view?notback=true','_blank');
 			return false;
     	})
 		
 	   	$("#btn_load").click(function(){
     		var constructContId=$("input[name='constructKey.id']").val();
     		if(constructContId=="") return;
-    		$.getJSON('${ctx}/constructcont/'+constructContIdMap[constructContId]+'/items',function(itemlist){
+    		$.getJSON('${ctx}/${projectId}/constructcont/'+constructContIdMap[constructContId]+'/items',function(itemlist){
     			var tbody=$("#tabitem tbody");
     			tbody.empty();
     			for(i=0;i<itemlist.length;i++){
@@ -193,23 +178,24 @@
     	$(".addLast").triggerHandler("click");
     	</c:if>
     	
-    	$('#tabmain tr').find('td:eq(0)').css("text-align","right");
 	})
 </script>
 
+	<%@ include file="/script/fmttable.jsp" %>
+
 	<input type="hidden" name="id" value="${constructCert.id}">
-	<table id="tabmain">
-		<tr>
-			<td>编号：</td><td>${constructCert.no}<c:if test="${empty constructCert.no}">自动生成</c:if></td>
-		</tr>
+	<table id="tabmain" class="fmttable">
+		<c:set var="parma_no" value="${constructCert.no}" />
+		<c:set var="parma_busino" value="${constructCert.busino}" />
+		<%@ include file="/component/noShowBill.jsp" %>	
 		<tr>
 			<td>项目负责人：</td><td>${constructCert.leader.name}</td>
+			<td>状态：</td><td>${constructCert.state.name}</td>
 		</tr>
+		
 		<tr>
 			<td>施工联系单：</td>
-			<td>
-				
-				
+			<td colspan='3'>
 				<span id="spanConstructCont">${constructCont.no}</span><input type="hidden" name="constructKey.id" value="${constructCont.constructKey.id}">
 				<input type="button" id="btn_selConstructCont" value="选择" />
 				<input type="button" id="btn_cont" value="查看"/>
@@ -217,33 +203,28 @@
 			</td>
 		</tr>
 		<tr>
-			<td style="vertical-align: top">原因：</td><td><textarea name="reason" rows="6" cols="30" style="vertical-align: top">${constructCert.reason}</textarea></td>
+			<td style="vertical-align: top">原因：</td><td colspan='3'><textarea name="reason" class="edittextarea">${constructCert.reason}</textarea></td>
 		</tr>
-		<tr>
-			<td>状态：</td><td>${constructCert.state.name}</td>
-		</tr>
+		
 		<tr>
 			<td>总金额：</td><td><span id="sp_tolsum">${constructCert.tolsum}</span><input type="hidden" name="tolsum" value="${constructCert.tolsum}"></td>
 		</tr>
+		
 		<tr>
 			<td>制单人：</td><td>${constructCert.creater.name}</td>
-		</tr>
-		<tr>
 			<td>制单日期：</td><td><fmt:formatDate value="${constructCert.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+		
 		<tr>
 			<td>签发人：</td><td>${constructCont.signer.name}</td>
-		</tr>
-		<tr>
 			<td>签发日期：</td><td><fmt:formatDate value="${constructCont.signdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
+		
 		<tr>
 			<td>结算人：</td>
 			<td>
 				${constructCert.settler.name}
 			</td>
-		</tr>
-		<tr>
 			<td>结算日期：</td>
 			<td>
 				<fmt:formatDate value="${constructCert.settledate}" pattern="yyyy-MM-dd"/>
@@ -252,16 +233,12 @@
 		
 	</table>
 		
-		<br>
-		签证项目
-		<table border="1" id="tabitem">
+
+		<h3>签证项目</h3>
+		<table id="tabitem" class="deftable">
 		<thead>
 			<tr>
 				<th>序号</th><th>内容</th><th>结算单价</th><th>结算数量</th><th>单位</th><th>结算价格	</th>
-				<th>签证依据	</th>
-				<th>监理意见	</th>
-				<th>现场管理人员意见	</th>
-				<th>项目负责人意见	</th>
 				<th>操作<input type="button" class="addLast" value="+"  /></th>
 			</tr>
 		</thead>
@@ -273,35 +250,9 @@
 					<td><input type='text' name='constructCertItems_content' value='${item.content}' style='width:300px' /></td>
 					<td><input type='text' name='constructCertItems_price' value='${item.price}' style='width:50px' /></td>
 					<td><input type='text' name='constructCertItems_numb' value='<fmt:formatNumber value="${item.numb}" pattern="#.#"/>' style='width:50px' /></td>
-					<td>
-						<select name='constructContItems_unit'>
-							<option <c:if test="${item.unit==''}">selected="true"</c:if> ></option>
-							<option value="元/平方米" <c:if test="${item.unit=='元/平方米'}">selected="true"</c:if> >元/平方米</option>
-							<option value="元/立方米" <c:if test="${item.unit=='元/立方米'}">selected="true"</c:if> >元/立方米</option>
-							<option value="元/工作日" <c:if test="${item.unit=='元/工作日'}">selected="true"</c:if> >元/工作日</option>
-						</select>
-					</td>
+					<td><input type='text' name='constructCertItems_unit' value='${item.unit}' style='width:50px' /></td>
 					<td><input type='text' name='constructCertItems_amount' value='${item.amount}' style='width:100px' /></td>
 					
-					<td>
-						<c:choose>
-							<c:when test="${not empty item.imgPath}">
-								 <a href="${ctx}/img/${item.imgPath}" target="_blank" >示例图片</a>
-							</c:when>
-							<c:otherwise>
-									<input type="button" value="上传文件">
-							</c:otherwise>
-						</c:choose>
-					</td>
-					<td>
-						${item.superOpinion.name}
-					</td>
-					<td>
-						${item.manageOpinion.name}
-					</td>
-					<td>
-						${item.leaderOpinion.name}
-					</td>
 					<td><input type='button' class='add'  value='+'   /><input type='button' class='remove'  value='-'   /></td>
 				</tr>
 			</c:forEach>

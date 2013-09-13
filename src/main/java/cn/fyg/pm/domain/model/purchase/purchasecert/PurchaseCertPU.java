@@ -19,7 +19,7 @@ public class PurchaseCertPU implements NoPatternUnit {
 		nokey.setFlag("CA");
 		String projectNo=this.purchaseCert.getPurchaseKey().getProject().getNo();
 		String[] noParts=projectNo.split("-");
-		nokey.setPref(noParts[2]+noParts[3]);
+		nokey.setPref(noParts[0].substring(3)+noParts[1]);
 		Long limit=Long.valueOf(999);
 	    NoPattern noPattern = new NoPattern(nokey,limit);
 	    return noPattern;

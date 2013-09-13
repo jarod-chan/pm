@@ -10,7 +10,7 @@ import cn.fyg.pm.domain.shared.repositoryquery.RepositoryQuery;
 
 public interface PurchaseReqRepository extends CrudRepository<PurchaseReq,Long>,RepositoryQuery<PurchaseReq> {
 	
-	List<PurchaseReq> findByPurchaseKey_Project(Project project);
+	List<PurchaseReq> findByPurchaseKey_ProjectAndStateOrderByIdDesc(Project project,PurchaseReqState state);
 
 	PurchaseReq findByPurchaseKey(PurchaseKey purchaseKey);
 

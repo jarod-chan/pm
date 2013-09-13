@@ -3,7 +3,7 @@ package cn.fyg.pm.domain.model.contract.general;
 import cn.fyg.pm.domain.shared.CommonEnum;
 
 public enum ContractType implements CommonEnum {
-	construct("施工服务合同","C"),
+	construct("施工服务合同","E"),
 	meter("材料采购合同","M"),
 	design("设计施工合同","D");
 	

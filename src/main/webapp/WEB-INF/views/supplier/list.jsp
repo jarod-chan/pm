@@ -86,20 +86,23 @@
 	  <input type="button" value="新建"  id="btn_new">
 	</div>
 	<br>
-	<table id="tblmain" border="1">
-		<tr>
-			<td>编号</td><td>名称</td>
-			<td>信用等级</td>
-			<td>营业执照</td>
-			<td>企业代码</td>
-			<td>公司地址</td>
-			<td>法人代表</td>
-			<td>公司电话</td>
-			<td>联系人</td>
-			<td>联系电话</td>
-			<td>资金帐户</td>
-			<td>操作</td>
-		</tr>
+	<table id="tblmain" class="hctable deftable">
+		<thead>
+			<tr>
+				<th>编号</th>
+				<th>名称</th>
+				<th>信用等级</th>
+				<th>营业执照</th>
+				<th>企业代码</th>
+				<th>公司地址</th>
+				<th>法人代表</th>
+				<th>公司电话</th>
+				<th>联系人</th>
+				<th>联系电话</th>
+				<th>资金帐户</th>
+				<th>操作</th>
+			</tr>
+		</thead>
 		<c:forEach var="supplier" items="${supplierList}">
 			<tr>
 				<td>${supplier.no}</td><td>${supplier.name}</td>

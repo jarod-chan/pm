@@ -11,6 +11,10 @@ form {
 	margin-bottom: 0px;
 }
 
-h2{
+h2,h3,h4,h5{
 	margin:0 auto;
+}
+
+h3{
+	margin-top:10px;
 }

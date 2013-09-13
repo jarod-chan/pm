@@ -13,15 +13,17 @@
     $(function() {
 		$("#btn_save").click(function(){
 			var actionFrom=$("form");
-			$("span").formatName(); 
+			$("#tblmain tbody tr").formatName(); 
 			var oldAction=actionFrom.attr("action");
 			actionFrom.attr("action",oldAction+"/save").submit();
 		});
 		$(".chk_plt").click(function(){
 			if($(this).is(':checked')){
 				$(this).next().val(true);
+				$(this).parents("tr").find("select").show();
 			}else{
 				$(this).next().val(false);
+				$(this).parents("tr").find("select").hide();
 			}
 		});
 		
@@ -38,15 +40,39 @@
 	<%@ include file="/common/message.jsp" %>	
 	
 	<form action="${ctx}/project/${project.id}/pjmember" method="post">
-	<c:forEach var="pjmemberDto" items="${pjmemberDtos}">
-	<span>
-		<input type="checkbox" class="chk_plt" <c:if test="${pjmemberDto.checked}">checked="checked"</c:if> />
-		<input type="hidden" name="plt_checked" value="${pjmemberDto.checked}">
-		<input type="hidden" name="plt_user.key" value="${pjmemberDto.user.key}">
-		${pjmemberDto.user.name}
-	</span>
+	<table id="tblmain" class="deftable" >
+		<thead>
+			<tr>
+				<th>勾选</th>
+				<th>系统用户</th>
+				<th>项目角色</th>
+			</tr>
+		</thead>
+		<tbody>
+		<c:forEach var="pjmemberDto" items="${pjmemberDtos}">
+			<tr style="height: 28px;">
+				<td>
+					<input type="checkbox" class="chk_plt" <c:if test="${pjmemberDto.checked}">checked="checked"</c:if> />
+					<input type="hidden" name="plt_checked" value="${pjmemberDto.checked}">
+					<input type="hidden" name="plt_user.key" value="${pjmemberDto.user.key}">
+				</td>
+				<td>
+					${pjmemberDto.user.name}
+				</td>
+				<td>
+					<select name="plt_pjrole.key"  <c:if test="${not pjmemberDto.checked}">style="display:none;"</c:if>>
+						<option value="">--</option>
+						<c:forEach var="pjrole" items="${pjroles}">
+							<option value="${pjrole.key}" <c:if test="${pjmemberDto.pjrole.key==pjrole.key}">selected="true"</c:if> >${pjrole.name}</option>
+						</c:forEach>
+					</select>
+				</td>				
+			</tr>
+		</c:forEach>
+		</tbody>
+	</table>
 	<br/>
-	</c:forEach>
+	<br/>
 	<input type="button" value="保存"  id="btn_save">	
 	<input type="button" value="返回"  id="btn_back">
 	</form>

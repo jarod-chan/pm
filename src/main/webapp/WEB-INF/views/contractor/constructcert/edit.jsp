@@ -15,7 +15,16 @@
 
     <script type="text/javascript">
     $(function() {
+    	var validator=$("form").validate({
+    		rules: {
+    			"constructKey.id": {
+    				required: true
+    			}
+    		}
+    	});
+    	
     	$("#btn_save").click(function(){
+    		if(!validator.form()){return;}
 			$("#tabitem tbody tr").formatName();
 			var actionFrom=$("form");
 			var oldAction=actionFrom.attr("action"); 
@@ -24,6 +33,7 @@
 		});
 		
 		$("#btn_commit").click(function(){
+			if(!validator.form()){return;}
 			$("#tabitem tbody tr").formatName();
 			var actionFrom=$("form");
 			var oldAction=actionFrom.attr("action"); 
@@ -32,7 +42,7 @@
 		});
 		
 		$("#btn_back").click(function(){
-			window.open('${ctx}/contractor/${projectId}/constructcert/list','_self');
+			window.open('${ctx}/${projectId}/contractor/${supplierId}/constructcert/list','_self');
 			return false;
 		})
 		
@@ -46,7 +56,7 @@
 	<h2>工程签证单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<form action="${ctx}/contractor/${projectId}/constructcert" method="post">
+	<form action="${ctx}/${projectId}/contractor/${supplierId}/constructcert" method="post">
 	<input type="hidden" name="afteraction"  >
 	
 	<%@ include file="part/constructcert_edit.jsp" %>

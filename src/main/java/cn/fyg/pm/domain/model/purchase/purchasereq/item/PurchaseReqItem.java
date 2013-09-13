@@ -1,5 +1,7 @@
 package cn.fyg.pm.domain.model.purchase.purchasereq.item;
 
+import java.math.BigDecimal;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -36,7 +38,7 @@ public class PurchaseReqItem {
 	
 	private String unit;//单位
 	
-	private String numb;//数量
+	private BigDecimal numb;//数量
 	
 	private String brand;//推荐品牌
 	
@@ -98,11 +100,12 @@ public class PurchaseReqItem {
 		this.unit = unit;
 	}
 
-	public String getNumb() {
+
+	public BigDecimal getNumb() {
 		return numb;
 	}
 
-	public void setNumb(String numb) {
+	public void setNumb(BigDecimal numb) {
 		this.numb = numb;
 	}
 

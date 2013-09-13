@@ -1,5 +1,6 @@
 package cn.fyg.pm.interfaces.web.module.contractor.constructcont;
 
+import static cn.fyg.pm.interfaces.web.shared.message.Message.error;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +43,8 @@ import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
-import cn.fyg.pm.interfaces.web.module.constructcont.flow.ContVarname;
+import cn.fyg.pm.domain.shared.verify.Result;
+import cn.fyg.pm.interfaces.web.module.trace.constructcont.flow.ContVarname;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
@@ -51,7 +54,7 @@ import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
  *承包人施工联系单
  */
 @Controller
-@RequestMapping("contractor/{projectId}/constructcont")
+@RequestMapping("{projectId}/contractor/{supplierId}/constructcont")
 public class SpConstructcontCtl {
 	
 	private static final String PATH = "contractor/constructcont/";
@@ -80,8 +83,9 @@ public class SpConstructcontCtl {
 	SessionUtil sessionUtil;
 	
 	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
-	public String toList(@PathVariable("projectId")Long projectId,Map<String,Object> map){
-		final Supplier supplier=sessionUtil.getValue("supplier");
+	public String toList(@PathVariable("supplierId")Long supplierId,@PathVariable("projectId")Long projectId,Map<String,Object> map){
+		final Supplier supplier=new Supplier();
+		supplier.setId(supplierId);
 		final Project project=new Project();
 		project.setId(projectId);
 		
@@ -109,9 +113,12 @@ public class SpConstructcontCtl {
 	
 	
 	@RequestMapping(value="{constructContId}/edit",method=RequestMethod.GET)
-	public String toEdit(@PathVariable("projectId")Long projectId,@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
+	public String toEdit(@PathVariable("supplierId")Long supplierId,@PathVariable("projectId")Long projectId,@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
 		Project project = projectService.find(projectId);
-		Supplier supplier=sessionUtil.getValue("supplier");
+		
+		Supplier supplier=new Supplier();
+		supplier.setId(supplierId);
+		
 		User user = sessionUtil.getValue("user");
 		ConstructCont constructCont = constructContId.longValue()>0?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.new_);
 		map.put("constructCont", constructCont);
@@ -123,7 +130,7 @@ public class SpConstructcontCtl {
 	}
 	
 	@RequestMapping(value="saveEdit",method=RequestMethod.POST)
-	public String saveEdit(@PathVariable("projectId")Long projectId,@RequestParam("id")Long constructContId,@RequestParam("afteraction")String afteraction,@RequestParam(value="constructContItemsId",required=false) Long[] constructContItemsId,HttpServletRequest request,RedirectAttributes redirectAttributes){
+	public String saveEdit(@PathVariable("supplierId")Long supplierId,@PathVariable("projectId")Long projectId,@RequestParam("id")Long constructContId,@RequestParam("afteraction")String afteraction,@RequestParam(value="constructContItemsId",required=false) Long[] constructContItemsId,HttpServletRequest request,RedirectAttributes redirectAttributes){
 		Project project = projectService.find(projectId);
 		User user = sessionUtil.getValue("user");
 		
@@ -152,32 +159,27 @@ public class SpConstructcontCtl {
 			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("保存成功！"));
 			return "redirect:list";
 		}
-		if(afteraction.equals("commit")){
-			constructCont.setState(ConstructContState.commit);
-			constructCont=constructContService.save(constructCont);
-			commit(constructCont, user);
-			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
-			return "redirect:list";
+		if(afteraction.equals("commit")){	
+			Result result = commit(constructCont, user);
+			if(result.notPass()){
+				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
+				return String.format("redirect:%s/edit",constructCont.getId());
+			}else{				
+				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
+				return "redirect:list";
+			}
 		}
 		
 		return "";
 	}
+
 	
-	private Map<Long, ConstructContItem> getConstructContItemMap(List<ConstructContItem> constructContItems) {
-		Map<Long,ConstructContItem> map = new HashMap<Long,ConstructContItem>();
-		if(constructContItems==null) return map;
-		for (ConstructContItem constructContItem : constructContItems) {
-			map.put(constructContItem.getId(), constructContItem);
-		}
-		return map;
-	}
-	
-	/**
-	 * 提交联系单
-	 * @param constructCont
-	 * @param user
-	 */
-	private void commit(ConstructCont constructCont, User user) {
+	@Transactional
+	private Result commit(ConstructCont constructCont, User user) {
+		Result result = this.constructContService.verifyForCommit(constructCont);
+		if(result.notPass()) return result;
+		constructCont.setState(ConstructContState.commit);
+		constructCont=this.constructContService.save(constructCont);
 		String userKey=user.getKey();
 		try{
 			Map<String, Object> variableMap = new HashMap<String, Object>();
@@ -188,9 +190,19 @@ public class SpConstructcontCtl {
 		} finally {
 			identityService.setAuthenticatedUserId(null);
 		}
+		return result;
 	}
 	
-
+	
+	private Map<Long, ConstructContItem> getConstructContItemMap(List<ConstructContItem> constructContItems) {
+		Map<Long,ConstructContItem> map = new HashMap<Long,ConstructContItem>();
+		if(constructContItems==null) return map;
+		for (ConstructContItem constructContItem : constructContItems) {
+			map.put(constructContItem.getId(), constructContItem);
+		}
+		return map;
+	}
+	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
 	public String delete(@RequestParam("constructContId") Long constructContId){
 		constructContService.delete(constructContId);
@@ -198,11 +210,18 @@ public class SpConstructcontCtl {
 	}
 	
 	@RequestMapping(value="{constructContId}/view",method=RequestMethod.GET)
-	public String toView(@PathVariable("projectId")Long projectId,@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
+	public String toView(@PathVariable("supplierId")Long supplierId,@PathVariable("projectId")Long projectId,@PathVariable("constructContId")Long constructContId,Map<String,Object> map){
 		ConstructCont constructCont = constructContService.find(constructContId);
 		map.put("constructCont", constructCont);
+		List<Opinion> opinions = opinionService.listOpinions(ConstructCont.BUSI_CODE, constructContId);
+		map.put("opinions", opinions);
 		return Page.VIEW;
 	}
+	
+	
+	
+	
+	
 	
 	@RequestMapping(value="{constructContId}/checkedit",method=RequestMethod.GET)
 	public String toCheckEdit(@PathVariable("projectId")Long projectId,@PathVariable("constructContId")Long constructContId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
@@ -239,16 +258,29 @@ public class SpConstructcontCtl {
 		}
 		if(afteraction.equals("commit")){
 			User user = sessionUtil.getValue("user");
-			try{
-				identityService.setAuthenticatedUserId(user.getKey());
-				taskService.complete(taskId);
-			} finally {
-				identityService.setAuthenticatedUserId(null);
-			}
-			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
-			return "redirect:/task/list";
+			Result result =commitCheck(constructCont,user,taskId);
+			if(result.notPass()){
+				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
+				return String.format("redirect:%s/checkedit",constructCont.getId());
+			}else{				
+				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("提交成功！"));
+				return "redirect:/task/list";
+			}	
 		}
 		
 		return "";
+	}
+	
+	@Transactional
+	private Result commitCheck(ConstructCont constructCont,User user,String taskId){
+		Result result = this.constructContService.verifyForCommit(constructCont);
+		if(result.notPass()) return result;
+		try{
+			identityService.setAuthenticatedUserId(user.getKey());
+			taskService.complete(taskId);
+		} finally {
+			identityService.setAuthenticatedUserId(null);
+		}
+		return result;
 	}
 }

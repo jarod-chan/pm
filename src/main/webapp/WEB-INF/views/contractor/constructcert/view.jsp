@@ -15,7 +15,7 @@
     $(function() {
 
 		$("#btn_back").click(function(){
-			window.open('${ctx}/contractor/${projectId}/constructcert/list','_self');
+			window.open('${ctx}/${projectId}/contractor/${supplierId}/constructcert/list','_self');
 			return false;
 		})
 

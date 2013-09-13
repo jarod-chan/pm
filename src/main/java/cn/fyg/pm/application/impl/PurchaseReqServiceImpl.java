@@ -1,5 +1,6 @@
 package cn.fyg.pm.application.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,18 +10,23 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.fyg.pm.application.PurchaseReqService;
 import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
 import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
+import cn.fyg.pm.domain.model.pjmember.Pjmember;
+import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
 import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqBusi;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.PurchaseReqItem;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqCommitVld;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqFactory;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqPU;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqRepository;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqState;
+import cn.fyg.pm.domain.model.role.Role;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
+import cn.fyg.pm.domain.shared.verify.Result;
 
 @Service("purchaseReqService")
 public class PurchaseReqServiceImpl implements PurchaseReqService {
@@ -31,6 +37,8 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 	PurchaseReqBusi purchaseReqBusi;
 	@Autowired
 	NoGeneratorBusi noGeneratorBusi;
+	@Autowired
+	PjmemberRepository pjmemberRepository;
 
 	@Override
 	public List<PurchaseReq> query(QuerySpec<PurchaseReq> querySpec) {
@@ -44,7 +52,11 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 
 	@Override
 	public PurchaseReq create(User creater, Project project,PurchaseReqState state) {
-		return PurchaseReqFactory.create(creater, project, state);
+		Role pjrole = new Role();
+		pjrole.setKey("xmfzr");//TODO 固定取项目负责人角色
+		List<Pjmember> pjmembers = this.pjmemberRepository.findByProjectAndRole(project, pjrole);
+		User xmfzr = pjmembers.get(0).getUser();
+		return PurchaseReqFactory.create(creater,xmfzr, project, state);
 	}
 
 	@Override
@@ -66,8 +78,8 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 	}
 
 	@Override
-	public List<PurchaseReq> findByProject(Project project) {
-		return this.purchaseReqRepository.findByPurchaseKey_Project(project);
+	public List<PurchaseReq> findByProject(Project project,PurchaseReqState state) {
+		return this.purchaseReqRepository.findByPurchaseKey_ProjectAndStateOrderByIdDesc(project,state);
 	}
 
 	@Override
@@ -89,12 +101,25 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 
 	@Override
 	@Transactional
-	public PurchaseReq finish(PurchaseReq purchaseReq) {
+	public PurchaseReq finish(Long purchaseReqId,String userKey){
+		PurchaseReq purchaseReq = this.purchaseReqRepository.findOne(purchaseReqId);
+		User leader=new User();
+		leader.setKey(userKey);
+		purchaseReq.setSigner(leader);
+		purchaseReq.setSigndate(new Date());
+		purchaseReq.setState(PurchaseReqState.finish);
 		if(purchaseReq.getBusino()==null){
 			NoPatternUnit pu = new PurchaseReqPU(purchaseReq);
 			this.noGeneratorBusi.generateNextNo(pu);
 		}
 		return this.save(purchaseReq);
+	}
+
+	@Override
+	public Result verifyForCommit(PurchaseReq purchaseReq) {
+		PurchaseReqCommitVld vld=new PurchaseReqCommitVld();
+		vld.setValObject(purchaseReq);
+		return vld.verify();
 	}
 
 }

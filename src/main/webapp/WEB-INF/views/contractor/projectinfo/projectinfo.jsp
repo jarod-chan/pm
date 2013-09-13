@@ -37,22 +37,17 @@
 	
 	<%@ include file="/common/message.jsp" %>	
 	
-	<div id="headdiv" style="width: 600px;">
+	<div id="headdiv" >
 	<table id="tabmain">	
 		
-		<tr><td>
-		编号：</td><td>
+		<tr ><td style="width: 80px;">
+		编号：</td><td style="width: 520px;">
 		${project.no}
 		</td></tr>
 		
 		<tr><td>
 		项目名称：</td><td>
 		${project.name}
-		</td></tr>
-		
-		<tr><td>
-		项目负责人：</td><td>
-		${project.leader.name}
 		</td></tr>
 		
 		<tr><td>

@@ -12,7 +12,17 @@
 
     <script type="text/javascript">
     $(function() {
+    	var validator=$("form").validate({
+    		rules: {
+    			name: {
+    				required: true,
+    				maxlength: 8
+    			}
+    		}
+    	});
+    	
 		$("#btn_save").click(function(){
+			if(!validator.form()){return;}
 			var actionFrom=$("form");
 			var oldAction=actionFrom.attr("action");
 			actionFrom.attr("action",oldAction+"/save").submit();
@@ -51,14 +61,6 @@
 		<input type="text" name="name" value="${project.name}"/>
 		</td></tr>
 		
-		<tr><td>
-		项目负责人：</td><td>
-		<select name="leader.key">
-			<c:forEach var="user" items="${userList}">
-				<option value="${user.key}" <c:if test="${project.leader.key==user.key}">selected="true"</c:if> >${user.name}</option>
-			</c:forEach>
-		</select>
-		</td></tr>
 		
 		<tr><td>
 		项目状态：</td><td>
@@ -130,8 +132,7 @@
 		<input type="text" name="totalinve" value="${project.totalinve}"/>
 		<td></tr>
 		</table>
-		
-		<br>
+
 		<input type="button" value="保存"  id="btn_save">
 		<input type="button" value="返回"  id="btn_back">
 		

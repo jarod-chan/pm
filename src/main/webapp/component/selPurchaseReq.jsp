@@ -2,11 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-	<style type="text/css">
-	.high-color{
-		background-color: #C8C8C8;
-	}
-	</style>
 	<script type="text/javascript">
 		$(function(){
 			
@@ -22,7 +17,12 @@
 	   		$("<td>").appendTo(itemdom);
 	   		
 	   		$("<td>").appendTo(itemdom);
-	    		  
+	   		
+	   		$("<td>").appendTo(itemdom);
+	    	
+	   		$("<td>").appendTo(itemdom);
+	   		
+	   		$("<td>").appendTo(itemdom);
 	    		 
 	       	var warpLi=function(item){
 	       		var newItemdom=itemdom.clone();
@@ -35,8 +35,11 @@
 	       		newItemdom.find("td:eq(1)").html(item.sn);
 	       		newItemdom.find("td:eq(2)").html(item.metername);
 	       		newItemdom.find("td:eq(3)").html(item.spec);
+	       		newItemdom.find("td:eq(4)").html(item.unit);
+	       		newItemdom.find("td:eq(5)").html(item.numb);
+	       		newItemdom.find("td:eq(6)").html(item.brand);
 	       		if(item.upid!=null){       			
-	       			newItemdom.find("td:eq(4)").html(item.uptypeName+"["+item.upno+"]执行采购");
+	       			newItemdom.find("td:eq(7)").html(item.uptypeName+"["+item.upno+"]执行采购");
 	       		}
 	       		$("#purchaseReqItem tbody").append(newItemdom);
 	       	}
@@ -48,7 +51,7 @@
 	       		}
 	       		var certid="-1";
 	       		<c:if test="${not empty certid}">certid="${certid}";</c:if>
-	       		$.getJSON('${ctx}/purchasereq/'+purchaseKeyId+'/items/${uptype}/'+certid,function(itemlist){
+	       		$.getJSON('${ctx}/${projectId}/purchasereq/'+purchaseKeyId+'/items/${uptype}/'+certid,function(itemlist){
 	       			$("#purchaseReqItem tbody").empty();
 	       			for(i=0;i<itemlist.length;i++){
 	       				warpLi(itemlist[i]);
@@ -81,32 +84,25 @@
 				fetchReqItem(param.id);
 				$( "#selReq" ).dialog("close");
 			})
-			$("#selReq tbody tr").mouseover(function() {
-			  	$(this).addClass("high-color");
-			  }).mouseout(function(){
-			    $(this).removeClass("high-color");
-			  });
 		})
 	</script>
 	
 	<div id="selReq" title="采购申请单" >
-		<table border="1">
+		<table class="hctable deftable">
 			<thead>
 				<tr>
-					<td>编号</td>
-					<td>说明</td>
-					<td>计划进场时间</td>
-					<td>状态</td>
-					<td>制单人</td>
-					<td>制单日期</td>
-					<td>操作</td>
+					<th>序号</th>
+					<th>计划进场时间</th>
+					<th>状态</th>
+					<th>制单人</th>
+					<th>制单日期</th>
+					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="purchaseReq" items="${purchaseReqList}">
 				<tr>
 					<td>${purchaseReq.no}</td>
-					<td>${purchaseReq.descrp}</td>
 					<td>${purchaseReq.plandate}</td>
 					<td>${purchaseReq.state.name}</td>
 					<td>${purchaseReq.creater.name}</td>

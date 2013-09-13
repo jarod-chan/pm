@@ -65,14 +65,6 @@
 		
 		名称:<input type="text" name="name" value="${query.name}">
 		
-		项目负责人:<select name="leader.key">
-			<option value="" >-所有-</option>
-			<c:forEach var="user" items="${userList}">
-				<option value="${user.key}" <c:if test="${user.key== query.leader.key}">selected="true"</c:if> >${user.name}</option>
-			</c:forEach>
-		</select>
-	
-		
 		<br>
 		排序:<select name="orderAttribute">
 				<c:forEach var="attr" items="${query.orderAttributeList}">
@@ -94,29 +86,33 @@
 	<input type="button" value="新建"  id="btn_new">
 	</div>
 	<br>
-	<table id="tblmain" border="1">
+	<table id="tblmain" class="hctable deftable">
+		<thead>
 		<tr>
-			<td>编号</td><td>名称</td><td>项目负责人</td>
-			<td>状态</td>
-			<td>项目投资计划批文</td>
-			<td>土地使用权证</td>
-			<td>用地许可证</td>
-			<td>工程规划许可证</td>
-			<td>工程施工许可证</td>
-			<td>商品房预售许可证</td>
-			<td>竣工验收规划确认书</td>
-			<td>竣工验收备案</td>
-			<td>开工日期</td>
-			<td>竣工日期</td>
-			<td>位置</td>
-			<td>所占股份</td>
-			<td>总投资</td>
-
-			<td>操作</td>
+			<th>编号</th>
+			<th>名称</th>
+			<th>状态</th>
+			<th>项目投资计划批文</th>
+			<th>土地使用权证</th>
+			<th>用地许可证</th>
+			<th>工程规划许可证</th>
+			<th>工程施工许可证</th>
+			<th>商品房预售许可证</th>
+			<th>竣工验收规划确认书</th>
+			<th>竣工验收备案</th>
+			<th>开工日期</th>
+			<th>竣工日期</th>
+			<th>位置</th>
+			<th>所占股份</th>
+			<th>总投资</th>
+			<th>操作</th>
 		</tr>
+		</thead>
+		<tbody>
 		<c:forEach var="project" items="${projectList}">
 			<tr>
-				<td>${project.no}</td><td>${project.name}</td><td>${project.leader.name}</td>
+				<td>${project.no}</td>
+				<td>${project.name}</td>
 				<td>${project.state.name}</td>
 				<td>${project.inveplan}</td>
 				<td>${project.landuseRight}</td>
@@ -138,7 +134,7 @@
 				</td>
 			</tr>
 		</c:forEach>
-		
+		</tbody>
 	</table>
 	
 </body>

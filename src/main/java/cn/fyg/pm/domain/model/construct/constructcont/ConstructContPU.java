@@ -22,7 +22,7 @@ public class ConstructContPU implements NoPatternUnit {
 		nokey.setFlag("LS");
 		String contractNo=constructCont.getConstructKey().getContract().getNo();
 		String[] noParts=contractNo.split("-");
-		nokey.setPref(noParts[2]+noParts[3]);
+		nokey.setPref(noParts[0].substring(3)+noParts[1]);
 		Long limit=Long.valueOf(999);
 	    NoPattern noPattern = new NoPattern(nokey,limit);
 	    return noPattern;

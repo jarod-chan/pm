@@ -31,7 +31,7 @@ public class PurchaseCertItem {
 	
 	private String unit;//单位
 	
-	private String numb;//数量
+	private BigDecimal numb;//数量
 	
 	private String brand;//品牌
 	
@@ -87,11 +87,11 @@ public class PurchaseCertItem {
 		this.unit = unit;
 	}
 
-	public String getNumb() {
+	public BigDecimal getNumb() {
 		return numb;
 	}
 
-	public void setNumb(String numb) {
+	public void setNumb(BigDecimal numb) {
 		this.numb = numb;
 	}
 

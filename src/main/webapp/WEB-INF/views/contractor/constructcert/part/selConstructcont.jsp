@@ -2,11 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-	<style type="text/css">
-		.high-color{
-			background-color: #C8C8C8;
-		}
-	</style>
 	<script type="text/javascript">
 		$(function(){
 			
@@ -31,25 +26,21 @@
 				$("#spanConstructCont").next().val(param.id);
 				$( "#selConstructCont" ).dialog("close");
 			})
-			$("#selConstructCont tbody tr").mouseover(function() {
-			  	$(this).addClass("high-color");
-			  }).mouseout(function(){
-			    $(this).removeClass("high-color");
-			  });
+
 		})
 	</script>
 		
 		<div id="selConstructCont" title="施工联系单" style="display: none;">
-			<table border="1">
+			<table border="1" class="hctable deftable">
 				<thead>
 					<tr>
-						<td>编号</td>
-						<td>合同</td>
-						<td>专业分类</td>
-						<td>总金额</td>
-						<td>制单人</td>
-						<td>制单日期</td>
-						<td>操作</td>
+						<th>编号</th>
+						<th>合同</th>
+						<th>专业分类</th>
+						<th>总金额</th>
+						<th>制单人</th>
+						<th>制单日期</th>
+						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>

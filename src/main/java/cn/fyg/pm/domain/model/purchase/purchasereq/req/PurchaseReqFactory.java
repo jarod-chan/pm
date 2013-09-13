@@ -8,7 +8,7 @@ import cn.fyg.pm.domain.model.user.User;
 
 public class PurchaseReqFactory {
 	
-	public static PurchaseReq create(User creater,Project project, PurchaseReqState state){
+	public static PurchaseReq create(User creater,User projectLeader,Project project, PurchaseReqState state){
 		PurchaseKey purchaseKey=new PurchaseKey();
 		purchaseKey.setProject(project);
 		
@@ -17,7 +17,7 @@ public class PurchaseReqFactory {
 		purchaseReq.setState(state);
 		purchaseReq.setCreater(creater);
 		purchaseReq.setCreatedate(new Date());
-		purchaseReq.setLeader(project.getLeader());
+		purchaseReq.setLeader(projectLeader);
 		return purchaseReq;
 	}
 

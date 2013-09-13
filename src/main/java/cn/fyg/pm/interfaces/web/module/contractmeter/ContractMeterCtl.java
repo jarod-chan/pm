@@ -32,16 +32,17 @@ import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
+import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqState;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.shared.BusiCode;
 import cn.fyg.pm.interfaces.web.module.contractmeter.query.ContractMeterQuery;
-import cn.fyg.pm.interfaces.web.module.purchasereq.ReqItemFacade;
+import cn.fyg.pm.interfaces.web.module.trace.purchasereq.ReqItemFacade;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 @Controller
-@RequestMapping("contractmeter")
+@RequestMapping("{projectId}/contractmeter")
 public class ContractMeterCtl {
 	
 	private static final String PATH = "contractmeter/";
@@ -72,8 +73,9 @@ public class ContractMeterCtl {
 	PurchaseKeyService purchaseKeyService;
 
 	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
-	public String toList(ContractMeterQuery query,Map<String,Object> map){
-		Project project=sessionUtil.getValue("project");
+	public String toList(@PathVariable("projectId")Long projectId,ContractMeterQuery query,Map<String,Object> map){
+		Project project=new Project();
+		project.setId(projectId);
 		query.setProject(project);
 		List<ContractMeter> contractMeterList = contractMeterService.query(query);
 		List<ContractMeterDto> contractMeterDtoList = contractMeterAssembler.build(contractMeterList);
@@ -85,8 +87,9 @@ public class ContractMeterCtl {
 	}
 	
 	@RequestMapping(value="{contractMeterId}/edit",method=RequestMethod.GET)
-	public String toEdit(@PathVariable("contractMeterId") Long contractMeterId,Map<String,Object> map){
-		Project project=sessionUtil.getValue("project");
+	public String toEdit(@PathVariable("projectId")Long projectId,@PathVariable("contractMeterId") Long contractMeterId,Map<String,Object> map){
+		Project project=new Project();
+		project.setId(projectId);
 		ContractMeter contractMeter=contractMeterId.longValue()>0?contractMeterService.find(contractMeterId):contractMeterService.create(project);
 		map.put("contractMeter", contractMeter);
 		map.put("supplierList", supplierService.findByTypeIn(Supptype.meter));
@@ -94,7 +97,7 @@ public class ContractMeterCtl {
 		map.put("specialtyList", ContractSpec.values());
 		map.put("contractRiskList", ContractRisk.values());
 		map.put("userList", userService.findAll());
-		List<PurchaseReq> purchaseReqList = purchaseReqService.findByProject(project);
+		List<PurchaseReq> purchaseReqList = purchaseReqService.findByProject(project,PurchaseReqState.finish);
 		map.put("purchaseReqList", purchaseReqList);
 		PurchaseReq purchaseReq = purchaseReqService.findByPurchaseKey(contractMeter.getPurchaseKey());
 		map.put("purchaseReq", purchaseReq);
@@ -107,8 +110,8 @@ public class ContractMeterCtl {
 	}
 	
 	@RequestMapping(value="save",method=RequestMethod.POST)
-	public String save(@RequestParam("id") Long contractMeterId,@RequestParam(value="filestore_id",required=false)Long[] filestore_id,@RequestParam(value="reqItemIds",required=false)Long[] reqItemIds,HttpServletRequest request,RedirectAttributes redirectAttributes){
-		Project project=sessionUtil.getValue("project");
+	public String save(@PathVariable("projectId")Long projectId,@RequestParam("id") Long contractMeterId,@RequestParam(value="filestore_id",required=false)Long[] filestore_id,@RequestParam(value="reqItemIds",required=false)Long[] reqItemIds,HttpServletRequest request,RedirectAttributes redirectAttributes){
+		Project project=projectService.find(projectId);
 		ContractMeter contractMeter=contractMeterId!=null?contractMeterService.find(contractMeterId):contractMeterService.create(project);
 		
 		ServletRequestDataBinder dataBinder = new ServletRequestDataBinder(contractMeter);

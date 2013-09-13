@@ -279,7 +279,7 @@ public class ContractMeter  implements NoPatternUnit{
 		nokey.setFlag("HT");
 		String projectNo=this.project.getNo();
 		String[] noParts=projectNo.split("-");
-		nokey.setPref(noParts[2]+noParts[3]+"/"+ContractType.meter.getCode());
+		nokey.setPref(noParts[0].substring(3)+noParts[1]+ContractType.meter.getCode());
 		Long limit=Long.valueOf(9999);
 	    return new NoPattern(nokey,limit);
 	}

@@ -13,7 +13,7 @@ import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 @Service("purchaseReqBusi")
 public class PurchaseReqBusi {
 	
-	@Autowired
+	@Autowired//TODO 把仓储移动到service
 	PurchaseReqItemRepository purchaseReqItemRepository;
 	
 	/**

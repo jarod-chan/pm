@@ -9,7 +9,7 @@ import cn.fyg.pm.domain.model.user.User;
 
 public class ConstructContFactory {
 	
-	public static ConstructCont create(User creater,Project project, ConstructContState state){
+	public static ConstructCont create(User creater,User projectLeader,Project project, ConstructContState state){
 		ConstructKey constructKey=new ConstructKey();
 		constructKey.setProject(project);
 		
@@ -18,7 +18,7 @@ public class ConstructContFactory {
 		constructCont.setCreater(creater);
 		constructCont.setCreatedate(new Date());
 		constructCont.setConstructKey(constructKey);
-		constructCont.setLeader(project.getLeader());
+		constructCont.setLeader(projectLeader);
 		constructCont.setTolsum(new BigDecimal("0.00"));
 		return constructCont;
 	}

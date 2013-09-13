@@ -47,9 +47,6 @@ public class PurchaseCert extends CommonNoPatternUnit{
 	@Enumerated(EnumType.STRING)
 	private PurchaseCertState state;//状态
 	
-	@Temporal(TemporalType.DATE)
-	private Date plandate;//计划进场时间
-	
 	private String descrp;//采购部意见
 	
 	@ManyToOne(targetEntity=User.class)
@@ -127,13 +124,6 @@ public class PurchaseCert extends CommonNoPatternUnit{
 		this.state = state;
 	}
 
-	public Date getPlandate() {
-		return plandate;
-	}
-
-	public void setPlandate(Date plandate) {
-		this.plandate = plandate;
-	}
 
 	public String getDescrp() {
 		return descrp;

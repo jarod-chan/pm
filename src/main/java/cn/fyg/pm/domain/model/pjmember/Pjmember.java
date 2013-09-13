@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.role.Role;
 import cn.fyg.pm.domain.model.user.User;
 
 /**
@@ -28,7 +29,11 @@ public class Pjmember {
 	
 	@ManyToOne(targetEntity=User.class)
 	@JoinColumn(name="user_key")
-	private User user;	//项目负责人
+	private User user;	//项目成员
+	
+	@ManyToOne(targetEntity=Role.class)
+	@JoinColumn(name="role_key")
+	private Role role;//项目角色
 
 	public Long getId() {
 		return id;
@@ -53,6 +58,16 @@ public class Pjmember {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+
 
 	
 }

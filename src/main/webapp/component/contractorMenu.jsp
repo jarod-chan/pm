@@ -48,9 +48,9 @@
 	<div id="rightmenu">
 		<ul>
 			<li>
-				<a href="${ctx}/contractor/${projectId}/projectinfo" <c:if test="${selectmenu=='projectinfo'}">class="selected"</c:if> >项目首页</a>
-				<a href="${ctx}/contractor/${projectId}/constructcont/list" <c:if test="${selectmenu=='constructcont'}">class="selected"</c:if> >施工联系单</a>
-				<a href="${ctx}/contractor/${projectId}/constructcert/list" <c:if test="${selectmenu=='constructcert'}">class="selected"</c:if> >工程签证单</a>
+				<a href="${ctx}/${projectId}/contractor/${supplierId}/projectinfo" <c:if test="${selectmenu=='projectinfo'}">class="selected"</c:if> >项目首页</a>
+				<a href="${ctx}/${projectId}/contractor/${supplierId}/constructcont/list" <c:if test="${selectmenu=='constructcont'}">class="selected"</c:if> >施工联系单</a>
+				<a href="${ctx}/${projectId}/contractor/${supplierId}/constructcert/list" <c:if test="${selectmenu=='constructcert'}">class="selected"</c:if> >工程签证单</a>
 			</li>
 		</ul>
 	</div>
