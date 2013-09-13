@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -16,7 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import cn.fyg.pm.application.RoleService;
+import cn.fyg.pm.application.SymemberService;
 import cn.fyg.pm.application.UserService;
+import cn.fyg.pm.domain.model.role.Role;
+import cn.fyg.pm.domain.model.role.RoleType;
 import cn.fyg.pm.domain.model.user.EnabledEnum;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
@@ -33,6 +38,11 @@ public class UserCtl {
 	//TODO 系统用户功能待进一步完善
 	@Autowired
 	UserService userService;
+	@Autowired
+	RoleService roleService;
+	@Autowired
+	SymemberService symemberService;
+	
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String toList(Map<String,Object> map){
@@ -45,7 +55,14 @@ public class UserCtl {
 	public String toEdit(@PathVariable("userKey") String userKey,Map<String,Object> map){
 		User user = !userKey.equals("-1")?this.userService.find(userKey):createUser();
 		map.put("user", user);
+		//TODO 修改此处方法，和-1判断放一块
+		if(user.getKey()!=null){
+			Role userRole=this.symemberService.findByUser(user);
+			map.put("userRole", userRole);
+		}
 		map.put("enableds", EnabledEnum.values());
+		List<Role> roles = this.roleService.findByRoleType(RoleType.system);
+		map.put("roles", roles);
 		return Page.EDIT;
 	}
 	
@@ -57,11 +74,18 @@ public class UserCtl {
 	}
 	
 	@RequestMapping(value="save",method=RequestMethod.POST)
-	public String save(@RequestParam("key")String userKey,HttpServletRequest request,RedirectAttributes redirectAttributes){		
+	public String save(@RequestParam("key")String userKey,@RequestParam("roleKey")String roleKey,HttpServletRequest request,RedirectAttributes redirectAttributes){		
 		User user = this.userService.exist(userKey)?this.userService.find(userKey):createUser();
 		ServletRequestDataBinder binder = new ServletRequestDataBinder(user);
 		binder.bind(request);
 		this.userService.save(user);
+		if(StringUtils.isNotBlank(roleKey)){
+			Role userRole=new Role();
+			userRole.setKey(roleKey);
+			this.symemberService.setUserRole(user, userRole);
+		}else{
+			this.symemberService.removeUserRole(user);
+		}
 		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("保存成功"));
 		return "redirect:list";
 	}

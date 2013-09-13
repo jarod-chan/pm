@@ -24,6 +24,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import cn.fyg.pm.domain.model.contract.general.Contract;
+import cn.fyg.pm.domain.model.design.TechType;
 import cn.fyg.pm.domain.model.design.designcont.reason.Reason;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
 import cn.fyg.pm.domain.model.project.Project;
@@ -54,9 +55,18 @@ public class DesignCont  extends CommonNoPatternUnit{
 	@Fetch(FetchMode.SELECT)
 	private DesignNoti designNoti;//问题通知单
 	
+	@Enumerated(EnumType.STRING)
+	private TechType techType;
+	
 	@ManyToOne(targetEntity=Contract.class)
 	@JoinColumn(name="contract_id")
 	private Contract contract;//合同
+	
+	private String content;//内容
+	
+	private String filedesc;//附件说明
+	
+	private Long sendnumb;//发放份数
 	
 	@Enumerated(EnumType.STRING)
 	private Reason reason;
@@ -105,6 +115,14 @@ public class DesignCont  extends CommonNoPatternUnit{
 		this.id = id;
 	}
 
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 	public String getNo() {
 		return no;
 	}
@@ -119,6 +137,14 @@ public class DesignCont  extends CommonNoPatternUnit{
 
 	public void setDesignNoti(DesignNoti designNoti) {
 		this.designNoti = designNoti;
+	}
+
+	public String getFiledesc() {
+		return filedesc;
+	}
+
+	public void setFiledesc(String filedesc) {
+		this.filedesc = filedesc;
 	}
 
 	public String getBusino() {
@@ -225,4 +251,21 @@ public class DesignCont  extends CommonNoPatternUnit{
 		this.designContItems = designContItems;
 	}
 
+	public TechType getTechType() {
+		return techType;
+	}
+
+	public void setTechType(TechType techType) {
+		this.techType = techType;
+	}
+
+	public Long getSendnumb() {
+		return sendnumb;
+	}
+
+	public void setSendnumb(Long sendnumb) {
+		this.sendnumb = sendnumb;
+	}
+	
+	
 }

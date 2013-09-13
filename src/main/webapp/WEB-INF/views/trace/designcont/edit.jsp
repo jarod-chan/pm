@@ -56,7 +56,7 @@
 
 
 <body>
-	<h2>技术联系单</h2>
+	<h2>技术变更通知单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
 	<form action="${ctx}/${projectId}/designcont" method="post">

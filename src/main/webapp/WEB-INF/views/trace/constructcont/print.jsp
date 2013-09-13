@@ -72,18 +72,21 @@
 				</tr>
 				
 				<tr>
-					<td>审核人</td><td>${flowChecker['shr'].userName}</td>
-					<td>审核日期</td><td><fmt:formatDate value="${flowChecker['shr'].date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+					<td>审核人</td><td>${checkerOpinion['shr'].userName}@<fmt:formatDate value="${checkerOpinion['shr'].date}" pattern="yyyy-MM-dd"/></td>
+					<td>审批意见</td>
+					<td>[${checkerOpinion['shr'].result.name}]${checkerOpinion['shr'].content}</td>
 				</tr>
 				
 				<tr>
-					<td>核准人</td><td>${flowChecker['hzr'].userName}</td>
-					<td>核准日期</td><td><fmt:formatDate value="${flowChecker['hzr'].date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+					<td>核准人</td><td>${checkerOpinion['hzr'].userName}@<fmt:formatDate value="${checkerOpinion['hzr'].date}" pattern="yyyy-MM-dd"/></td>
+					<td>审批意见</td>
+					<td>[${checkerOpinion['hzr'].result.name}]${checkerOpinion['hzr'].content}</td>
 				</tr>
 				
 				<tr>
-					<td>签发人</td><td>${flowChecker['qfr'].userName}</td>
-					<td>签发日期</td><td><fmt:formatDate value="${flowChecker['qfr'].date}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+					<td>签发人</td><td>${checkerOpinion['qfr'].userName}@<fmt:formatDate value="${checkerOpinion['qfr'].date}" pattern="yyyy-MM-dd"/></td>
+					<td>审批意见</td>
+					<td>[${checkerOpinion['qfr'].result.name}]${checkerOpinion['qfr'].content}</td>
 				</tr>
 				
 				<tr>

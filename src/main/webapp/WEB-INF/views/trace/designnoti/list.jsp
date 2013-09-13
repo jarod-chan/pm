@@ -96,7 +96,7 @@
 			<tr>
 				<th>序号</th>
 				<th>业务编号</th>
-				<th>图号</th>
+				<th>设计专业</th>
 				<th>状态</th>
 				<th>制单人</th>
 				<th>制单日期</th>
@@ -108,7 +108,7 @@
 			<tr>
 				<td>${designNoti.no}</td>
 				<td>${designNoti.busino}</td>
-				<td>${designNoti.graphno}</td>
+				<td>${designNoti.techType.name}</td>
 				<td><span class="state state-${designNoti.state}" >${designNoti.state.name}</span></td>
 				<td>${designNoti.creater.name}</td>
 				<td><fmt:formatDate value="${designNoti.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>

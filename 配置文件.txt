@@ -1,0 +1,20 @@
+
+项目角色
+
+insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('xmfzr','项目负责人',1,'project');
+insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('jszg','技术主管',2,'project');
+insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('tjzg','土建主管',3,'project');
+insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('cgzg','采购主管',4,'project');
+insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('cbzg','成本主管',5,'project');
+insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('szzg','市政主管',6,'project');
+insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('azzg','安装主管',7,'project');
+insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('zszg','装饰主管',8,'project');
+insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('jgzg','景观主管',9,'project');
+insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('scfgfz','生产分管副总',10,'project');
+insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('jsfgfz','技术分管副总',11,'project');
+insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('szfgfz','市政分管副总',12,'project');
+insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('xmcy','项目成员',13,'project');
+
+
+insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('zysh','专业审核',101,'system');
+insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('zjl','总经理',102,'system');

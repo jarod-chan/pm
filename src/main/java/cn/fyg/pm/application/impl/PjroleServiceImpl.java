@@ -5,19 +5,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.fyg.pm.application.PjroleService;
-import cn.fyg.pm.domain.model.pjrole.Pjrole;
-import cn.fyg.pm.domain.model.pjrole.PjroleRepository;
+import cn.fyg.pm.application.RoleService;
+import cn.fyg.pm.domain.model.role.Role;
+import cn.fyg.pm.domain.model.role.RoleRepository;
+import cn.fyg.pm.domain.model.role.RoleType;
 
-@Service("pjroleService")
-public class PjroleServiceImpl implements PjroleService {
+@Service("roleService")
+public class PjroleServiceImpl implements RoleService {
 	
 	@Autowired
-	PjroleRepository pjroleRepository;
+	RoleRepository roleRepository;
 
 	@Override
-	public List<Pjrole> findAll() {
-		return this.pjroleRepository.findAllOrderBySnAsc();
+	public List<Role> findByRoleType(RoleType roleType) {
+		return this.roleRepository.findByRoleTypeOrderBySnAsc(roleType);
 	}
 
 }

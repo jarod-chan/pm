@@ -17,8 +17,8 @@ import com.google.common.base.Preconditions;
 import cn.fyg.pm.application.PjmemberService;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
-import cn.fyg.pm.domain.model.pjrole.Pjrole;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.role.Role;
 import cn.fyg.pm.domain.model.user.User;
 
 @Service("pjmemberService")
@@ -51,22 +51,22 @@ public class PjmemberServiceImpl implements PjmemberService {
 
 	@Override
 	@Transactional
-	public void appendPrjectUser(Project project, User user,Pjrole pjrole) {
+	public void appendPrjectUser(Project project, User user,Role role) {
 		
 		Preconditions.checkNotNull(project);
 		Preconditions.checkNotNull(project.getId());
 		Preconditions.checkNotNull(user);
 		Preconditions.checkNotNull(user.getKey());
-		Preconditions.checkNotNull(pjrole);
-		Preconditions.checkNotNull(pjrole.getKey());
+		Preconditions.checkNotNull(role);
+		Preconditions.checkNotNull(role.getKey());
 		//TODO ?
-		if(StringUtils.isBlank(pjrole.getKey())) pjrole=null;
+		if(StringUtils.isBlank(role.getKey())) role=null;
 		
 		Pjmember pjmember = this.pjmemberRepository.findByProjectAndUser(project, user);
 		pjmember= pjmember==null?new Pjmember():pjmember;
 		pjmember.setProject(project);
 		pjmember.setUser(user);
-		pjmember.setPjrole(pjrole);
+		pjmember.setRole(role);
 		this.pjmemberRepository.save(pjmember);
 	}
 
@@ -85,11 +85,11 @@ public class PjmemberServiceImpl implements PjmemberService {
 	}
 
 	@Override
-	public Map<User, Pjrole> getProjectUserRole(Project project) {
+	public Map<User, Role> getProjectUserRole(Project project) {
 		List<Pjmember> pjmembers = this.pjmemberRepository.findByProject(project);
-		Map<User, Pjrole> userToRole=new HashMap<User, Pjrole>();
+		Map<User, Role> userToRole=new HashMap<User, Role>();
 		for (Pjmember pjmember : pjmembers) {
-			userToRole.put(pjmember.getUser(), pjmember.getPjrole());
+			userToRole.put(pjmember.getUser(), pjmember.getRole());
 		}
 		return userToRole;
 	}
@@ -99,9 +99,9 @@ public class PjmemberServiceImpl implements PjmemberService {
 	public String getUserKey(Long projectId, String pjroleKey) {
 		Project project=new Project();
 		project.setId(projectId);
-		Pjrole pjrole=new Pjrole();
+		Role pjrole=new Role();
 		pjrole.setKey(pjroleKey);
-		List<Pjmember> pjmembers = this.pjmemberRepository.findByProjectAndPjrole(project, pjrole);
+		List<Pjmember> pjmembers = this.pjmemberRepository.findByProjectAndRole(project, pjrole);
 		if(pjmembers.isEmpty()){
 			logger.info("cant find user by projectId:[%s] pjroleKey:[%s]", projectId,pjroleKey);
 			return "admin";

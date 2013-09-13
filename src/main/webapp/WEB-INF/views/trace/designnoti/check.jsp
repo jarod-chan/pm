@@ -9,7 +9,8 @@
 	<%@ include file="/common/setting.jsp" %>
 	<%@ include file="/common/meta.jsp" %>
 	<%@ include file="/common/include.jsp" %>
-	<%@ include file="/common/jqui.jsp" %>		
+	<%@ include file="/common/jqui.jsp" %>	
+	<%@ include file="/common/jqui2.jsp" %>		
 
 </head>
 
@@ -17,10 +18,10 @@
 	<h2>问题通知单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<%@ include file="part/purchasereq_view.jsp" %>
+	<%@ include file="part/designnoti_view.jsp" %>
 	
-	<c:set var="parma_businessId" value="${purchaseReq.id}" />
-	<c:set var="parma_itemLength" value="${fn:length(purchaseReq.purchaseReqItems)}" />
+	<c:set var="parma_businessId" value="${designNoti.id}" />
+	<c:set var="parma_itemLength" value="${fn:length(designNoti.designNotiItems)}" />
 	<%@ include file="/component/opinionCommit.jsp" %>
 
 	

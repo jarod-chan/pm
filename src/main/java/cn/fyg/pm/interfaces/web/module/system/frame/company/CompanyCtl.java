@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import cn.fyg.pm.application.PjmemberService;
 import cn.fyg.pm.application.ProjectService;
-import cn.fyg.pm.domain.model.pjrole.Pjrole;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.role.Role;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
@@ -53,7 +53,7 @@ public class CompanyCtl {
 		Long menuIdx= getSessionMenuIdx();
 		map.put("menuIdx", menuIdx);
 		
-		Map<User, Pjrole> userRole = pjmemberService.getProjectUserRole(project);
+		Map<User, Role> userRole = pjmemberService.getProjectUserRole(project);
 		map.put("userRole", userRole);
 		
 		return Page.MAIN;

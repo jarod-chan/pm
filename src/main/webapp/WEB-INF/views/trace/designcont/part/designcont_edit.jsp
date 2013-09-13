@@ -136,6 +136,15 @@ $(function(){
 				<span id="spanNoti">${designCont.designNoti.no}</span><input type="hidden" name="designNoti.id" value="${designCont.designNoti.id}">
 				<input type="button" id="btn_selnoti" value="选择" />
 			</td>
+			<td>设计专业：</td>
+			<td>
+			<select name="techType">
+				<option value="">--</option>
+				<c:forEach var="techType" items="${techTypes}">
+					<option value="${techType}" <c:if test="${techType== designCont.techType}">selected="true"</c:if> >${techType.name}</option>
+				</c:forEach>
+			</select>
+			</td>
 		</tr>
 		
 		<tr>
@@ -148,6 +157,10 @@ $(function(){
 			<td>
 			 <span id="supplier_name">${designCont.contract.supplier.no}</span>
 			</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top">联系内容：</td>
+			<td colspan="3"><textarea name="content" class="edittextarea">${designCont.content}</textarea></td>
 		</tr>
 		
 		<tr>
@@ -166,6 +179,19 @@ $(function(){
 		</tr>	
 		
 		<tr>
+			<td style="vertical-align: top">相关文件：</td>
+			<td colspan="3">
+					<c:set var="upload_width" value="500" />
+					<%@ include file="/component/fileUpload.jsp" %>	
+			</td>
+		</tr>
+		
+		<tr>
+			<td style="vertical-align: top">文件说明：</td>
+			<td colspan="3"><textarea name="filedesc" class="edittextarea">${designCont.filedesc}</textarea></td>
+		</tr>
+		
+		<tr>
 			<td>制单人：</td><td>${designCont.creater.name}</td>
 			<td>制单日期：</td><td><fmt:formatDate value="${designCont.createdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		</tr>
@@ -181,33 +207,6 @@ $(function(){
 		</tr>
 	
 
-	</table>
-	
-	<%@ include file="/component/fileUpload.jsp" %>	
-	
-	<h3>联系内容</h3>
-	<table id="tabitem" class="deftable">
-	<thead>
-		<tr>
-			<th>序号</th><th>变更内容</th><th>操作<input type="button" class="addLast" value="+"  /></th>
-		</tr>
-	</thead>
-	<tbody>
-		<c:forEach items="${designCont.designContItems}" var="item">
-		<tr>
-			<td style="display: none">
-				<input type='hidden' name='designContItems_sn'   value='${item.sn}' />
-				<input type='hidden' name='designContItemsId'   value='${item.id}' />
-			</td>
-			
-			<td>${item.sn}</td>
-			
-			<td><input type='text' name='designContItems_content' value='${item.content}'  style='width:600px' /></td>
-	  
-			<td><input type='button' class='add'  value='+'   /><input type='button' class='remove'  value='-'   /></td>
-		</tr>
-		</c:forEach>
-	</tbody>
 	</table>
 	
 	<%@ include file="selDesigncont.jsp" %>	

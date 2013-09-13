@@ -14,13 +14,12 @@
 </head>
 
 <body>
-	<h2>技术联系单</h2>
+	<h2>技术变更通知单</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<%@ include file="part/purchasecert_view.jsp" %>
+	<%@ include file="part/designcont_view.jsp" %>
 	
-	<c:set var="parma_businessId" value="${purchaseCert.id}" />
-	<c:set var="parma_itemLength" value="${fn:length(purchaseCert.purchaseCertItems)}" />
+	<c:set var="parma_businessId" value="${designCont.id}" />
 	<%@ include file="/component/opinionCommit.jsp" %>
 
 	

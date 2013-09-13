@@ -45,7 +45,7 @@
 			<tr>
 				<th>勾选</th>
 				<th>系统用户</th>
-				<th>供应商[内部承包人]</th>
+				<th>项目角色</th>
 			</tr>
 		</thead>
 		<tbody>

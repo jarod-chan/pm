@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import cn.fyg.pm.domain.model.design.TechType;
 //import cn.fyg.pm.domain.model.design.designkey.DesignKey;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
@@ -48,9 +49,10 @@ public class DesignNoti extends CommonNoPatternUnit{
 	@JoinColumn(name="project_id")
 	private Project project;//项目
 	
-	private String graphno;//图号
+	@Enumerated(EnumType.STRING)
+	private TechType techType;
 	
-	private String postion;//变更部位
+	private String reason;//变更部位
 	
 	@Enumerated(EnumType.STRING)
 	private DesignNotiState state;//状态
@@ -120,20 +122,12 @@ public class DesignNoti extends CommonNoPatternUnit{
 		this.project = project;
 	}
 
-	public String getGraphno() {
-		return graphno;
+	public String getReason() {
+		return reason;
 	}
 
-	public void setGraphno(String graphno) {
-		this.graphno = graphno;
-	}
-
-	public String getPostion() {
-		return postion;
-	}
-
-	public void setPostion(String postion) {
-		this.postion = postion;
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 
 	public DesignNotiState getState() {
@@ -206,6 +200,14 @@ public class DesignNoti extends CommonNoPatternUnit{
 
 	public void setDesignNotiItems(List<DesignNotiItem> designNotiItems) {
 		this.designNotiItems = designNotiItems;
+	}
+
+	public TechType getTechType() {
+		return techType;
+	}
+
+	public void setTechType(TechType techType) {
+		this.techType = techType;
 	}
 	
 	

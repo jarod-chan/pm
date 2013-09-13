@@ -1,6 +1,6 @@
 package cn.fyg.pm.interfaces.web.module.project;
 
-import cn.fyg.pm.domain.model.pjrole.Pjrole;
+import cn.fyg.pm.domain.model.role.Role;
 import cn.fyg.pm.domain.model.user.User;
 
 public class PjmemberDto {
@@ -9,7 +9,7 @@ public class PjmemberDto {
 	
 	private User user;
 	
-	private Pjrole pjrole;
+	private Role pjrole;
 
 	public boolean isChecked() {
 		return checked;
@@ -27,11 +27,11 @@ public class PjmemberDto {
 		this.user = user;
 	}
 
-	public Pjrole getPjrole() {
+	public Role getPjrole() {
 		return pjrole;
 	}
 
-	public void setPjrole(Pjrole pjrole) {
+	public void setPjrole(Role pjrole) {
 		this.pjrole = pjrole;
 	}
 

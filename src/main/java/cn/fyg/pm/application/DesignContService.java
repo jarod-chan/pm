@@ -1,7 +1,5 @@
 package cn.fyg.pm.application;
 
-import java.util.List;
-
 import cn.fyg.pm.application.common.CommitValidator;
 import cn.fyg.pm.application.common.ServiceQuery;
 import cn.fyg.pm.domain.model.design.designcont.DesignCont;
@@ -19,10 +17,8 @@ public interface DesignContService extends ServiceQuery<DesignCont>,CommitValida
 	
 	DesignCont finish(Long designContId,String userKey);
 	
-	List<DesignCont> findByProject(Project project,DesignContState state);
-	
-//	DesignCont findByDesignContKey(DesignKey designKey);
-
 	void delete(Long designContId);
+	
+	void sendLog(Long designContId,String receiver,Long sendnumb);
 	
 }

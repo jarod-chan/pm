@@ -44,7 +44,7 @@ import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 import cn.fyg.pm.domain.shared.verify.Result;
-import cn.fyg.pm.interfaces.web.module.constructcont.flow.ContVarname;
+import cn.fyg.pm.interfaces.web.module.trace.constructcont.flow.ContVarname;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;

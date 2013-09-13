@@ -7,7 +7,7 @@
 	<%@ include file="/common/setting.jsp" %>
 	<%@ include file="/common/meta.jsp" %>
 	<%@ include file="/common/include.jsp" %>	
-<style type="text/css">
+	<style type="text/css">
 
 
 	/*
@@ -118,7 +118,7 @@
 <body>
 	<div class="ui-layout-north" >
 		<div style="width: 1024px;">
-			<div style="width: 50%;float: left;"><div style="width:300px;font-size: 30px; ">方远房产项目管理系统</div></div>
+			<div style="width: 50%;float: left;"><%@ include file="../title.jsp" %></div>
 			<div style="width: 50%;float: left; text-align: right;">
 				<div style="margin-bottom: 3px;">用户:${user.name}<%@ include file="/component/logout.jsp" %></div>
 				<div>
@@ -171,7 +171,7 @@
 						</li>
 					</ul>
 					
-					<ul style="float: right;width: 13ex;" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
+					<ul style="float: right;width: 16ex;" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
 						<li>
 							<ul>
 								<li class="firstSelect"><a href="${ctx}/${project.id}/constructcont/list" class="no_show" target="mainFrame" >施工联系单</a></li>
@@ -179,7 +179,7 @@
 								<li><a href="${ctx}/${project.id}/purchasereq/list" class="no_show" target="mainFrame" >采购申请单</a></li>
 								<li><a href="${ctx}/${project.id}/purchasecert/list" class="no_show" target="mainFrame" >价格确认单</a></li>
 								<li><a href="${ctx}/${project.id}/designnoti/list" class="no_show" target="mainFrame" >问题通知书</a></li>
-								<li><a href="${ctx}/${project.id}/designcont/list" class="no_show" target="mainFrame" >技术联系书</a></li>
+								<li><a href="${ctx}/${project.id}/designcont/list" class="no_show" target="mainFrame" >技术变更通知单</a></li>
 							</ul>
 							<span>项目跟踪</span>
 						</li>

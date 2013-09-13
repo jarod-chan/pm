@@ -101,6 +101,18 @@
 		</td>
 		</tr>
 		
+		<tr>
+		<td>系统角色：</td>
+		<td>
+			<select name="roleKey">
+				<option value="">--</option>
+				<c:forEach var="role" items="${roles}">
+					<option value="${role.key}" <c:if test="${role.key==userRole.key}">selected="true"</c:if> >${role.name}</option>
+				</c:forEach>
+			</select>
+		</td>
+		</tr>
+		
 		
 		</table>
 		

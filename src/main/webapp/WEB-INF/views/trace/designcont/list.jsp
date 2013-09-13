@@ -56,7 +56,7 @@
 </head>
 
 <body>
-	<h2>技术联系单</h2>
+	<h2>技术变更通知单</h2>
 	<div style="text-align: left;">
 	<form action="${ctx}/${projectId}/designcont" method="post">
 		序号:<input type="text" name="no" value="${query.no}">
@@ -97,6 +97,7 @@
 				<th>序号</th>
 				<th>业务编号</th>
 				<th>问题通知单</th>
+				<th>设计专业</th>
 				<th>设计策划合同</th>
 				<th>设计服务商</th>
 				<th>状态</th>
@@ -111,6 +112,7 @@
 				<td>${item.no}</td>
 				<td>${item.busino}</td>
 				<td>${item.designNoti.no}</td>
+				<td>${item.techType.name}</td>
 				<td>${item.contract.no}</td>
 				<td>${item.contract.supplier.no}</td>
 				<td><span class="state state-${item.state}" >${item.state.name}</span></td>

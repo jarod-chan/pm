@@ -8,6 +8,7 @@
 	 
 	 .uploadify_unit{
 	 	margin-bottom: 5px;
+	 	width: 600px;
 	 }
 	 
 	 .fl_span{
@@ -37,8 +38,8 @@
 
 </style>
     	<c:if test="${not empty filestores}">
-		<div class="uploadify_unit" style="width: 600px;">
-				<div><h4>单据附件</h4></div>
+		<div class="uploadify_unit" <c:if test="${not empty upload_width}"> style="width:${upload_width}px;"</c:if> >
+				<div><h4>文件列表</h4></div>
 				<div id="uploadify_result">
 					<c:forEach var="filestore" items="${filestores}">
 						<span class="fl_span"> 

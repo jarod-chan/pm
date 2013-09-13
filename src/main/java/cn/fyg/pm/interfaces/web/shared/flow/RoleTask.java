@@ -25,13 +25,10 @@ public class RoleTask {
 		this.keySet = new HashSet<String>(Arrays.asList(keyArray));
 	} 
 	
-	public boolean addCheckBeans(Map<String,CheckBean> map,Opinion opinion){
+	public boolean addCheckBeans(Map<String,Opinion> map,Opinion opinion){
 		String taskKey=opinion.getTaskKey();
 		if(keySet.contains(taskKey)){
-			CheckBean checkBean = new CheckBean();
-			checkBean.setUserName(opinion.getUserName());
-			checkBean.setDate(opinion.getDate());
-			map.put(this.key, checkBean);
+			map.put(this.key, opinion);
 			return true;
 		}
 		return false;
