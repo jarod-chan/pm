@@ -27,6 +27,7 @@
 				<dbs.username>root</dbs.username>
 				<dbs.password>0</dbs.password>
 				<dbs.showsql>true</dbs.showsql>
+				<filestore.directory>D:/file-upload/</filestore.directory>
 			</properties>
 		</profile>
 		<profile>
@@ -36,8 +37,9 @@
 				<dbs.url>jdbc:mysql://localhost:3306/pm_test</dbs.url>
 				<dbs.dialect>org.hibernate.dialect.MySQL5Dialect</dbs.dialect>
 				<dbs.username>root</dbs.username>
-				<dbs.password>*</dbs.password>
+				<dbs.password>0</dbs.password>
 				<dbs.showsql>true</dbs.showsql>
+				<filestore.directory>D:/file-upload/</filestore.directory>
 			</properties>
 		</profile>
 		<profile>
@@ -47,8 +49,9 @@
 				<dbs.url>jdbc:mysql://localhost:3306/pm</dbs.url>
 				<dbs.dialect>org.hibernate.dialect.MySQL5Dialect</dbs.dialect>
 				<dbs.username>root</dbs.username>
-				<dbs.password>*</dbs.password>
+				<dbs.password>fyg9900</dbs.password>
 				<dbs.showsql>false</dbs.showsql>
+				<filestore.directory>/usr/local/jetty-app-file/</filestore.directory>
 			</properties>
 		</profile>
 	</profiles>
@@ -365,13 +368,7 @@
 
 
 	<repositories>
-		
-		<!-- 咖啡兔版本 -->
-		<repository>
-			<id>kafeitu</id>
-            <url>http://maven.kafeitu.me/nexus/content/groups/public</url>
-		</repository>
-		
+		 
 		 <!-- activiti repository -->
 		 <repository>
 	        <id>activiti</id>

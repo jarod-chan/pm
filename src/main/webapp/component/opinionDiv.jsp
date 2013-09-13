@@ -29,9 +29,8 @@
 		display:inline-block;
 	}
 </style>
-
-<div class="chk_opinions" style="margin-top: 10px;">
-	流程历史审批意见
+<h3>流程历史审批意见</h3>
+<div class="chk_opinions" >
 	<div>
 		<c:forEach var="opinion" items="${opinions}" varStatus="status">
 			<div>

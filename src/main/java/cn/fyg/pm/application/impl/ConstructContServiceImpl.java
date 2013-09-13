@@ -21,8 +21,8 @@ import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
 import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
-import cn.fyg.pm.domain.model.pjrole.Pjrole;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.role.Role;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
@@ -74,9 +74,9 @@ public class ConstructContServiceImpl implements ConstructContService {
 
 	@Override
 	public ConstructCont create(User creater,Project project, ConstructContState state) {
-		Pjrole pjrole = new Pjrole();
+		Role pjrole = new Role();
 		pjrole.setKey("xmfzr");//TODO 固定取项目负责人角色
-		List<Pjmember> pjmembers = this.pjmemberRepository.findByProjectAndPjrole(project, pjrole);
+		List<Pjmember> pjmembers = this.pjmemberRepository.findByProjectAndRole(project, pjrole);
 		if(pjmembers==null||pjmembers.isEmpty()){
 			throw new RuntimeException("项目未设置项目负责人");
 		}

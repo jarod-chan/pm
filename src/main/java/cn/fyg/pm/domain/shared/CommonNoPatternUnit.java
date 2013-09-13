@@ -3,7 +3,7 @@ package cn.fyg.pm.domain.shared;
 import cn.fyg.pm.domain.model.nogenerator.NoKey;
 import cn.fyg.pm.domain.model.nogenerator.NoPattern;
 import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
-import cn.fyg.pm.infrastructure.tool.DateUtil;
+import cn.fyg.pm.infrastructure.tool.date.DateUtil;
 
 public abstract class CommonNoPatternUnit implements NoPatternUnit {
 
