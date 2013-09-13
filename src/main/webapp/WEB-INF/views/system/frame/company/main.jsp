@@ -7,7 +7,7 @@
 	<%@ include file="/common/setting.jsp" %>
 	<%@ include file="/common/meta.jsp" %>
 	<%@ include file="/common/include.jsp" %>	
-<style type="text/css">
+	<style type="text/css">
 
 
 	/*
