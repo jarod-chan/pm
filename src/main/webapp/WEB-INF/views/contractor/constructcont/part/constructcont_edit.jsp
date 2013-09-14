@@ -166,7 +166,7 @@
 		
 		<tr>
 			<td>项目负责人：</td><td>${constructCont.leader.name}</td>
-			<td>状态：</td><td>${constructCont.state.name}</td>
+			<td>状态：</td><td><span class="state state-${constructCont.state}" >${constructCont.state.name}</span></td>
 		</tr>
 		
 		<tr>
