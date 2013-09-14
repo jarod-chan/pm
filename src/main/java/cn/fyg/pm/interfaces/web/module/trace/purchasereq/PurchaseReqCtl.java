@@ -3,22 +3,16 @@ package cn.fyg.pm.interfaces.web.module.trace.purchasereq;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.error;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.activiti.engine.IdentityService;
-import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +26,7 @@ import cn.fyg.pm.application.ContractService;
 import cn.fyg.pm.application.OpinionService;
 import cn.fyg.pm.application.PurchaseReqService;
 import cn.fyg.pm.application.SupplierService;
+import cn.fyg.pm.application.facade.PurchaseReqFacade;
 import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.contract.general.Contract;
 import cn.fyg.pm.domain.model.contract.general.ContractType;
@@ -45,10 +40,9 @@ import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
 import cn.fyg.pm.domain.shared.verify.Result;
-import cn.fyg.pm.interfaces.web.module.trace.purchasereq.flow.ReqVarname;
 import cn.fyg.pm.interfaces.web.module.trace.purchasereq.query.ReqQuery;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
-import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
+import cn.fyg.pm.interfaces.web.shared.mvc.BindTool;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
@@ -74,15 +68,13 @@ public class PurchaseReqCtl {
 	@Autowired
 	SupplierService supplierService;
 	@Autowired
-	IdentityService identityService;
-	@Autowired
-	RuntimeService runtimeService;
-	@Autowired
 	TaskService taskService;
 	@Autowired
 	OpinionService opinionService;
 	@Autowired
 	ReqItemFacade reqItemFacade;
+	@Autowired
+	PurchaseReqFacade purchaseReqFacade;
 	
 	@InitBinder
 	private void dateBinder(WebDataBinder binder) {
@@ -121,17 +113,10 @@ public class PurchaseReqCtl {
 		
 		PurchaseReq purchaseReq =purchaseReqId!=null?purchaseReqService.find(purchaseReqId):purchaseReqService.create(user,project,PurchaseReqState.saved);
 		 
-		Map<Long,PurchaseReqItem> purchaseReqItemsMap=getPurchaseReqItemsMap(purchaseReq.getPurchaseReqItems());	
-		List<PurchaseReqItem> purchaseReqItemList = new ArrayList<PurchaseReqItem>();
-		for (int i = 0,len=purchaseReqItemsId==null?0:purchaseReqItemsId.length; i < len; i++) {
-			PurchaseReqItem purchaseReqItem = purchaseReqItemsId[i]>0?purchaseReqItemsMap.get(purchaseReqItemsId[i]):new PurchaseReqItem();
-			purchaseReqItemList.add(purchaseReqItem);
-		}
+		List<PurchaseReqItem> purchaseReqItemList=BindTool.changeEntityItems(PurchaseReqItem.class, purchaseReq.getPurchaseReqItems(), purchaseReqItemsId);
 		purchaseReq.setPurchaseReqItems(purchaseReqItemList);
+		BindTool.bindRequest(purchaseReq, request);
 		
-		ServletRequestDataBinder binder = new ServletRequestDataBinder(purchaseReq);
-        binder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
-		binder.bind(request);
 		purchaseReq=purchaseReqService.save(purchaseReq);
 		
 		if(afteraction.equals("save")){
@@ -139,7 +124,7 @@ public class PurchaseReqCtl {
 			return "redirect:list";
 		}
 		if(afteraction.equals("commit")){
-			Result result=commit(purchaseReq, user);
+			Result result=purchaseReqFacade.commit(purchaseReq, user);
 			if(result.notPass()){
 				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
 				return String.format("redirect:%s/edit",purchaseReq.getId());
@@ -150,34 +135,6 @@ public class PurchaseReqCtl {
 		}
 		
 		return "";
-	}
-	
-	private Map<Long, PurchaseReqItem> getPurchaseReqItemsMap(List<PurchaseReqItem> purchaseReqItems) {
-		Map<Long,PurchaseReqItem> map=new HashMap<Long, PurchaseReqItem>();
-		if(purchaseReqItems==null) return map;
-		for (PurchaseReqItem purchaseReqItem : purchaseReqItems) {
-			map.put(purchaseReqItem.getId(), purchaseReqItem);
-		}
-		return map;
-	}
-
-	@Transactional
-	private Result commit(PurchaseReq purchaseReq, User user) {
-		Result result = this.purchaseReqService.verifyForCommit(purchaseReq);
-		if(result.notPass()) return result;
-		purchaseReq.setState(PurchaseReqState.commit);
-		purchaseReq=purchaseReqService.save(purchaseReq);
-		String userKey=user.getKey();
-		try{
-			Map<String, Object> variableMap = new HashMap<String, Object>();
-			variableMap.put(FlowConstant.BUSINESS_ID, purchaseReq.getId());
-			variableMap.put(FlowConstant.APPLY_USER, userKey);
-			identityService.setAuthenticatedUserId(userKey);
-			runtimeService.startProcessInstanceByKey(ReqVarname.PROCESS_DEFINITION_KEY, variableMap);			
-		} finally {
-			identityService.setAuthenticatedUserId(null);
-		}
-		return result;
 	}
 	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
@@ -218,13 +175,7 @@ public class PurchaseReqCtl {
 	public List<ReqItemDto> getReqItemList(@PathVariable("purchaseKeyId")Long purchaseKeyId,@PathVariable("uptype")UptypeEnum uptype,@PathVariable("upid")Long upid){
 		return reqItemFacade.getReqItemList(purchaseKeyId, uptype, upid);
 	}
-	
-	
-	
-	
-	
-	
-	
+
 	
 	@RequestMapping(value="{purchaseReqId}/checkedit",method=RequestMethod.GET)
 	public String toCheckEdit(@PathVariable("purchaseReqId")Long purchaseReqId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
@@ -242,17 +193,10 @@ public class PurchaseReqCtl {
 	public String saveCheckedit(@RequestParam("id")Long id,@RequestParam("afteraction")String afteraction,@RequestParam("purchaseReqItemsId") Long[] purchaseReqItemsId,HttpServletRequest request,RedirectAttributes redirectAttributes,@RequestParam(value="taskId",required=false)String taskId){
 		PurchaseReq purchaseReq = purchaseReqService.find(id);
 		
-		Map<Long,PurchaseReqItem> purchaseReqItemsMap=getPurchaseReqItemsMap(purchaseReq.getPurchaseReqItems());	
-		List<PurchaseReqItem> purchaseReqItemList = new ArrayList<PurchaseReqItem>();
-		for (int i = 0,len=purchaseReqItemsId==null?0:purchaseReqItemsId.length; i < len; i++) {
-			PurchaseReqItem purchaseReqItem = purchaseReqItemsId[i]>0?purchaseReqItemsMap.get(purchaseReqItemsId[i]):new PurchaseReqItem();
-			purchaseReqItemList.add(purchaseReqItem);
-		}
+		List<PurchaseReqItem> purchaseReqItemList=BindTool.changeEntityItems(PurchaseReqItem.class, purchaseReq.getPurchaseReqItems(), purchaseReqItemsId);
 		purchaseReq.setPurchaseReqItems(purchaseReqItemList);
+		BindTool.bindRequest(purchaseReq, request);
 		
-		ServletRequestDataBinder binder = new ServletRequestDataBinder(purchaseReq);
-        binder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
-		binder.bind(request);
 		purchaseReq=purchaseReqService.save(purchaseReq);
 		
 		if(afteraction.equals("save")){
@@ -261,7 +205,7 @@ public class PurchaseReqCtl {
 		}
 		if(afteraction.equals("commit")){
 			User user = sessionUtil.getValue("user");
-			Result result =commitCheck(purchaseReq,user,taskId);
+			Result result =purchaseReqFacade.commitCheck(purchaseReq,user,taskId);
 			if(result.notPass()){
 				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
 				return String.format("redirect:%s/checkedit",purchaseReq.getId());
@@ -274,18 +218,7 @@ public class PurchaseReqCtl {
 		return "";
 	}
 	
-	@Transactional
-	private Result commitCheck(PurchaseReq purchaseReq,User user,String taskId){
-		Result result = this.purchaseReqService.verifyForCommit(purchaseReq);
-		if(result.notPass()) return result;
-		try{
-			identityService.setAuthenticatedUserId(user.getKey());
-			taskService.complete(taskId);
-		} finally {
-			identityService.setAuthenticatedUserId(null);
-		}
-		return result;
-	}
+	
 	
 	
 }

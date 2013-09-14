@@ -11,9 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import cn.fyg.pm.domain.shared.EntityItem;
+
 @Entity
 @Table(name="pm_purchasecertitem")
-public class PurchaseCertItem {
+public class PurchaseCertItem implements EntityItem {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

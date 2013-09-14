@@ -3,22 +3,16 @@ package cn.fyg.pm.interfaces.web.module.trace.purchasecert;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.error;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.activiti.engine.IdentityService;
-import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +26,7 @@ import cn.fyg.pm.application.OpinionService;
 import cn.fyg.pm.application.PurchaseCertService;
 import cn.fyg.pm.application.PurchaseReqService;
 import cn.fyg.pm.application.SupplierService;
+import cn.fyg.pm.application.facade.PurchaseCertFacade;
 import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCert;
@@ -45,11 +40,10 @@ import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
 import cn.fyg.pm.domain.shared.verify.Result;
-import cn.fyg.pm.interfaces.web.module.trace.purchasecert.flow.CertVarname;
 import cn.fyg.pm.interfaces.web.module.trace.purchasecert.query.CertQuery;
 import cn.fyg.pm.interfaces.web.module.trace.purchasereq.ReqItemFacade;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
-import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
+import cn.fyg.pm.interfaces.web.shared.mvc.BindTool;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
@@ -81,13 +75,11 @@ public class PurchaseCertCtl {
 	@Autowired
 	ReqItemFacade reqItemFacade;
 	@Autowired
-	IdentityService identityService;
-	@Autowired
-	RuntimeService runtimeService;
-	@Autowired
 	TaskService taskService;
 	@Autowired
 	OpinionService opinionService;
+	@Autowired
+	PurchaseCertFacade purchaseCertFacade;
 	
 	@InitBinder
 	private void dateBinder(WebDataBinder binder) {
@@ -129,20 +121,12 @@ public class PurchaseCertCtl {
 		User user = sessionUtil.getValue("user");
 		PurchaseCert purchaseCert = purchaseCertId!=null?purchaseCertService.find(purchaseCertId):purchaseCertService.create(user, project,PurchaseCertState.saved);
 		
-		Map<Long,PurchaseCertItem> purchaseCertItemMap=getConstructCertMap(purchaseCert.getPurchaseCertItems());
 		
-		List<PurchaseCertItem> purchaseCertItemList = new ArrayList<PurchaseCertItem>();
-		for(int i=0,len=purchaseCertItemsId==null?0:purchaseCertItemsId.length;i<len;i++){
-			PurchaseCertItem purchaseCertItem=(purchaseCertItemsId[i]>0?purchaseCertItemMap.get(purchaseCertItemsId[i]):new PurchaseCertItem());
-			purchaseCertItemList.add(purchaseCertItem);
-		}
+		List<PurchaseCertItem> purchaseCertItemList = BindTool.changeEntityItems(PurchaseCertItem.class, purchaseCert.getPurchaseCertItems(), purchaseCertItemsId);
 		purchaseCert.setPurchaseCertItems(purchaseCertItemList);
+		BindTool.bindRequest(purchaseCert, request);
 		
-		ServletRequestDataBinder binder = new ServletRequestDataBinder(purchaseCert);
-		binder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
-		binder.bind(request);
 		purchaseCert=purchaseCertService.save(purchaseCert);
-		
 		purchaseReqService.upReqItemList(UptypeEnum.pm_purchasecert, purchaseCert.getId(), purchaseCert.getNo(),reqItemIds);
 		
 		if(afteraction.equals("save")){
@@ -150,7 +134,7 @@ public class PurchaseCertCtl {
 			return "redirect:list";
 		}
 		if(afteraction.equals("commit")){
-			Result result = commit(purchaseCert, user);
+			Result result = purchaseCertFacade.commit(purchaseCert, user);
 			if(result.notPass()){
 				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
 				return String.format("redirect:%s/edit",purchaseCert.getId());
@@ -164,32 +148,6 @@ public class PurchaseCertCtl {
 	
 	}
 
-	@Transactional
-	private Result commit(PurchaseCert purchaseCert, User user) {
-		Result result = this.purchaseCertService.verifyForCommit(purchaseCert);
-		if(result.notPass()) return result;
-		purchaseCert.setState(PurchaseCertState.commit);
-		purchaseCert=purchaseCertService.save(purchaseCert);
-		String userKey=user.getKey();
-		try{
-			Map<String, Object> variableMap = new HashMap<String, Object>();
-			variableMap.put(FlowConstant.BUSINESS_ID, purchaseCert.getId());
-			variableMap.put(FlowConstant.APPLY_USER, userKey);
-			identityService.setAuthenticatedUserId(userKey);
-			runtimeService.startProcessInstanceByKey(CertVarname.PROCESS_DEFINITION_KEY, variableMap);			
-		} finally {
-			identityService.setAuthenticatedUserId(null);
-		}
-		 return result;
-	}
-
-	private Map<Long, PurchaseCertItem> getConstructCertMap(List<PurchaseCertItem> purchaseCertItems) {
-		 Map<Long, PurchaseCertItem>  map=new HashMap<Long,PurchaseCertItem>();
-		 for (PurchaseCertItem purchaseCertItem : purchaseCertItems) {
-			 map.put(purchaseCertItem.getId(), purchaseCertItem);
-		}
-		return map;
-	}
 	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
 	public String delete(@RequestParam("purchaseCertId") Long purchaseCertId,RedirectAttributes redirectAttributes){
@@ -226,10 +184,6 @@ public class PurchaseCertCtl {
 		return Page.CHECK;
 	}
 	
-	
-	
-	
-	
 	@RequestMapping(value="{purchaseCertId}/checkedit",method=RequestMethod.GET)
 	public String toCheckEdit(@PathVariable("purchaseCertId")Long purchaseCertId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
 		PurchaseCert purchaseCert = purchaseCertService.find(purchaseCertId);
@@ -249,18 +203,10 @@ public class PurchaseCertCtl {
 	public String saveCheckedit(@RequestParam("id")Long purchaseCertId,@RequestParam(value="reqItemIds",required=false)Long[] reqItemIds,@RequestParam(value="purchaseCertItemsId",required=false) Long[] purchaseCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes,@RequestParam(value="taskId",required=false)String taskId){
 		PurchaseCert purchaseCert = purchaseCertService.find(purchaseCertId);
 		
-		Map<Long,PurchaseCertItem> purchaseCertItemMap=getConstructCertMap(purchaseCert.getPurchaseCertItems());
-		
-		List<PurchaseCertItem> purchaseCertItemList = new ArrayList<PurchaseCertItem>();
-		for(int i=0,len=purchaseCertItemsId==null?0:purchaseCertItemsId.length;i<len;i++){
-			PurchaseCertItem purchaseCertItem=(purchaseCertItemsId[i]>0?purchaseCertItemMap.get(purchaseCertItemsId[i]):new PurchaseCertItem());
-			purchaseCertItemList.add(purchaseCertItem);
-		}
+		List<PurchaseCertItem> purchaseCertItemList = BindTool.changeEntityItems(PurchaseCertItem.class, purchaseCert.getPurchaseCertItems(), purchaseCertItemsId);
 		purchaseCert.setPurchaseCertItems(purchaseCertItemList);
+		BindTool.bindRequest(purchaseCert, request);
 		
-		ServletRequestDataBinder binder = new ServletRequestDataBinder(purchaseCert);
-		binder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
-		binder.bind(request);
 		purchaseCert=purchaseCertService.save(purchaseCert);
 		purchaseReqService.upReqItemList(UptypeEnum.pm_purchasecert, purchaseCert.getId(), purchaseCert.getNo(),reqItemIds);
 		
@@ -270,7 +216,7 @@ public class PurchaseCertCtl {
 		}
 		if(afteraction.equals("commit")){
 			User user = sessionUtil.getValue("user");
-			Result result = commitCheck(purchaseCert,user,taskId);
+			Result result = purchaseCertFacade.commitCheck(purchaseCert,user,taskId);
 			if(result.notPass()){
 				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
 				return String.format("redirect:%s/checkedit",purchaseCert.getId());
@@ -284,17 +230,5 @@ public class PurchaseCertCtl {
 	
 	}
 	
-	@Transactional
-	private Result commitCheck(PurchaseCert purchaseCert,User user,String taskId){
-		Result result = this.purchaseCertService.verifyForCommit(purchaseCert);
-		if(result.notPass()) return result;
-		try{
-			identityService.setAuthenticatedUserId(user.getKey());
-			taskService.complete(taskId);
-		} finally {
-			identityService.setAuthenticatedUserId(null);
-		}
-		return result;
-	}
-
+	
 }

@@ -16,7 +16,6 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cn.fyg.pm.application.BusifileService;
 import cn.fyg.pm.application.ContractService;
+import cn.fyg.pm.application.DesignContFacade;
 import cn.fyg.pm.application.DesignContService;
 import cn.fyg.pm.application.DesignNotiService;
 import cn.fyg.pm.application.OpinionService;
@@ -49,7 +49,6 @@ import cn.fyg.pm.domain.shared.verify.Result;
 import cn.fyg.pm.interfaces.web.module.trace.designcont.flow.ContVarname;
 import cn.fyg.pm.interfaces.web.module.trace.designcont.query.ContQuery;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
-import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.BindTool;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
@@ -87,6 +86,8 @@ public class DesignContCtl {
 	RuntimeService runtimeService;
 	@Autowired
 	TaskService taskService;
+	@Autowired
+	DesignContFacade designContFacade;
 	
 	@InitBinder
 	private void dateBinder(WebDataBinder binder) {
@@ -151,7 +152,7 @@ public class DesignContCtl {
 		}
 		
 		if(afteraction.equals("commit")){
-			Result result=commit(designCont, user);
+			Result result=designContFacade.commit(designCont, user);
 			if(result.notPass()){
 				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
 				return String.format("redirect:%s/edit",designCont.getId());
@@ -164,25 +165,6 @@ public class DesignContCtl {
 		return "";
 	}
 
-	@Transactional
-	private Result commit(DesignCont designCont, User user) {
-		Result result = this.designContService.verifyForCommit(designCont);
-		if(result.notPass()) return result;
-		designCont.setState(DesignContState.commit);
-		designCont=this.designContService.save(designCont);
-		String userKey=user.getKey();
-		try{
-			Map<String, Object> variableMap = new HashMap<String, Object>();
-			variableMap.put(FlowConstant.BUSINESS_ID, designCont.getId());
-			variableMap.put(FlowConstant.APPLY_USER, userKey);
-			identityService.setAuthenticatedUserId(userKey);
-			runtimeService.startProcessInstanceByKey(ContVarname.PROCESS_DEFINITION_KEY, variableMap);			
-		} finally {
-			identityService.setAuthenticatedUserId(null);
-		}
-		return result;
-	}
-	
 	@RequestMapping(value="{designContId}/view",method=RequestMethod.GET)
 	public String toView(@PathVariable("projectId")Long projectId,@PathVariable("designContId")Long designContId,Map<String,Object> map){
 		DesignCont designCont = this.designContService.find(designContId);
@@ -274,7 +256,7 @@ public class DesignContCtl {
 		
 		if(afteraction.equals("commit")){
 			User user = sessionUtil.getValue("user");
-			Result result=commitCheck(designCont, user,taskId);
+			Result result=designContFacade.commitCheck(designCont, user,taskId);
 			if(result.notPass()){
 				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
 				return String.format("redirect:../%s/checkedit?taskId=%s",designCont.getId(),taskId);
@@ -303,19 +285,7 @@ public class DesignContCtl {
 		return "";
 	}
 
-	private Result commitCheck(DesignCont designCont, User user,String taskId) {
-		Result result = this.designContService.verifyForCommit(designCont);
-		if(result.notPass()) return result;
-		Map<String, Object> variableMap = new HashMap<String, Object>();
-		variableMap.put(ContVarname.STATE, designCont.getState());
-		try{
-			identityService.setAuthenticatedUserId(user.getKey());
-			taskService.complete(taskId,variableMap);
-		} finally {
-			identityService.setAuthenticatedUserId(null);
-		}
-		return result;
-	}
+	
 	
 	@RequestMapping(value="{designContId}/confirm",method=RequestMethod.GET)
 	public String toConfirm(@PathVariable("projectId")Long projectId,@PathVariable("designContId")Long designContId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){

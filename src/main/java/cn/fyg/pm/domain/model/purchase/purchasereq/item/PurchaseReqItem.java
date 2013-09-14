@@ -14,13 +14,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
+import cn.fyg.pm.domain.shared.EntityItem;
 
 /**
  *采购申请单明细
  */
 @Entity
 @Table(name="pm_purchasereqitem")
-public class PurchaseReqItem {
+public class PurchaseReqItem implements EntityItem{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
