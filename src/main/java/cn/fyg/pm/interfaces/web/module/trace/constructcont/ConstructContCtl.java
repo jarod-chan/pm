@@ -3,23 +3,17 @@ package cn.fyg.pm.interfaces.web.module.trace.constructcont;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.error;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.activiti.engine.IdentityService;
-import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +28,7 @@ import cn.fyg.pm.application.ContractService;
 import cn.fyg.pm.application.OpinionService;
 import cn.fyg.pm.application.SupplierService;
 import cn.fyg.pm.application.UserService;
+import cn.fyg.pm.application.facade.ConstructContFacade;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContItem;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
@@ -46,11 +41,10 @@ import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
 import cn.fyg.pm.domain.shared.verify.Result;
-import cn.fyg.pm.interfaces.web.module.trace.constructcont.flow.ContVarname;
 import cn.fyg.pm.interfaces.web.module.trace.constructcont.query.ContQuery;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
-import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
 import cn.fyg.pm.interfaces.web.shared.flow.FlowUtil;
+import cn.fyg.pm.interfaces.web.shared.mvc.BindTool;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
@@ -76,10 +70,6 @@ public class ConstructContCtl {
 	@Autowired
 	SessionUtil sessionUtil;
 	@Autowired
-	IdentityService identityService;
-	@Autowired
-	RuntimeService runtimeService;
-	@Autowired
 	TaskService taskService;
 	@Autowired
 	OpinionService opinionService;
@@ -92,6 +82,9 @@ public class ConstructContCtl {
 	@Autowired
 	@Qualifier("constructcont")
 	FlowUtil flowUtil;
+	@Autowired
+	ConstructContFacade constructContFacade;
+	
 	
 	@InitBinder
 	private void dateBinder(WebDataBinder binder) {
@@ -133,17 +126,11 @@ public class ConstructContCtl {
 		
 		ConstructCont constructCont =constructContId!=null?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.saved);
 		 
-		Map<Long,ConstructContItem> constructContItemMap=getConstructContItemMap(constructCont.getConstructContItems());	
-		List<ConstructContItem> ConstructContItemList = new ArrayList<ConstructContItem>();
-		for (int i = 0,len=constructContItemsId==null?0:constructContItemsId.length; i < len; i++) {
-			ConstructContItem constructContItem = constructContItemsId[i]>0?constructContItemMap.get(constructContItemsId[i]):new ConstructContItem();
-			ConstructContItemList.add(constructContItem);
-		}
-		constructCont.setConstructContItems(ConstructContItemList);
+	
+		List<ConstructContItem> constructContItemList=BindTool.changeEntityItems(ConstructContItem.class, constructCont.getConstructContItems(), constructContItemsId);
+		constructCont.setConstructContItems(constructContItemList);
+		BindTool.bindRequest(constructCont,request);
 		
-		ServletRequestDataBinder binder = new ServletRequestDataBinder(constructCont);
-        binder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
-		binder.bind(request);
 		//TODO:constructKey 补充填入供应商字段
 		ConstructKey constructKey = constructCont.getConstructKey();
 		if(constructKey.getContract()!=null){
@@ -158,7 +145,7 @@ public class ConstructContCtl {
 		}
 		if(afteraction.equals("commit")){
 			
-			Result result = commit(constructCont, user);
+			Result result = constructContFacade.commit(constructCont, user);
 			if(result.notPass()){
 				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
 				return String.format("redirect:%s/edit",constructCont.getId());
@@ -172,34 +159,7 @@ public class ConstructContCtl {
 	}
 
 	
-	@Transactional
-	private Result commit(ConstructCont constructCont, User user) {
-		Result result = this.constructContService.verifyForCommit(constructCont);
-		if(result.notPass()) return result;
-		constructCont.setState(ConstructContState.commit);
-		constructCont=this.constructContService.save(constructCont);
-		String userKey=user.getKey();
-		try{
-			Map<String, Object> variableMap = new HashMap<String, Object>();
-			variableMap.put(FlowConstant.BUSINESS_ID, constructCont.getId());
-			variableMap.put(FlowConstant.APPLY_USER, userKey);
-			identityService.setAuthenticatedUserId(userKey);
-			runtimeService.startProcessInstanceByKey(ContVarname.PROCESS_DEFINITION_KEY, variableMap);			
-		} finally {
-			identityService.setAuthenticatedUserId(null);
-		}
-		return result;
-	}
-	
 
-	private Map<Long, ConstructContItem> getConstructContItemMap(List<ConstructContItem> constructContItems) {
-		Map<Long,ConstructContItem> map = new HashMap<Long,ConstructContItem>();
-		if(constructContItems==null) return map;
-		for (ConstructContItem constructContItem : constructContItems) {
-			map.put(constructContItem.getId(), constructContItem);
-		}
-		return map;
-	}
 	
 
 	@RequestMapping(value="delete",method=RequestMethod.POST)
@@ -263,18 +223,11 @@ public class ConstructContCtl {
 	@RequestMapping(value="checkedit/save",method=RequestMethod.POST)
 	public String saveCheckedit(@RequestParam("id")Long id,@RequestParam("afteraction")String afteraction,@RequestParam("constructContItemsId") Long[] constructContItemsId,HttpServletRequest request,RedirectAttributes redirectAttributes,@RequestParam(value="taskId",required=false)String taskId){
 		ConstructCont constructCont = constructContService.find(id);
-		Map<Long,ConstructContItem> constructContItemMap=getConstructContItemMap(constructCont.getConstructContItems());
 		
-		List<ConstructContItem> ConstructContItemList = new ArrayList<ConstructContItem>();
-		for (int i = 0,len=constructContItemsId.length; i < len; i++) {
-			ConstructContItem constructContItem = constructContItemsId[i]>0?constructContItemMap.get(constructContItemsId[i]):new ConstructContItem();
-			ConstructContItemList.add(constructContItem);
-		}
-		constructCont.setConstructContItems(ConstructContItemList);
+		List<ConstructContItem> constructContItemList=BindTool.changeEntityItems(ConstructContItem.class, constructCont.getConstructContItems(), constructContItemsId);
+		constructCont.setConstructContItems(constructContItemList);
+		BindTool.bindRequest(constructCont,request);
 		
-		ServletRequestDataBinder binder = new ServletRequestDataBinder(constructCont);
-        binder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
-		binder.bind(request);
 		constructCont=constructContService.save(constructCont);
 		
 		if(afteraction.equals("save")){
@@ -283,7 +236,7 @@ public class ConstructContCtl {
 		}
 		if(afteraction.equals("commit")){
 			User user = sessionUtil.getValue("user");
-			Result result =commitCheck(constructCont,user,taskId);
+			Result result =constructContFacade.commitCheck(constructCont,user,taskId);
 			if(result.notPass()){
 				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
 				return String.format("redirect:%s/checkedit",constructCont.getId());
@@ -296,17 +249,6 @@ public class ConstructContCtl {
 		return "";
 	}
 	
-	@Transactional
-	private Result commitCheck(ConstructCont constructCont,User user,String taskId){
-		Result result = this.constructContService.verifyForCommit(constructCont);
-		if(result.notPass()) return result;
-		try{
-			identityService.setAuthenticatedUserId(user.getKey());
-			taskService.complete(taskId);
-		} finally {
-			identityService.setAuthenticatedUserId(null);
-		}
-		return result;
-	}
+
 	
 }

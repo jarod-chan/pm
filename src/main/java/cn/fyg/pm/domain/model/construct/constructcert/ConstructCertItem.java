@@ -8,9 +8,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import cn.fyg.pm.domain.shared.EntityItem;
+
 @Entity
 @Table(name = "pm_constructcertitem")
-public class ConstructCertItem {
+public class ConstructCertItem implements EntityItem {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

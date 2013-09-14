@@ -13,9 +13,11 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import cn.fyg.pm.domain.shared.EntityItem;
+
 @Entity
 @Table(name="pm_constructcontitem")
-public class ConstructContItem {
+public class ConstructContItem implements EntityItem {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
