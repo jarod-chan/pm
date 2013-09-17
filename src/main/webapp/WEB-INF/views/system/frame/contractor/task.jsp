@@ -21,7 +21,7 @@
     	});    	
     	
     	$('#btn_project').click(function(){
-    		window.open('${ctx}/fm/contractor/main','_self');
+    		window.open('${ctx}/fm/contractor/project','_self');
     		return false;
     	});
     	
@@ -38,7 +38,9 @@
 				<div style="margin-bottom: 3px;">供应商:${supplier.name}&nbsp;&nbsp;用户:${user.name}<%@ include file="/component/logout.jsp" %></div>
 				<div>
 					<input type="button" id="btn_task" value="我的任务" disabled="disabled">
+					<c:if test="${not empty project}">
 					<input type="button" id="btn_project" value="我的项目" >
+					</c:if>
 				</div>
 			</div>
 			<div style="clear: both;"></div>

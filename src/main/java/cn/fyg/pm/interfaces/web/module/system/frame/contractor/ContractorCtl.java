@@ -28,7 +28,7 @@ public class ContractorCtl {
 	
 	private static final String PATH = "system/frame/contractor/";
 	private interface Page {
-		String MAIN = PATH + "main";
+		String PROJECT = PATH + "project";
 		String TASK = PATH +"task";
 	}
 	
@@ -52,17 +52,17 @@ public class ContractorCtl {
 		return Page.TASK;
 	}
 	
-	@RequestMapping(value="main",method=RequestMethod.GET)
-	public String toMain(Map<String,Object> map){
+	@RequestMapping(value="project",method=RequestMethod.GET)
+	public String toProject(Map<String,Object> map){
 		User user=sessionUtil.getValue("user");
 		Supplier supplier=spmemberService.getUserSupplier(user);
 		List<Contract> supplierContract = contractService.findBySupplier(supplier);
 		List<Project> projectList=getContractProject(supplierContract);
 		map.put("projectList", projectList);
-		Project project = getSessionProject(projectList.get(0));
+		Project project = sessionUtil.getValue("project");
 		map.put("project", project);
 		
-		return Page.MAIN;
+		return Page.PROJECT;
 	}
 
 	private List<Project> getContractProject(List<Contract> supplierContract) {
@@ -79,17 +79,6 @@ public class ContractorCtl {
 		return projectList;
 	}
 	
-	public Project getSessionProject(Project firstProject) {
-		Project project=firstProject;
-		Object obj = sessionUtil.getValue("project");
-		if(obj==null){
-			project =firstProject;
-			sessionUtil.setValue("project", project);
-		}else{
-			project=(Project)obj;
-		}
-		return project;
-	}
 	
 	
 }

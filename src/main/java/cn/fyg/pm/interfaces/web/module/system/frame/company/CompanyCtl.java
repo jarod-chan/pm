@@ -22,8 +22,9 @@ public class CompanyCtl {
 	
 	private static final String PATH = "system/frame/company/";
 	private interface Page {
-		String MAIN = PATH + "main";
-		String TASK = PATH +"task";
+		String PROJECT = PATH + "project";
+		String TASK = PATH + "task";
+		String BASE = PATH + "base";
 	}
 	
 	@Autowired
@@ -33,58 +34,38 @@ public class CompanyCtl {
 	@Autowired
 	ProjectService projectService;
 	
-	@RequestMapping(value="task",method={RequestMethod.GET,RequestMethod.POST})
-	public String toTask(@RequestParam(value="menuIdx",required=false)Long menuIdx){
-		if(menuIdx!=null){
-			sessionUtil.setValue("menuIdx", menuIdx);
-		}
+	@RequestMapping(value="task",method=RequestMethod.GET)
+	public String toTask(){
 		return Page.TASK;
 	}
 	
-	@RequestMapping(value="main",method=RequestMethod.GET)
-	public String toMain(Map<String,Object> map){
+	@RequestMapping(value="base",method=RequestMethod.GET)
+	public String toBase(){
+		return Page.BASE;
+	}
+	
+	@RequestMapping(value="project",method=RequestMethod.GET)
+	public String toProject(Map<String,Object> map){
 		User user=sessionUtil.getValue("user");
 		List<Project> projectList=this.pjmemberService.getUserProject(user);
 		map.put("projectList", projectList);
 		
-		Project project = getSessionProject(projectList.get(0));
+	    Project project = sessionUtil.getValue("project");
 		map.put("project", project);
 		
-		Long menuIdx= getSessionMenuIdx();
-		map.put("menuIdx", menuIdx);
 		
 		Map<User, Role> userRole = pjmemberService.getProjectUserRole(project);
 		map.put("userRole", userRole);
 		
-		return Page.MAIN;
+		return Page.PROJECT;
 	}
 
-	private Long getSessionMenuIdx() {
-		Long menuIdx=-1L;
-		Object obj = sessionUtil.getValue("menuIdx");
-		if(obj!=null){
-			menuIdx=(Long)obj;
-		}
-		return menuIdx;
-	}
 
-	public Project getSessionProject(Project firstProject) {
-		Project project=firstProject;
-		Object obj = sessionUtil.getValue("project");
-		if(obj==null){
-			project =firstProject;
-			sessionUtil.setValue("project", project);
-		}else{
-			project=(Project)obj;
-		}
-		return project;
-	}
 	
 	@RequestMapping(value="changeProject",method=RequestMethod.POST)
-	public String changeProject(@RequestParam("projectId")Long projectId,@RequestParam("menuIdx")Long menuIdx){
+	public String changeProject(@RequestParam("projectId")Long projectId){
 		Project project=this.projectService.find(projectId);
 		sessionUtil.setValue("project", project);
-		sessionUtil.setValue("menuIdx", menuIdx);
 		return "redirect:main";
 	}
 	

@@ -45,7 +45,10 @@
     			$("form").submit();
     		}   
     	}); 
-
+    	/*清楚cookie状态*/
+    	$.removeCookie('projectIdx',{path:'${ctx}'});
+    	$.removeCookie('baseIdx',{path:'${ctx}'});
+    	
     });
     </script>
 </head>

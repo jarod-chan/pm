@@ -2,8 +2,11 @@ package cn.fyg.pm.interfaces.web.module.system.login;
 
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import cn.fyg.pm.application.ContractService;
+import cn.fyg.pm.application.PjmemberService;
 import cn.fyg.pm.application.SpmemberService;
 import cn.fyg.pm.application.UserService;
+import cn.fyg.pm.domain.model.contract.general.Contract;
+import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.EnabledEnum;
 import cn.fyg.pm.domain.model.user.User;
@@ -40,6 +47,10 @@ public static final Logger logger = LoggerFactory.getLogger(LoginCtl.class);
 	SpmemberService spmemberService;
 	@Autowired
 	SessionUtil sessionUtil;
+	@Autowired
+	ContractService contractService;
+	@Autowired
+	PjmemberService pjmemberService;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String toLogin(Map<String,Object> map) {
@@ -60,11 +71,44 @@ public static final Logger logger = LoggerFactory.getLogger(LoginCtl.class);
 		}
 		logger.info(String.format("key:[%s] password:[%s] login sucess", loginBean.getUsername(),loginBean.getPassword()));	
 		User user = userService.find(userKey);
-		this.sessionUtil.setValue("user", user);
+		this.sessionUtil.setValue("user", user); //TODO 把应用状态放到cookie中
 		if(isSupplierUser(user)){
-			Supplier supplier=spmemberService.getUserSupplier(user);
-			sessionUtil.setValue("supplier", supplier);
-			return "redirect:/fm/contractor/task";
+			return initContractor(user);
+		}else{
+			return initCompany(user);
+		}
+		
+	}
+
+	private String initContractor(User user) {
+		Supplier supplier=spmemberService.getUserSupplier(user);
+		sessionUtil.setValue("supplier", supplier);
+		List<Contract> supplierContract = contractService.findBySupplier(supplier);
+		List<Project> projectList=getContractProject(supplierContract);
+		if(projectList!=null && !projectList.isEmpty()){
+			sessionUtil.setValue("project", projectList.get(0));
+		}
+		return "redirect:/fm/contractor/task";
+	}
+	
+	private List<Project> getContractProject(List<Contract> supplierContract) {
+		List<Project> projectList= new ArrayList<Project>();
+		Set<Long> projectIdSet=new HashSet<Long>();
+		for (Contract contract : supplierContract) {
+			Project project = contract.getProject();
+			Long projectId=project.getId();
+			if(!projectIdSet.contains(projectId)){
+				projectList.add(project);
+				projectIdSet.add(projectId);
+			}
+		}
+		return projectList;
+	}
+	
+	private String initCompany(User user) {
+		List<Project> projectList=this.pjmemberService.getUserProject(user);
+		if(projectList!=null&&!projectList.isEmpty()){
+			sessionUtil.setValue("project", projectList.get(0));
 		}
 		return "redirect:/fm/company/task";
 	}
