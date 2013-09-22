@@ -110,8 +110,11 @@
 	<table id="tblmain" class="hctable deftable">
 		<thead>
 		<tr>
-			<th>序号</th><th>业务编号</th><th>合同</th><th>施工承包方</th><th>专业分类</th><th>状态</th>
-			<th>总金额</th>
+			<th>序号</th>
+			<th>业务编号</th>
+			<th>施工承包方</th>
+			<th>专业分类</th>
+			<th>状态</th>
 			<th>制单人</th>
 			<th>制单日期</th>
 			<th>操作</th>
@@ -122,13 +125,11 @@
 			<tr>
 				<td>${constructCont.no}</td>
 				<td>${constructCont.busino}</td>
-				<td>${constructCont.constructKey.contract.no}</td>
 				<td>${constructCont.constructKey.supplier.name}</td>
 				<td>${constructCont.constructKey.contract.specialty.name}</td>
 				<td><span class="state state-${constructCont.state}" >${constructCont.state.name}</span></td>
-				<td>${constructCont.tolsum}</td>
 				<td>${constructCont.creater.name}</td>
-				<td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
+				<td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd"/></td>
 				<td>
 					<c:if test="${constructCont.state=='saved'}">					
 					<input type="button" value="修改"  class="btn_edit {id:'${constructCont.id}'}">

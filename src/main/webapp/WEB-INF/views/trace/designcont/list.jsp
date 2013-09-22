@@ -98,7 +98,6 @@
 				<th>业务编号</th>
 				<th>问题通知单</th>
 				<th>设计专业</th>
-				<th>设计策划合同</th>
 				<th>设计服务商</th>
 				<th>状态</th>
 				<th>制单人</th>
@@ -113,7 +112,6 @@
 				<td>${item.busino}</td>
 				<td>${item.designNoti.no}</td>
 				<td>${item.techType.name}</td>
-				<td>${item.contract.no}</td>
 				<td>${item.contract.supplier.no}</td>
 				<td><span class="state state-${item.state}" >${item.state.name}</span></td>
 				<td>${item.creater.name}</td>

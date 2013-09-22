@@ -111,7 +111,11 @@
 	<table id="tblmain" class="hctable deftable">
 		<thead>
 			<tr>
-				<th>序号</th><th>业务编号</th><th>施工联系单</th><th>施工承包方</th><th>专业分类</th><th>状态</th>
+				<th>序号</th>
+				<th>业务编号</th>
+				<th>施工承包方</th>
+				<th>专业分类</th>
+				<th>状态</th>
 				<th>总金额</th>
 				<th>制单人</th>
 				<th>制单日期</th>
@@ -123,13 +127,12 @@
 			<tr>
 				<td>${constructCertDto.constructCert.no}</td>
 				<td>${constructCertDto.constructCert.busino}</td>
-				<td>${constructCertDto.constructCont.no}</td>
 				<td>${constructCertDto.constructCert.constructKey.supplier.name}</td>
 				<td>${constructCertDto.constructCert.constructKey.contract.specialty.name}</td>
 				<td><span class="state state-${constructCertDto.constructCert.state}" >${constructCertDto.constructCert.state.name}</span></td>
 				<td>${constructCertDto.constructCert.tolsum}</td>
 				<td>${constructCertDto.constructCert.creater.name}</td>
-				<td><fmt:formatDate value="${constructCertDto.constructCert.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
+				<td><fmt:formatDate value="${constructCertDto.constructCert.createdate}" pattern="yyyy-MM-dd"/></td>
 				<td>
 					<c:if test="${constructCertDto.constructCert.state=='saved'}">	
 					<input type="button" value="修改"  class="btn_edit {id:'${constructCertDto.constructCert.id}'}">

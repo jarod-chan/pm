@@ -111,7 +111,7 @@
 				<td>${item.purchaseReq.no}</td>
 				<td><span class="state state-${item.purchaseCert.state}" >${item.purchaseCert.state.name}</span></td>
 				<td>${item.purchaseCert.creater.name}</td>
-				<td><fmt:formatDate value="${item.purchaseCert.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
+				<td><fmt:formatDate value="${item.purchaseCert.createdate}" pattern="yyyy-MM-dd"/></td>
 				<td>
 					<c:if test="${item.purchaseCert.state=='saved'}">					
 					<input type="button" value="修改"  class="btn_edit {id:'${item.purchaseCert.id}'}">

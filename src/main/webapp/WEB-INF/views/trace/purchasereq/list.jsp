@@ -111,7 +111,7 @@
 				<td>${purchaseReq.plandate}</td>
 				<td><span class="state state-${purchaseReq.state}" >${purchaseReq.state.name}</span></td>
 				<td>${purchaseReq.creater.name}</td>
-				<td><fmt:formatDate value="${purchaseReq.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
+				<td><fmt:formatDate value="${purchaseReq.createdate}" pattern="yyyy-MM-dd"/></td>
 				<td>
 					<c:if test="${purchaseReq.state=='saved'}">					
 					<input type="button" value="修改"  class="btn_edit {id:'${purchaseReq.id}'}">

@@ -111,7 +111,7 @@
 				<td>${designNoti.techType.name}</td>
 				<td><span class="state state-${designNoti.state}" >${designNoti.state.name}</span></td>
 				<td>${designNoti.creater.name}</td>
-				<td><fmt:formatDate value="${designNoti.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
+				<td><fmt:formatDate value="${designNoti.createdate}" pattern="yyyy-MM-dd"/></td>
 				<td>
 					<c:if test="${designNoti.state=='saved'}">					
 					<input type="button" value="修改"  class="btn_edit {id:'${designNoti.id}'}">

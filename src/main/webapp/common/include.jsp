@@ -83,6 +83,8 @@
 	}
 	table.deftable>tbody>tr>td {
 	    border: 1px solid #AAAAAA;
+	    padding-left: 2px;
+	    padding-right: 2px;
 	}
 </style>		
 

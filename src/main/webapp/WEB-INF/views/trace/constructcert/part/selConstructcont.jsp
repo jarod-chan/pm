@@ -22,7 +22,7 @@
 				}
 			});
 			$(".chkreq").click(function(){
-				var param=jQuery.parseJSON($(this).attr("param"));
+				var param=$(this).metadata();
 				$("#spanConstructCont").html(param.no);
 				$("#spanConstructCont").next().val(param.id);
 				$("#supplier_name").html(param.supplierName);
@@ -55,7 +55,7 @@
 						<td>${constructCont.tolsum}</td>
 						<td>${constructCont.creater.name}</td>
 						<td><f:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
-						<td><input class="chkreq" type="button" value="选中" param='{"id":"${constructCont.constructKey.id}","no":"${constructCont.no}","supplierName":"${constructCont.constructKey.supplier.name}"}'> </td>
+						<td><input class="chkreq {id:'${constructCont.constructKey.id}',no:'${constructCont.no}',supplierName:'${constructCont.constructKey.supplier.name}'}" type="button" value="选中" > </td>
 					</tr>
 				</c:forEach>
 				</tbody>
