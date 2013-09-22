@@ -46,8 +46,7 @@
     		}   
     	}); 
     	/*清楚cookie状态*/
-    	$.removeCookie('projectIdx',{path:'${ctx}'});
-    	$.removeCookie('baseIdx',{path:'${ctx}'});
+    	$.removeCookie('projectMenuIdx',{path:'${ctx}'});
     	
     });
     </script>

@@ -22,9 +22,8 @@ public class CompanyCtl {
 	
 	private static final String PATH = "system/frame/company/";
 	private interface Page {
-		String PROJECT = PATH + "project";
 		String TASK = PATH + "task";
-		String BASE = PATH + "base";
+		String PROJECT = PATH + "project";
 	}
 	
 	@Autowired
@@ -37,11 +36,6 @@ public class CompanyCtl {
 	@RequestMapping(value="task",method=RequestMethod.GET)
 	public String toTask(){
 		return Page.TASK;
-	}
-	
-	@RequestMapping(value="base",method=RequestMethod.GET)
-	public String toBase(){
-		return Page.BASE;
 	}
 	
 	@RequestMapping(value="project",method=RequestMethod.GET)
@@ -59,14 +53,12 @@ public class CompanyCtl {
 		
 		return Page.PROJECT;
 	}
-
-
 	
 	@RequestMapping(value="changeProject",method=RequestMethod.POST)
 	public String changeProject(@RequestParam("projectId")Long projectId){
 		Project project=this.projectService.find(projectId);
 		sessionUtil.setValue("project", project);
-		return "redirect:main";
+		return "redirect:project";
 	}
 	
 

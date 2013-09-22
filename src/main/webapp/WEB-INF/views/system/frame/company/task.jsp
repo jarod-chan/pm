@@ -22,10 +22,7 @@
     		window.open('${ctx}/fm/company/project','_self');
     		return false;
     	});
-       	$('#btn_base').click(function(){
-    		window.open('${ctx}/fm/company/base','_self');
-    		return false;
-    	});
+       	
     });
     </script>
 </head>
@@ -39,9 +36,10 @@
 				<div>
 					<input type="button" id="btn_task" value="我的任务" disabled="disabled">
 					<c:if test="${not empty project}">
-					<input type="button" id="btn_project" value="我的项目" >
+					<input type="button" id="btn_project" value="我的项目" >:<select disabled="disabled">
+							<option >${project.name}</option>
+					</select>
 					</c:if>
-					<input type="button" id="btn_base" value="基础信息" >
 				</div>
 			</div>
 			<div style="clear: both;"></div>
