@@ -208,7 +208,9 @@ public class Project implements NoPatternUnit {
 		String pref=String.valueOf(year).substring(2);
 		nokey.setPref(pref);
 		Long limit=Long.valueOf(99);
-	    return new NoPattern(nokey,limit);
+	    NoPattern noPattern = new NoPattern(nokey,limit);
+	    noPattern.setSeparator("");
+	    return noPattern;
 	}
 	
 }

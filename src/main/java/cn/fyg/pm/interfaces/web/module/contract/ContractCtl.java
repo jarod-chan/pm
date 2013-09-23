@@ -113,6 +113,7 @@ public class ContractCtl {
 		Project project=this.projectService.find(projectId);
 		Contract contract=contractId!=null?contractService.find(contractId):contractService.create(project);
 		
+		//TODO 使用bindtool
 		ServletRequestDataBinder dataBinder = new ServletRequestDataBinder(contract);
 		dataBinder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
 		dataBinder.bind(request);

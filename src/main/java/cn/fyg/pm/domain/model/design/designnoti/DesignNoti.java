@@ -21,11 +21,14 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import cn.fyg.pm.domain.model.design.TechType;
+import cn.fyg.pm.domain.model.nogenerator.NoKey;
+import cn.fyg.pm.domain.model.nogenerator.NoPattern;
 //import cn.fyg.pm.domain.model.design.designkey.DesignKey;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.BusiCode;
 import cn.fyg.pm.domain.shared.CommonNoPatternUnit;
+import cn.fyg.pm.infrastructure.tool.date.DateUtil;
 
 /**
  *设计问题通知单
@@ -210,6 +213,18 @@ public class DesignNoti extends CommonNoPatternUnit{
 		this.techType = techType;
 	}
 	
-	
+	@Override
+	public NoPattern getNoPattern() {
+		NoKey nokey=new NoKey();
+		nokey.setSys("E");
+		nokey.setFlag("");
+		int year=DateUtil.year();
+		String pref=String.valueOf(year).substring(2);
+		nokey.setPref(pref);
+		Long limit=Long.valueOf(9999);
+	    NoPattern noPattern = new NoPattern(nokey,limit);
+	    noPattern.setSeparator("");
+	    return noPattern;
+	}
 
 }

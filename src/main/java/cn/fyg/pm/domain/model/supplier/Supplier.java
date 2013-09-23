@@ -147,7 +147,9 @@ public class Supplier implements NoPatternUnit {
 		nokey.setFlag("GF");
 		nokey.setPref(this.type.getCode());
 		Long limit=Long.valueOf(99999);
-	    return new NoPattern(nokey,limit);
+	    NoPattern noPattern = new NoPattern(nokey,limit);
+	    noPattern.setSeparator("");
+	    return noPattern;
 	}
 	
 	

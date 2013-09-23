@@ -19,11 +19,12 @@ public class DesignNotiPU implements NoPatternUnit {
 		nokey.setSys("F");
 		nokey.setFlag("DN");
 		String projectNo=this.designNoti.getProject().getNo();
-		String[] noParts=projectNo.split("-");
+		String noParts=projectNo.substring(3);
 		String typeCode = this.designNoti.getTechType().getCode();
-		nokey.setPref(noParts[0].substring(3)+noParts[1]+typeCode);
+		nokey.setPref(noParts+typeCode);
 		Long limit=Long.valueOf(999);
 	    NoPattern noPattern = new NoPattern(nokey,limit);
+	    noPattern.setSeparator("");
 	    return noPattern;
 	}
 

@@ -24,16 +24,19 @@ import javax.persistence.TemporalType;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
+import cn.fyg.pm.domain.model.nogenerator.NoKey;
+import cn.fyg.pm.domain.model.nogenerator.NoPattern;
+import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.BusiCode;
-import cn.fyg.pm.domain.shared.CommonNoPatternUnit;
+import cn.fyg.pm.infrastructure.tool.date.DateUtil;
 
 /**
  *施工联系单
  */
 @Entity
 @Table(name="pm_constructcont")
-public class ConstructCont extends CommonNoPatternUnit {
+public class ConstructCont implements NoPatternUnit {
 	
 	public static final BusiCode BUSI_CODE=BusiCode.pm_constructcont;
 	
@@ -245,6 +248,20 @@ public class ConstructCont extends CommonNoPatternUnit {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+	@Override
+	public NoPattern getNoPattern() {
+		NoKey nokey=new NoKey();
+		nokey.setSys("A");
+		nokey.setFlag("");
+		int year=DateUtil.year();
+		String pref=String.valueOf(year).substring(2);
+		nokey.setPref(pref);
+		Long limit=Long.valueOf(9999);
+	    NoPattern noPattern = new NoPattern(nokey,limit);
+	    noPattern.setSeparator("");
+	    return noPattern;
 	}
 
 

@@ -18,7 +18,7 @@
 		});
     	
     	$('.btn_delete').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
         	$('<form/>',{action:'${ctx}/project/delete',method:'post'})
 	    		.append($('<input/>',{type:'hidden',name:'projectId',value:param.id}))
 				.appendTo($("body"))
@@ -26,13 +26,13 @@
     	});
     	
     	$('.btn_edit').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
     		window.open('${ctx}/project/'+param.id+'/edit','_self');
     		return false;
     	});
     	
     	$('.btn_pjmember').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
     		window.open('${ctx}/project/'+param.id+'/pjmember','_self');
 			return false;
     	});
@@ -92,17 +92,8 @@
 			<th>编号</th>
 			<th>名称</th>
 			<th>状态</th>
-			<th>项目投资计划批文</th>
-			<th>土地使用权证</th>
-			<th>用地许可证</th>
-			<th>工程规划许可证</th>
-			<th>工程施工许可证</th>
-			<th>商品房预售许可证</th>
-			<th>竣工验收规划确认书</th>
-			<th>竣工验收备案</th>
 			<th>开工日期</th>
 			<th>竣工日期</th>
-			<th>位置</th>
 			<th>所占股份</th>
 			<th>总投资</th>
 			<th>操作</th>
@@ -114,23 +105,14 @@
 				<td>${project.no}</td>
 				<td>${project.name}</td>
 				<td>${project.state.name}</td>
-				<td>${project.inveplan}</td>
-				<td>${project.landuseRight}</td>
-				<td>${project.landusePermit}</td>
-				<td>${project.projectPlan}</td>
-				<td>${project.projectCnut}</td>
-				<td>${project.perSale}</td>
-				<td>${project.completionConfirm}</td>
-				<td>${project.completionBackup}</td>
 				<td>${project.begDate}</td>
 				<td>${project.endDate}</td>
-				<td>${project.location}</td>
 				<td>${project.stock}</td>
 				<td>${project.totalinve}</td>
 				<td>
-					<input type="button" param='{"id":"${project.id}"}' value="项目成员"  class="btn_pjmember">
-					<input type="button" param='{"id":"${project.id}"}' value="修改"  class="btn_edit">
-					<input type="button" param='{"id":"${project.id}"}' value="删除"  class="btn_delete">
+					<input type="button"  value="项目成员"  class="btn_pjmember {id:'${project.id}'}">
+					<input type="button"  value="修改"  class="btn_edit {id:'${project.id}'}">
+					<input type="button"  value="删除"  class="btn_delete {id:'${project.id}'}">
 				</td>
 			</tr>
 		</c:forEach>
