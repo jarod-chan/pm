@@ -1,7 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <link href="${ctx}/css/base.css" type="text/css"  rel="stylesheet">
-
-<link href="${ctx}/css/bootstrap.css" type="text/css"  rel="stylesheet">
+<link href="${ctx}/css/message.css" type="text/css"  rel="stylesheet">
+<link href="${ctx}/css/component.css" type="text/css"  rel="stylesheet">
 
 <script src="${ctx}/js/jquery.js" type="text/javascript"></script>
 <script src="${ctx}/js/jquery.cookie.js" type="text/javascript"></script>
@@ -14,6 +14,8 @@
 <script src="${ctx}/plu/uploadify/jquery.uploadify.js" type="text/javascript"></script>
 
 <script src="${ctx}/plu/layout/jquery.layout-latest.js" type="text/javascript"></script>
+
+<script src="${ctx}/plu/template/jquery.tmpl.js" type="text/javascript"></script>
 
 <!-- 校验处理 -->
 <script src="${ctx}/plu/validation/jquery.validate.min.js" type="text/javascript"></script>
@@ -34,7 +36,7 @@
 
 <!-- 表格高亮 -->
 <style type="text/css">
-	.high-color{
+	.hctable .high-color{
 		background-color: #C8C8C8;
 	}
 </style>

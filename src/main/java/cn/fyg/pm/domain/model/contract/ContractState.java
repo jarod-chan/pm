@@ -7,7 +7,7 @@ public enum ContractState  implements CommonEnum {
 	checking("审批中"),
 	agree("同意签发"),
 	finish("履约完成"),
-	signed("双发签订"),
+	signed("双方签订"),
 	closed("关闭");
 	
 	private final String name;

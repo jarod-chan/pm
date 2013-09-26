@@ -3,6 +3,8 @@ package cn.fyg.pm.application.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,6 +83,12 @@ public class ContractServiceImpl implements ContractService {
 	public List<Contract> findByProjectAndSupplierAndType(Project project,
 			Supplier supplier, ContractType contractType) {
 		return this.contractRepository.findByProjectAndSupplierAndType(project,supplier,contractType);
+	}
+
+	@Override
+	public Page<Contract> findByNoLikeAndProjectAndType(String no,Project project,
+			ContractType contractType, Pageable pageable) {
+		return contractRepository.findByNoLikeAndProjectAndTypeOrderByIdDesc("%"+no+"%",project,contractType,pageable);
 	}
 
 }

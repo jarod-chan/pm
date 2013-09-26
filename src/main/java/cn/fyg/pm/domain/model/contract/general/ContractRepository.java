@@ -2,6 +2,8 @@ package cn.fyg.pm.domain.model.contract.general;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.Repository;
 
 import cn.fyg.pm.domain.model.project.Project;
@@ -25,4 +27,8 @@ public interface ContractRepository extends Repository<Contract,Long>,Repository
 	List<Contract> findBySupplier(Supplier supplier);
 
 	List<Contract> findByProjectAndSupplierAndType(Project project,Supplier supplier, ContractType contractType);
+
+	Page<Contract> findByNoLikeAndProjectAndTypeOrderByIdDesc(String no,Project project,ContractType contractType, Pageable pageable);
+	
+	
 }

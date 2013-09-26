@@ -1,15 +1,4 @@
 @CHARSET "UTF-8";
-/* 定义系统消息相关样式  */
-/* #message {
-	left: 50%;
-	top: 0px;
-	margin-left: -100px;
-	width: 200px;
-	height: 15px;
-	position: absolute;
-	z-index: 100;
-	display: none;
-} */
 
 #message {
 	width: 600px;

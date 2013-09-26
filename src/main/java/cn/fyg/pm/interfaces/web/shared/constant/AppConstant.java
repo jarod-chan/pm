@@ -11,6 +11,10 @@ public interface AppConstant {
 	 * 消息名称
 	 */
 	String MESSAGE_NAME="message";
-
+	
+	/**
+	 * 每页大小
+	 */
+	int PAGE_SIZE=10;
 
 }

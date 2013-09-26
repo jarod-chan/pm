@@ -54,8 +54,5 @@
 	
 	<iframe id="mainFrame" name="mainFrame" class="ui-layout-center" width="100%" height="600" frameborder="0" scrolling="auto" src="${ctx}/task/list"></iframe> 
 		
-	
-	
-	
 </body>
 </html>

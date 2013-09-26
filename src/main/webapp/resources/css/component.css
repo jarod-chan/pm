@@ -1,0 +1,23 @@
+@CHARSET "UTF-8";
+/*选择层对话框样式  */
+
+#dialog-container{
+	padding: 0px;
+}
+	
+.dialog-query, .dialog-table,.dialog-more{
+	margin: 10px 0px 0px 0px;
+}
+	
+.dialog-table{
+	width: 100%;
+}
+	
+.dialog-query input {
+	margin-left: 5px;
+}
+	
+.dialog-more{
+	text-align: right;
+	margin-right: 20px;
+}

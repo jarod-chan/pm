@@ -42,7 +42,7 @@ import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 public class ContractCtl {
 
 	private static final String PATH = "contract/";
-	private interface Page {
+	private interface VIEW {
 		String LIST = PATH + "list";
 		String EDIT = PATH + "edit";
 	}
@@ -72,7 +72,7 @@ public class ContractCtl {
 		map.put("contractSpecList", ContractSpec.values());
 		map.put("supplierList", getSupplierList(contractType));
 		map.put("query", query);
-		return Page.LIST;
+		return VIEW.LIST;
 	}
 	
 	private List<Supplier> getSupplierList(ContractType contractType){
@@ -105,7 +105,7 @@ public class ContractCtl {
 			Long busiId=contract.getId();
 			map.put("filestores", this.busifileService.findFilestores(busiCode, busiId));
 		}
-		return Page.EDIT;
+		return VIEW.EDIT;
 	}
 	
 	@RequestMapping(value="save",method=RequestMethod.POST)
@@ -140,4 +140,5 @@ public class ContractCtl {
 		}
 		return "redirect:list";
 	}
+	
 }

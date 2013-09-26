@@ -2,41 +2,95 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<script type="text/x-jquery-tmpl" id="template">
+<tr>
+	<td>\${no}</td>
+	<td>\${name}</td>
+	<td>\${supplier_name}</td>
+	<td>\${state}</td>
+	<td>\${specialty}</td>
+	<td><input class="chkreq {id:'\${id}',no:'\${no}',supplierName:'\${supplier_name}'}" type="button" value="选中" /> </td>
+</tr>
+</script>
+
 	
 
-	<script type="text/javascript">
-		$(function(){
-			
-			$("#btn_selContract").click(function(){
-				$( "#selContract" ).dialog( "open" );
-			});
-			$( "#selContract" ).dialog({
-				autoOpen: false,
-				position: ["center", 100],
-				width: 600,
-				buttons: {
-					'清空': function() {
-						$("#spanContract").html("");
-						$("#spanContract").next().val("");
-						$("#supplier_name").html("");
-						$(this).dialog( "close" );
-					}
-				}
-			});
-			$(".chkreq").click(function(){
-				var param=jQuery.parseJSON($(this).attr("param"));
-				$("#spanContract").html(param.no);
-				$("#spanContract").next().val(param.id);
-				$("#supplier_name").html(param.supplierName);
-				$( "#selContract" ).dialog("close");
-			})
-
+<script type="text/javascript">
+	$(function(){
+		
+		var container=$("#dialog-container");
+		
+		$("#btn_selContract").click(function(){
+			container.dialog( "open" );
+		});
+		
+		container.dialog({
+			autoOpen: false,
+			position: ["center", 100],
+			width: 600
+		});
+		
+		
+	　  function Qdata(page,no){
+	　　　　this.page = page;
+		   this.no=no;
+	　　}
+	   Qdata.prototype.contractType="construct";
+	   
+	   function appendData(pagedata){
+			var content=pagedata.content;
+			var renderTd =$("#template").tmpl(content);
+			renderTd.find(".chkreq").click(function(){
+					var param=$(this).metadata();
+					$("#spanContract").html(param.no);
+					$("#spanContract").next().val(param.id);
+					$("#supplier_name").html(param.supplierName);
+					container.dialog("close");
+				});
+			renderTd.mouseover(function() {
+					$(this).addClass("high-color");
+				}).mouseout(function() {
+					$(this).removeClass("high-color");
+				});
+			renderTd.appendTo(".dialog-table tbody");
+			if(pagedata.lastPage){
+				$("#dlg_more").lock();
+			}else{
+				$("#dlg_more").unlock();
+			}
+ 			}
+		
+		var qdata=new Qdata(0,"");//当前查询状态
+		
+		$("#dlg_query").click(function(){
+			qdata=new Qdata(0,$("#qy_no").val());
+			$(".dialog-table tbody").empty();
+			$.getJSON('${ctx}/${projectId}/contract/select.json',qdata,appendData);
 		})
-	</script>
+		
+		$("#dlg_clear").click(function(){
+			$("#spanContract").html("");
+			$("#spanContract").next().val("");
+			$("#supplier_name").html("");
+			container.dialog("close");
+		})
+		
+		$("#dlg_more").click(function(){
+			qdata.page++;
+			$.getJSON('${ctx}/${projectId}/contract/select.json',qdata,appendData);
+		})
+		
+		$("#dlg_query").triggerHandler("click");
+
+	})
+</script>
 	
 	
-	<div id="selContract" title="施工服务合同" >
-		<table border="1" class="hctable deftable">
+	<div id="dialog-container" title="施工服务合同" >
+		<div class="dialog-query">
+			编号:<input type="text" id="qy_no"><input type="button" value="查询" id="dlg_query"><input type="button" value="清空" id="dlg_clear"> 
+		</div>
+		<table border="1" class="hctable deftable dialog-table" >
 			<thead>
 				<tr>
 					<th>编号</th>
@@ -48,16 +102,9 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="contract" items="${contractList}">
-				<tr>
-					<td>${contract.no}</td>
-					<td>${contract.name}</td>
-					<td>${contract.supplier.name}</td>
-					<td>${contract.state.name}</td>
-					<td>${contract.specialty.name}</td>
-					<td><input class="chkreq" type="button" value="选中" param='{"id":"${contract.id}","no":"${contract.no}","supplierName":"${contract.supplier.name}"}'> </td>
-				</tr>
-			</c:forEach>
 			</tbody>
 		</table>
+		<div class="dialog-more">
+			<input type="button" value="更多" id="dlg_more" disabled="disabled">
+		</div>
 	</div>
