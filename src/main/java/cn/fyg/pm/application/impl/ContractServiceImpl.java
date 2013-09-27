@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,11 +27,6 @@ public class ContractServiceImpl implements ContractService {
 	ContractRepository contractRepository;
 	@Autowired
 	NoGeneratorBusi noGeneratorBusi;
-
-	@Override
-	public List<Contract> findAll() {
-		return contractRepository.findAll();
-	}
 
 	@Override
 	@Transactional
@@ -86,9 +82,8 @@ public class ContractServiceImpl implements ContractService {
 	}
 
 	@Override
-	public Page<Contract> findByNoLikeAndProjectAndType(String no,Project project,
-			ContractType contractType, Pageable pageable) {
-		return contractRepository.findByNoLikeAndProjectAndTypeOrderByIdDesc("%"+no+"%",project,contractType,pageable);
+	public Page<Contract> findAll(Specification<Contract> spec, Pageable pageable){
+		return this.contractRepository.findAll(spec, pageable);
 	}
 
 }

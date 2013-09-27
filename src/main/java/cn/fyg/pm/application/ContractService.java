@@ -2,6 +2,10 @@ package cn.fyg.pm.application;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+
 import cn.fyg.pm.application.common.ServiceQuery;
 import cn.fyg.pm.domain.model.contract.general.Contract;
 import cn.fyg.pm.domain.model.contract.general.ContractType;
@@ -9,12 +13,7 @@ import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 public interface ContractService extends ServiceQuery<Contract> {
-	
-	List<Contract> findAll();
 	
 	List<Contract> findByProjectAndType(Project project,ContractType contractType);
 	
@@ -33,5 +32,6 @@ public interface ContractService extends ServiceQuery<Contract> {
 
 	List<Contract> findBySupplier(Supplier supplier);
 	
-	Page<Contract> findByNoLikeAndProjectAndType(String no,Project project,ContractType contractType,Pageable pageable);
+	Page<Contract> findAll(Specification<Contract> spec, Pageable pageable);
+	
 }

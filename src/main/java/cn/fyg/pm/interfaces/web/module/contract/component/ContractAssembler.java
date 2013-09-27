@@ -8,7 +8,7 @@ import cn.fyg.pm.domain.model.contract.general.Contract;
 
 import com.google.common.collect.Lists;
 
-public class ContractFacade {
+public class ContractAssembler {
 	
 	public static  PageData<ContractSmp> transfer(Page<Contract> page){
 		List<Contract> contracts = page.getContent();
