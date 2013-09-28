@@ -31,6 +31,23 @@
 	$.fn.unlock = function() {   
 		$(this).removeAttr("disabled");
 	};
+	$.fn.autoLock=function(lock){
+		if(lock){
+			$(this).attr("disabled","disabled");
+		}else{
+			$(this).removeAttr("disabled");
+		}
+		return $(this);
+	}
+	$.fn.highColor=function(){
+		$(this).hover(function() {
+			$(this).addClass("high-color")},
+			function(){
+			$(this).removeClass("high-color")
+		});
+		return $(this);
+	}
+	
 	
 })(jQuery);  
 

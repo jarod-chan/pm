@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -130,6 +133,12 @@ public class ConstructContServiceImpl implements ConstructContService {
 		ConstructCont constructCont = this.constructContRepository.findOne(constructContId);
 		constructCont.setState(ConstructContState.invalid);
 		this.constructContRepository.save(constructCont);
+	}
+
+	@Override
+	public Page<ConstructCont> findAll(Specification<ConstructCont> spec,
+			Pageable pageable) {
+		return this.constructContRepository.findAll(spec, pageable);
 	}
 
 }

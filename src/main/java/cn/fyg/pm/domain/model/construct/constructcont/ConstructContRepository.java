@@ -2,6 +2,7 @@ package cn.fyg.pm.domain.model.construct.constructcont;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
@@ -11,7 +12,7 @@ import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.shared.repositoryquery.RepositoryQuery;
 
-public interface ConstructContRepository extends Repository<ConstructCont, Long>, RepositoryQuery<ConstructCont> {
+public interface ConstructContRepository extends Repository<ConstructCont, Long>,JpaSpecificationExecutor<ConstructCont>, RepositoryQuery<ConstructCont> {
 
 	ConstructCont save(ConstructCont constructCont);
 	

@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.contract.component;
+package cn.fyg.pm.interfaces.web.shared.component;
 
 import java.util.List;
 

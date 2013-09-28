@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.contract;
+package cn.fyg.pm.interfaces.web.module.trace.constructcont.component;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,34 +15,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.fyg.pm.application.ContractService;
-import cn.fyg.pm.domain.model.contract.general.Contract;
-import cn.fyg.pm.domain.model.contract.general.ContractSpecs;
+import cn.fyg.pm.application.ConstructContService;
+import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
+import cn.fyg.pm.domain.model.construct.constructcont.ConstructContSpecs;
+import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.project.Project;
-import cn.fyg.pm.interfaces.web.module.contract.component.ContractAssembler;
-import cn.fyg.pm.interfaces.web.module.contract.component.ContractJsQuery;
-import cn.fyg.pm.interfaces.web.module.contract.component.ContractSmp;
-import cn.fyg.pm.interfaces.web.module.contract.component.PageData;
+import cn.fyg.pm.interfaces.web.shared.component.PageData;
+import cn.fyg.pm.interfaces.web.shared.component.PageDataAssembler;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 
 @Controller
-@RequestMapping("{projectId}/contract")
-public class ContractJsCtl {
+@RequestMapping("{projectId}/constructcont")
+public class ConstructContJsCtl {
 	
 	@Autowired
-	ContractService contractService;
+	ConstructContService constructContService;
 	
 	@RequestMapping(value="select.json",method=RequestMethod.GET)
 	@ResponseBody 
-	public PageData<ContractSmp> simpleQuery(@PathVariable("projectId")Long projectId,ContractJsQuery query){
+	public PageData<ConstructContSmp> simpleQuery(@PathVariable("projectId")Long projectId,ConsturctContJsQuery query){
 		Project project=new Project();
 		project.setId(projectId);
-		Specification<Contract> spec=Specifications.where(ContractSpecs.inProject(project))
-				.and(ContractSpecs.isContractType(query.getContractType()))
-				.and(ContractSpecs.noLike(query.getNo()));
+		Specification<ConstructCont> spec=Specifications.where(ConstructContSpecs.inProject(project))
+				.and(ConstructContSpecs.isState(ConstructContState.finish))
+				.and(ConstructContSpecs.canBeSelectByConstructCert(query.getConstructcert_id()))
+				.and(ConstructContSpecs.noLike(query.getNo()));
 		Pageable pageable= new PageRequest(query.getPage(),AppConstant.PAGE_SIZE,new Sort(new Order(Direction.DESC,"id")));
-		Page<Contract> page = this.contractService.findAll(spec, pageable);
-		return ContractAssembler.transfer(page);
+		Page<ConstructCont> page = this.constructContService.findAll(spec, pageable);
+		return PageDataAssembler.transferData(page, new ConstructContTsf());
 	}
 
 }

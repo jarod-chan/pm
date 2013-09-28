@@ -37,28 +37,22 @@
 	　　}
 	   Qdata.prototype.contractType="construct";
 	   
+	   var chkreqFn=function(){
+			var param=$(this).metadata();
+			$("#spanContract").html(param.no);
+			$("#spanContract").next().val(param.id);
+			$("#supplier_name").html(param.supplierName);
+			container.dialog("close");
+		}
+	   
 	   function appendData(pagedata){
 			var content=pagedata.content;
 			var renderTd =$("#template").tmpl(content);
-			renderTd.find(".chkreq").click(function(){
-					var param=$(this).metadata();
-					$("#spanContract").html(param.no);
-					$("#spanContract").next().val(param.id);
-					$("#supplier_name").html(param.supplierName);
-					container.dialog("close");
-				});
-			renderTd.mouseover(function() {
-					$(this).addClass("high-color");
-				}).mouseout(function() {
-					$(this).removeClass("high-color");
-				});
-			renderTd.appendTo(".dialog-table tbody");
-			if(pagedata.lastPage){
-				$("#dlg_more").lock();
-			}else{
-				$("#dlg_more").unlock();
-			}
- 			}
+			renderTd.find(".chkreq").click(chkreqFn);
+			renderTd.highColor().appendTo(".dialog-table tbody");
+			$("#dlg_more").autoLock(pagedata.lastPage);
+		}
+	   
 		
 		var qdata=new Qdata(0,"");//当前查询状态
 		
@@ -90,7 +84,7 @@
 		<div class="dialog-query">
 			编号:<input type="text" id="qy_no"><input type="button" value="查询" id="dlg_query"><input type="button" value="清空" id="dlg_clear"> 
 		</div>
-		<table border="1" class="hctable deftable dialog-table" >
+		<table  class="hctable deftable dialog-table" >
 			<thead>
 				<tr>
 					<th>编号</th>

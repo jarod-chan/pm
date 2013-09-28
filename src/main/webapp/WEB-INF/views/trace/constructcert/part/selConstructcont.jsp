@@ -2,37 +2,86 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<script type="text/x-jquery-tmpl" id="template">
+<tr>
+	<td>\${no}</td>
+	<td>\${contract_name}</td>
+	<td>\${supplier_name}</td>
+	<td>\${contract_specialty}</td>
+	<td>\${tolsum}</td>
+	<td>\${creater_name}</td>
+	<td>\${createdate}</td>
+	<td><input class="chkreq {id:'\${id}',constructKeyId:'\${constructKey_id}',no:'\${no}',supplierName:'\${supplier_name}'}" type="button" value="选中" > </td>
+</tr>
+</script>
+
+
 	<script type="text/javascript">
 		$(function(){
-			
+			var container=$("#dialog-container");
 			$("#btn_selConstructCont").click(function(){
-				$( "#selConstructCont" ).dialog( "open" );
+				container.dialog( "open" );
 			});
-			$( "#selConstructCont" ).dialog({
+			container.dialog({
 				autoOpen: false,
 				position: ["center", 100],
-				width: 800,
-				buttons: {
-					'清空': function() {
-						$("#spanConstructCont").html("");
-						$("#spanConstructCont").next().val("");
-						$("#supplier_name").html("");
-						$(this).dialog( "close" );
-					}
-				}
+				width: 800
 			});
-			$(".chkreq").click(function(){
+			
+			
+		    function Qdata(page,no){
+		　　　　this.page = page;
+			   this.no=no;
+		　　 }
+		    Qdata.prototype.constructcert_id="${constructCert.id}";
+		    
+		    var chkreqFn=function(){
 				var param=$(this).metadata();
 				$("#spanConstructCont").html(param.no);
-				$("#spanConstructCont").next().val(param.id);
+				$("#spanConstructCont").next().val(param.constructKeyId);
+				$("#constructContId").val(param.id);
 				$("#supplier_name").html(param.supplierName);
-				$("#selConstructCont" ).dialog("close");
+				container.dialog("close");
+			}
+		    
+		   function appendData(pagedata){
+				var content=pagedata.content;
+				var renderTd =$("#template").tmpl(content);
+				renderTd.find(".chkreq").click(chkreqFn);
+				renderTd.highColor().appendTo(".dialog-table tbody");
+				$("#dlg_more").autoLock(pagedata.lastPage);
+	 		}
+			
+		   var qdata=new Qdata(0,"");//当前查询状态
+			
+			$("#dlg_query").click(function(){
+				qdata=new Qdata(0,$("#qy_no").val());
+				$(".dialog-table tbody").empty();
+				$.getJSON('${ctx}/${projectId}/constructcont/select.json',qdata,appendData);
 			})
+			
+			$("#dlg_clear").click(function(){
+				$("#spanConstructCont").html("");
+				$("#spanConstructCont").next().val("");
+				$("#constructContId").val("");
+				$("#supplier_name").html("");
+				container.dialog("close");
+			})
+			
+			$("#dlg_more").click(function(){
+				qdata.page++;
+				$.getJSON('${ctx}/${projectId}/constructcont/select.json',qdata,appendData);
+			})
+			
+			$("#dlg_query").triggerHandler("click");
 		})
 	</script>
 		
-		<div id="selConstructCont" title="施工联系单" style="display: none;">
-			<table border="1" class="hctable deftable">
+		<div id="dialog-container" title="施工联系单" style="display: none;">
+			<div class="dialog-query">
+				编号:<input type="text" id="qy_no"><input type="button" value="查询" id="dlg_query"><input type="button" value="清空" id="dlg_clear"> 
+			</div>
+			<table  class="hctable deftable dialog-table">
 				<thead>
 					<tr>
 						<th>序号</th>
@@ -46,18 +95,9 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="constructCont" items="${constructContList}">
-					<tr>
-						<td>${constructCont.no}</td>
-						<td>${constructCont.constructKey.contract.name}</td>
-						<td>${constructCont.constructKey.supplier.name}</td>
-						<td>${constructCont.constructKey.contract.specialty.name}</td>
-						<td>${constructCont.tolsum}</td>
-						<td>${constructCont.creater.name}</td>
-						<td><f:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
-						<td><input class="chkreq {id:'${constructCont.constructKey.id}',no:'${constructCont.no}',supplierName:'${constructCont.constructKey.supplier.name}'}" type="button" value="选中" > </td>
-					</tr>
-				</c:forEach>
 				</tbody>
 			</table>
+			<div class="dialog-more">
+				<input type="button" value="更多" id="dlg_more" disabled="disabled">
+			</div>
 		</div>
