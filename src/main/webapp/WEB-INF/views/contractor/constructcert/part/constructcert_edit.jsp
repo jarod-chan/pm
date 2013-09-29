@@ -134,20 +134,18 @@
 			reIndexTable(tbody);
 		});
 		   	
-		var constructContIdMap={};
-		<c:forEach var="constructCont" items="${constructContList}" varStatus="status">constructContIdMap['${constructCont.constructKey.id}']='${constructCont.id}';</c:forEach>
 		
     	$("#btn_cont").click(function(){
-    		var constructContId=$("input[name='constructKey.id']").val();
+    		var constructContId=$("#constructContId").val();
     		if(constructContId=="") return;
-    		window.open('${ctx}/${projectId}/constructcont/'+constructContIdMap[constructContId]+'/view?notback=true','_blank');
+    		window.open('${ctx}/${projectId}/constructcont/'+constructContId+'/view?notback=true','_blank');
 			return false;
     	})
 		
 	   	$("#btn_load").click(function(){
-    		var constructContId=$("input[name='constructKey.id']").val();
+    		var constructContId=$("#constructContId").val();
     		if(constructContId=="") return;
-    		$.getJSON('${ctx}/${projectId}/constructcont/'+constructContIdMap[constructContId]+'/items',function(itemlist){
+    		$.getJSON('${ctx}/${projectId}/constructcont/'+constructContId+'/items',function(itemlist){
     			var tbody=$("#tabitem tbody");
     			tbody.empty();
     			for(i=0;i<itemlist.length;i++){
@@ -196,7 +194,9 @@
 		<tr>
 			<td>施工联系单：</td>
 			<td colspan='3'>
-				<span id="spanConstructCont">${constructCont.no}</span><input type="hidden" name="constructKey.id" value="${constructCont.constructKey.id}">
+				<span id="spanConstructCont">${constructCont.no}</span>
+				<input type="hidden" name="constructKey.id" value="${constructCont.constructKey.id}">
+				<input type="hidden" id="constructContId" value="${constructCont.id}">
 				<input type="button" id="btn_selConstructCont" value="选择" />
 				<input type="button" id="btn_cont" value="查看"/>
 				<input type="button" id="btn_load" value="加载联系单内容到当前明细"/>

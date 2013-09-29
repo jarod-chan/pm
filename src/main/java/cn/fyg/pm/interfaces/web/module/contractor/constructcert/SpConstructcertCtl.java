@@ -4,7 +4,6 @@ import static cn.fyg.pm.interfaces.web.shared.message.Message.error;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,8 +18,6 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,6 +28,7 @@ import cn.fyg.pm.application.ConstructCertService;
 import cn.fyg.pm.application.ConstructContService;
 import cn.fyg.pm.application.OpinionService;
 import cn.fyg.pm.application.ProjectService;
+import cn.fyg.pm.application.facade.ConstructCertFacade;
 import cn.fyg.pm.domain.model.construct.constructcert.CertItemOpinion;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertItem;
@@ -44,9 +42,8 @@ import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 import cn.fyg.pm.domain.shared.verify.Result;
 import cn.fyg.pm.interfaces.web.module.trace.constructcert.ConstructCertAssembler;
 import cn.fyg.pm.interfaces.web.module.trace.constructcert.ConstructCertDto;
-import cn.fyg.pm.interfaces.web.module.trace.constructcert.flow.CertVarname;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
-import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
+import cn.fyg.pm.interfaces.web.shared.mvc.BindTool;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 @Controller
@@ -79,6 +76,8 @@ public class SpConstructcertCtl {
 	OpinionService opinionService;
 	@Autowired
 	TaskService taskService;
+	@Autowired
+	ConstructCertFacade constructCertFacade;
 	
 
 	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
@@ -134,18 +133,11 @@ public class SpConstructcertCtl {
 		User user = sessionUtil.getValue("user");
 		ConstructCert constructCert = constructCertId!=null?constructCertService.find(constructCertId):constructCertService.create(user, project,ConstructCertState.saved);
 		
-		Map<Long,ConstructCertItem> constructCertMap=getConstructCertMap(constructCert.getConstructCertItems());
-		
-		List<ConstructCertItem> constructCertItemList = new ArrayList<ConstructCertItem>();
-		for(int i=0,len=constructCertItemsId==null?0:constructCertItemsId.length;i<len;i++){
-			ConstructCertItem constructCertItem=(constructCertItemsId[i]>0?constructCertMap.get(constructCertItemsId[i]):new ConstructCertItem());
-			constructCertItemList.add(constructCertItem);
-		}
+		List<ConstructCertItem> constructCertItemList =BindTool.changeEntityItems(ConstructCertItem.class, constructCert.getConstructCertItems(), constructCertItemsId);		
 		constructCert.setConstructCertItems(constructCertItemList);
+		BindTool.bindRequest(constructCert, request);
 		
-		ServletRequestDataBinder binder = new ServletRequestDataBinder(constructCert);
-		binder.bind(request);
-		constructCert=constructCertService.save(constructCert);
+		constructCert=this.constructCertService.save(constructCert);
 		
 		if(afteraction.equals("save")){
 			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("保存成功！"));
@@ -157,7 +149,7 @@ public class SpConstructcertCtl {
 				return "redirect:list";
 			}
 			if(afteraction.equals("commit")){
-				Result result=commit(constructCert, user);
+				Result result=constructCertFacade.commit(constructCert, user);
 				if(result.notPass()){
 					redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
 					return String.format("redirect:%s/edit",constructCert.getId());
@@ -169,33 +161,6 @@ public class SpConstructcertCtl {
 		}
 		
 		return "";
-	}
-	
-	private Map<Long, ConstructCertItem> getConstructCertMap(List<ConstructCertItem> constructCertItemList) {
-		HashMap<Long, ConstructCertItem> constructCertMap = new HashMap<Long,ConstructCertItem>();
-		for (ConstructCertItem constructCertItem : constructCertItemList) {
-			constructCertMap.put(constructCertItem.getId(), constructCertItem);
-		}
-		return constructCertMap;
-	}
-	
-	@Transactional
-	private Result commit(ConstructCert constructCert, User user) {
-		Result result = this.constructCertService.verifyForCommit(constructCert);
-		if(result.notPass()) return result;
-		constructCert.setState(ConstructCertState.commit);
-		constructCert=constructCertService.save(constructCert);
-		String userKey=user.getKey();
-		try{
-			Map<String, Object> variableMap = new HashMap<String, Object>();
-			variableMap.put(FlowConstant.BUSINESS_ID, constructCert.getId());
-			variableMap.put(FlowConstant.APPLY_USER, userKey);
-			identityService.setAuthenticatedUserId(userKey);
-			runtimeService.startProcessInstanceByKey(CertVarname.PROCESS_DEFINITION_KEY, variableMap);			
-		} finally {
-			identityService.setAuthenticatedUserId(null);
-		}
-		return result;
 	}
 	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
@@ -239,18 +204,12 @@ public class SpConstructcertCtl {
 	@RequestMapping(value="checkedit/save",method=RequestMethod.POST)
 	public String saveCheckedit(@RequestParam("id")Long id,@RequestParam(value="constructCertItemsId",required=false) Long[] constructCertItemsId,HttpServletRequest request,@RequestParam("afteraction")String afteraction,RedirectAttributes redirectAttributes,@RequestParam(value="taskId",required=false)String taskId){
 		ConstructCert constructCert = constructCertService.find(id);
-		Map<Long,ConstructCertItem> constructCertMap=getConstructCertMap(constructCert.getConstructCertItems());
 		
-		List<ConstructCertItem> constructCertItemList = new ArrayList<ConstructCertItem>();
-		for(int i=0,len=constructCertItemsId.length;i<len;i++){
-			ConstructCertItem constructCertItem=(constructCertItemsId[i]>0?constructCertMap.get(constructCertItemsId[i]):new ConstructCertItem());
-			constructCertItemList.add(constructCertItem);
-		}
+		List<ConstructCertItem> constructCertItemList =BindTool.changeEntityItems(ConstructCertItem.class, constructCert.getConstructCertItems(), constructCertItemsId);		
 		constructCert.setConstructCertItems(constructCertItemList);
+		BindTool.bindRequest(constructCert, request);
 		
-		ServletRequestDataBinder binder = new ServletRequestDataBinder(constructCert);
-		binder.bind(request);
-		constructCert=constructCertService.save(constructCert);
+		constructCert=this.constructCertService.save(constructCert);
 		
 		if(afteraction.equals("save")){
 			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("保存成功！"));
@@ -258,7 +217,7 @@ public class SpConstructcertCtl {
 		}
 		if(afteraction.equals("commit")){
 			User user = sessionUtil.getValue("user");
-			Result result =commitCheck(constructCert,user,taskId);
+			Result result =constructCertFacade.commitCheck(constructCert,user,taskId);
 			if(result.notPass()){
 				redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("提交失败！"+result.message()));
 				return String.format("redirect:%s/checkedit",constructCert.getId());
@@ -272,16 +231,5 @@ public class SpConstructcertCtl {
 
 	}
 	
-	@Transactional
-	private Result commitCheck(ConstructCert constructCert,User user,String taskId){
-		Result result = this.constructCertService.verifyForCommit(constructCert);
-		if(result.notPass()) return result;
-		try{
-			identityService.setAuthenticatedUserId(user.getKey());
-			taskService.complete(taskId);
-		} finally {
-			identityService.setAuthenticatedUserId(null);
-		}
-		return result;
-	}
+
 }

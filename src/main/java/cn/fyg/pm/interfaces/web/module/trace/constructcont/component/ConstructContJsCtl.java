@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +19,7 @@ import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContSpecs;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.interfaces.web.shared.component.PageData;
 import cn.fyg.pm.interfaces.web.shared.component.PageDataAssembler;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
@@ -36,12 +36,23 @@ public class ConstructContJsCtl {
 	public PageData<ConstructContSmp> simpleQuery(@PathVariable("projectId")Long projectId,ConsturctContJsQuery query){
 		Project project=new Project();
 		project.setId(projectId);
-		Specification<ConstructCont> spec=Specifications.where(ConstructContSpecs.inProject(project))
+		Specifications<ConstructCont> specs=Specifications.where(ConstructContSpecs.inProject(project))
 				.and(ConstructContSpecs.isState(ConstructContState.finish))
-				.and(ConstructContSpecs.canBeSelectByConstructCert(query.getConstructcert_id()))
 				.and(ConstructContSpecs.noLike(query.getNo()));
+		
+		if(query.getConstructcert_id()!=null){
+			specs=specs.and(ConstructContSpecs.canBeSelectByConstructCert(query.getConstructcert_id()));
+		}else{
+			specs=specs.and(ConstructContSpecs.canBeSelectByConstructCert(-1l));
+		}
+		if(query.getSupplierId()!=null){
+			Supplier supplier=new Supplier();
+			supplier.setId(query.getSupplierId());
+			specs=specs.and(ConstructContSpecs.withSupplier(supplier));
+		}
+
 		Pageable pageable= new PageRequest(query.getPage(),AppConstant.PAGE_SIZE,new Sort(new Order(Direction.DESC,"id")));
-		Page<ConstructCont> page = this.constructContService.findAll(spec, pageable);
+		Page<ConstructCont> page = this.constructContService.findAll(specs, pageable);
 		return PageDataAssembler.transferData(page, new ConstructContTsf());
 	}
 

@@ -6,6 +6,8 @@ public class ConsturctContJsQuery {
 	private String no;
 	
 	private Long constructcert_id;
+	
+	private Long supplierId;
 
 	private int page;//页码
 
@@ -31,6 +33,14 @@ public class ConsturctContJsQuery {
 
 	public void setPage(int page) {
 		this.page = page;
+	}
+
+	public Long getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(Long supplierId) {
+		this.supplierId = supplierId;
 	}
 	
 	

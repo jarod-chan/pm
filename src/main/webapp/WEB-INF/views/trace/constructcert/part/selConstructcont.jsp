@@ -28,14 +28,7 @@
 				width: 800
 			});
 			
-			
-		    function Qdata(page,no){
-		　　　　this.page = page;
-			   this.no=no;
-		　　 }
-		    Qdata.prototype.constructcert_id="${constructCert.id}";
-		    
-		    var chkreqFn=function(){
+			var chkreqFn=function(){
 				var param=$(this).metadata();
 				$("#spanConstructCont").html(param.no);
 				$("#spanConstructCont").next().val(param.constructKeyId);
@@ -43,6 +36,21 @@
 				$("#supplier_name").html(param.supplierName);
 				container.dialog("close");
 			}
+			
+			var clearFn=function(){
+				$("#spanConstructCont").html("");
+				$("#spanConstructCont").next().val("");
+				$("#constructContId").val("");
+				$("#supplier_name").html("");
+				container.dialog("close");
+			}
+			
+			
+		    function Qdata(page,no){
+		　　　　this.page = page;
+			   this.no=no;
+		　　 }
+		    Qdata.prototype.constructcert_id="${constructCert.id}";
 		    
 		   function appendData(pagedata){
 				var content=pagedata.content;
@@ -60,13 +68,7 @@
 				$.getJSON('${ctx}/${projectId}/constructcont/select.json',qdata,appendData);
 			})
 			
-			$("#dlg_clear").click(function(){
-				$("#spanConstructCont").html("");
-				$("#spanConstructCont").next().val("");
-				$("#constructContId").val("");
-				$("#supplier_name").html("");
-				container.dialog("close");
-			})
+			$("#dlg_clear").click(clearFn)
 			
 			$("#dlg_more").click(function(){
 				qdata.page++;

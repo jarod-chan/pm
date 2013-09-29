@@ -58,13 +58,13 @@
 		});
     	
     	$(".btn_edit").click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
 			window.open('${ctx}/${projectId}/contractor/${supplierId}/constructcert/'+param.id+'/edit','_self');
 			return false;
 		});
     	
     	$('.btn_delete').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
         	$('<form/>',{action:'${ctx}/${projectId}/contractor/${supplierId}/constructcert/delete',method:'post'})
 	    		.append($('<input/>',{type:'hidden',name:'constructCertId',value:param.id}))
 				.appendTo($("body"))
@@ -72,7 +72,7 @@
     	});
     	
     	$('.btn_view').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
     		window.open('${ctx}/${projectId}/contractor/${supplierId}/constructcert/{id}/view'.replace('{id}',param.id),'_self');
         	return false;
     	});
@@ -109,13 +109,13 @@
 				<td><span class="state state-${constructCertDto.constructCert.state}" >${constructCertDto.constructCert.state.name}</span></td>
 				<td>${constructCertDto.constructCert.tolsum}</td>
 				<td>${constructCertDto.constructCert.creater.name}</td>
-				<td><fmt:formatDate value="${constructCertDto.constructCert.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
+				<td><fmt:formatDate value="${constructCertDto.constructCert.createdate}" pattern="yyyy-MM-dd"/></td>
 				<td>
 					<c:if test="${constructCertDto.constructCert.state=='saved'}">	
-					<input type="button" param='{"id":"${constructCertDto.constructCert.id}"}' value="修改"  class="btn_edit">
-					<input type="button" param='{"id":"${constructCertDto.constructCert.id}"}' value="删除"  class="btn_delete">
+					<input type="button" value="修改"  class="btn_edit {id:'${constructCertDto.constructCert.id}'}">
+					<input type="button" value="删除"  class="btn_delete {id:'${constructCertDto.constructCert.id}'}">
 					</c:if>
-					<input type="button" param='{"id":"${constructCertDto.constructCert.id}"}' value="查看"  class="btn_view">
+					<input type="button" value="查看"  class="btn_view {id:'${constructCertDto.constructCert.id}'}">
 				</td>
 			</tr>
 		</c:forEach>
