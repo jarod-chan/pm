@@ -4,7 +4,6 @@ import static cn.fyg.pm.interfaces.web.shared.message.Message.error;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,6 @@ import org.activiti.engine.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,7 +45,7 @@ import cn.fyg.pm.domain.shared.verify.Result;
 import cn.fyg.pm.interfaces.web.module.trace.constructcont.flow.ContVarname;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.constant.FlowConstant;
-import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
+import cn.fyg.pm.interfaces.web.shared.mvc.BindTool;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 /**
@@ -136,17 +134,10 @@ public class SpConstructcontCtl {
 		
 		ConstructCont constructCont =constructContId!=null?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.saved);
 		 
-		Map<Long,ConstructContItem> constructContItemMap=getConstructContItemMap(constructCont.getConstructContItems());	
-		List<ConstructContItem> ConstructContItemList = new ArrayList<ConstructContItem>();
-		for (int i = 0,len=constructContItemsId==null?0:constructContItemsId.length; i < len; i++) {
-			ConstructContItem constructContItem = constructContItemsId[i]>0?constructContItemMap.get(constructContItemsId[i]):new ConstructContItem();
-			ConstructContItemList.add(constructContItem);
-		}
-		constructCont.setConstructContItems(ConstructContItemList);
+		List<ConstructContItem> constructContItemList=BindTool.changeEntityItems(ConstructContItem.class, constructCont.getConstructContItems(), constructContItemsId);
+		constructCont.setConstructContItems(constructContItemList);
+		BindTool.bindRequest(constructCont,request);
 		
-		ServletRequestDataBinder binder = new ServletRequestDataBinder(constructCont);
-        binder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
-		binder.bind(request);
 		//TODO:constructKey 补充填入供应商字段
 		ConstructKey constructKey = constructCont.getConstructKey();
 		if(constructKey.getContract()!=null){
@@ -194,14 +185,6 @@ public class SpConstructcontCtl {
 	}
 	
 	
-	private Map<Long, ConstructContItem> getConstructContItemMap(List<ConstructContItem> constructContItems) {
-		Map<Long,ConstructContItem> map = new HashMap<Long,ConstructContItem>();
-		if(constructContItems==null) return map;
-		for (ConstructContItem constructContItem : constructContItems) {
-			map.put(constructContItem.getId(), constructContItem);
-		}
-		return map;
-	}
 	
 	@RequestMapping(value="delete",method=RequestMethod.POST)
 	public String delete(@RequestParam("constructContId") Long constructContId){
@@ -238,18 +221,11 @@ public class SpConstructcontCtl {
 	@RequestMapping(value="checkedit/save",method=RequestMethod.POST)
 	public String saveCheckedit(@RequestParam("id")Long id,@RequestParam("afteraction")String afteraction,@RequestParam("constructContItemsId") Long[] constructContItemsId,HttpServletRequest request,RedirectAttributes redirectAttributes,@RequestParam(value="taskId",required=false)String taskId){
 		ConstructCont constructCont = constructContService.find(id);
-		Map<Long,ConstructContItem> constructContItemMap=getConstructContItemMap(constructCont.getConstructContItems());
 		
-		List<ConstructContItem> ConstructContItemList = new ArrayList<ConstructContItem>();
-		for (int i = 0,len=constructContItemsId.length; i < len; i++) {
-			ConstructContItem constructContItem = constructContItemsId[i]>0?constructContItemMap.get(constructContItemsId[i]):new ConstructContItem();
-			ConstructContItemList.add(constructContItem);
-		}
-		constructCont.setConstructContItems(ConstructContItemList);
+		List<ConstructContItem> constructContItemList=BindTool.changeEntityItems(ConstructContItem.class, constructCont.getConstructContItems(), constructContItemsId);
+		constructCont.setConstructContItems(constructContItemList);
+		BindTool.bindRequest(constructCont,request);
 		
-		ServletRequestDataBinder binder = new ServletRequestDataBinder(constructCont);
-        binder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
-		binder.bind(request);
 		constructCont=constructContService.save(constructCont);
 		
 		if(afteraction.equals("save")){

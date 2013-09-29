@@ -12,6 +12,11 @@
 .dialog-table{
 	width: 100%;
 }
+
+.dialog-table .chkreq{
+	float: right;
+	margin-right: 10px;
+}
 	
 .dialog-query input {
 	margin-left: 5px;
@@ -19,5 +24,5 @@
 	
 .dialog-more{
 	text-align: right;
-	margin-right: 20px;
+	margin-right: 12px;
 }

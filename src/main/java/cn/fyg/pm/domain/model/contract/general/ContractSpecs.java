@@ -8,6 +8,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
 import cn.fyg.pm.domain.model.project.Project;
+import cn.fyg.pm.domain.model.supplier.Supplier;
 
 public class ContractSpecs {
 	
@@ -38,5 +39,13 @@ public class ContractSpecs {
 		  };
 	  }
 	  
+	  public static Specification<Contract> withSupplier(final Supplier supplier){
+		  return new Specification<Contract>(){
+			@Override
+			public Predicate toPredicate(Root<Contract> root,CriteriaQuery<?> query, CriteriaBuilder cb) {
+				return cb.equal(root.get("supplier"), supplier);
+			}
+		  };
+	  }
 
 }

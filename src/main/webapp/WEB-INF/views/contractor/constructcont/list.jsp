@@ -58,13 +58,13 @@
     	
 
     	$('.btn_edit').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
     		window.open('${ctx}/${projectId}/contractor/${supplierId}/constructcont/{id}/edit'.replace('{id}',param.id),'_self');
         	return false;
     	});
     	
     	$('.btn_delete').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
         	$('<form/>',{action:'${ctx}/${projectId}/contractor/${supplierId}/constructcont/delete',method:'post'})
 	    		.append($('<input/>',{type:'hidden',name:'constructContId',value:param.id}))
 				.appendTo($("body"))
@@ -72,7 +72,7 @@
     	});
     	
     	$('.btn_view').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
     		window.open('${ctx}/${projectId}/contractor/${supplierId}/constructcont/{id}/view'.replace('{id}',param.id),'_self');
         	return false;
     	});
@@ -100,7 +100,6 @@
 				<th>合同</th>
 				<th>专业分类</th>
 				<th>状态</th>
-				<th>总金额</th>
 				<th>制单人</th>
 				<th>制单日期</th>
 				<th>操作</th>
@@ -114,15 +113,14 @@
 					<td>${constructCont.constructKey.contract.name}</td>
 					<td>${constructCont.constructKey.contract.specialty.name}</td>
 					<td><span class="state state-${constructCont.state}" >${constructCont.state.name}</span></td>
-					<td>${constructCont.tolsum}</td>
 					<td>${constructCont.creater.name}</td>
-					<td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd HH:mm"/></td>
+					<td><fmt:formatDate value="${constructCont.createdate}" pattern="yyyy-MM-dd"/></td>
 					<td>
 						<c:if test="${constructCont.state=='saved'}">					
-						<input type="button" param='{"id":"${constructCont.id}"}' value="修改"  class="btn_edit">
-						<input type="button" param='{"id":"${constructCont.id}"}' value="删除"  class="btn_delete">
+						<input type="button"  value="修改"  class="btn_edit {id:'${constructCont.id}'}">
+						<input type="button"  value="删除"  class="btn_delete {id:'${constructCont.id}'}">
 						</c:if>
-						<input type="button" param='{"id":"${constructCont.id}"}' value="查看"  class="btn_view">
+						<input type="button" value="查看"  class="btn_view  {id:'${constructCont.id}'}">
 					</td>
 				</tr>
 			</c:forEach>

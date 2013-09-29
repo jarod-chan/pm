@@ -6,6 +6,8 @@ public class ContractJsQuery {
 	
 	private String no;
 	
+	private Long supplierId;
+	
 	private ContractType contractType;//合同类型
 
 	private int page;//页码
@@ -32,6 +34,14 @@ public class ContractJsQuery {
 
 	public void setPage(int page) {
 		this.page = page;
+	}
+
+	public Long getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(Long supplierId) {
+		this.supplierId = supplierId;
 	}
 
 	
