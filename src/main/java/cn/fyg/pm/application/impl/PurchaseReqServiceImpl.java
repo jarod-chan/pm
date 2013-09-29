@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -120,6 +123,12 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 		PurchaseReqCommitVld vld=new PurchaseReqCommitVld();
 		vld.setValObject(purchaseReq);
 		return vld.verify();
+	}
+
+	@Override
+	public Page<PurchaseReq> findAll(Specifications<PurchaseReq> spec,
+			Pageable pageable) {
+		return this.purchaseReqRepository.findAll(spec, pageable);
 	}
 
 }

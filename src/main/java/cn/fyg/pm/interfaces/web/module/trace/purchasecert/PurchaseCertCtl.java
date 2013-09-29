@@ -34,7 +34,6 @@ import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertItem;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertState;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
-import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqState;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
@@ -107,8 +106,6 @@ public class PurchaseCertCtl {
 		User user = sessionUtil.getValue("user");
 		PurchaseCert purchaseCert = purchaseCertId.longValue()>0?purchaseCertService.find(purchaseCertId):purchaseCertService.create(user,project,PurchaseCertState.new_);
 		map.put("purchaseCert", purchaseCert);
-		List<PurchaseReq> purchaseReqList = purchaseReqService.findByProject(project,PurchaseReqState.finish);
-		map.put("purchaseReqList", purchaseReqList);
 		PurchaseReq purchaseReq = purchaseReqService.findByPurchaseKey(purchaseCert.getPurchaseKey());
 		map.put("purchaseReq", purchaseReq);
 		return Page.EDIT;
@@ -188,8 +185,6 @@ public class PurchaseCertCtl {
 	public String toCheckEdit(@PathVariable("purchaseCertId")Long purchaseCertId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
 		PurchaseCert purchaseCert = purchaseCertService.find(purchaseCertId);
 		map.put("purchaseCert", purchaseCert);
-		List<PurchaseReq> purchaseReqList = purchaseReqService.findByProject(purchaseCert.getPurchaseKey().getProject(),PurchaseReqState.finish);
-		map.put("purchaseReqList", purchaseReqList);
 		PurchaseReq purchaseReq = purchaseReqService.findByPurchaseKey(purchaseCert.getPurchaseKey());
 		map.put("purchaseReq", purchaseReq);
 		List<Opinion> opinionList = opinionService.listOpinions(PurchaseCert.BUSI_CODE, purchaseCertId);

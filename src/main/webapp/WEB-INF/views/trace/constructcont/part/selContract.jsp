@@ -30,13 +30,6 @@
 			width: 600
 		});
 		
-		
-	　  function Qdata(page,no){
-	　　　　this.page = page;
-		   this.no=no;
-	　　}
-	   Qdata.prototype.contractType="construct";
-	   
 	   var chkreqFn=function(){
 			var param=$(this).metadata();
 			$("#spanContract").html(param.no);
@@ -44,6 +37,20 @@
 			$("#supplier_name").html(param.supplierName);
 			container.dialog("close");
 		}
+	   
+	   var clearFn=function(){
+			$("#spanContract").html("");
+			$("#spanContract").next().val("");
+			$("#supplier_name").html("");
+			container.dialog("close");
+		}
+		
+		
+	　  function Qdata(page,no){
+	　　　　this.page = page;
+		   this.no=no;
+	　　}
+	   Qdata.prototype.contractType="construct";
 	   
 	   function appendData(pagedata){
 			var content=pagedata.content;
@@ -62,12 +69,7 @@
 			$.getJSON('${ctx}/${projectId}/contract/select.json',qdata,appendData);
 		})
 		
-		$("#dlg_clear").click(function(){
-			$("#spanContract").html("");
-			$("#spanContract").next().val("");
-			$("#supplier_name").html("");
-			container.dialog("close");
-		})
+		$("#dlg_clear").click(clearFn)
 		
 		$("#dlg_more").click(function(){
 			qdata.page++;

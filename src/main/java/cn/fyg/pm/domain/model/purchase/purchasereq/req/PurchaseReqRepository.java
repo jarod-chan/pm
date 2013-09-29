@@ -2,13 +2,14 @@ package cn.fyg.pm.domain.model.purchase.purchasereq.req;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
 import cn.fyg.pm.domain.shared.repositoryquery.RepositoryQuery;
 
-public interface PurchaseReqRepository extends CrudRepository<PurchaseReq,Long>,RepositoryQuery<PurchaseReq> {
+public interface PurchaseReqRepository extends CrudRepository<PurchaseReq,Long>,JpaSpecificationExecutor<PurchaseReq>,RepositoryQuery<PurchaseReq> {
 	
 	List<PurchaseReq> findByPurchaseKey_ProjectAndStateOrderByIdDesc(Project project,PurchaseReqState state);
 
