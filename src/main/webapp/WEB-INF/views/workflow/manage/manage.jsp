@@ -11,7 +11,7 @@
  $(function() {
  	
 	 $('.btn_delete').click(function(){
- 		var param=jQuery.parseJSON($(this).attr("param"));
+		 var param=$(this).metadata();
  		$('<form/>',{action:'${ctx}/workflow/manage/'+param.deploymentId+'/delete',method:'post'})
 		 	.appendTo($("body"))
 		 	.submit();
@@ -51,7 +51,7 @@
 					<td><a target="_blank" href='${ctx}/workflow/manage/${process.deploymentId}/resource?resourceName=${process.resourceName }'>${process.resourceName }</a></td>
 					<td><a target="_blank" href='${ctx}/workflow/manage/${process.deploymentId}/resource?resourceName=${process.diagramResourceName }'>${process.diagramResourceName }</a></td>
 					<td>
-						<button class="btn_delete" param='{"deploymentId":"${process.deploymentId}"}' >删除</button>
+						<button class="btn_delete {deploymentId:'${process.deploymentId}'}" >删除</button>
 					</td>
 				</tr>
 			</c:forEach>

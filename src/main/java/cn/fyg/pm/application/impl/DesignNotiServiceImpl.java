@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -104,6 +107,12 @@ public class DesignNotiServiceImpl implements DesignNotiService {
 	@Transactional
 	public void delete(Long designNotiId) {
 		this.designNotiRepository.delete(designNotiId);
+	}
+
+	@Override
+	public Page<DesignNoti> findAll(Specifications<DesignNoti> spec,
+			Pageable pageable) {
+		return this.designNotiRepository.findAll(spec, pageable);
 	}
 
 }

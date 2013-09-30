@@ -15,7 +15,7 @@
     $(function() {
     	 $(function() {
  	    	$('.btn_execute').click(function(){
- 	    		var param=jQuery.parseJSON($(this).attr("param"));
+ 	    		var param=$(this).metadata();
  	    		var url=param.formKey.replace('{businessId}',param.businessId);
  	    		$('<form/>',{action:'${ctx}/'+url})
  	    			.append($('<input/>',{type:'hidden',name:'taskId',value:param.taskId}))
@@ -24,7 +24,7 @@
  	    	});
  	    	
 	 	   	$(".btn_trace").click(function(){
-	 	   		var param=jQuery.parseJSON($(this).attr("param"));
+	 	   		var param=$(this).metadata();
 				window.open('${ctx}/task/trace/'+param.executionId,'_blank');
 				return false;
 			})
@@ -68,8 +68,8 @@
 					<td>${taskDto.createDuration.formatText}</td>
 					<td><fmt:formatDate value="${taskDto.dueDate}" pattern="yyyy-MM-dd HH:mm"/></td>
 					<td>
-						<button class="btn_execute" param='{"taskId":"${taskDto.taskId }","formKey":"${taskDto.formKey}","businessId":"${taskDto.businessId}"}'>处理</button>
-						<button class="btn_trace" param='{"executionId":"${taskDto.executionId}"}'>流程跟踪</button>
+						<button class="btn_execute {taskId:'${taskDto.taskId }',formKey:'${taskDto.formKey}',businessId:'${taskDto.businessId}'}" >处理</button>
+						<button class="btn_trace {executionId:'${taskDto.executionId}'}" >流程跟踪</button>
 					</td>
 				</tr>
 			</c:forEach>

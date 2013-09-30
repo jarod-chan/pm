@@ -9,7 +9,7 @@
  <script type="text/javascript">
  $(function() {
  	$('.btn_deploy').click(function(){
- 		var param=jQuery.parseJSON($(this).attr("param"));
+ 		var param=$(this).metadata();
  		$('<form/>',{action:'${ctx}/workflow/deploy/'+param.filename+'/',method:'post'})
  			.appendTo($("body"))
  			.submit();
@@ -34,7 +34,7 @@
 			<c:forEach items="${processFiles}" var="file">
 				<tr>
 					<td>${file.name}</td>
-					<td><button class="btn_deploy" param='{"filename":"${file.name}"}'>部署流程</button></td>
+					<td><button class="btn_deploy {filename:'${file.name}'} " >部署流程</button></td>
 				</tr>
 			</c:forEach>
 		</tbody>

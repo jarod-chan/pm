@@ -30,16 +30,12 @@ import cn.fyg.pm.application.DesignContFacade;
 import cn.fyg.pm.application.DesignContService;
 import cn.fyg.pm.application.DesignNotiService;
 import cn.fyg.pm.application.OpinionService;
-import cn.fyg.pm.domain.model.contract.general.Contract;
-import cn.fyg.pm.domain.model.contract.general.ContractType;
 import cn.fyg.pm.domain.model.design.TechType;
 import cn.fyg.pm.domain.model.design.designcont.DesignCont;
 import cn.fyg.pm.domain.model.design.designcont.DesignContItem;
 import cn.fyg.pm.domain.model.design.designcont.DesignContState;
 import cn.fyg.pm.domain.model.design.designcont.reason.Reason;
 import cn.fyg.pm.domain.model.design.designcont.reason.ReasonItem;
-import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
-import cn.fyg.pm.domain.model.design.designnoti.DesignNotiState;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
@@ -112,10 +108,6 @@ public class DesignContCtl {
 		User user = sessionUtil.getValue("user");
 		DesignCont designCont = designContId.longValue()>0?this.designContService.find(designContId):this.designContService.create(user,project,DesignContState.new_);
 		map.put("designCont", designCont);
-		List<DesignNoti> designNotiList = this.designNotiService.findByProject(project,DesignNotiState.finish);
-		map.put("designNotiList", designNotiList);
-		List<Contract> contractList = this.contractService.findByProjectAndType(project, ContractType.design);
-		map.put("contractList", contractList);
 		List<ReasonItem> reasonItems = Reason.getReasonItemList();
 		map.put("reasonItems", reasonItems);
 		if(designCont.getId()!=null){
@@ -216,10 +208,6 @@ public class DesignContCtl {
 			map.put("filestores", this.busifileService.findFilestores(busiCode, busiId));
 		}
 		
-		List<DesignNoti> designNotiList = this.designNotiService.findByProject(project,DesignNotiState.finish);
-		map.put("designNotiList", designNotiList);
-		List<Contract> contractList = this.contractService.findByProjectAndType(project, ContractType.design);
-		map.put("contractList", contractList);
 		List<ReasonItem> reasonItems = Reason.getReasonItemList();
 		map.put("reasonItems", reasonItems);
 		map.put("techTypes", TechType.values());

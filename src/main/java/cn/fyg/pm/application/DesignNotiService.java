@@ -2,6 +2,10 @@ package cn.fyg.pm.application;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specifications;
+
 import cn.fyg.pm.application.common.CommitValidator;
 import cn.fyg.pm.application.common.ServiceQuery;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
@@ -24,5 +28,7 @@ public interface DesignNotiService extends ServiceQuery<DesignNoti>,CommitValida
 //	DesignNoti findByDesignKey(DesignKey designKey);
 
 	void delete(Long designNotiId);
+	
+	Page<DesignNoti> findAll(Specifications<DesignNoti> spec, Pageable pageable);
 	
 }
