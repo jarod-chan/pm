@@ -22,7 +22,7 @@ public class ConstructKey {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;//id
+	private Long id;//id
 	
 	@ManyToOne(targetEntity=Contract.class)
 	@JoinColumn(name="contract_id")
@@ -38,14 +38,15 @@ public class ConstructKey {
 	
 	private Long constructcert_id;//签证单id 
 
-	public long getId() {
+	
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public Long getConstructcert_id() {
 		return constructcert_id;
 	}

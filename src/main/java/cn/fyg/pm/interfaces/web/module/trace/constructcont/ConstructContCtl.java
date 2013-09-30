@@ -34,7 +34,6 @@ import cn.fyg.pm.domain.model.construct.constructcont.ConstructContItem;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.contract.general.Contract;
-import cn.fyg.pm.domain.model.contract.general.ContractType;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.model.user.User;
@@ -111,10 +110,7 @@ public class ConstructContCtl {
 		User user = sessionUtil.getValue("user");
 		ConstructCont constructCont = constructContId.longValue()>0?constructContService.find(constructContId):constructContService.create(user,project,ConstructContState.new_);
 		map.put("constructCont", constructCont);
-		List<Contract> contractList = contractService.findByProjectAndType(constructCont.getConstructKey().getProject(),ContractType.construct);
-		map.put("contractList", contractList);
 		map.put("contract", constructCont.getConstructKey().getContract());
-		
 		return Page.EDIT;
 	}
 	
@@ -208,15 +204,13 @@ public class ConstructContCtl {
 	}
 	
 	@RequestMapping(value="{constructContId}/checkedit",method=RequestMethod.GET)
-	public String toCheckEdit(@PathVariable("constructContId")Long constructContId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
+	public String toCheckEdit(@PathVariable("projectId")Long projectId,@PathVariable("constructContId")Long constructContId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
 		ConstructCont constructCont = constructContService.find(constructContId);
 		map.put("constructCont", constructCont);
-		List<Contract> contractList = contractService.findByProject(constructCont.getConstructKey().getProject());
-		map.put("contractList", contractList);
-		map.put("userList", userService.findAll());
 		map.put("taskId", taskId);
 		List<Opinion> opinionList = opinionService.listOpinions(ConstructCont.BUSI_CODE, constructContId);
 		map.put("opinionList", opinionList);
+		
 		return Page.CHECK_EDIT;
 	}
 	

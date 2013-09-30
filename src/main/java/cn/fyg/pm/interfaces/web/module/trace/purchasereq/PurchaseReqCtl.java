@@ -28,8 +28,6 @@ import cn.fyg.pm.application.PurchaseReqService;
 import cn.fyg.pm.application.SupplierService;
 import cn.fyg.pm.application.facade.PurchaseReqFacade;
 import cn.fyg.pm.domain.model.contract.ContractSpec;
-import cn.fyg.pm.domain.model.contract.general.Contract;
-import cn.fyg.pm.domain.model.contract.general.ContractType;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.PurchaseReqItem;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
@@ -181,8 +179,6 @@ public class PurchaseReqCtl {
 	public String toCheckEdit(@PathVariable("purchaseReqId")Long purchaseReqId,Map<String,Object> map,@RequestParam(value="taskId",required=false)String taskId){
 		PurchaseReq purchaseReq = purchaseReqService.find(purchaseReqId);
 		map.put("purchaseReq", purchaseReq);
-		List<Contract> contractList = contractService.findByProjectAndType(purchaseReq.getPurchaseKey().getProject(),ContractType.meter);
-		map.put("contractList", contractList);
 		map.put("taskId", taskId);
 		List<Opinion> opinionList = opinionService.listOpinions(PurchaseReq.BUSI_CODE, purchaseReqId);
 		map.put("opinionList", opinionList);

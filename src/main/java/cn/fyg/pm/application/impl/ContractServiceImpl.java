@@ -13,7 +13,6 @@ import cn.fyg.pm.application.ContractService;
 import cn.fyg.pm.domain.model.contract.general.Contract;
 import cn.fyg.pm.domain.model.contract.general.ContractFactory;
 import cn.fyg.pm.domain.model.contract.general.ContractRepository;
-import cn.fyg.pm.domain.model.contract.general.ContractType;
 import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
 import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
 import cn.fyg.pm.domain.model.project.Project;
@@ -51,18 +50,8 @@ public class ContractServiceImpl implements ContractService {
 	}
 
 	@Override
-	public List<Contract> findByProject(Project project) {
-		return contractRepository.findByProject(project);
-	}
-
-	@Override
 	public Contract create(Project project) {
 		return ContractFactory.create(project);
-	}
-
-	@Override
-	public List<Contract> findByProjectAndType(Project project,ContractType contractType) {
-		return contractRepository.findByProjectAndTypeOrderByIdDesc(project,contractType);
 	}
 
 	@Override
@@ -73,12 +62,6 @@ public class ContractServiceImpl implements ContractService {
 	@Override
 	public List<Contract> findBySupplier(Supplier supplier) {
 		return this.contractRepository.findBySupplier(supplier);
-	}
-
-	@Override
-	public List<Contract> findByProjectAndSupplierAndType(Project project,
-			Supplier supplier, ContractType contractType) {
-		return this.contractRepository.findByProjectAndSupplierAndType(project,supplier,contractType);
 	}
 
 	@Override
