@@ -18,7 +18,7 @@
 		})
     	
     	$('.btn_delete').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
         	$('<form/>',{action:'${ctx}/${projectId}/contract/${contractType}/delete',method:'post'})
 	    		.append($('<input/>',{type:'hidden',name:'contractId',value:param.id}))
 				.appendTo($("body"))
@@ -26,7 +26,7 @@
     	})
     	
     	$('.btn_edit').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
     		window.open('${ctx}/${projectId}/contract/${contractType}/'+param.id+'/edit','_self');
     		return false;
     	})
@@ -99,19 +99,6 @@
 				<th>供应商</th>
 				<th>状态</th>
 				<th>专业分类</th>
-				<th>签订日期</th>
-				<th>交付日期</th>
-				<th>合同金额</th>
-				<th>首付比例</th>
-				<th>结算金额</th>
-				<th>来源形式</th>
-				<th>责任部门</th>
-				<th>风险等级</th>
-				<th>风险提示</th>
-				<th>评审结论</th>
-				<th>签订责任人</th>
-				<th>总份数</th>
-				<th>留存份数</th>
 				<th>操作</th>
 			</tr>
 		</thead>
@@ -123,22 +110,9 @@
 				<td>${contract.supplier.name}</td>
 				<td>${contract.state.name}</td>
 				<td>${contract.specialty.name}</td>
-				<td>${contract.signDate}</td>
-				<td>${contract.delvDate}</td>
-				<td>${contract.contractAmt}</td>
-				<td>${contract.dpscale}</td>
-				<td>${contract.finalAmt}</td>
-				<td>${contract.origins}</td>
-				<td>${contract.dept}</td>
-				<td>${contract.riskLevel.name}</td>
-				<td>${contract.riskPrompt}</td>
-				<td>${contract.conclusion}</td>
-				<td>${contract.leader.name}</td>
-				<td>${contract.totalCopies}</td>
-				<td>${contract.saveCopies}</td>
 				<td>
-					<input type="button" param='{"id":"${contract.id}"}' value="编辑"  class="btn_edit">
-					<input type="button" param='{"id":"${contract.id}"}' value="删除"  class="btn_delete">
+					<input type="button" value="编辑"  class="btn_edit {id:'${contract.id}'}">
+					<input type="button" value="删除"  class="btn_delete {id:'${contract.id}'}">
 				</td>
 			</tr>
 		</c:forEach>

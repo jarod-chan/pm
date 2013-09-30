@@ -18,7 +18,7 @@
 		})
     	
     	$('.btn_delete').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
         	$('<form/>',{action:'${ctx}/${projectId}/contractmeter/delete',method:'post'})
 	    		.append($('<input/>',{type:'hidden',name:'contractMeterId',value:param.id}))
 				.appendTo($("body"))
@@ -26,7 +26,7 @@
     	})
     	
     	$('.btn_edit').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
     		window.open('${ctx}/${projectId}/contractmeter/'+param.id+'/edit','_self');
     		return false;
     	})
@@ -100,19 +100,6 @@
 				<th>供应商</th>
 				<th>状态</th>
 				<th>专业分类</th>
-				<th>签订日期</th>
-				<th>交付日期</th>
-				<th>合同金额</th>
-				<th>首付比例</th>
-				<th>结算金额</th>
-				<th>来源形式</th>
-				<th>责任部门</th>
-				<th>风险等级</th>
-				<th>风险提示</th>
-				<th>评审结论</th>
-				<th>签订责任人</th>
-				<th>总份数</th>
-				<th>留存份数</th>
 				<th>操作</th>
 			</tr>
 		</thead>
@@ -125,22 +112,9 @@
 				<td>${dto.contractMeter.supplier.name}</td>
 				<td>${dto.contractMeter.state.name}</td>
 				<td>${dto.contractMeter.specialty.name}</td>
-				<td>${dto.contractMeter.signDate}</td>
-				<td>${dto.contractMeter.delvDate}</td>
-				<td>${dto.contractMeter.contractAmt}</td>
-				<td>${dto.contractMeter.dpscale}</td>
-				<td>${dto.contractMeter.finalAmt}</td>
-				<td>${dto.contractMeter.origins}</td>
-				<td>${dto.contractMeter.dept}</td>
-				<td>${dto.contractMeter.riskLevel.name}</td>
-				<td>${dto.contractMeter.riskPrompt}</td>
-				<td>${dto.contractMeter.conclusion}</td>
-				<td>${dto.contractMeter.leader.name}</td>
-				<td>${dto.contractMeter.totalCopies}</td>
-				<td>${dto.contractMeter.saveCopies}</td>
 				<td>
-					<input type="button" param='{"id":"${dto.contractMeter.id}"}' value="编辑"  class="btn_edit">
-					<input type="button" param='{"id":"${dto.contractMeter.id}"}' value="删除"  class="btn_delete">
+					<input type="button" value="编辑"  class="btn_edit {id:'${dto.contractMeter.id}'}">
+					<input type="button" value="删除"  class="btn_delete {id:'${dto.contractMeter.id}'}">
 				</td>
 			</tr>
 		</c:forEach>
