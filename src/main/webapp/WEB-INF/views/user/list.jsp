@@ -18,13 +18,13 @@
 		});
     	
     	$('.btn_edit').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
     		window.open('${ctx}/user/'+param.key+'/edit','_self');
     		return false;
     	});
     	
     	$('.btn_delete').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
         	$('<form/>',{action:'${ctx}/project/delete',method:'post'})
 	    		.append($('<input/>',{type:'hidden',name:'projectId',value:param.id}))
 				.appendTo($("body"))
@@ -71,7 +71,7 @@
 				<td>${user.password}</td>
 				<td>${user.enabled.name}</td>
 				<td>
-					<input type="button" param='{"key":"${user.key}"}' value="修改"  class="btn_edit">
+					<input type="button" value="修改"  class="btn_edit {key:'${user.key}'}">
 				</td>
 			</tr>
 		</c:forEach>

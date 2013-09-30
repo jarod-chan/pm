@@ -37,7 +37,7 @@
 			actionFrom.attr("action",oldAction+"/list").submit();
     	});
     	
-    	$('#btn_clear').click(function(){
+    	$('#btn_reset').click(function(){
     		window.open('${ctx}/${projectId}/contract/${contractType}/list','_self');
 			return false;
     	});
@@ -82,7 +82,7 @@
 			</select>  
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="button" value="查询" id="btn_query"> 
-		<input type="button" value="清空" id="btn_clear"> 
+		<input type="button" value="重置" id="btn_reset"> 
 	</form>
 	</div>
 	

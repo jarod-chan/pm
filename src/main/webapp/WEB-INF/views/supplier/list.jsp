@@ -18,13 +18,13 @@
 		})
     	
     	$('.btn_edit').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
     		window.open('${ctx}/supplier/${supptype}/'+param.id+'/edit','_self');
     		return false;
     	})
     	
     	$('.btn_delete').click(function(){
-    		var param=jQuery.parseJSON($(this).attr("param"));
+    		var param=$(this).metadata();
         	$('<form/>',{action:'${ctx}/supplier/${supptype}/delete',method:'post'})
 	    		.append($('<input/>',{type:'hidden',name:'supplierId',value:param.id}))
 				.appendTo($("body"))
@@ -37,7 +37,7 @@
 			actionFrom.attr("action",oldAction+"/list").submit();
     	});
     	
-    	$('#btn_clear').click(function(){
+    	$('#btn_reset').click(function(){
     		window.open('${ctx}/supplier/${supptype}/list','_self');
 			return false;
     	});
@@ -78,7 +78,7 @@
 			</select>  
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="button" value="查询" id="btn_query"> 
-		<input type="button" value="清空" id="btn_clear"> 
+		<input type="button" value="重置" id="btn_reset"> 
 	</form>
 	</div>	
 	
@@ -116,8 +116,8 @@
 				<td>${supplier.contPhone}</td>
 				<td>${supplier.account}</td>
 				<td>
-				<input type="button" param='{"id":"${supplier.id}"}' value="编辑"  class="btn_edit">
-				<input type="button" param='{"id":"${supplier.id}"}' value="删除"  class="btn_delete">
+				<input type="button"  value="编辑"  class="btn_edit {id:'${supplier.id}'}">
+				<input type="button"  value="删除"  class="btn_delete {id:'${supplier.id}'}">
 				</td>
 			</tr>
 		</c:forEach>

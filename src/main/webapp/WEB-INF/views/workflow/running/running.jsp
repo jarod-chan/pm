@@ -7,7 +7,13 @@
 	<%@ include file="/common/include.jsp" %>	
 	
     <script type="text/javascript">
-	
+    $(function() {
+		$(".btn_trace").click(function(){
+		   	var param=$(this).metadata();
+			window.open('${ctx}/task/trace/'+param.executionId,'_blank');
+			return false;
+		})
+    });
     </script>
    
 </head>
@@ -34,7 +40,7 @@
 					<td>${processInstance.processDefinitionId }</td>
 					<td>${processInstance.suspended }</td>
 					<td>
-						<button class="btn_trace" param='{"processInstanceId":"${processInstance.processInstanceId }","processDefinitionId":"${processInstance.processDefinitionId }"}'>跟踪流程</button>
+						<button class="btn_trace {executionId:'${processInstance.id}'}">跟踪流程</button>
 					</td>
 				</tr>
 			</c:forEach>
