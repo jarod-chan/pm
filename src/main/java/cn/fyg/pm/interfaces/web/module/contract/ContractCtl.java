@@ -2,7 +2,6 @@ package cn.fyg.pm.interfaces.web.module.contract;
 
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,7 +32,7 @@ import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.shared.BusiCode;
 import cn.fyg.pm.interfaces.web.module.contract.query.ContractQuery;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
-import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
+import cn.fyg.pm.interfaces.web.shared.mvc.BindTool;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 @Controller
@@ -62,16 +60,18 @@ public class ContractCtl {
 
 	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
 	public String toList(@PathVariable("projectId")Long projectId,ContractQuery query,@PathVariable("contractType")ContractType contractType,Map<String,Object> map){
+		
 		Project project=new Project();
 		project.setId(projectId);
 		query.setProject(project);
 		query.setContractType(contractType);
-		List<Contract> contractList = contractService.query(query);
-		map.put("contractType", contractType);
+		List<Contract> contractList = contractService.findAll(query.getSpec(), query.getSort());
 		map.put("contractList", contractList);
+		map.put("query", query);
+
+		map.put("contractType", contractType);
 		map.put("contractSpecList", ContractSpec.values());
 		map.put("supplierList", getSupplierList(contractType));
-		map.put("query", query);
 		return VIEW.LIST;
 	}
 	
@@ -113,11 +113,7 @@ public class ContractCtl {
 		Project project=this.projectService.find(projectId);
 		Contract contract=contractId!=null?contractService.find(contractId):contractService.create(project);
 		
-		//TODO 使用bindtool
-		ServletRequestDataBinder dataBinder = new ServletRequestDataBinder(contract);
-		dataBinder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
-		dataBinder.bind(request);
-		
+		BindTool.bindRequest(contract, request);
 		contract=contractService.save(contract);
 		
 		BusiCode busiCode =  Contract.BUSI_CODE;

@@ -7,6 +7,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 
@@ -30,11 +31,29 @@ public class ContractSpecs {
 		  };
 	  }
 	  
+	  public static Specification<Contract> isSpecialty(final ContractSpec contractSpec){
+		  return new Specification<Contract>(){
+			@Override
+			public Predicate toPredicate(Root<Contract> root,CriteriaQuery<?> query, CriteriaBuilder cb) {
+				return cb.equal(root.get("specialty"), contractSpec);
+			}
+		  };
+	  }
+	  
 	  public static Specification<Contract> noLike(final String no){
 		  return new Specification<Contract>(){
 			@Override
 			public Predicate toPredicate(Root<Contract> root,CriteriaQuery<?> query, CriteriaBuilder cb) {
 				return cb.like(root.<String>get("no"), "%"+no +"%");
+			}
+		  };
+	  }
+	  
+	  public static Specification<Contract> nameLike(final String name){
+		  return new Specification<Contract>(){
+			@Override
+			public Predicate toPredicate(Root<Contract> root,CriteriaQuery<?> query, CriteriaBuilder cb) {
+				return cb.like(root.<String>get("name"), "%"+name.trim()+"%");
 			}
 		  };
 	  }

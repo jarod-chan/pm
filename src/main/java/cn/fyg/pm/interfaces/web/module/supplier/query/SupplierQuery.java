@@ -15,7 +15,7 @@ import cn.fyg.pm.domain.model.supplier.CreditRank;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
-import cn.fyg.pm.interfaces.web.shared.query.Qitem;
+import cn.fyg.pm.interfaces.web.shared.query.refactor.Qitem;
 
 public class SupplierQuery implements QuerySpec<Supplier> {
 	

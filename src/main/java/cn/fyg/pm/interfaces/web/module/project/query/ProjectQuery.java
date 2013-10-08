@@ -13,7 +13,7 @@ import org.apache.commons.lang.StringUtils;
 
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
-import cn.fyg.pm.interfaces.web.shared.query.Qitem;
+import cn.fyg.pm.interfaces.web.shared.query.refactor.Qitem;
 
 public class ProjectQuery implements QuerySpec<Project> {
 	

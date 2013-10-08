@@ -11,6 +11,7 @@ import javax.persistence.criteria.Root;
 
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
+import cn.fyg.pm.interfaces.web.shared.query.refactor.Qitem;
 
 public abstract class CommonQuery<T>  implements QuerySpec<T>{
 	

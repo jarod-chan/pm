@@ -16,7 +16,7 @@ import cn.fyg.pm.domain.model.contract.purchase.ContractMeter;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
-import cn.fyg.pm.interfaces.web.shared.query.Qitem;
+import cn.fyg.pm.interfaces.web.shared.query.refactor.Qitem;
 
 public class ContractMeterQuery implements QuerySpec<ContractMeter> {
 	

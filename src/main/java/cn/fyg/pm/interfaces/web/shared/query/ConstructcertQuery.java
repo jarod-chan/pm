@@ -13,6 +13,7 @@ import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
+import cn.fyg.pm.interfaces.web.shared.query.refactor.Qitem;
 
 public abstract class ConstructcertQuery<T>  implements QuerySpec<T>{
 	

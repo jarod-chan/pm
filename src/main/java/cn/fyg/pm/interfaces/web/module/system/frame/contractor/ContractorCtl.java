@@ -7,6 +7,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +21,7 @@ import cn.fyg.pm.application.PjmemberService;
 import cn.fyg.pm.application.ProjectService;
 import cn.fyg.pm.application.SpmemberService;
 import cn.fyg.pm.domain.model.contract.general.Contract;
+import cn.fyg.pm.domain.model.contract.general.ContractSpecs;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
@@ -56,7 +61,8 @@ public class ContractorCtl {
 	public String toProject(Map<String,Object> map){
 		User user=sessionUtil.getValue("user");
 		Supplier supplier=spmemberService.getUserSupplier(user);
-		List<Contract> supplierContract = contractService.findBySupplier(supplier);
+		Specifications<Contract> spec=Specifications.where(ContractSpecs.withSupplier(supplier));
+		List<Contract> supplierContract = contractService.findAll(spec, new Sort(new Order(Direction.ASC,"id")));
 		List<Project> projectList=getContractProject(supplierContract);
 		map.put("projectList", projectList);
 		Project project = sessionUtil.getValue("project");

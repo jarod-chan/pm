@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +17,6 @@ import cn.fyg.pm.domain.model.contract.general.ContractRepository;
 import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
 import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
 import cn.fyg.pm.domain.model.project.Project;
-import cn.fyg.pm.domain.model.supplier.Supplier;
-import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 
 @Service("contractService")
 public class ContractServiceImpl implements ContractService {
@@ -55,18 +54,13 @@ public class ContractServiceImpl implements ContractService {
 	}
 
 	@Override
-	public List<Contract> query(QuerySpec<Contract> querySpec) {
-		return this.contractRepository.query(Contract.class, querySpec);
-	}
-
-	@Override
-	public List<Contract> findBySupplier(Supplier supplier) {
-		return this.contractRepository.findBySupplier(supplier);
-	}
-
-	@Override
 	public Page<Contract> findAll(Specification<Contract> spec, Pageable pageable){
 		return this.contractRepository.findAll(spec, pageable);
+	}
+	
+	@Override
+	public List<Contract> findAll(Specification<Contract> spec, Sort sort){
+		return this.contractRepository.findAll(spec, sort);
 	}
 
 }

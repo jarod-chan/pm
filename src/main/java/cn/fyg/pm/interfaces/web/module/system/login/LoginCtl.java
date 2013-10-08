@@ -11,6 +11,10 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +25,7 @@ import cn.fyg.pm.application.PjmemberService;
 import cn.fyg.pm.application.SpmemberService;
 import cn.fyg.pm.application.UserService;
 import cn.fyg.pm.domain.model.contract.general.Contract;
+import cn.fyg.pm.domain.model.contract.general.ContractSpecs;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.EnabledEnum;
@@ -83,7 +88,8 @@ public static final Logger logger = LoggerFactory.getLogger(LoginCtl.class);
 	private String initContractor(User user) {
 		Supplier supplier=spmemberService.getUserSupplier(user);
 		sessionUtil.setValue("supplier", supplier);
-		List<Contract> supplierContract = contractService.findBySupplier(supplier);
+		Specifications<Contract> spec=Specifications.where(ContractSpecs.withSupplier(supplier));
+		List<Contract> supplierContract = contractService.findAll(spec, new Sort(new Order(Direction.ASC,"id")));
 		List<Project> projectList=getContractProject(supplierContract);
 		if(projectList!=null && !projectList.isEmpty()){
 			sessionUtil.setValue("project", projectList.get(0));
