@@ -31,6 +31,8 @@
 			ignore: "",//处理必填字段
 			errorClass : "vlderror"
 		});
+		//ajax参数全局设置
+		jQuery.ajaxSettings.traditional = true; 
 	})
 </script>
 
@@ -134,3 +136,28 @@
 	})
 </script>
 
+<!-- span按钮处理 -->
+<style type="text/css">
+ .span_btn{
+ 	padding: 0px 5px 0px 5px;
+ 	background: #C9C9C9;
+ 	color: #000000;
+ }
+.span_btn_mouseon{
+ 	cursor: pointer;
+ 	background-color: #1E8EFF;
+ 	color: #FFFFFF;
+ }
+</style>
+<script type="text/javascript">
+ $(function() {
+ 	 $(".span_btn").hover(
+		function () {
+			$(this).addClass("span_btn_mouseon");
+ 		},
+ 		function () {
+ 			$(this).removeClass("span_btn_mouseon")
+ 		}
+  	  )
+ })
+</script>

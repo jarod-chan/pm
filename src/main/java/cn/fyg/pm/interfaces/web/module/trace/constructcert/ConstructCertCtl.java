@@ -35,7 +35,7 @@ import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertItem;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.project.Project;
-import cn.fyg.pm.domain.model.supplier.Supptype;
+import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.OpinionItem;
@@ -94,11 +94,14 @@ public class ConstructCertCtl {
 		Project project = new Project();
 		project.setId(projectId);
 		certQuery.setProject(project);
+		if(certQuery.getSupplier()!=null&&certQuery.getSupplier().getId()!=null){
+			Supplier supplier=this.supplierService.find(certQuery.getSupplier().getId());
+			certQuery.setSupplier(supplier);
+		}
 		List<ConstructCert> constructCertList = constructCertService.query(certQuery);
 		List<ConstructCertDto> ConstructCertDtoList = constructCertAssembler.create(constructCertList);
 		map.put("ConstructCertDtoList", ConstructCertDtoList);
 		map.put("query", certQuery);
-		map.put("supplierList", supplierService.findByTypeIn(Supptype.contra,Supptype.construct));
 		return Page.LIST;
 	}
 

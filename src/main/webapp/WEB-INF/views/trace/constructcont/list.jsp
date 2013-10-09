@@ -9,6 +9,7 @@
 	<%@ include file="/common/meta.jsp" %>
 	<%@ include file="/common/include.jsp" %>	
 	<%@ include file="/common/jqui.jsp" %>
+	<%@ include file="/common/jqui2.jsp" %>
 
     <script type="text/javascript">
     $(function() {
@@ -66,12 +67,8 @@
 	<div style="text-align: left;">
 	<form action="${ctx}/${projectId}/constructcont" method="post">
 		序号:<input type="text" name="no" value="${query.no}">
-		施工承包方:<select name="supplier.id" >
-					<option value="" >-所有-</option>
-					<c:forEach var="supplier" items="${supplierList}">
-						<option value="${supplier.id}" <c:if test="${supplier.id==query.supplier.id}">selected="true"</c:if> >${supplier.name}</option>
-					</c:forEach>
-				</select>
+		施工承包方:<span class="span_btn" id="selSupplier"><c:if test="${empty query.supplier.name}">所有</c:if>${query.supplier.name}</span>
+		<input type="hidden" name="supplier.id" value="${query.supplier.id}">
 		制单日期:<input type="text" name="createdate_beg" class="datePK" value="<fmt:formatDate value="${query.createdate_beg}" pattern="yyyy-MM-dd"/>" >--<input type="text" name="createdate_end" class="datePK" value="<fmt:formatDate value="${query.createdate_end}" pattern="yyyy-MM-dd"/>">
 		专业分类:<select name="specialty" >
 					<option value="" >-所有-</option>
@@ -101,6 +98,7 @@
 	</form>
 	</div>
 	
+	<%@ include file="/component/selSupplier.jsp" %>
 	<%@ include file="/common/message.jsp" %>	
 
 	<div style="text-align: right;" id="headdiv">

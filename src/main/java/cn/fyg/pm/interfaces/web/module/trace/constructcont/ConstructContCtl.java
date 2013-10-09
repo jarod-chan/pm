@@ -35,7 +35,7 @@ import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.contract.general.Contract;
 import cn.fyg.pm.domain.model.project.Project;
-import cn.fyg.pm.domain.model.supplier.Supptype;
+import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
@@ -95,10 +95,13 @@ public class ConstructContCtl {
 		Project project =new Project();
 		project.setId(projectId);
 		query.setProject(project);
+		if(query.getSupplier()!=null&&query.getSupplier().getId()!=null){
+			Supplier supplier=this.supplierService.find(query.getSupplier().getId());
+			query.setSupplier(supplier);
+		}
 		List<ConstructCont> constructContList = constructContService.query(query);
 		map.put("constructContList", constructContList);
 		map.put("query", query);
-		map.put("supplierList", supplierService.findByTypeIn(Supptype.contra,Supptype.construct));
 		return Page.LIST;
 		
 	}
