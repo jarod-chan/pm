@@ -2,7 +2,6 @@ package cn.fyg.pm.interfaces.web.module.contractmeter;
 
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,7 +36,7 @@ import cn.fyg.pm.domain.shared.BusiCode;
 import cn.fyg.pm.interfaces.web.module.contractmeter.query.ContractMeterQuery;
 import cn.fyg.pm.interfaces.web.module.trace.purchasereq.ReqItemFacade;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
-import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
+import cn.fyg.pm.interfaces.web.shared.mvc.BindTool;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 @Controller
@@ -77,7 +75,7 @@ public class ContractMeterCtl {
 		Project project=new Project();
 		project.setId(projectId);
 		query.setProject(project);
-		List<ContractMeter> contractMeterList = contractMeterService.query(query);
+		List<ContractMeter> contractMeterList = contractMeterService.findAll(query.getSpec(), query.getSort());
 		List<ContractMeterDto> contractMeterDtoList = contractMeterAssembler.build(contractMeterList);
 		map.put("contractMeterDtoList", contractMeterDtoList);
 		map.put("contractSpecList", ContractSpec.values());
@@ -114,9 +112,7 @@ public class ContractMeterCtl {
 		Project project=projectService.find(projectId);
 		ContractMeter contractMeter=contractMeterId!=null?contractMeterService.find(contractMeterId):contractMeterService.create(project);
 		
-		ServletRequestDataBinder dataBinder = new ServletRequestDataBinder(contractMeter);
-		dataBinder.registerCustomEditor(Date.class,CustomEditorFactory.getCustomDateEditor());
-		dataBinder.bind(request);	
+		BindTool.bindRequest(contractMeter, request);
 		
 		if(contractMeter.getPurchaseKey()!=null&&contractMeter.getPurchaseKey().getId()==null){
 			contractMeter.setPurchaseKey(null);

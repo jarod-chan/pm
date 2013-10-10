@@ -3,6 +3,10 @@ package cn.fyg.pm.application.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +17,6 @@ import cn.fyg.pm.domain.model.contract.purchase.ContractMeterRepository;
 import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
 import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
 import cn.fyg.pm.domain.model.project.Project;
-import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 
 @Service("contractMeterService")
 public class ContractMeterServiceImpl implements ContractMeterService {
@@ -22,11 +25,6 @@ public class ContractMeterServiceImpl implements ContractMeterService {
 	ContractMeterRepository contractMeterRepository;
 	@Autowired
 	NoGeneratorBusi noGeneratorBusi;
-
-	@Override
-	public List<ContractMeter> findByProject(Project project) {
-		return this.contractMeterRepository.findByProject(project);
-	}
 
 
 	@Override
@@ -60,8 +58,16 @@ public class ContractMeterServiceImpl implements ContractMeterService {
 
 
 	@Override
-	public List<ContractMeter> query(QuerySpec<ContractMeter> querySpec) {
-		return this.contractMeterRepository.query(ContractMeter.class, querySpec);
+	public Page<ContractMeter> findAll(Specification<ContractMeter> spec,
+			Pageable pageable) {
+		return this.contractMeterRepository.findAll(spec, pageable);
+	}
+
+
+	@Override
+	public List<ContractMeter> findAll(Specification<ContractMeter> spec,
+			Sort sort) {
+		return this.contractMeterRepository.findAll(spec,sort);
 	}
 
 }
