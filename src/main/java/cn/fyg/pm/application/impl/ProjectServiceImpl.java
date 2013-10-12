@@ -8,10 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ProjectService;
 import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
+import cn.fyg.pm.domain.model.nogenerator.NoKey;
 import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
 import cn.fyg.pm.domain.model.nogenerator.NoPattern;
 import cn.fyg.pm.domain.model.nogenerator2.NoRecord2;
 import cn.fyg.pm.domain.model.nogenerator2.NoRecordService;
+import cn.fyg.pm.domain.model.nogenerator2.look.Lock;
+import cn.fyg.pm.domain.model.nogenerator2.look.LockService;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.project.Project;
@@ -25,21 +28,20 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	ProjectRepository projectRepository;
 	@Autowired
-	PjmemberRepository pjmemberRepository;
-	@Autowired
-	NoGeneratorBusi noGeneratorBusi;
-	@Autowired
 	NoRecordService noRecordService;
+	@Autowired
+	ProjectServiceExd projectServiceExd;
+	@Autowired
+	LockService lockService;
 
 	private int idx=1;
 	
 	@Override
-	@Transactional
 	public Project save(Project project) {
 		this.idx=this.idx+1;
-		cn.fyg.pm.domain.model.nogenerator2.NoPattern noPattern2 = project.getNoPattern2();
-		NoRecord2 noRecord = this.noRecordService.getNoRecord(noPattern2);
-		String nextNo = noRecord.nextNo();
+		cn.fyg.pm.domain.model.nogenerator2.NoPattern noPattern = project.getNoPattern2();
+		Lock lock = this.lockService.getLock(project.getId()==null,noPattern);
+		lock.lock();
 		try{
 			if(this.idx%2==0){
 				try {
@@ -49,12 +51,31 @@ public class ProjectServiceImpl implements ProjectService {
 					e.printStackTrace();
 				}
 			}
-			project.setNo(nextNo);
-			this.noRecordService.save(noRecord);			
-			return this.projectRepository.save(project);
+			return this.projectServiceExd.save(project);
 		}finally{
-			noRecord.freeNo();
+			lock.unlock();
 		}
+//		cn.fyg.pm.domain.model.nogenerator2.NoPattern noPattern = project.getNoPattern2();
+//		NoRecord2 noRecord = null;
+//		try{
+//			if(this.idx%2==0&&false){
+//				try {
+//					Thread.sleep(1000*10);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//			noRecord = this.noRecordService.getNoRecord(noPattern);
+//			String nextNo = noRecord.nextNo();
+//			project.setNo(nextNo);
+//			this.noRecordService.save(noRecord);			
+//			return this.projectRepository.save(project);
+//		}finally{
+//			noRecord.freeNo();
+//		}
+		
+		
 //		if(project.getId()==null){
 //			noGeneratorBusi.generateNextNo(project);
 //		}
@@ -67,13 +88,16 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	@Transactional
 	public void delete(Long id) throws NoNotLastException {
 		Project project = this.projectRepository.findOne(id);
-		this.noGeneratorBusi.rollbackLastNo(project);
-		List<Pjmember> projectPjmembers = this.pjmemberRepository.findByProject(project);
-		this.pjmemberRepository.delete(projectPjmembers);
-		projectRepository.delete(id);
+		cn.fyg.pm.domain.model.nogenerator2.NoPattern noPattern = project.getNoPattern2();
+		Lock lock = this.lockService.getLock(noPattern);
+		lock.lock();
+		try{
+			this.projectServiceExd.delete(project);
+		}finally{
+			lock.unlock();
+		}
 	}
 
 	@Override
