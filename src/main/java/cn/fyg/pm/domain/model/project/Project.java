@@ -213,4 +213,16 @@ public class Project implements NoPatternUnit {
 	    return noPattern;
 	}
 	
+	public cn.fyg.pm.domain.model.nogenerator2.NoPattern getNoPattern2(){
+		NoKey nokey=new NoKey();
+		nokey.setSys("D");
+		nokey.setFlag("XM");
+		int year=DateUtil.year();
+		String pref=String.valueOf(year).substring(2);
+		nokey.setPref(pref);
+		Long limit=Long.valueOf(99);
+		cn.fyg.pm.domain.model.nogenerator2.NoPattern noPattern = new cn.fyg.pm.domain.model.nogenerator2.NoPattern(nokey,limit);
+	    return noPattern;
+	}
+	
 }

@@ -9,6 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.fyg.pm.application.ProjectService;
 import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
 import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
+import cn.fyg.pm.domain.model.nogenerator.NoPattern;
+import cn.fyg.pm.domain.model.nogenerator2.NoRecord2;
+import cn.fyg.pm.domain.model.nogenerator2.NoRecordService;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.project.Project;
@@ -25,14 +28,37 @@ public class ProjectServiceImpl implements ProjectService {
 	PjmemberRepository pjmemberRepository;
 	@Autowired
 	NoGeneratorBusi noGeneratorBusi;
+	@Autowired
+	NoRecordService noRecordService;
 
+	private int idx=1;
+	
 	@Override
 	@Transactional
 	public Project save(Project project) {
-		if(project.getId()==null){
-			noGeneratorBusi.generateNextNo(project);
+		this.idx=this.idx+1;
+		cn.fyg.pm.domain.model.nogenerator2.NoPattern noPattern2 = project.getNoPattern2();
+		NoRecord2 noRecord = this.noRecordService.getNoRecord(noPattern2);
+		String nextNo = noRecord.nextNo();
+		try{
+			if(this.idx%2==0){
+				try {
+					Thread.sleep(1000*10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			project.setNo(nextNo);
+			this.noRecordService.save(noRecord);			
+			return this.projectRepository.save(project);
+		}finally{
+			noRecord.freeNo();
 		}
-		return projectRepository.save(project);
+//		if(project.getId()==null){
+//			noGeneratorBusi.generateNextNo(project);
+//		}
+//		return projectRepository.save(project);
 	}
 
 	@Override
