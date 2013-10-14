@@ -28,8 +28,6 @@ public class NoRecord2 {
 	
 	private Long limmit;//最大序号
 	
-	@Transient
-	private boolean isLock=false;
 	
 	public NoRecord2(){
 		super();
@@ -43,40 +41,25 @@ public class NoRecord2 {
 	}
 	
 
-	
+	采用新的编号生成方式------------------------------
 	
 
 	/**
 	 * 回退上一位编号
 	 */
-	public synchronized void prevNo(String lastNo) throws NoNotLastException{
-		while(isLock){
-			try {
-				wait();
-			} catch (Exception e) {
-				logger.error("therd wait error",e);
-			}
-		}
-		isLock=true;
+	public String prevNo(String lastNo) throws NoNotLastException{
 		if(!lastNo.equals(currNo())){
 			throw new NoNotLastException(String.format("对象编码[%s]不是最新数据，无法删除",lastNo));
 		}
 		this.currno=this.currno-1;
+		return currNo();
 	}
 
 	/**
 	 * 获得下个编号，使编号向下推一位
 	 * @return
 	 */
-	public synchronized String nextNo(){
-		while(isLock){
-			try {
-				wait();
-			} catch (Exception e) {
-				logger.error("therd wait error",e);
-			}
-		}
-		isLock=true;
+	public  String nextNo(){
 		this.currno=this.currno+1;
 		if(this.currno.compareTo(this.limmit)>0) throw new RuntimeException(this.toString()+"系统编码越界");
 		return currNo();
@@ -93,11 +76,7 @@ public class NoRecord2 {
 	}
 	
 	
-	public synchronized void freeNo(){
-		this.isLock=false;
-		this.notifyAll();
-	}
-	
+
 
 	public NoKey getNoKey() {
 		return noKey;

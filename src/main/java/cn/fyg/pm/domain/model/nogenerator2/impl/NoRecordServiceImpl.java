@@ -1,12 +1,10 @@
 package cn.fyg.pm.domain.model.nogenerator2.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.fyg.pm.domain.model.nogenerator.NoKey;
+import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
 import cn.fyg.pm.domain.model.nogenerator2.NoPattern;
 import cn.fyg.pm.domain.model.nogenerator2.NoRecord2;
 import cn.fyg.pm.domain.model.nogenerator2.NoRecord2Repository;
@@ -18,27 +16,23 @@ public class NoRecordServiceImpl implements NoRecordService {
 	@Autowired
 	NoRecord2Repository noRecordRepository;
 	
-	private Map<NoKey,NoRecord2> map=new HashMap<NoKey,NoRecord2>();
 
 	@Override
-	public synchronized NoRecord2 getNoRecord(NoPattern pattern) {
+	public String generateNextNo(NoPattern pattern) {
 		NoKey noKey = pattern.getNoKey();
-		NoRecord2 noRecord = this.map.get(noKey);
-		if(noRecord==null){
-			if(this.noRecordRepository.exists(noKey)){
-				noRecord=this.noRecordRepository.findOne(noKey);
-			}else{
-				noRecord=new NoRecord2(noKey,0L,pattern.getLimmit());
-				noRecord=this.noRecordRepository.save(noRecord);
-			}
-			this.map.put(noKey, noRecord);
+		if(!this.noRecordRepository.exists(noKey)){
+			NoRecord2 noRecord=new NoRecord2(noKey,0L,pattern.getLimmit());
+			this.noRecordRepository.save(noRecord);
 		}
-		return noRecord;
+		NoRecord2 noRecord=this.noRecordRepository.findOne(noKey);
+		return noRecord.nextNo();
 	}
 
 	@Override
-	public NoRecord2 save(NoRecord2 noRecord) {
-		return this.noRecordRepository.save(noRecord);
+	public void rollbackLastNo(NoPattern pattern,String lastNo) throws NoNotLastException {
+		NoKey noKey = pattern.getNoKey();
+		NoRecord2 noRecord=this.noRecordRepository.findOne(noKey);
+		noRecord.prevNo(lastNo);
 	}
 
 }
