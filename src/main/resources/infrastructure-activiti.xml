@@ -23,8 +23,8 @@
         <property name="processDefinitionCacheLimit" value="10"/>
 
         <!-- 生成流程图的字体 -->
-        <property name="activityFontName" value="宋体"/>
-        <property name="labelFontName" value="宋体"/>
+        <property name="activityFontName" value="simsun"/>
+        <property name="labelFontName" value="simsun"/>
 		
 		<property name="mailServerHost" value="${email.host}"/>
 		<property name="mailServerPort" value="${email.port}"/>

@@ -15,7 +15,7 @@
     		rules: {
     			name: {
     				required: true,
-    				maxlength: 8
+    				maxlength: 32
     			}
     		}
     	});

@@ -13,8 +13,40 @@ insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('jgzg','景观主�
 insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('scfgfz','生产分管副总',10,'project');
 insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('jsfgfz','技术分管副总',11,'project');
 insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('szfgfz','市政分管副总',12,'project');
-insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('xmcy','项目成员',13,'project');
+insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('jgfgfz','景观分管副总',13,'project');
+insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('xmcy','项目成员',15,'project');
 
 
 insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('zysh','专业审核',101,'system');
 insert into `pm_role`(`key_`,`name`,`sn`,`roleType`) values ('zjl','总经理',102,'system');
+
+
+
+系统用户
+insert into pm_user ( key_,name,password,enabled) VALUES ("ch","陈航","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("czj","陈志军","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("dlp","丁林平","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("dlj","董灵君","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("fwl","范文龙","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("hj","何杰","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("hyy","胡玉友","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("hxy","黄信义","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("lhj","林华军","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("mjj","缪建军","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("nzg","倪章贵","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("rsy","阮善友","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("rsg","阮松刚","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("tgy","陶国勇","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("tst","陶松涛","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("txy","陶筱云","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("tyj","陶永江","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("wg","王冠","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("whg","王海刚","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("wj","王坚","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("xgf","项高法","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("xg","徐刚","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("xk","许可","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("zhb","张海波","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("zjy","郑金跃","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("zyy","周元友","0","y");
+insert into pm_user ( key_,name,password,enabled) VALUES ("admin","管理员","0","y");
