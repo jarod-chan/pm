@@ -1,6 +1,7 @@
-package cn.fyg.pm.domain.model.nogenerator2;
+package cn.fyg.pm.domain.model.nogenerator2.generator;
 
 import cn.fyg.pm.domain.model.nogenerator.NoKey;
+import cn.fyg.pm.domain.model.nogenerator2.look.LockService;
 
 /**
  *保存固定的编码模式

@@ -1,4 +1,4 @@
-package cn.fyg.pm.domain.model.nogenerator2;
+package cn.fyg.pm.domain.model.nogenerator2.generator;
 
 import org.springframework.data.repository.CrudRepository;
 

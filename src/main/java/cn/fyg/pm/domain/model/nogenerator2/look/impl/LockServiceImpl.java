@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import cn.fyg.pm.domain.model.nogenerator.NoKey;
-import cn.fyg.pm.domain.model.nogenerator2.NoPattern;
+import cn.fyg.pm.domain.model.nogenerator2.generator.NoPattern;
 import cn.fyg.pm.domain.model.nogenerator2.look.Lock;
 import cn.fyg.pm.domain.model.nogenerator2.look.LockService;
 

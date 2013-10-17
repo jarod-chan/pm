@@ -1,6 +1,7 @@
 package cn.fyg.pm.domain.model.nogenerator2.look;
 
-import cn.fyg.pm.domain.model.nogenerator2.NoPattern;
+import cn.fyg.pm.domain.model.nogenerator2.generator.NoPattern;
+
 
 public interface LockService {
 	

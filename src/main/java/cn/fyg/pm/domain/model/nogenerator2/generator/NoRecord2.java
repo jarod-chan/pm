@@ -1,4 +1,4 @@
-package cn.fyg.pm.domain.model.nogenerator2;
+package cn.fyg.pm.domain.model.nogenerator2.generator;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -41,7 +41,6 @@ public class NoRecord2 {
 	}
 	
 
-	采用新的编号生成方式------------------------------
 	
 
 	/**

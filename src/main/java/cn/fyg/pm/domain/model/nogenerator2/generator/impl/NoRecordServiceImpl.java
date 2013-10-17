@@ -1,14 +1,14 @@
-package cn.fyg.pm.domain.model.nogenerator2.impl;
+package cn.fyg.pm.domain.model.nogenerator2.generator.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.fyg.pm.domain.model.nogenerator.NoKey;
 import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
-import cn.fyg.pm.domain.model.nogenerator2.NoPattern;
-import cn.fyg.pm.domain.model.nogenerator2.NoRecord2;
-import cn.fyg.pm.domain.model.nogenerator2.NoRecord2Repository;
-import cn.fyg.pm.domain.model.nogenerator2.NoRecordService;
+import cn.fyg.pm.domain.model.nogenerator2.generator.NoPattern;
+import cn.fyg.pm.domain.model.nogenerator2.generator.NoRecord2;
+import cn.fyg.pm.domain.model.nogenerator2.generator.NoRecord2Repository;
+import cn.fyg.pm.domain.model.nogenerator2.generator.NoRecordService;
 
 @Service("noRecordService")
 public class NoRecordServiceImpl implements NoRecordService {
