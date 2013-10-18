@@ -59,8 +59,8 @@ public class NoRecord2 {
 	 * @return
 	 */
 	public  String nextNo(){
-		this.currno=this.currno+1;
 		if(this.currno.compareTo(this.limmit)>0) throw new RuntimeException(this.toString()+"系统编码越界");
+		this.currno=this.currno+1;
 		return currNo();
 	}
 	

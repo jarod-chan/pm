@@ -11,6 +11,8 @@ import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
 import cn.fyg.pm.domain.model.nogenerator2.generator.NoPattern;
 import cn.fyg.pm.domain.model.nogenerator2.generator.NoRecordService;
 import cn.fyg.pm.domain.model.nogenerator2.generator.PatternGene;
+import cn.fyg.pm.domain.model.nogenerator2.generator3.Pattern;
+import cn.fyg.pm.domain.model.nogenerator2.generator3.PatternFactory;
 import cn.fyg.pm.domain.model.nogenerator2.look.Lock;
 import cn.fyg.pm.domain.model.nogenerator2.look.LockService;
 import cn.fyg.pm.domain.model.project.Project;
@@ -28,8 +30,8 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	ProjectServiceExd projectServiceExd;
 	@Autowired
-	@Qualifier("project_no")
-	PatternGene<Project> noGene;
+	@Qualifier("projectNo")
+	PatternFactory<Project> noFactory;
 	@Autowired
 	LockService lockService;
 
@@ -38,9 +40,8 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public Project save(Project project) {
 		this.idx=this.idx+1;
-		noGene.init(project);
-		NoPattern noPattern = noGene.getNoPattern();
-		Lock lock = this.lockService.getLock(project.getId()==null,noPattern);
+		Pattern<Project> pattern = noFactory.create(project).setEmpty(project.getId()!=null);
+		Lock lock = this.lockService.getLock(pattern);
 		lock.lock();
 		try{
 			if(this.idx%2==0){
@@ -51,7 +52,7 @@ public class ProjectServiceImpl implements ProjectService {
 					e.printStackTrace();
 				}
 			}
-			return this.projectServiceExd.save(project);
+			return this.projectServiceExd.save(project,pattern);
 		}finally{
 			lock.unlock();
 		}
@@ -65,12 +66,11 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public void delete(Long id) throws NoNotLastException {
 		Project project = this.projectRepository.findOne(id);
-		noGene.init(project);
-		NoPattern noPattern = noGene.getNoPattern();
-		Lock lock = this.lockService.getLock(noPattern);
+		Pattern<Project> pattern = noFactory.create(project);
+		Lock lock = this.lockService.getLock(pattern);
 		lock.lock();
 		try{
-			this.projectServiceExd.delete(project);
+			this.projectServiceExd.delete(project,pattern);
 		}finally{
 			lock.unlock();
 		}
