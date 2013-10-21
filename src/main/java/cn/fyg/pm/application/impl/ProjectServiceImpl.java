@@ -7,14 +7,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import cn.fyg.pm.application.ProjectService;
-import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
-import cn.fyg.pm.domain.model.nogenerator2.generator.NoPattern;
-import cn.fyg.pm.domain.model.nogenerator2.generator.NoRecordService;
-import cn.fyg.pm.domain.model.nogenerator2.generator.PatternGene;
-import cn.fyg.pm.domain.model.nogenerator2.generator3.Pattern;
-import cn.fyg.pm.domain.model.nogenerator2.generator3.PatternFactory;
-import cn.fyg.pm.domain.model.nogenerator2.look.Lock;
-import cn.fyg.pm.domain.model.nogenerator2.look.LockService;
+import cn.fyg.pm.domain.model.nogenerator.generator.Pattern;
+import cn.fyg.pm.domain.model.nogenerator.generator.PatternFactory;
+import cn.fyg.pm.domain.model.nogenerator.look.Lock;
+import cn.fyg.pm.domain.model.nogenerator.look.LockService;
+import cn.fyg.pm.domain.model.nogenerator.norecord.NoNotLastException;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.project.ProjectFactory;
 import cn.fyg.pm.domain.model.project.ProjectRepository;
@@ -26,32 +23,19 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	ProjectRepository projectRepository;
 	@Autowired
-	NoRecordService noRecordService;
-	@Autowired
 	ProjectServiceExd projectServiceExd;
 	@Autowired
 	@Qualifier("projectNo")
 	PatternFactory<Project> noFactory;
 	@Autowired
 	LockService lockService;
-
-	private int idx=1;
 	
 	@Override
 	public Project save(Project project) {
-		this.idx=this.idx+1;
 		Pattern<Project> pattern = noFactory.create(project).setEmpty(project.getId()!=null);
 		Lock lock = this.lockService.getLock(pattern);
 		lock.lock();
 		try{
-			if(this.idx%2==0){
-				try {
-					Thread.sleep(1000*10);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
 			return this.projectServiceExd.save(project,pattern);
 		}finally{
 			lock.unlock();

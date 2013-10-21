@@ -2,10 +2,10 @@ package cn.fyg.pm.domain.model.project;
 
 import org.springframework.stereotype.Component;
 
-import cn.fyg.pm.domain.model.nogenerator.NoKey;
-import cn.fyg.pm.domain.model.nogenerator2.generator3.Pattern;
-import cn.fyg.pm.domain.model.nogenerator2.generator3.impl.AbstractPattern;
-import cn.fyg.pm.domain.model.nogenerator2.generator3.impl.AbstractPatternFactory;
+import cn.fyg.pm.domain.model.nogenerator.generator.Pattern;
+import cn.fyg.pm.domain.model.nogenerator.generator.impl.AbstractPattern;
+import cn.fyg.pm.domain.model.nogenerator.generator.impl.AbstractPatternFactory;
+import cn.fyg.pm.domain.model.nogenerator.norecord.NoKey;
 import cn.fyg.pm.infrastructure.tool.date.DateUtil;
 
 @Component("projectNo")

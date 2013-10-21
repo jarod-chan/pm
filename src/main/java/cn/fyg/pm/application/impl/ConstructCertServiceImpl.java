@@ -3,7 +3,9 @@ package cn.fyg.pm.application.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,12 +13,14 @@ import cn.fyg.pm.application.ConstructCertService;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertCommitVld;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertFactory;
-import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertPU;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertRepository;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKeyRepository;
-import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
+import cn.fyg.pm.domain.model.nogenerator.generator.Pattern;
+import cn.fyg.pm.domain.model.nogenerator.generator.PatternFactory;
+import cn.fyg.pm.domain.model.nogenerator.look.Lock;
+import cn.fyg.pm.domain.model.nogenerator.look.LockService;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.project.Project;
@@ -31,11 +35,19 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 	@Autowired
 	ConstructCertRepository constructCertRepository;
 	@Autowired
-	NoGeneratorBusi noGeneratorBusi;
-	@Autowired
 	PjmemberRepository pjmemberRepository;
 	@Autowired
 	ConstructKeyRepository constructKeyRepository;
+	@Autowired
+	ConstructCertServiceExd constructCertServiceExd;
+	@Autowired
+	LockService lockService;
+	@Autowired
+	@Qualifier("constructCertNo")
+	PatternFactory<ConstructCert> noFactory;
+	@Autowired
+	@Qualifier("constructCertBusino")
+	PatternFactory<ConstructCert> businoFactory;
 
 	@Override
 	public List<ConstructCert> findAll() {
@@ -45,10 +57,15 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 	@Override
 	@Transactional
 	public ConstructCert save(ConstructCert constructCert) {
-		if(constructCert.getId()==null){
-			noGeneratorBusi.generateNextNo(constructCert);
+		Pattern<ConstructCert> pattern = noFactory.create(constructCert).setEmpty(constructCert.getId()!=null);
+		Lock lock = this.lockService.getLock(pattern);
+		lock.lock();
+		try{
+			return this.constructCertServiceExd.save(constructCert,pattern);
+		}finally{
+			lock.unlock();
 		}
-		return constructCertRepository.save(constructCert);
+		
 	}
 
 	@Override
@@ -96,11 +113,14 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 		constructCert.setSigndate(new Date());
 		constructCert.setState(ConstructCertState.finish);
 		
-		if(constructCert.getBusino()==null){
-			ConstructCertPU pu = new ConstructCertPU(constructCert);
-			this.noGeneratorBusi.generateNextNo(pu);
+		Pattern<ConstructCert> pattern = businoFactory.create(constructCert).setEmpty(StringUtils.isNotBlank(constructCert.getBusino()));
+		Lock lock = this.lockService.getLock(pattern);
+		lock.lock();
+		try {
+			this.constructCertServiceExd.finish(constructCert,pattern);
+		}finally{
+			lock.unlock();
 		}
-		this.save(constructCert);
 	}
 
 	@Override

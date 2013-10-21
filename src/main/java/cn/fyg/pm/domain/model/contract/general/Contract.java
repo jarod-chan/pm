@@ -20,9 +20,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import cn.fyg.pm.domain.model.contract.ContractRisk;
 import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.contract.ContractState;
-import cn.fyg.pm.domain.model.nogenerator.NoKey;
-import cn.fyg.pm.domain.model.nogenerator.NoPattern;
-import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
@@ -34,7 +31,7 @@ import cn.fyg.pm.domain.shared.BusiCode;
  */
 @Entity
 @Table(name="pm_contract")
-public class Contract  implements NoPatternUnit {
+public class Contract {
 	
 	public static final BusiCode BUSI_CODE = BusiCode.pm_contract;
 	
@@ -100,11 +97,11 @@ public class Contract  implements NoPatternUnit {
 		this.id = id;
 	}
 	
-	@Override
+
 	public String getNo() {
 		return no;
 	}
-	@Override
+
 	public void setNo(String no) {
 		this.no = no;
 	}
@@ -228,18 +225,4 @@ public class Contract  implements NoPatternUnit {
 		return ToStringBuilder.reflectionToString(this);
 	}
 
-	@Override
-	public NoPattern getNoPattern() {
-		NoKey nokey=new NoKey();
-		nokey.setSys("D");
-		nokey.setFlag("HT");
-		String projectNo=this.project.getNo();
-		String noParts=projectNo.substring(3);
-		nokey.setPref(noParts+this.type.getCode());
-		Long limit=Long.valueOf(9999);
-	    NoPattern noPattern = new NoPattern(nokey,limit);
-	    noPattern.setSeparator("");
-	    return noPattern;
-	}
-	
 }

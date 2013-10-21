@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,14 +13,14 @@ import cn.fyg.pm.application.DesignContService;
 import cn.fyg.pm.domain.model.design.designcont.DesignCont;
 import cn.fyg.pm.domain.model.design.designcont.DesignContCommitVld;
 import cn.fyg.pm.domain.model.design.designcont.DesignContFactory;
-import cn.fyg.pm.domain.model.design.designcont.DesignContItem;
-import cn.fyg.pm.domain.model.design.designcont.DesignContPU;
 import cn.fyg.pm.domain.model.design.designcont.DesignContRepository;
 import cn.fyg.pm.domain.model.design.designcont.DesignContState;
 import cn.fyg.pm.domain.model.design.designcont.sendlog.SendLog;
 import cn.fyg.pm.domain.model.design.designcont.sendlog.SendLogRepository;
-import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
-import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
+import cn.fyg.pm.domain.model.nogenerator.generator.Pattern;
+import cn.fyg.pm.domain.model.nogenerator.generator.PatternFactory;
+import cn.fyg.pm.domain.model.nogenerator.look.Lock;
+import cn.fyg.pm.domain.model.nogenerator.look.LockService;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.project.Project;
@@ -34,11 +35,19 @@ public class DesignContServiceImpl implements DesignContService {
 	@Autowired
 	DesignContRepository designContRepository;
 	@Autowired
-	NoGeneratorBusi noGeneratorBusi;
-	@Autowired
 	PjmemberRepository pjmemberRepository;
 	@Autowired
 	SendLogRepository sendLogRepository;
+	@Autowired
+	LockService lockService;
+	@Autowired
+	DesignContServiceExd designContServiceExd;
+	@Autowired
+	@Qualifier("designContNo")
+	PatternFactory<DesignCont> noFactory;
+	@Autowired
+	@Qualifier("designContBusino")
+	PatternFactory<DesignCont> businoFactory;
 
 	@Override
 	public List<DesignCont> query(QuerySpec<DesignCont> querySpec) {
@@ -67,19 +76,18 @@ public class DesignContServiceImpl implements DesignContService {
 	}
 
 	@Override
-	@Transactional
 	public DesignCont save(DesignCont designCont) {
-		if(designCont.getId()==null){
-			noGeneratorBusi.generateNextNo(designCont);
+		Pattern<DesignCont> pattern = noFactory.create(designCont).setEmpty(designCont.getId()!=null);
+		Lock lock = this.lockService.getLock(pattern);
+		lock.lock();
+		try{
+			return this.designContServiceExd.save(designCont,pattern);
+		}finally{
+			lock.unlock();
 		}
-		for(DesignContItem designContItem:designCont.getDesignContItems()){
-			designContItem.setDesignCont(designCont);
-		}
-		return this.designContRepository.save(designCont);
 	}
 
 	@Override
-	@Transactional
 	public DesignCont finish(Long designContId, String userKey) {
 		DesignCont designCont = this.designContRepository.findOne(designContId);
 		User leader=new User();
@@ -87,11 +95,16 @@ public class DesignContServiceImpl implements DesignContService {
 		designCont.setSigner(leader);
 		designCont.setSigndate(new Date());
 		designCont.setState(DesignContState.finish);
-		if(StringUtils.isBlank(designCont.getBusino())){
-			NoPatternUnit pu = new DesignContPU(designCont);
-			this.noGeneratorBusi.generateNextNo(pu);
+		
+		Pattern<DesignCont> pattern = this.businoFactory.create(designCont).setEmpty(StringUtils.isNotBlank(designCont.getBusino()));
+		Lock lock = this.lockService.getLock(pattern);
+		lock.lock();
+		try{
+			return this.designContServiceExd.finish(designCont,pattern);
+		}finally{
+			lock.unlock();
 		}
-		return this.designContRepository.save(designCont);
+		
 	}
 
 	@Override

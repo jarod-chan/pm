@@ -3,16 +3,19 @@ package cn.fyg.pm.application.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.SupplierService;
-import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
-import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
+import cn.fyg.pm.domain.model.nogenerator.generator.Pattern;
+import cn.fyg.pm.domain.model.nogenerator.generator.PatternFactory;
+import cn.fyg.pm.domain.model.nogenerator.look.Lock;
+import cn.fyg.pm.domain.model.nogenerator.look.LockService;
+import cn.fyg.pm.domain.model.nogenerator.norecord.NoNotLastException;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.supplier.SupplierFactory;
 import cn.fyg.pm.domain.model.supplier.SupplierRepository;
@@ -25,7 +28,12 @@ public class SupplierServiceImpl implements SupplierService {
 	@Autowired
 	SupplierRepository supplierRepository;
 	@Autowired
-	NoGeneratorBusi noGeneratorBusi;
+	@Qualifier("supplierNo")
+	PatternFactory<Supplier> noFactory;
+	@Autowired
+	LockService lockService;
+	@Autowired
+	SupplierServiceExd supplierServiceExd;
 
 	@Override
 	public List<Supplier> findAll() {
@@ -33,20 +41,29 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	@Override
-	@Transactional
 	public Supplier save(Supplier supplier) {
-		if(supplier.getId()==null){
-			noGeneratorBusi.generateNextNo(supplier);
+		Pattern<Supplier> pattern = noFactory.create(supplier).setEmpty(supplier.getId()!=null);
+		Lock lock=lockService.getLock(pattern);
+		lock.lock();
+		try{
+			return this.supplierServiceExd.save(supplier,pattern);
+		}finally{
+			lock.unlock();
 		}
-		return supplierRepository.save(supplier);
+		
 	}
 
 	@Override
-	@Transactional
 	public void delete(Long id) throws NoNotLastException {
 		Supplier supplier = this.supplierRepository.findOne(id);
-		this.noGeneratorBusi.rollbackLastNo(supplier);
-		supplierRepository.delete(id);
+		Pattern<Supplier> pattern = noFactory.create(supplier);
+		Lock lock=lockService.getLock(pattern);
+		lock.lock();
+		try{
+			this.supplierServiceExd.delete(supplier,pattern);
+		}finally{
+			lock.unlock();
+		}
 	}
 
 	@Override

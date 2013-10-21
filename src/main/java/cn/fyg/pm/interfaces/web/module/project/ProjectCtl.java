@@ -21,7 +21,7 @@ import cn.fyg.pm.application.PjmemberService;
 import cn.fyg.pm.application.ProjectService;
 import cn.fyg.pm.application.RoleService;
 import cn.fyg.pm.application.UserService;
-import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
+import cn.fyg.pm.domain.model.nogenerator.norecord.NoNotLastException;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.role.Role;
 import cn.fyg.pm.domain.model.role.RoleType;

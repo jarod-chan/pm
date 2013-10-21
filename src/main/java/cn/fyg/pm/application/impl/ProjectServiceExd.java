@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
-import cn.fyg.pm.domain.model.nogenerator2.generator3.Pattern;
-import cn.fyg.pm.domain.model.nogenerator2.service.GeneService;
+import cn.fyg.pm.domain.model.nogenerator.generator.Pattern;
+import cn.fyg.pm.domain.model.nogenerator.norecord.NoNotLastException;
+import cn.fyg.pm.domain.model.nogenerator.service.GeneService;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.project.Project;
@@ -32,7 +32,6 @@ public class ProjectServiceExd {
 		return projectRepository.save(project);
 	}
 
-	
 	@Transactional
 	public void delete(Project project, Pattern<Project> pattern) throws NoNotLastException {
 		this.geneService.rollbackLastNo(pattern);

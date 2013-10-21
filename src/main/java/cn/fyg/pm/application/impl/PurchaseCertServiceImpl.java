@@ -3,21 +3,23 @@ package cn.fyg.pm.application.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.PurchaseCertService;
-import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
-import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
+import cn.fyg.pm.domain.model.nogenerator.generator.Pattern;
+import cn.fyg.pm.domain.model.nogenerator.generator.PatternFactory;
+import cn.fyg.pm.domain.model.nogenerator.look.Lock;
+import cn.fyg.pm.domain.model.nogenerator.look.LockService;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCert;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertCommitVld;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertFactory;
-import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertItem;
-import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertPU;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertRepository;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertState;
 import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqBusi;
@@ -35,13 +37,21 @@ public class PurchaseCertServiceImpl implements PurchaseCertService {
 	@Autowired
 	PurchaseCertRepository purchaseCertRepository;
 	@Autowired
-	NoGeneratorBusi noGeneratorBusi;
-	@Autowired
 	PjmemberRepository pjmemberRepository;
 	@Autowired
 	PurchaseReqItemRepository purchaseReqItemRepository;
 	@Autowired
 	PurchaseReqBusi purchaseReqBusi;
+	@Autowired
+	LockService lockService;
+	@Autowired
+	PurchaseCertServiceExd purchaseCertServiceExd;
+	@Autowired
+	@Qualifier("purchaseCertNo")
+	PatternFactory<PurchaseCert> noFactroy;
+	@Autowired
+	@Qualifier("purchaseCertBusino")
+	PatternFactory<PurchaseCert> businoFactroy;
 	
 	@Override
 	public List<PurchaseCert> query(QuerySpec<PurchaseCert> querySpec) {
@@ -63,15 +73,15 @@ public class PurchaseCertServiceImpl implements PurchaseCertService {
 	}
 
 	@Override
-	@Transactional
 	public PurchaseCert save(PurchaseCert purchaseCert) {
-		if(purchaseCert.getId()==null){
-			noGeneratorBusi.generateNextNo(purchaseCert);
+		Pattern<PurchaseCert> pattern = this.noFactroy.create(purchaseCert).setEmpty(purchaseCert.getId()!=null);
+		Lock lock = this.lockService.getLock(pattern);
+		lock.lock();
+		try{
+			return this.purchaseCertServiceExd.save(purchaseCert,pattern);
+		}finally{
+			lock.unlock();
 		}
-		for (PurchaseCertItem purchaseCertItem : purchaseCert.getPurchaseCertItems()) {
-			purchaseCertItem.setPurchaseCert(purchaseCert);
-		}
-		return purchaseCertRepository.save(purchaseCert);
 	}
 
 	@Override
@@ -89,11 +99,15 @@ public class PurchaseCertServiceImpl implements PurchaseCertService {
 		purchaseCert.setSigner(leader);
 		purchaseCert.setSigndate(new Date());
 		purchaseCert.setState(PurchaseCertState.finish);
-		if(purchaseCert.getBusino()==null){
-			NoPatternUnit pu = new PurchaseCertPU(purchaseCert);
-			this.noGeneratorBusi.generateNextNo(pu);
+		
+		Pattern<PurchaseCert> pattern = this.businoFactroy.create(purchaseCert).setEmpty(StringUtils.isNotBlank(purchaseCert.getBusino()));
+		Lock lock = this.lockService.getLock(pattern);
+		lock.lock();
+		try{
+			this.purchaseCertServiceExd.finish(purchaseCert,pattern);
+		}finally{
+			lock.unlock();
 		}
-		this.purchaseCertRepository.save(purchaseCert);
 	}
 
 	@Override
