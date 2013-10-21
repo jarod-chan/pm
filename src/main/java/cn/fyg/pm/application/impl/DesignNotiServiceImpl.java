@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specifications;
@@ -15,12 +16,12 @@ import cn.fyg.pm.application.DesignNotiService;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiCommitVld;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiFactory;
-import cn.fyg.pm.domain.model.design.designnoti.DesignNotiItem;
-import cn.fyg.pm.domain.model.design.designnoti.DesignNotiPU;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiRepository;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiState;
-import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
-import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
+import cn.fyg.pm.domain.model.nogenerator.generator.Pattern;
+import cn.fyg.pm.domain.model.nogenerator.generator.PatternFactory;
+import cn.fyg.pm.domain.model.nogenerator.look.Lock;
+import cn.fyg.pm.domain.model.nogenerator.look.LockService;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.project.Project;
@@ -37,7 +38,15 @@ public class DesignNotiServiceImpl implements DesignNotiService {
 	@Autowired
 	PjmemberRepository pjmemberRepository;
 	@Autowired
-	NoGeneratorBusi noGeneratorBusi;
+	DesignNotiServiceExd designNotiServiceExd;
+	@Autowired
+	LockService lockService;
+	@Autowired
+	@Qualifier("designNotiNo")
+	PatternFactory<DesignNoti> noFactory;
+	@Autowired
+	@Qualifier("designNotiBusino")
+	PatternFactory<DesignNoti> businoFactory;
 	
 	@Override
 	public List<DesignNoti> query(QuerySpec<DesignNoti> querySpec) {
@@ -67,20 +76,19 @@ public class DesignNotiServiceImpl implements DesignNotiService {
 	}
 
 	@Override
-	@Transactional
 	public DesignNoti save(DesignNoti designNoti) {
-		if(designNoti.getId()==null){
-			noGeneratorBusi.generateNextNo(designNoti);
+		Pattern<DesignNoti> pattern = noFactory.create(designNoti).setEmpty(designNoti.getId()!=null);
+		Lock lock = this.lockService.getLock(pattern);
+		lock.lock();
+		try{
+			return this.designNotiServiceExd.save(designNoti,pattern);
+		}finally{
+			lock.unlock();
 		}
-		for(DesignNotiItem designNotiItem:designNoti.getDesignNotiItems()){
-			designNotiItem.setDesignNoti(designNoti);
-		}
-		return this.designNotiRepository.save(designNoti);
 	}
 
 	@Override
-	@Transactional
-	public DesignNoti finish(Long designNotiId, String userKey) {
+	public void finish(Long designNotiId, String userKey) {
 		DesignNoti designNoti = this.designNotiRepository.findOne(designNotiId);
 		
 		User leader=new User();
@@ -89,12 +97,15 @@ public class DesignNotiServiceImpl implements DesignNotiService {
 		designNoti.setSigndate(new Date());
 		designNoti.setState(DesignNotiState.finish);
 		
-		if(StringUtils.isBlank(designNoti.getBusino())){			
-			NoPatternUnit pu = new DesignNotiPU(designNoti);
-			this.noGeneratorBusi.generateNextNo(pu);
+		Pattern<DesignNoti> pattern = this.businoFactory.create(designNoti).setEmpty(StringUtils.isNotBlank(designNoti.getBusino()));
+		Lock lock = this.lockService.getLock(pattern);
+		lock.lock();
+		try{
+			this.designNotiServiceExd.finish(designNoti,pattern);
+		}finally{
+			lock.unlock();
 		}
 		
-		return this.designNotiRepository.save(designNoti);
 	}
 
 	@Override

@@ -21,17 +21,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import cn.fyg.pm.domain.model.nogenerator.NoKey;
-import cn.fyg.pm.domain.model.nogenerator.NoPattern;
-import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.BusiCode;
-import cn.fyg.pm.infrastructure.tool.date.DateUtil;
 
 @Entity
 @Table(name="pm_purchasecert")
-public class PurchaseCert implements NoPatternUnit{
+public class PurchaseCert {
 	
 	public static final BusiCode BUSI_CODE = BusiCode.pm_purchasecert;
 	
@@ -208,17 +204,4 @@ public class PurchaseCert implements NoPatternUnit{
 		this.purchaseCertItems = purchaseCertItems;
 	}
 
-	@Override
-	public NoPattern getNoPattern() {
-		NoKey nokey=new NoKey();
-		nokey.setSys("D");
-		nokey.setFlag("");
-		int year=DateUtil.year();
-		String pref=String.valueOf(year).substring(2);
-		nokey.setPref(pref);
-		Long limit=Long.valueOf(9999);
-	    NoPattern noPattern = new NoPattern(nokey,limit);
-	    noPattern.setSeparator("");
-	    return noPattern;
-	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -15,13 +16,13 @@ import cn.fyg.pm.application.ConstructContService;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContCommitVld;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContFactory;
-import cn.fyg.pm.domain.model.construct.constructcont.ConstructContItem;
-import cn.fyg.pm.domain.model.construct.constructcont.ConstructContPU;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContRepository;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
-import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
-import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
+import cn.fyg.pm.domain.model.nogenerator.generator.Pattern;
+import cn.fyg.pm.domain.model.nogenerator.generator.PatternFactory;
+import cn.fyg.pm.domain.model.nogenerator.look.Lock;
+import cn.fyg.pm.domain.model.nogenerator.look.LockService;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.project.Project;
@@ -37,26 +38,33 @@ public class ConstructContServiceImpl implements ConstructContService {
 	@Autowired
 	ConstructContRepository constructContRepository;
 	@Autowired
-	NoGeneratorBusi noGeneratorBusi;
-	@Autowired
 	PjmemberRepository pjmemberRepository;
-
+	@Autowired
+	LockService lockService;
+	@Autowired
+	ConstructContServiceExd constructContServiceExd;
+	@Autowired
+	@Qualifier("constructContNo")
+	PatternFactory<ConstructCont> noFactory;
+	@Autowired
+	@Qualifier("constructContBusino")
+	PatternFactory<ConstructCont> businoFactory;
+	
 	@Override
 	public List<ConstructCont> findAll() {
 		return this.constructContRepository.findAll();
 	}
 
 	@Override
-	@Transactional
 	public ConstructCont save(ConstructCont constructCont) {
-		if(constructCont.getId()==null){
-			this.noGeneratorBusi.generateNextNo(constructCont);
+		Pattern<ConstructCont> pattern = noFactory.create(constructCont).setEmpty(constructCont.getId()!=null);
+		Lock lock = lockService.getLock(pattern);
+		lock.lock();
+		try{
+			return this.constructContServiceExd.save(constructCont,pattern);
+		}finally{
+			lock.unlock();
 		}
-		//TODO 待重构
-		for(ConstructContItem constructContItem:constructCont.getConstructContItems()){
-			constructContItem.setConstructCont(constructCont);
-		}
-		return this.constructContRepository.save(constructCont);
 	}
 
 	@Override
@@ -103,7 +111,6 @@ public class ConstructContServiceImpl implements ConstructContService {
 	}
 
 	@Override
-	@Transactional
 	public void finish(Long constructContId,String userKey) {
 		ConstructCont constructCont = this.constructContRepository.findOne(constructContId);
 		
@@ -113,11 +120,15 @@ public class ConstructContServiceImpl implements ConstructContService {
 		constructCont.setSigndate(new Date());
 		constructCont.setState(ConstructContState.finish);
 		
-		if(StringUtils.isBlank(constructCont.getBusino())){			
-			NoPatternUnit pu = new ConstructContPU(constructCont);
-			this.noGeneratorBusi.generateNextNo(pu);
+		Pattern<ConstructCont> pattern = businoFactory.create(constructCont).setEmpty(StringUtils.isNotBlank(constructCont.getBusino()));
+		Lock lock = this.lockService.getLock(pattern);
+		lock.lock();
+		try{
+			this.constructContServiceExd.finish(constructCont,pattern);
+		}finally{
+			lock.unlock();
 		}
-		this.constructContRepository.save(constructCont);
+
 	}
 
 	@Override

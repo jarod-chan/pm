@@ -27,17 +27,13 @@ import cn.fyg.pm.domain.model.contract.general.Contract;
 import cn.fyg.pm.domain.model.design.TechType;
 import cn.fyg.pm.domain.model.design.designcont.reason.Reason;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
-import cn.fyg.pm.domain.model.nogenerator.NoKey;
-import cn.fyg.pm.domain.model.nogenerator.NoPattern;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.BusiCode;
-import cn.fyg.pm.domain.shared.CommonNoPatternUnit;
-import cn.fyg.pm.infrastructure.tool.date.DateUtil;
 
 @Entity
 @Table(name="pm_designcont")
-public class DesignCont  extends CommonNoPatternUnit{
+public class DesignCont {
 	
 	public static final BusiCode BUSI_CODE=BusiCode.pm_designcont;
 	
@@ -269,18 +265,5 @@ public class DesignCont  extends CommonNoPatternUnit{
 	public void setSendnumb(Long sendnumb) {
 		this.sendnumb = sendnumb;
 	}
-	
-	@Override
-	public NoPattern getNoPattern() {
-		NoKey nokey=new NoKey();
-		nokey.setSys("F");
-		nokey.setFlag("");
-		int year=DateUtil.year();
-		String pref=String.valueOf(year).substring(2);
-		nokey.setPref(pref);
-		Long limit=Long.valueOf(9999);
-	    NoPattern noPattern = new NoPattern(nokey,limit);
-	    noPattern.setSeparator("");
-	    return noPattern;
-	}
+
 }

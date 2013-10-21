@@ -3,14 +3,15 @@ package cn.fyg.pm.application.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ProjectService;
-import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
-import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
-import cn.fyg.pm.domain.model.pjmember.Pjmember;
-import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
+import cn.fyg.pm.domain.model.nogenerator.generator.Pattern;
+import cn.fyg.pm.domain.model.nogenerator.generator.PatternFactory;
+import cn.fyg.pm.domain.model.nogenerator.look.Lock;
+import cn.fyg.pm.domain.model.nogenerator.look.LockService;
+import cn.fyg.pm.domain.model.nogenerator.norecord.NoNotLastException;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.project.ProjectFactory;
 import cn.fyg.pm.domain.model.project.ProjectRepository;
@@ -22,17 +23,23 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	ProjectRepository projectRepository;
 	@Autowired
-	PjmemberRepository pjmemberRepository;
+	ProjectServiceExd projectServiceExd;
 	@Autowired
-	NoGeneratorBusi noGeneratorBusi;
-
+	@Qualifier("projectNo")
+	PatternFactory<Project> noFactory;
+	@Autowired
+	LockService lockService;
+	
 	@Override
-	@Transactional
 	public Project save(Project project) {
-		if(project.getId()==null){
-			noGeneratorBusi.generateNextNo(project);
+		Pattern<Project> pattern = noFactory.create(project).setEmpty(project.getId()!=null);
+		Lock lock = this.lockService.getLock(pattern);
+		lock.lock();
+		try{
+			return this.projectServiceExd.save(project,pattern);
+		}finally{
+			lock.unlock();
 		}
-		return projectRepository.save(project);
 	}
 
 	@Override
@@ -41,13 +48,16 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	@Transactional
 	public void delete(Long id) throws NoNotLastException {
 		Project project = this.projectRepository.findOne(id);
-		this.noGeneratorBusi.rollbackLastNo(project);
-		List<Pjmember> projectPjmembers = this.pjmemberRepository.findByProject(project);
-		this.pjmemberRepository.delete(projectPjmembers);
-		projectRepository.delete(id);
+		Pattern<Project> pattern = noFactory.create(project);
+		Lock lock = this.lockService.getLock(pattern);
+		lock.lock();
+		try{
+			this.projectServiceExd.delete(project,pattern);
+		}finally{
+			lock.unlock();
+		}
 	}
 
 	@Override

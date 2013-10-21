@@ -8,7 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import cn.fyg.pm.application.common.ServiceQuery;
-import cn.fyg.pm.domain.model.nogenerator.NoNotLastException;
+import cn.fyg.pm.domain.model.nogenerator.norecord.NoNotLastException;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 

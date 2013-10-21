@@ -1,17 +1,21 @@
-package cn.fyg.pm.domain.model.nogenerator;
+package cn.fyg.pm.domain.model.nogenerator.norecord;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 
 @Entity
 @Table(name="pm_norecord")
-public class NoRecord {
+public class NoRecord2 {
+	
+	public static final Logger logger=LoggerFactory.getLogger(NoRecord2.class);
 	
     @EmbeddedId  
 	private NoKey noKey;//编码模式
@@ -20,43 +24,54 @@ public class NoRecord {
 	
 	private Long limmit;//最大序号
 	
-	public NoRecord(){
+	
+	public NoRecord2(){
 		super();
 	}
 	
-	public NoRecord(NoKey noKey, Long currno, Long limmit) {
+	public NoRecord2(NoKey noKey, Long currno, Long limmit) {
 		super();
 		this.noKey = noKey;
 		this.currno = currno;
 		this.limmit = limmit;
 	}
 	
-	/**
-	 * 获得当前编号
-	 * @return
-	 */
-	public String generateCurrNo(String separator){
-		int flownoLength=this.limmit.toString().length();
-		String flowno=Strings.padStart(this.currno.toString(), flownoLength, '0');
-		return Joiner.on("").join(this.noKey.getSys(),this.noKey.getFlag(),this.noKey.getPref(),separator,flowno);
-	}
+
 	
+
 	/**
 	 * 回退上一位编号
 	 */
-	public void generatePrevNo(){
+	public String prevNo(String lastNo) throws NoNotLastException{
+		if(!lastNo.equals(currNo())){
+			throw new NoNotLastException(String.format("对象编码[%s]不是最新数据，无法删除",lastNo));
+		}
 		this.currno=this.currno-1;
+		return currNo();
 	}
 
 	/**
 	 * 获得下个编号，使编号向下推一位
 	 * @return
 	 */
-	public String generateNextNo(String separator){
-		this.currno=this.currno+1;
+	public  String nextNo(){
 		if(this.currno.compareTo(this.limmit)>0) throw new RuntimeException(this.toString()+"系统编码越界");
-		return generateCurrNo(separator);
+		this.currno=this.currno+1;
+		return currNo();
 	}
+	
+	/**
+	 * 获得当前编号
+	 * @return
+	 */
+	private String currNo(){
+		int flownoLength=this.limmit.toString().length();
+		String flowno=Strings.padStart(this.currno.toString(), flownoLength, '0');
+		return Joiner.on("").join(this.noKey.getSys(),this.noKey.getFlag(),this.noKey.getPref(),flowno);
+	}
+	
+	
+
 
 	public NoKey getNoKey() {
 		return noKey;

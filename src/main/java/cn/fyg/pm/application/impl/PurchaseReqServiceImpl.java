@@ -3,7 +3,9 @@ package cn.fyg.pm.application.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specifications;
@@ -11,19 +13,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.PurchaseReqService;
-import cn.fyg.pm.domain.model.nogenerator.NoGeneratorBusi;
-import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
+import cn.fyg.pm.domain.model.nogenerator.generator.Pattern;
+import cn.fyg.pm.domain.model.nogenerator.generator.PatternFactory;
+import cn.fyg.pm.domain.model.nogenerator.look.Lock;
+import cn.fyg.pm.domain.model.nogenerator.look.LockService;
 import cn.fyg.pm.domain.model.pjmember.Pjmember;
 import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
 import cn.fyg.pm.domain.model.purchase.purchasereq.PurchaseReqBusi;
-import cn.fyg.pm.domain.model.purchase.purchasereq.item.PurchaseReqItem;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqCommitVld;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqFactory;
-import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqPU;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqRepository;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqState;
 import cn.fyg.pm.domain.model.role.Role;
@@ -39,9 +41,17 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 	@Autowired
 	PurchaseReqBusi purchaseReqBusi;
 	@Autowired
-	NoGeneratorBusi noGeneratorBusi;
-	@Autowired
 	PjmemberRepository pjmemberRepository;
+	@Autowired
+	LockService lockService;
+	@Autowired
+	@Qualifier("purchaseReqNo")
+	PatternFactory<PurchaseReq> noFactory;
+	@Autowired
+	@Qualifier("purchaseReqBusino")
+	PatternFactory<PurchaseReq> businoFactory;
+	@Autowired
+	PurchaseReqServiceExd purchaseReqServiceExd;
 
 	@Override
 	public List<PurchaseReq> query(QuerySpec<PurchaseReq> querySpec) {
@@ -65,13 +75,14 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 	@Override
 	@Transactional
 	public PurchaseReq save(PurchaseReq purchaseReq) {
-		if(purchaseReq.getId()==null){
-			noGeneratorBusi.generateNextNo(purchaseReq);
+		Pattern<PurchaseReq> pattern = noFactory.create(purchaseReq).setEmpty(purchaseReq.getId()!=null);
+		Lock lock = this.lockService.getLock(pattern);
+		lock.lock();
+		try{
+			return this.purchaseReqServiceExd.save(purchaseReq,pattern);
+		}finally{
+			lock.unlock();
 		}
-		for(PurchaseReqItem purchaseReqItem:purchaseReq.getPurchaseReqItems()){
-			purchaseReqItem.setPurchaseReq(purchaseReq);
-		}
-		return purchaseReqRepository.save(purchaseReq);
 	}
 
 	@Override
@@ -103,19 +114,22 @@ public class PurchaseReqServiceImpl implements PurchaseReqService {
 	}
 
 	@Override
-	@Transactional
-	public PurchaseReq finish(Long purchaseReqId,String userKey){
+	public void finish(Long purchaseReqId,String userKey){
 		PurchaseReq purchaseReq = this.purchaseReqRepository.findOne(purchaseReqId);
 		User leader=new User();
 		leader.setKey(userKey);
 		purchaseReq.setSigner(leader);
 		purchaseReq.setSigndate(new Date());
 		purchaseReq.setState(PurchaseReqState.finish);
-		if(purchaseReq.getBusino()==null){
-			NoPatternUnit pu = new PurchaseReqPU(purchaseReq);
-			this.noGeneratorBusi.generateNextNo(pu);
+		
+		Pattern<PurchaseReq> pattern = this.businoFactory.create(purchaseReq).setEmpty(StringUtils.isNotBlank(purchaseReq.getBusino()));
+		Lock lock = this.lockService.getLock(pattern);
+		lock.lock();
+		try{
+			this.purchaseReqServiceExd.finish(purchaseReq,pattern);
+		}finally{
+			lock.unlock();
 		}
-		return this.save(purchaseReq);
 	}
 
 	@Override

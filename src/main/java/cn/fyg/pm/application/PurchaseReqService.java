@@ -23,7 +23,7 @@ public interface PurchaseReqService extends ServiceQuery<PurchaseReq>,CommitVali
 
 	PurchaseReq save(PurchaseReq purchaseReq);
 	
-	PurchaseReq finish(Long purchaseReqId,String userKey);
+	void finish(Long purchaseReqId,String userKey);
 	
 	List<PurchaseReq> findByProject(Project project,PurchaseReqState state);
 	

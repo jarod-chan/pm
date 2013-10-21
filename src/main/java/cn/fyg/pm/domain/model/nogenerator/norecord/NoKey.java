@@ -1,4 +1,4 @@
-package cn.fyg.pm.domain.model.nogenerator;
+package cn.fyg.pm.domain.model.nogenerator.norecord;
 
 import java.io.Serializable;
 

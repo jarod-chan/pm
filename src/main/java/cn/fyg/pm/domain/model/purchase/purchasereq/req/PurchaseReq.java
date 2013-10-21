@@ -20,21 +20,17 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import cn.fyg.pm.domain.model.nogenerator.NoKey;
-import cn.fyg.pm.domain.model.nogenerator.NoPattern;
-import cn.fyg.pm.domain.model.nogenerator.NoPatternUnit;
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.PurchaseReqItem;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.BusiCode;
-import cn.fyg.pm.infrastructure.tool.date.DateUtil;
 
 /**
  *采购申请单
  */
 @Entity
 @Table(name="pm_purchasereq")
-public class PurchaseReq implements NoPatternUnit{
+public class PurchaseReq{
 	
 	public static final BusiCode BUSI_CODE = BusiCode.pm_purchasereq;
 
@@ -212,18 +208,6 @@ public class PurchaseReq implements NoPatternUnit{
 		this.busino = busino;
 	}
 	
-	@Override
-	public NoPattern getNoPattern() {
-		NoKey nokey=new NoKey();
-		nokey.setSys("C");
-		nokey.setFlag("");
-		int year=DateUtil.year();
-		String pref=String.valueOf(year).substring(2);
-		nokey.setPref(pref);
-		Long limit=Long.valueOf(9999);
-	    NoPattern noPattern = new NoPattern(nokey,limit);
-	    noPattern.setSeparator("");
-	    return noPattern;
-	}
+
 
 }

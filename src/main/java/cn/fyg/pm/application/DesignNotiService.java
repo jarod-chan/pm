@@ -21,7 +21,7 @@ public interface DesignNotiService extends ServiceQuery<DesignNoti>,CommitValida
 
 	DesignNoti save(DesignNoti designNoti);
 	
-	DesignNoti finish(Long designNotiId,String userKey);
+	void finish(Long designNotiId,String userKey);
 	
 	List<DesignNoti> findByProject(Project project,DesignNotiState state);
 	
