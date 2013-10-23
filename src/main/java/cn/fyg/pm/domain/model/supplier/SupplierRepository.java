@@ -5,9 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.Repository;
 
-import cn.fyg.pm.domain.shared.repositoryquery.RepositoryQuery;
-
-public interface SupplierRepository extends Repository<Supplier,Long>,JpaSpecificationExecutor<Supplier>,RepositoryQuery<Supplier>{
+public interface SupplierRepository extends Repository<Supplier,Long>,JpaSpecificationExecutor<Supplier>{
 	
 	Supplier save(Supplier supplier);
 

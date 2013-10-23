@@ -1,10 +1,8 @@
 package cn.fyg.pm.interfaces.web.module.contractmeter.query;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.data.jpa.domain.Specification;
 
 import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.contract.purchase.ContractMeter;
@@ -76,10 +74,9 @@ public class ContractMeterQuery  extends AbstractQuerySpec<ContractMeter>{
 	public void initOrderAttributeList(List<Qitem> attributeList) {
 		attributeList.add(new Qitem("no","编号"));
 	}
-
+	
 	@Override
-	public Specification<ContractMeter> getSpec() {
-		List<Specification<ContractMeter>> specs=new ArrayList<Specification<ContractMeter>>();
+	public void doSpec(java.util.List<org.springframework.data.jpa.domain.Specification<ContractMeter>> specs) {
 		if(StringUtils.isNotBlank(this.getNo())){
 			specs.add(ContractMeterSpecs.noLike(this.getNo()));
 		}
@@ -101,8 +98,7 @@ public class ContractMeterQuery  extends AbstractQuerySpec<ContractMeter>{
 		if(this.getProject()!=null){
 			specs.add(ContractMeterSpecs.inProject(project));
 		}
-				
-		return toSpec(specs);
 	}
+	
 
 }

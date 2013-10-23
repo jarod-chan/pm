@@ -40,7 +40,7 @@ public class SupplierCtl {
 	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
 	public String toList(SupplierQuery query,@PathVariable("supptype")Supptype supptype,Map<String,Object> map){
 		query.setType(supptype);
-		List<Supplier> supplierList = supplierService.query(query);
+		List<Supplier> supplierList = supplierService.findAll(query.getSpec(), query.getSort());
 		map.put("supplierList", supplierList);
 		map.put("supptype", supptype);
 		map.put("query", query);
@@ -62,6 +62,7 @@ public class SupplierCtl {
 		ServletRequestDataBinder binder = new ServletRequestDataBinder(supplier);
 		binder.bind(request);
 		supplierService.save(supplier);
+		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("保存成功"));
 		return "redirect:list";
 	}
 	

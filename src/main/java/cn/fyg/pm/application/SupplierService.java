@@ -7,24 +7,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
-import cn.fyg.pm.application.common.ServiceQuery;
 import cn.fyg.pm.domain.model.nogenerator.norecord.NoNotLastException;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.supplier.Supptype;
 
 
 
-public interface SupplierService extends ServiceQuery<Supplier> {
-	
-	List<Supplier> findAll();
+public interface SupplierService{
+
+	Supplier create();
 	
 	Supplier save(Supplier supplier);
 	
 	void delete(Long id) throws NoNotLastException;
 
-	Supplier create();
-
 	Supplier find(Long supplierId);
+
 	
 	List<Supplier> findByType(Supptype supptype);
 

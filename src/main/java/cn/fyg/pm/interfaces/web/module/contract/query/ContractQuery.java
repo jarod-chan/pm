@@ -1,6 +1,5 @@
 package cn.fyg.pm.interfaces.web.module.contract.query;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -87,8 +86,8 @@ public class ContractQuery extends AbstractQuerySpec<Contract>{
 		attributeList.add(new Qitem("no","编号"));
 	}
 	
-	public Specification<Contract> getSpec(){
-		List<Specification<Contract>> specs=new ArrayList<Specification<Contract>>();
+	@Override
+	public void doSpec(List<Specification<Contract>> specs) {
 		if(StringUtils.isNotBlank(this.getNo())){
 			specs.add(ContractSpecs.noLike(this.getNo()));
 		}
@@ -114,8 +113,8 @@ public class ContractQuery extends AbstractQuerySpec<Contract>{
 		if(this.getContractType()!=null){
 			specs.add(ContractSpecs.isContractType(this.getContractType()));
 		}
-		
-		return toSpec(specs);
 	}
+	
+
 	
 }

@@ -28,6 +28,24 @@ public class SupplierSpecs {
 		};
 	}
 	
+	public static Specification<Supplier> isCreditRank(final CreditRank creditRank) {
+		return new Specification<Supplier>() {
+			@Override
+			public Predicate toPredicate(Root<Supplier> root,CriteriaQuery<?> query, CriteriaBuilder cb) {
+				return cb.equal(root.get("creditRank"), creditRank);
+			}
+		};
+	}
+	
+	public static Specification<Supplier> isType(final Supptype type) {
+		return new Specification<Supplier>() {
+			@Override
+			public Predicate toPredicate(Root<Supplier> root,CriteriaQuery<?> query, CriteriaBuilder cb) {
+				return cb.equal(root.get("type"), type);
+			}
+		};
+	}
+	
 	public static Specification<Supplier> typeIn(final Supptype[] types) {
 		return new Specification<Supplier>() {
 			@Override

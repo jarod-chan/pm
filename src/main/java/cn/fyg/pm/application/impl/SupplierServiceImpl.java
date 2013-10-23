@@ -20,7 +20,6 @@ import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.supplier.SupplierFactory;
 import cn.fyg.pm.domain.model.supplier.SupplierRepository;
 import cn.fyg.pm.domain.model.supplier.Supptype;
-import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 
 @Service("supplierService")
 public class SupplierServiceImpl implements SupplierService {
@@ -35,10 +34,6 @@ public class SupplierServiceImpl implements SupplierService {
 	@Autowired
 	SupplierServiceExd supplierServiceExd;
 
-	@Override
-	public List<Supplier> findAll() {
-		return supplierRepository.findAll();
-	}
 
 	@Override
 	public Supplier save(Supplier supplier) {
@@ -87,13 +82,7 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	@Override
-	public List<Supplier> query(QuerySpec<Supplier> querySpec) {
-		return this.supplierRepository.query(Supplier.class, querySpec);
-	}
-
-	@Override
-	public Page<Supplier> findAll(Specification<Supplier> spec,
-			Pageable pageable) {
+	public Page<Supplier> findAll(Specification<Supplier> spec,Pageable pageable) {
 		return this.supplierRepository.findAll(spec, pageable);
 	}
 
