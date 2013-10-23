@@ -17,15 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import cn.fyg.pm.application.PjmemberService;
 import cn.fyg.pm.application.ProjectService;
-import cn.fyg.pm.application.RoleService;
-import cn.fyg.pm.application.UserService;
 import cn.fyg.pm.domain.model.nogenerator.norecord.NoNotLastException;
 import cn.fyg.pm.domain.model.project.Project;
-import cn.fyg.pm.domain.model.role.Role;
-import cn.fyg.pm.domain.model.role.RoleType;
-import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.module.project.query.ProjectQuery;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.CustomEditorFactory;
@@ -38,20 +32,10 @@ public class ProjectCtl {
 	private interface Page {
 		String LIST = PATH + "list";
 		String EDIT = PATH + "edit";
-		String PJMEMBER= PATH +"pjmember";
 	}
 	
 	@Autowired
-	UserService userService;
-	@Autowired
 	ProjectService projectService;
-	@Autowired
-	PjmemberService pjmemberService;
-	@Autowired
-	PjmemberFacade pjmemberFacade;
-	@Autowired
-	RoleService roleService;
-	
 	
 	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
 	public String toList(ProjectQuery query,Map<String,Object> map){
@@ -91,24 +75,5 @@ public class ProjectCtl {
 		return "redirect:list";
 	}
 	
-	@RequestMapping(value="{projectId}/pjmember",method=RequestMethod.GET)
-	public String toPjmember(@PathVariable("projectId")Long projectId,Map<String,Object> map){
-		Project project= this.projectService.find(projectId);
-		List<User> userList = this.userService.findAll();
-		List<Role> pjroles = this.roleService.findByRoleType(RoleType.project);
-		Map<User, Role> projectUserRole = pjmemberService.getProjectUserRole(project);
-		List<PjmemberDto> pjmemberDtos =PjmemberAssembler.build(userList, projectUserRole);
 
-		map.put("project", project);
-		map.put("pjmemberDtos", pjmemberDtos);
-		map.put("pjroles", pjroles);
-		return Page.PJMEMBER;
-	}
-
-	@RequestMapping(value="{projectId}/pjmember/save",method=RequestMethod.POST)
-	public String savePjmember(@PathVariable("projectId")Long projectId,PjmemberPage pjmemberPage){
-		Project project=projectService.find(projectId);
-		pjmemberFacade.savePjmember(project, pjmemberPage.getPlt());
-		return "redirect:/project/list";
-	}
 }

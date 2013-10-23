@@ -142,6 +142,7 @@
  	padding: 0px 5px 0px 5px;
  	background: #C9C9C9;
  	color: #000000;
+ 	border: 1px #000 solid;
  }
 .span_btn_mouseon{
  	cursor: pointer;

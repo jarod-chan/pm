@@ -16,6 +16,7 @@ public interface PjmemberRepository extends Repository<Pjmember,Long> {
 	
 	List<Pjmember> findByProject(Project project);
 
+
 	void delete(Iterable<Pjmember> entities);
 	
 	List<Pjmember> findByUser(User user);
@@ -25,4 +26,6 @@ public interface PjmemberRepository extends Repository<Pjmember,Long> {
 	void delete(Pjmember pjmember);
 	
 	List<Pjmember> findByProjectAndRole(Project project,Role role);
+
+	void delete(Long id);
 }

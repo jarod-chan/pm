@@ -3,6 +3,9 @@ package cn.fyg.pm.application.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,6 +62,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> findByEnabled(EnabledEnum enabled) {
 		return this.userRepository.findByEnabled(enabled);
+	}
+
+	@Override
+	public Page<User> findAll(Specification<User> spec, Pageable pageable) {
+		return this.userRepository.findAll(spec, pageable);
 	}
 
 }

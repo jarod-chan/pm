@@ -34,22 +34,23 @@ public interface PjmemberService {
 	 */
 	List<User> getProjectUser(Project project);
 	
+	
 	/**
 	 * 获得项目的用户以及角色
 	 * @param project
 	 * @return
 	 */
-	Map<User,Role>getProjectUserRole(Project project); 
+	Map<User,Role> getProjectUserRole(Project project); 
 	
 	/**
-	 * 给项目添加成员
+	 * 给项目添加成员和对应角色
 	 * @param project
 	 * @param user
 	 */
 	void appendPrjectUser(Project project,User user,Role role);
 
 	/**
-	 * 
+	 * 删除项目成员
 	 * @param project
 	 * @param user
 	 */

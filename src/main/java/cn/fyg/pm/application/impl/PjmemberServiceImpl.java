@@ -112,4 +112,6 @@ public class PjmemberServiceImpl implements PjmemberService {
 			return "admin";
 		}
 	}
+
+
 }

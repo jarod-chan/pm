@@ -6,7 +6,15 @@
 <head>
 	<%@ include file="/common/setting.jsp" %>
 	<%@ include file="/common/meta.jsp" %>
-	<%@ include file="/common/include.jsp" %>	
+	<%@ include file="/common/include.jsp" %>
+	<%@ include file="/common/jqui.jsp" %>	
+	<%@ include file="/common/jqui2.jsp" %>	
+	
+	<style type="text/css">
+		.selectTd{
+			background-color: red;
+		}
+	</style>	
 
 
     <script type="text/javascript">
@@ -32,41 +40,130 @@
 			return false;
 		});
     });
+    
+    $(function(){
+    	
+    	var trdom = $("<tr>");
+		$("<td>")
+		  .append($("<input type='hidden' name='' value='pjmembers_id'>"))
+		  .css("display","none")
+		  .appendTo(trdom);
+		
+		$("<td>").appendTo(trdom);
+		
+		var selDom=$("<select name='pjmembers_role.key' />");
+		$("<option value=''>--</option>").appendTo(selDom);
+		<c:forEach var="pjrole" items="${pjroles}">$("<option value='${pjrole.key}' >${pjrole.name}</option>").appendTo(selDom);</c:forEach>
+		
+		$("<td>").append(selDom)
+		  .appendTo(trdom);
+		
+		$("<td>").append($("<span class='span_btn btn_selUser' >选择</span><input type='hidden' name='pjmembers_user.key' value=''>"))
+		  .appendTo(trdom);
+		  
+		 $("<td>")
+			.append($("<input type='button' class='add'  value='+'   />"))
+			.append($("<input type='button' class='remove'  value='-'   />"))
+			.appendTo(trdom); 
+		
+		
+		function add() {
+			rowAction($(this),function(tr){
+				tr.after(cloneTR()); 
+			})
+		}
+
+		function remove() {
+			rowAction($(this),function(tr){
+				tr.remove();
+			})
+		}
+		
+		function cloneTR(){
+			var newtr=trdom.clone();
+			newtr.find(".span_btn").hover(
+				function () {
+					$(this).addClass("span_btn_mouseon");
+		 		},
+		 		function () {
+		 			$(this).removeClass("span_btn_mouseon")
+		 		}
+	  	    ).click(selUserFun);
+			newtr
+			  .find("td:last :button")
+			  .filter(".add").bind("click",add).end()
+			  .filter(".remove").bind("click",remove).end();
+			return newtr;
+		};
+		
+		function rowAction(obj,funcAction){
+			var tr = obj.parents("tr:eq(0)");
+			tbody=tr.parents("tbody:eq(0)");
+			funcAction(tr);
+			reIndexTable(tbody);
+		}
+		
+		function reIndexTable(tbody){
+			var index=0;
+			tbody.find("tr").each(function(){
+				index++;		
+				$(this).find("td").eq(1).html(index);
+			});
+		}
+		
+		
+		$(".addLast").bind("click",function(){
+			var tbody=$(this).parents("thead").next();
+			tbody.append(cloneTR()); 
+			reIndexTable(tbody);
+		});
+		
+		$(".add").bind("click",add);
+	 	$(".remove").bind("click",remove);
+        	
+    	$(".datePK").datepicker();
+    	
+    })
     </script>
 </head>
 
 <body>
-	<h2>项目成员</h2>
+	<h2>【${project.name}】项目成员</h2>
 	<%@ include file="/common/message.jsp" %>	
-	
+	<br>
 	<form action="${ctx}/project/${project.id}/pjmember" method="post">
-	<table id="tblmain" class="deftable" >
+	<table id="tblmain" class="deftable hctable" >
 		<thead>
 			<tr>
-				<th>勾选</th>
-				<th>系统用户</th>
+				<th>序号</th>
 				<th>项目角色</th>
+				<th>系统用户</th>
+				<th>操作<input type="button" class="addLast" value="+"  /></th>
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach var="pjmemberDto" items="${pjmemberDtos}">
-			<tr style="height: 28px;">
-				<td>
-					<input type="checkbox" class="chk_plt" <c:if test="${pjmemberDto.checked}">checked="checked"</c:if> />
-					<input type="hidden" name="plt_checked" value="${pjmemberDto.checked}">
-					<input type="hidden" name="plt_user.key" value="${pjmemberDto.user.key}">
+		<c:forEach var="pjmember" items="${pjmembers}" varStatus="status">
+			<tr>
+				<td style="display: none">
+					<input type="hidden" name="pjmembers_id" value="${pjmember.id}">
 				</td>
 				<td>
-					${pjmemberDto.user.name}
+				  ${status.count}
 				</td>
 				<td>
-					<select name="plt_pjrole.key"  <c:if test="${not pjmemberDto.checked}">style="display:none;"</c:if>>
+					<select name="pjmembers_role.key" >
 						<option value="">--</option>
 						<c:forEach var="pjrole" items="${pjroles}">
-							<option value="${pjrole.key}" <c:if test="${pjmemberDto.pjrole.key==pjrole.key}">selected="true"</c:if> >${pjrole.name}</option>
+							<option value="${pjrole.key}" <c:if test="${pjmember.role.key==pjrole.key}">selected="true"</c:if> >${pjrole.name}</option>
 						</c:forEach>
 					</select>
 				</td>				
+				<td>
+					<span class="span_btn btn_selUser" >${pjmember.user.name}</span><input type="hidden" name="pjmembers_user.key" value="${pjmember.user.key}">
+				</td>
+				<td>
+					<input type='button' class='add'  value='+'   /><input type='button' class='remove'  value='-'   />
+				</td>
 			</tr>
 		</c:forEach>
 		</tbody>
@@ -77,5 +174,6 @@
 	<input type="button" value="返回"  id="btn_back">
 	</form>
 	
+	<%@ include file="/component/selUser.jsp" %>	
 </body>
 </html>
