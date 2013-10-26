@@ -38,7 +38,7 @@ public interface SpmemberService {
 	Map<User,Supplier> getAllUserSupplier();
 	
 	/**
-	 * 清楚用户供应商
+	 * 清除用户供应商
 	 * @param user
 	 */
 	void clearUserSupplier(User user);
