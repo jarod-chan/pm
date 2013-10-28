@@ -23,7 +23,7 @@
 	<h2>流程文件</h2>
 	<%@ include file="/common/message.jsp" %>
 	
-	<table border="1">
+	<table  class="hctable deftable" >
 		<thead>
 			<tr>
 				<th >流程文件</th>

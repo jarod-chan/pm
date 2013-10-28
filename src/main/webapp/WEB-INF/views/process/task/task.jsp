@@ -25,7 +25,7 @@
  	    	
 	 	   	$(".btn_trace").click(function(){
 	 	   		var param=$(this).metadata();
-				window.open('${ctx}/task/trace/'+param.executionId,'_blank');
+				window.open('${ctx}/trace/'+param.executionId,'_blank');
 				return false;
 			})
  	    

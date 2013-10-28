@@ -10,7 +10,7 @@
     $(function() {
 		$(".btn_trace").click(function(){
 		   	var param=$(this).metadata();
-			window.open('${ctx}/task/trace/'+param.executionId,'_blank');
+			window.open('${ctx}/trace/'+param.executionId,'_blank');
 			return false;
 		})
     });
@@ -22,7 +22,7 @@
 	<h2>运行状态</h2>
 	<%@ include file="/common/message.jsp" %>
 	
-	<table border="1">
+	<table class="hctable deftable">
 		<thead>
 			<tr>
 				<th >流程Id</th>

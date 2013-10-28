@@ -28,7 +28,9 @@ public class RunningCtl {
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String toList(Map<String,Object> map){
-		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery().list();
+		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
+				.orderByProcessInstanceId().desc()
+				.list();
 		map.put("processInstances", processInstances);
 		return Page.RUNNING;
 	}

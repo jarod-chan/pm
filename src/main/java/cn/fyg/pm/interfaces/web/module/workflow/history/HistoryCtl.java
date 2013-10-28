@@ -23,8 +23,10 @@ public class HistoryCtl {
 	HistoryService historyService;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String toHistory(Map<String,Object> map){
-		List<HistoricProcessInstance> history = historyService.createHistoricProcessInstanceQuery().list();
+	public String toHistory(Map<String, Object> map) {
+		List<HistoricProcessInstance> history = historyService
+				.createHistoricProcessInstanceQuery()
+				.orderByProcessInstanceId().desc().list();
 		map.put("history", history);
 		return Page.HISTORY;
 	}

@@ -41,6 +41,12 @@
         	return false;
     	});
     	
+    	$(".btn_trace").click(function(){
+ 	   		var param=$(this).metadata();
+			window.open('${ctx}/trace/'+param.processDefKey+'/'+param.id,'_blank');
+			return false;
+		})
+    	
     	$('#btn_query').click(function(){
 			var actionFrom=$("form:eq(0)");
 			var oldAction=actionFrom.attr("action"); 
@@ -122,6 +128,9 @@
 					<input type="button" value="删除"  class="btn_delete {id:'${item.id}'}">
 					</c:if>
 					<input type="button" value="查看"  class="btn_view {id:'${item.id}'}">
+					<c:if test="${item.state=='commit'}">
+						<input type="button" value="跟踪"  class="btn_trace {id:'${item.id}',processDefKey:'pm-design-cont'}">
+					</c:if>
 				</td>
 			</tr>
 		</c:forEach>

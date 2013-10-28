@@ -41,7 +41,7 @@ public class ManageCtl {
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String toManage(Map<String,Object> map){
-		List<ProcessDefinition> processes = repositoryService.createProcessDefinitionQuery().list();
+		List<ProcessDefinition> processes = repositoryService.createProcessDefinitionQuery().orderByProcessDefinitionId().asc().list();
 		map.put("processes", processes);
 		return Page.MANAGE;
 	}

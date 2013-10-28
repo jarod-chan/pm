@@ -11,19 +11,19 @@
 	<h2>流程历史</h2>
 	<%@ include file="/common/message.jsp"%> 
 	
-		<table border="1" >
+		<table class="hctable deftable" >
 			<thead>
 				<tr>
-					<th class="noborder">id</th>
-					<th class="title">businessKey</th>
-					<th class="title">processDefinitionId</th>
-					<th class="title">startTime</th>
-					<th class="title">endTime</th>
-					<th class="title">durationInMillis</th>
-					<th class="title">endActivityId</th>
-					<th class="title">startUserId</th>
-					<th class="title">startActivityId</th>
-					<th class="title">deleteReason</th>
+					<th>id</th>
+					<th>businessKey</th>
+					<th>processDefinitionId</th>
+					<th>startTime</th>
+					<th>endTime</th>
+					<th>durationInMillis</th>
+					<th>endActivityId</th>
+					<th>startUserId</th>
+					<th>startActivityId</th>
+					<th>deleteReason</th>
 				</tr>
 			</thead>
 			<tbody>

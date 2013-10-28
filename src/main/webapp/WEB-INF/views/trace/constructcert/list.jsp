@@ -48,6 +48,12 @@
         	return false;
     	});
     	
+    	$(".btn_trace").click(function(){
+ 	   		var param=$(this).metadata();
+			window.open('${ctx}/trace/'+param.processDefKey+'/'+param.id,'_blank');
+			return false;
+		})
+    	
     	$('#btn_query').click(function(){
 			var actionFrom=$("form:eq(0)");
 			var oldAction=actionFrom.attr("action"); 
@@ -136,6 +142,9 @@
 					</c:if>
 					<input type="button" value="查看"  class="btn_view {id:'${constructCertDto.constructCert.id}'}">
 					<input type="button" value="打印"  class="btn_print {id:'${constructCertDto.constructCert.id}'}">
+					<c:if test="${constructCertDto.constructCert.state=='commit'}">
+						<input type="button" value="跟踪"  class="btn_trace {id:'${constructCertDto.constructCert.id}',processDefKey:'pm-construct-cert'}">
+					</c:if>
 				</td>
 			</tr>
 		</c:forEach>

@@ -4,6 +4,8 @@ import static cn.fyg.pm.interfaces.web.shared.message.Message.error;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
 import java.io.FileNotFoundException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -38,12 +40,20 @@ public class DeployCtl {
 	public String toDeploy(Map<String,Object> map,RedirectAttributes redirectAttributes){
 		try {
 			List<ProcessFile> processFiles = deployFacade.getProcessFile();
+			Collections.sort(processFiles, new processFilesComparator());
 			map.put("processFiles", processFiles);
 		} catch (FileNotFoundException e) {
 			logger.error("file directory not found");
 			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, error("无法找到流程文件目录！"));
 		}
 		return Page.DEPLOY;
+	}
+	
+	private class processFilesComparator implements Comparator<ProcessFile>{
+		@Override
+		public int compare(ProcessFile f1, ProcessFile f2) {
+			return f1.getName().compareTo(f2.getName());
+		}
 	}
 	
 	@RequestMapping(value = "/{filename}/", method = RequestMethod.POST)
@@ -62,5 +72,7 @@ public class DeployCtl {
 		redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("文件[%s]发布成功。",filename));
 		return "redirect:/workflow/deploy";
 	}
+
+
 
 }

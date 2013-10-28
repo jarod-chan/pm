@@ -27,7 +27,7 @@
 	<h2>流程管理</h2>
 	<%@ include file="/common/message.jsp" %>
 	
-	<table border="1">
+	<table  class="hctable deftable" >
 		<thead>
 			<tr>
 				<th>id</th>
