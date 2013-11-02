@@ -77,6 +77,12 @@
         	return false;
     	});
     	
+    	$(".btn_trace").click(function(){
+ 	   		var param=$(this).metadata();
+			window.open('${ctx}/trace/'+param.processDefKey+'/'+param.id,'_blank');
+			return false;
+		})
+    	
     });
     </script>
 </head>
@@ -121,6 +127,9 @@
 						<input type="button"  value="删除"  class="btn_delete {id:'${constructCont.id}'}">
 						</c:if>
 						<input type="button" value="查看"  class="btn_view  {id:'${constructCont.id}'}">
+						<c:if test="${constructCont.state=='commit'}">
+							<input type="button" value="跟踪"  class="btn_trace {id:'${constructCont.id}',processDefKey:'pm-construct-cont'}">
+						</c:if>
 					</td>
 				</tr>
 			</c:forEach>

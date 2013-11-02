@@ -77,6 +77,12 @@
         	return false;
     	});
     	
+    	$(".btn_trace").click(function(){
+ 	   		var param=$(this).metadata();
+			window.open('${ctx}/trace/'+param.processDefKey+'/'+param.id,'_blank');
+			return false;
+		})
+    	
     });
     </script>
 </head>
@@ -116,6 +122,9 @@
 					<input type="button" value="删除"  class="btn_delete {id:'${constructCertDto.constructCert.id}'}">
 					</c:if>
 					<input type="button" value="查看"  class="btn_view {id:'${constructCertDto.constructCert.id}'}">
+					<c:if test="${constructCertDto.constructCert.state=='commit'}">
+						<input type="button" value="跟踪"  class="btn_trace {id:'${constructCertDto.constructCert.id}',processDefKey:'pm-construct-cert'}">
+					</c:if>
 				</td>
 			</tr>
 		</c:forEach>
