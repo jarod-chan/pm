@@ -3,7 +3,7 @@
 <script type="text/javascript">
  $(function() {
  	 $("#btn_logout").click(function(){
-  		$('<form/>',{action:'${ctx}/login/out',method:'post'})
+  		$('<form/>',{action:'${ctx}/logout',method:'post'})
 		  .appendTo($("body"))
 		.submit();
 		return false;

@@ -1,4 +1,4 @@
-package cn.fyg.pm.infrastructure.shiro;
+package cn.fyg.pm.interfaces.web.shiro;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -11,12 +11,22 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
+import cn.fyg.pm.application.UserService;
+import cn.fyg.pm.domain.model.user.User;
+
 /**
  * shiro 用户校验认证
  * 认证，授权用户代码
  * 在spring-shiro.xml 配置文件中指定
  */
 public class Realm extends AuthorizingRealm{
+	
+
+	UserService userService;	
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 
 	//授权
 	@Override
@@ -44,12 +54,13 @@ public class Realm extends AuthorizingRealm{
 
 	//认证
 	@Override
-	protected AuthenticationInfo doGetAuthenticationInfo(
-			AuthenticationToken token) throws AuthenticationException {
-		 UsernamePasswordToken upt = (UsernamePasswordToken) token;  
-	     if(upt.getUsername().equals("user")){
-	    	  return new SimpleAuthenticationInfo(upt.getUsername(), "123", getName());  
-	     }
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+		 UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;  
+		 String username = usernamePasswordToken.getUsername();
+		 User user=this.userService.find(username);
+		 if(user!=null){
+			 return new SimpleAuthenticationInfo(user.getKey(), user.getPassword(), getName());  
+		 }
 	     return null;  
 	}
 

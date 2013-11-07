@@ -13,23 +13,26 @@
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="realm" />
 	</bean>
+	
+	<bean id="realm" class="cn.fyg.pm.interfaces.web.shiro.Realm" depends-on="userRepository" >
+		 <property name="userService" ref="userService"/> 
+	</bean> 
 
-	<bean id="realm" class="cn.fyg.pm.infrastructure.shiro.Realm" />
-
-	<bean id="passThruAuthenticationFilter"
-		class="org.apache.shiro.web.filter.authc.PassThruAuthenticationFilter" />
+	<bean id="formAuthenticationFilter"
+		class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter" />
 
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 		<property name="loginUrl" value="/login" />
 		<property name="filters">
 			<util:map>
-				<entry key="authc" value-ref="passThruAuthenticationFilter" />
+				<entry key="authc" value-ref="formAuthenticationFilter" />
 			</util:map>
 		</property>
 		<property name="filterChainDefinitions">
 			<value>
 				/=anon
+				/login=anon
 				/css/**=anon
 				/img/**=anon
 				/js/**=anon

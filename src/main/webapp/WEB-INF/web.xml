@@ -2,7 +2,7 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	
-	<display-name>ct</display-name>
+	<display-name>pm</display-name>
 
 	<!-- 应用程序环境 -->
 	<listener>
@@ -13,7 +13,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 		 	classpath:applicationContext.xml,
-		 	/WEB-INF/spring-shiro.xml
+		 	classpath:interfaces-web-shiro.xml
 		</param-value>
 	</context-param>  
 

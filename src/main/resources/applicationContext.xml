@@ -9,6 +9,8 @@
     	<property name="locations" value="classpath:config/*.properties"/>
   	</bean>
   	
+  	
+  	
   	<import resource="infrastructure-email.xml" />
   	<import resource="infrastructure-persistence.xml"/>
   	<import resource="infrastructure-other.xml"/>
@@ -18,5 +20,4 @@
   	<context:component-scan base-package="cn.fyg.pm.domain" />
   	<context:component-scan base-package="cn.fyg.pm.application" />
 	
-
 </beans>
