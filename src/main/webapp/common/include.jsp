@@ -143,6 +143,7 @@
  	background: #C9C9C9;
  	color: #000000;
  	border: 1px #000 solid;
+ 	display: inline-block;
  }
 .span_btn_mouseon{
  	cursor: pointer;

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,7 @@ import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.EnabledEnum;
 import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
 @Controller
@@ -84,7 +86,9 @@ public class LoginCtl {
 				return initCompany(user);
 			}
 		}else{
-			redirectAttributes.addFlashAttribute("msg", "用户名或者密码错误");	
+			loginBean.setPassword("");
+			redirectAttributes.addFlashAttribute("loginBean", loginBean);
+			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, "用户名或者密码错误！");	
 			return "redirect:/login";
 		}
 	}
@@ -133,5 +137,15 @@ public class LoginCtl {
         SecurityUtils.getSubject().logout();  
         return "redirect:/login";  
     }  
+	
+	@RequestMapping(value = "redirecthome", method = RequestMethod.GET)
+	public String redirecthome(){
+		Session session = SecurityUtils.getSubject().getSession();
+		Object supplier = session.getAttribute("supplier");
+		if(supplier!=null){
+			return "redirect:/fm/contractor/task";
+		}
+		return "redirect:/fm/company/task";
+	}
 
 }
