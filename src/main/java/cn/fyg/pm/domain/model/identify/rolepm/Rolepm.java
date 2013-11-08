@@ -23,7 +23,7 @@ public class Rolepm {
 	@JoinColumn(name="fnrole_key")
 	private Fnrole fnrole;
 
-	@ManyToOne(targetEntity=Fnrole.class)
+	@ManyToOne(targetEntity=Permission.class)
 	@JoinColumn(name="permission_key")
 	private Permission permission;
 

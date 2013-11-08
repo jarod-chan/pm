@@ -55,6 +55,7 @@ public class Realm extends AuthorizingRealm{
 
 			SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 			info.addStringPermissions(permissions);
+			return info;
 		}
 		return null;
 	}
