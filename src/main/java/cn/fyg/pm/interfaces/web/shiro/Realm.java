@@ -1,5 +1,8 @@
 package cn.fyg.pm.interfaces.web.shiro;
 
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -11,6 +14,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
+import cn.fyg.pm.application.IdentifyService;
 import cn.fyg.pm.application.UserService;
 import cn.fyg.pm.domain.model.user.User;
 
@@ -21,6 +25,7 @@ import cn.fyg.pm.domain.model.user.User;
  */
 public class Realm extends AuthorizingRealm{
 	
+	IdentifyService identifyService;
 
 	UserService userService;	
 
@@ -28,28 +33,30 @@ public class Realm extends AuthorizingRealm{
 		this.userService = userService;
 	}
 
+	public void setIdentifyService(IdentifyService identifyService) {
+		this.identifyService = identifyService;
+	}
+
+
 	//授权
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(
 			PrincipalCollection principals) {
 		if (principals == null) {
-            throw new AuthorizationException("Principal对象不能为空");
-        }
-		
-        String username=(String) principals.fromRealm(getName()).iterator().next();  
-        if(username!=null&&username.equals("user")){  
-            SimpleAuthorizationInfo info=new SimpleAuthorizationInfo();  
-            //登录的用户有多少个角色  
-            info.addRole("admin");
-            info.addRole("testRole");
-            //权限
-            info.addStringPermission("user:create");
-            info.addStringPermission("user:edit");
-            info.addStringPermission("user:menu");
-            return info;  
-        }  
-        return null;  
+			throw new AuthorizationException("Principal对象不能为空");
+		}
 
+		String username = (String) principals.fromRealm(getName()).iterator().next();
+
+		if (StringUtils.isNotBlank(username)) {
+			User user = new User();
+			user.setKey(username);
+			List<String> permissions = this.identifyService.findUserPermission(user);
+
+			SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+			info.addStringPermissions(permissions);
+		}
+		return null;
 	}
 
 	//认证

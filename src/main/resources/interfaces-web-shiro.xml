@@ -14,8 +14,9 @@
 		<property name="realm" ref="realm" />
 	</bean>
 	
-	<bean id="realm" class="cn.fyg.pm.interfaces.web.shiro.Realm" depends-on="userRepository" >
+	<bean id="realm" class="cn.fyg.pm.interfaces.web.shiro.Realm" depends-on="userRepository,userFnroleRepository,rolepmRepository" >
 		 <property name="userService" ref="userService"/> 
+		 <property name="identifyService" ref="identifyService"/> 
 	</bean> 
 
 	<bean id="formAuthenticationFilter"
