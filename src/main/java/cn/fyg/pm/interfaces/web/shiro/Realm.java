@@ -1,6 +1,7 @@
 package cn.fyg.pm.interfaces.web.shiro;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -52,9 +53,14 @@ public class Realm extends AuthorizingRealm{
 			User user = new User();
 			user.setKey(username);
 			List<String> permissions = this.identifyService.findUserPermission(user);
-
+			
+			//一般权限
 			SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 			info.addStringPermissions(permissions);
+			
+			//菜单权限
+			Set<String> moduleMenuPermission = Module.getModuleMenuPermission(permissions);
+			info.addStringPermissions(moduleMenuPermission);
 			return info;
 		}
 		return null;

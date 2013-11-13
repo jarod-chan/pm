@@ -86,54 +86,95 @@
 			</div>
 			<div id="menudiv" style="width: 50%;float: left; text-align: right;" >
 				
+				<shiro:hasPermission name="system:menu">
 				<ul style="float: right" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
 					<li>
 						<ul>
-							<li><a href="${ctx}/project/list" class="no_show" target="mainFrame"  >项目信息</a></li>
-							<li><a href="${ctx}/spmember/list" class="no_show" target="mainFrame"  >供应商用户</a></li>
-							<li><a href="${ctx}/user/list" class="no_show" target="mainFrame"  >系统用户</a></li>
+							<shiro:hasPermission name="project:menu"> 
+								<li><a href="${ctx}/project/list" class="no_show" target="mainFrame"  >项目信息</a></li>
+							</shiro:hasPermission> 
+							<shiro:hasPermission name="spmember:menu"> 
+								<li><a href="${ctx}/spmember/list" class="no_show" target="mainFrame"  >供应商用户</a></li>
+							</shiro:hasPermission> 
+							<shiro:hasPermission name="user:menu"> 
+								<li><a href="${ctx}/user/list" class="no_show" target="mainFrame"  >系统用户</a></li>
+							</shiro:hasPermission> 
 						</ul>
 						<span> 系统管理</span>
 					</li>
 				</ul>
-			
+				</shiro:hasPermission>
+				
+				
+				<shiro:hasPermission name="supplier:menu">
 				<ul style="float: right;width: 13ex;" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
 					<li>
 						<ul>
+						<shiro:hasPermission name="supplier-contra:menu"> 
 							<li><a href="${ctx}/supplier/contra/list" class="no_show" target="mainFrame" >内部承包人</a></li>
+						</shiro:hasPermission>
+						<shiro:hasPermission name="supplier-construct:menu"> 
 							<li><a href="${ctx}/supplier/construct/list" class="no_show" target="mainFrame" >工程服务商</a></li>
+						</shiro:hasPermission>
+						<shiro:hasPermission name="supplier-meter:menu"> 
 							<li><a href="${ctx}/supplier/meter/list" class="no_show" target="mainFrame" >材料供应商</a></li>
+						</shiro:hasPermission>
+						<shiro:hasPermission name="supplier-design:menu"> 	
 							<li><a href="${ctx}/supplier/design/list" class="no_show" target="mainFrame" >设计服务商</a></li>
+						</shiro:hasPermission>
 						</ul>
 						<span> 供应商管理</span>
 					</li>
 				</ul>
+				</shiro:hasPermission>
 				
+				<shiro:hasPermission name="contract:menu">
 				<ul style="float: right;width: 15ex;" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
 					<li>
 						<ul>
+						<shiro:hasPermission name="contract-construct:menu"> 
 							<li><a href="${ctx}/${project.id}/contract/construct/list" class="no_show" target="mainFrame" >施工服务合同</a></li>
+						</shiro:hasPermission>
+						<shiro:hasPermission name="contract-meter:menu"> 
 							<li><a href="${ctx}/${project.id}/contractmeter/list" class="no_show" target="mainFrame" >材料采购合同</a></li>
+						</shiro:hasPermission>
+						<shiro:hasPermission name="contract-design:menu"> 
 							<li><a href="${ctx}/${project.id}/contract/design/list" class="no_show" target="mainFrame" >设计策划合同</a></li>
+						</shiro:hasPermission>
 						</ul>
 						<span>合同管理</span>
 					</li>
 				</ul>
+				</shiro:hasPermission>
 				
+				<shiro:hasPermission name="trace:menu">
 				<ul style="float: right;width: 16ex;" onmouseover="myLayout.allowOverflow(this)" onmouseout="myLayout.resetOverflow('center')">
 					<li>
 						<ul>
+							<shiro:hasPermission name="constructcont:menu"> 
 							<li class="firstSelect"><a href="${ctx}/${project.id}/constructcont/list" class="no_show" target="mainFrame" >施工联系单</a></li>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="constructcert:menu"> 
 							<li><a href="${ctx}/${project.id}/constructcert/list" class="no_show" target="mainFrame" >工程签证单</a></li>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="purchasereq:menu"> 
 							<li><a href="${ctx}/${project.id}/purchasereq/list" class="no_show" target="mainFrame" >采购申请单</a></li>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="purchasecert:menu"> 
 							<li><a href="${ctx}/${project.id}/purchasecert/list" class="no_show" target="mainFrame" >价格确认单</a></li>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="designnoti:menu"> 
 							<li><a href="${ctx}/${project.id}/designnoti/list" class="no_show" target="mainFrame" >问题通知书</a></li>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="designcont:menu"> 
 							<li><a href="${ctx}/${project.id}/designcont/list" class="no_show" target="mainFrame" >技术变更通知单</a></li>
+							</shiro:hasPermission>
 						</ul>
 						<span>项目跟踪</span>
 					</li>
 				</ul>
-					
+				</shiro:hasPermission>
+				
 			</div>
 			<div style="clear: both;"></div>
 		</div>
