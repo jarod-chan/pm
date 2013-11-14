@@ -51,7 +51,7 @@
     		}   
     	}); 
     	/*清楚cookie状态*/
-    	$.removeCookie('projectMenuIdx',{path:'${ctx}'});
+    	$.removeCookie('menuIdx',{path:'${ctx}'});
     	</shiro:notAuthenticated>	
     	
     	<shiro:authenticated>

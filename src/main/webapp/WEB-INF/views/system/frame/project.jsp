@@ -27,16 +27,16 @@
     		tx2=$(this).parent().next().text();
     		var link=$(this).find("a");
     		var index=$("#menudiv a.no_show").index(link);
-    		$.cookie('projectMenuIdx',index,{path:'${ctx}'});
+    		$.cookie('menuIdx',index,{path:'${ctx}'});
     		$("#menu-nav").html(tx2+"->"+tx1);
     	})
     	
-    	var menuIdx=$.cookie('projectMenuIdx');
+    	var menuIdx=$.cookie('menuIdx');
     	
     	if(menuIdx){
     		li=$("#menudiv .no_show").eq(menuIdx).parent()
     	}else{
-    		li=$(".firstSelect").eq(0);
+    		li=$("#menudiv ul:last").find(".no_show:first").parent();
     	}
     	
     	li.trigger("click");
