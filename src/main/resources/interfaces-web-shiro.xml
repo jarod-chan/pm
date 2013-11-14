@@ -12,6 +12,7 @@
 
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="realm" />
+		<property name="cacheManager" ref="cacheManager" />
 	</bean>
 	
 	<bean id="realm" class="cn.fyg.pm.interfaces.web.shiro.Realm" depends-on="userRepository,userFnroleRepository,rolepmRepository" >
@@ -42,6 +43,12 @@
 			</value>
 		</property>
 	</bean>
+	
+	<!-- 用户授权信息Cache, 采用EhCache -->
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:ehcache/ehcache-shiro.xml"/>
+	</bean>
 
-
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 </beans>

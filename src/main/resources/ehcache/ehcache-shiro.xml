@@ -1,0 +1,20 @@
+<ehcache updateCheck="false" name="shiroCache">
+	<!--  
+		maxElementsInMemory:缓存中允许创建的最大对象数 
+		eternal:缓存中对象是否为永久的，如果是，超时设置将被忽略，对象从不过期。
+		timeToIdleSeconds: 多长时间不访问该缓存,那么ehcache 就会清除该缓存.
+		timeToLiveSeconds: 缓存的存活时间,从开始创建的时间算起.
+		overflowToDisk:内存不足时，是否启用磁盘缓存。
+		diskPersistent： 是否在磁盘上持久化。指重启jvm后，数据是否有效。默认为false.
+		diskExpiryThreadIntervalSeconds： 对象检测线程运行时间间隔。标识对象状态的线程多长时间运行一次。 
+	-->
+   <defaultCache
+            maxElementsInMemory="10000" 
+            eternal="false"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            overflowToDisk="false"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="120"
+            />
+</ehcache>
