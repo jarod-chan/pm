@@ -31,7 +31,9 @@ public enum Module {
 			"purchasereq:menu",
 			"purchasecert:menu",
 			"designnoti:menu",
-			"designcont:menu"
+			"designcont:menu",
+			"spconstructcont:menu",
+			"spconstructcert:menu"
 	}),
 	;
 	

@@ -10,30 +10,6 @@
 	<%@ include file="/common/include.jsp" %>	
 	<%@ include file="/common/jqui.jsp" %>
 	
-	<style type="text/css">
-	.state{
-		color: #FFFFFF;
-		display: inline-block;
-		line-height: 16px; 
-		padding: 2px 4px;
-	}
-	
-	.state-new_{
-		background-color: #999999;  
-	}
-	.state-saved{
-		background-color: #3A87AD;
-	}
-	.state-commit{
-		background-color: #F89406;
-	}
-	.state-finish{
-		background-color:#B94A48;
-	}
-	.state-invalid{
-		background-color:#FF8080;
-	}
-	</style>
 
 
     <script type="text/javascript">
@@ -41,15 +17,6 @@
     	
     	$(".datePK").datepicker();
     	
-     	var optColorArr=['#FFFFFF','#FFFFFF','#999999','#3A87AD','#F89406','#B94A48'];
-    	$("select[name='state']").each(function(){
-			$(this).find("option").each(function(idx){
-				$(this).css("background-color",optColorArr[idx]);
-			});
-			$(this).bind("change",function(){
-				$(this).css("background-color",optColorArr[this.selectedIndex])
-			}).triggerHandler("change");
-		}); 
     	
     	$("#btn_new").click(function(){
 			window.open('${ctx}/${projectId}/contractor/${supplierId}/constructcont/-1/edit','_self');
@@ -88,11 +55,9 @@
 </head>
 
 <body>
-	<c:set var="selectmenu" value="constructcont" />
-	<%@ include file="/component/contractorMenu.jsp" %>	
 	
+	<h2>施工联系单</h2>
 	<%@ include file="/common/message.jsp" %>	
-	
 	
 	<div style="text-align: right;" id="headdiv">
 		<input type="button" value="新建"  id="btn_new">

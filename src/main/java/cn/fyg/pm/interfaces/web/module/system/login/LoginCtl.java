@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,10 +80,11 @@ public class LoginCtl {
 			User user = this.userService.find(loginBean.getUsername());
 			this.sessionUtil.setValue("user", user); //TODO 把应用状态放到cookie中
 			if(isSupplierUser(user)){
-				return initContractor(user);
+				initContractor(user);
 			}else{
-				return initCompany(user);
+				initCompany(user);
 			}
+			return "redirect:/fm/task";
 		}else{
 			loginBean.setPassword("");
 			redirectAttributes.addFlashAttribute("loginBean", loginBean);
@@ -93,7 +93,7 @@ public class LoginCtl {
 		}
 	}
 	
-	private String initContractor(User user) {
+	private void initContractor(User user) {
 		Supplier supplier=spmemberService.getUserSupplier(user);
 		sessionUtil.setValue("supplier", supplier);
 		Specifications<Contract> spec=Specifications.where(ContractSpecs.withSupplier(supplier));
@@ -102,7 +102,6 @@ public class LoginCtl {
 		if(projectList!=null && !projectList.isEmpty()){
 			sessionUtil.setValue("project", projectList.get(0));
 		}
-		return "redirect:/fm/contractor/task";
 	}
 	
 	private List<Project> getContractProject(List<Contract> supplierContract) {
@@ -119,12 +118,11 @@ public class LoginCtl {
 		return projectList;
 	}
 	
-	private String initCompany(User user) {
+	private void initCompany(User user) {
 		List<Project> projectList=this.pjmemberService.getUserProject(user);
 		if(projectList!=null&&!projectList.isEmpty()){
 			sessionUtil.setValue("project", projectList.get(0));
 		}
-		return "redirect:/fm/company/task";
 	}
 	
 	//判断用户是否承包人
@@ -140,12 +138,7 @@ public class LoginCtl {
 	
 	@RequestMapping(value = "redirecthome", method = RequestMethod.GET)
 	public String redirecthome(){
-		Session session = SecurityUtils.getSubject().getSession();
-		Object supplier = session.getAttribute("supplier");
-		if(supplier!=null){
-			return "redirect:/fm/contractor/task";
-		}
-		return "redirect:/fm/company/task";
+		return "redirect:/fm/task";
 	}
 
 }

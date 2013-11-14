@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.contractor.constructcont;
+package cn.fyg.pm.interfaces.web.module.trace.contractor.constructcont;
 
 import static cn.fyg.pm.interfaces.web.shared.message.Message.error;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
@@ -51,7 +51,7 @@ import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 @RequestMapping("{projectId}/contractor/{supplierId}/constructcont")
 public class SpConstructcontCtl {
 	
-	private static final String PATH = "contractor/constructcont/";
+	private static final String PATH = "trace/contractor/constructcont/";
 	private interface Page {
 		String LIST = PATH + "list";
 		String EDIT = PATH + "edit";
@@ -84,7 +84,7 @@ public class SpConstructcontCtl {
 		supplier.setId(supplierId);
 		final Project project=new Project();
 		project.setId(projectId);
-		
+		//TODO 修改查询条件
 		QuerySpec<ConstructCont> query=new QuerySpec<ConstructCont>(){
 			@Override
 			public List<Predicate> criterias(CriteriaBuilder builder, Root<ConstructCont> from) {

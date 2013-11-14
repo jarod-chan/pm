@@ -45,12 +45,12 @@
      	
     	
        	$('#btn_task').click(function(){
-       		window.open('${ctx}/fm/company/task','_self');
+       		window.open('${ctx}/fm/task','_self');
     		return false;
     	})
     	
     	$('#sel_project').change(function(){
-        	$('<form/>',{action:'${ctx}/fm/company/changeProject',method:'post'})
+        	$('<form/>',{action:'${ctx}/fm/changeProject',method:'post'})
 	    		.append($('<input/>',{type:'hidden',name:'projectId',value:$(this).val()}))
 				.appendTo($("body"))
 			.submit();
@@ -66,7 +66,7 @@
 <body>
 	<div class="ui-layout-north" >
 		<div style="width: 1024px;">
-			<div style="width: 50%;float: left;"><%@ include file="../title.jsp" %></div>
+			<div style="width: 50%;float: left;"><%@ include file="title.jsp" %></div>
 			<div style="width: 50%;float: left; text-align: right;">
 				<div style="margin-bottom: 3px;">用户:${user.name}<%@ include file="/component/logout.jsp" %></div>
 				<div>
@@ -168,6 +168,12 @@
 							</shiro:hasPermission>
 							<shiro:hasPermission name="designcont:menu"> 
 							<li><a href="${ctx}/${project.id}/designcont/list" class="no_show" target="mainFrame" >技术变更通知单</a></li>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="spconstructcont:menu">
+							<li><a href="${ctx}/${project.id}/contractor/${supplier.id}/constructcont/list" class="no_show" target="mainFrame" >施工联系单</a></li>
+							</shiro:hasPermission>
+							<shiro:hasPermission name="spconstructcert:menu">
+							<li><a href="${ctx}/${project.id}/contractor/${supplier.id}/constructcert/list" class="no_show" target="mainFrame" >工程签证单</a></li>
 							</shiro:hasPermission>
 						</ul>
 						<span>项目跟踪</span>

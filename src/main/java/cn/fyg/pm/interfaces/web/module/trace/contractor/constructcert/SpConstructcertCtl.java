@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.contractor.constructcert;
+package cn.fyg.pm.interfaces.web.module.trace.contractor.constructcert;
 
 import static cn.fyg.pm.interfaces.web.shared.message.Message.error;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
@@ -50,7 +50,7 @@ import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 @RequestMapping("{projectId}/contractor/{supplierId}/constructcert")
 public class SpConstructcertCtl {
 	
-	private static final String PATH = "contractor/constructcert/";
+	private static final String PATH = "trace/contractor/constructcert/";
 	private interface Page {
 		String LIST = PATH + "list";
 		String EDIT = PATH + "edit";
