@@ -6,12 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.Sha1Hash;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,17 +65,10 @@ public class LoginCtl {
 	}
 	
 	@RequestMapping(value = "login",method=RequestMethod.POST)
-	public String dologin(LoginBean loginBean,HttpServletRequest request,HttpServletResponse response ,RedirectAttributes redirectAttributes) {
-		
-		UsernamePasswordToken taken = new UsernamePasswordToken(loginBean.getUsername(), loginBean.getPassword());
-		Subject subject = SecurityUtils.getSubject();
-		try{
-			subject.login(taken);
-		}catch(AuthenticationException e){
-			logger.info("login fail:"+loginBean);
-		}
-		if(subject.isAuthenticated()){
-			User user = this.userService.find(loginBean.getUsername());
+	public String dologin(LoginBean loginBean,RedirectAttributes redirectAttributes) {
+		User user = this.userService.find(loginBean.getUsername());
+		boolean loginSucess=dologin(user,loginBean);
+		if(loginSucess){
 			this.sessionUtil.setValue("user", user); //TODO 把应用状态放到cookie中
 			if(isSupplierUser(user)){
 				initContractor(user);
@@ -92,6 +83,24 @@ public class LoginCtl {
 			return "redirect:/login";
 		}
 	}
+	
+	private boolean dologin(User user,LoginBean loginBean){
+		if(user==null) {
+			logger.info("login fail:"+loginBean);
+			return false;
+		}
+		String password=new Sha1Hash(loginBean.getPassword()+user.getSalt()).toString();
+		UsernamePasswordToken taken = new UsernamePasswordToken(loginBean.getUsername(), password);
+		Subject subject = SecurityUtils.getSubject();
+		try{
+			subject.login(taken);
+			return true;
+		}catch(AuthenticationException e){
+			logger.info("login fail:"+loginBean);
+		}
+		return false;
+	}
+	
 	
 	private void initContractor(User user) {
 		Supplier supplier=spmemberService.getUserSupplier(user);

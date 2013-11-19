@@ -52,10 +52,15 @@ public class Realm extends AuthorizingRealm{
 		if (StringUtils.isNotBlank(username)) {
 			User user = new User();
 			user.setKey(username);
-			List<String> permissions = this.identifyService.findUserPermission(user);
+			
+			SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+			
+			//用户角色
+			List<String> roles = this.identifyService.findUserRole(user);
+			info.addRoles(roles);
 			
 			//一般权限
-			SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+			List<String> permissions = this.identifyService.findUserPermission(user);
 			info.addStringPermissions(permissions);
 			
 			//菜单权限
