@@ -24,7 +24,7 @@
     				maxlength: 6
     			},
     			p:{
-    				required: "#p:visible",
+    				required: true,
     				minlength:6
     			}
     		}
@@ -34,12 +34,9 @@
     			if(!validator.form()){return;}    			
 				var actionFrom=$("form");
 				var oldAction=actionFrom.attr("action");
-				if($("#p").is(":visible")){
-					var p=$("#p").val();
-					$("#set-password").val(hex_sha1(hex_sha1(p)));
-				}else{
-					$("#set-password").val("");
-				}
+				var p=$("#p").val();
+				$("#set-password").val(hex_sha1(hex_sha1(p)));
+				$("#p").val("******");//防止密码被明文传输
 				actionFrom.attr("action",oldAction+"/save").submit(); 
 		});
 		
@@ -47,17 +44,6 @@
 			window.open('${ctx}/user/list','_self');
 			return false;
 		});
-		
-		$("#btn_reset").click(function(){
-			if($("#p").is(":visible")){
-				$(this).prev("label").remove();
-				$(this).html(">重置密码");
-				$("#p").hide();
-			}else{
-				$(this).html("<取消重置");
-				$("#p").show();
-			}
-		})
 		
 		$('#tabmain tr').find('td:eq(0)').css("text-align","right");
 		
@@ -69,22 +55,13 @@
 	<h2>系统用户</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<form id="jqueryForm" action="${ctx}/user" method="post">
-	
+	<form action="${ctx}/user" method="post">
 	
 	<table id="tabmain">	
 		
 		<tr><td>
 		用户名：</td><td>
-		<c:choose>
-			<c:when test="${not empty user.key }">
-				 <input type="hidden" name="key" value="${user.key}" />${user.key}
-			</c:when>
-			<c:otherwise>
-			 <input type="text" name="key" value="${user.key}"/>
-			</c:otherwise>
-		</c:choose>
-		
+		<input type="text" name="key" value="${user.key}"/>
 		</td></tr>
 		
 		<tr><td>
@@ -107,8 +84,8 @@
 		<tr>
 		<td>密码：</td>
 		<td>
-			<input type="text" id="p" name="p"  value="" style="display: none" /><span  id="btn_reset" class="span_btn" >&gt;重置密码</span>
-			<input type="hidden" id="set-password" name="set-password" value="" />
+		<input type="text" id="p" name="p"  value="${user.password}" />
+		<input type="hidden" id="set-password" name="set-password" value="" />
 		</td>
 		</tr>
 		

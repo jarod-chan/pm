@@ -50,6 +50,8 @@
 
     	$("body").bind('keyup',function(event) {
     		if(event.keyCode==13){
+    			var p=$("#p").val();
+    			$("#password").val(hex_sha1(hex_sha1(p)));
     			$("form").submit();
     		}   
     	}); 
@@ -80,25 +82,6 @@
 			<button type="button" id="btn_fetchpwd">取回密码</button>
 		</div>
 		</form>
-		
-<%-- 		<table border="1" style="margin: 50px 0px 0px 0px;width: 380px;">
-			<thead>
-				<tr>
-					<th>测试用户名</th>
-					<th>用户姓名</th>
-					<th>用户密码</th>
-				</tr>
-			</thead>
-			<tbody>
-			<c:forEach var="user" items="${users}">
-				<tr>
-					<td>${user.key}</td>
-					<td>${user.name}</td>
-					<td>${user.password}</td>
-				</tr>
-			</c:forEach>
-			</tbody>
-		</table> --%>
 	</div>
 		
 </body>

@@ -11,6 +11,8 @@ import cn.fyg.pm.domain.model.user.User;
 
 public interface UserService {
 	
+	User create();
+	
 	User save(User user);
 	
 	void delete(String key_);

@@ -31,7 +31,6 @@ import cn.fyg.pm.domain.model.contract.general.Contract;
 import cn.fyg.pm.domain.model.contract.general.ContractSpecs;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
-import cn.fyg.pm.domain.model.user.EnabledEnum;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
@@ -59,8 +58,6 @@ public class LoginCtl {
 	
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String toLogin(Map<String,Object> map) {
-		List<User> users = this.userService.findByEnabled(EnabledEnum.y);
-		map.put("users", users);
 		return Page.LOGIN;
 	}
 	
