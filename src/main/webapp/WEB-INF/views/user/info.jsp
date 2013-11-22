@@ -40,12 +40,8 @@
 				}else{
 					$("#set-password").val("");
 				}
+				
 				actionFrom.attr("action",oldAction+"/save").submit(); 
-		});
-		
-		$("#btn_back").click(function(){
-			window.open('${ctx}/user/list','_self');
-			return false;
 		});
 		
 		$("#btn_reset").click(function(){
@@ -69,31 +65,30 @@
 	<h2>系统用户</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
-	<form action="${ctx}/user" method="post">
+	<form action="${ctx}/user/${userInfo.key}/info" method="post">
 	
 	
 	<table id="tabmain">	
 		
 		<tr><td>
 		用户名：</td><td>
-		<input type="hidden" name="key" value="${user.key}" />${user.key}
-		</td>
-		</tr>
+			<input type="hidden" name="key" value="${userInfo.key}" />${userInfo.key}
+		</td></tr>
 		
 		<tr><td>
 		真实姓名：</td><td>
-		<input type="text" name="name" value="${user.name}"  type="text" />
+		${userInfo.name}
 		</td></tr>
 		
 		<tr><td>
 		公司邮箱：</td><td>
-		<input type="text" name="email" value="${user.email}" />
+		<input type="text" name="email" value="${userInfo.email}" />
 		</td></tr>
 		
 		<tr>
 		<td>电话：</td>
 		<td>
-		<input type="text" name="cellphone" value="${user.cellphone}"/>
+		<input type="text" name="cellphone" value="${userInfo.cellphone}"/>
 		</td>
 		</tr>
 		
@@ -108,23 +103,14 @@
 		<tr>
 		<td>状态：</td>
 		<td>
-			<select name="enabled">
-				<c:forEach var="enabled" items="${enableds}">
-					<option value="${enabled}" <c:if test="${user.enabled==enabled}">selected="true"</c:if> >${enabled.name}</option>
-				</c:forEach>
-			</select>
+			${userInfo.enabled.name}
 		</td>
 		</tr>
 		
 		<tr>
 		<td>系统角色：</td>
 		<td>
-			<select name="roleKey">
-				<option value="">--</option>
-				<c:forEach var="role" items="${roles}">
-					<option value="${role.key}" <c:if test="${role.key==userRole.key}">selected="true"</c:if> >${role.name}</option>
-				</c:forEach>
-			</select>
+			${userRole.name}
 		</td>
 		</tr>
 		
@@ -133,7 +119,6 @@
 		
 		<br>
 	 	<input type="button" value="保存"  id="btn_save">
-		<input type="button" value="返回"  id="btn_back"> 
 		
 
 	</form>

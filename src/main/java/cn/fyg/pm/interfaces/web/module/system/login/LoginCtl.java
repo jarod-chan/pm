@@ -9,7 +9,6 @@ import java.util.Set;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.crypto.hash.Sha1Hash;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +31,7 @@ import cn.fyg.pm.domain.model.contract.general.ContractSpecs;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.infrastructure.tool.encrypt.Encipher;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
@@ -55,6 +55,8 @@ public class LoginCtl {
 	ContractService contractService;
 	@Autowired
 	PjmemberService pjmemberService;
+	@Autowired
+	Encipher encipher;
 	
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String toLogin(Map<String,Object> map) {
@@ -86,7 +88,7 @@ public class LoginCtl {
 			logger.info("login fail:"+loginBean);
 			return false;
 		}
-		String password=new Sha1Hash(loginBean.getPassword()+user.getSalt()).toString();
+		String password=this.encipher.encrypt(loginBean.getPassword(), user.getSalt().toString());
 		UsernamePasswordToken taken = new UsernamePasswordToken(loginBean.getUsername(), password);
 		Subject subject = SecurityUtils.getSubject();
 		try{

@@ -99,6 +99,7 @@
 							<shiro:hasPermission name="user:menu"> 
 								<li><a href="${ctx}/user/list" class="no_show" target="mainFrame"  >系统用户</a></li>
 							</shiro:hasPermission> 
+							<li><a href="${ctx}/user/${user.key}/info" class="no_show" target="mainFrame"  >用户信息</a></li>
 						</ul>
 						<span> 系统管理</span>
 					</li>

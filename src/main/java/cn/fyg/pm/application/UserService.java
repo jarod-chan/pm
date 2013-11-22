@@ -17,9 +17,10 @@ public interface UserService {
 	
 	void delete(String key_);
 
-	List<User> findAll();
-	
 	User find(String key);
+
+
+	List<User> findAll();
 
 	String login(String username, String password);
 	

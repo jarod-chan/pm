@@ -1,4 +1,4 @@
-package cn.fyg.pm.infrastructure.tool.saltgenerator;
+package cn.fyg.pm.infrastructure.tool.encrypt;
 
 public interface SaltGenerator {
 	

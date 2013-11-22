@@ -1,10 +1,10 @@
-package cn.fyg.pm.infrastructure.tool.saltgenerator.impl;
+package cn.fyg.pm.infrastructure.tool.encrypt.impl;
 
 import java.util.Random;
 
 import org.springframework.stereotype.Component;
 
-import cn.fyg.pm.infrastructure.tool.saltgenerator.SaltGenerator;
+import cn.fyg.pm.infrastructure.tool.encrypt.SaltGenerator;
 
 /**
  *生成密码盐，防止密码破解

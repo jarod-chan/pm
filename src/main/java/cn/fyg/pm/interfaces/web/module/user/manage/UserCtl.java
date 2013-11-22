@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.module.user;
+package cn.fyg.pm.interfaces.web.module.user.manage;
 
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.crypto.hash.Sha1Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +23,8 @@ import cn.fyg.pm.domain.model.role.Role;
 import cn.fyg.pm.domain.model.role.RoleType;
 import cn.fyg.pm.domain.model.user.EnabledEnum;
 import cn.fyg.pm.domain.model.user.User;
-import cn.fyg.pm.infrastructure.tool.saltgenerator.SaltGenerator;
+import cn.fyg.pm.infrastructure.tool.encrypt.Encipher;
+import cn.fyg.pm.infrastructure.tool.encrypt.SaltGenerator;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.BindTool;
 
@@ -48,6 +48,8 @@ public class UserCtl {
 	SymemberService symemberService;
 	@Autowired
 	SaltGenerator saltGenerator;
+	@Autowired
+	Encipher encipher;
 	
 	
 	@RequestMapping(value="list",method=RequestMethod.GET)
@@ -90,7 +92,7 @@ public class UserCtl {
 		//如果输入重置密码，则生成新密码
 		if(StringUtils.isNotBlank(setPassword)){
 			String salt=this.saltGenerator.getSalt();
-			String password=new Sha1Hash(setPassword+salt).toString();
+			String password=this.encipher.encrypt(setPassword, salt);
 			user.setSalt(salt);
 			user.setPassword(password);
 		}
