@@ -1,5 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-&nbsp;&nbsp;<span  id="btn_logout" class="span_btn" >退出</span>
+&nbsp;&nbsp;<span  id="btn_logout" class="span_btn_def">退出</span>
 <script type="text/javascript">
  $(function() {
  	 $("#btn_logout").click(function(){

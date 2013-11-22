@@ -28,7 +28,7 @@
     		var link=$(this).find("a");
     		var index=$("#menudiv a.no_show").index(link);
     		$.cookie('menuIdx',index,{path:'${ctx}'});
-    		$("#menu-nav").html(tx2+"->"+tx1);
+    		$("#menu-nav").html(tx2+">"+tx1);
     	})
     	
     	var menuIdx=$.cookie('menuIdx');
