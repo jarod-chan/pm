@@ -32,7 +32,7 @@
 		<div style="width: 1024px;">
 			<div style="width: 50%;float: left;"><%@ include file="title.jsp" %>	</div>
 			<div style="width: 50%;float: left; text-align: right;">
-				<div style="margin-bottom: 3px;">用户:${user.name}<%@ include file="/component/logout.jsp" %></div>
+				<div style="margin-bottom: 3px;"><%@ include file="/component/logout.jsp" %></div>
 				<div>
 					<input type="button" id="btn_task" value="我的任务" disabled="disabled">
 					<c:if test="${not empty project}">

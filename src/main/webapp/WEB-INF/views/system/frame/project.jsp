@@ -68,7 +68,7 @@
 		<div style="width: 1024px;">
 			<div style="width: 50%;float: left;"><%@ include file="title.jsp" %></div>
 			<div style="width: 50%;float: left; text-align: right;">
-				<div style="margin-bottom: 3px;">用户:${user.name}<%@ include file="/component/logout.jsp" %></div>
+				<div style="margin-bottom: 3px;"><%@ include file="/component/logout.jsp" %></div>
 				<div>
 				<input type="button" id="btn_task" value="我的任务" >
 				<input type="button" id="btn_project" value="我的项目" disabled="disabled">:<select id="sel_project">
@@ -191,9 +191,7 @@
 		编号：${project.no}<br>
 		开工日期：<br>
 		状态：${project.state.name}<br>
-		联系单数：N/A<br>
-		签证单数：N/A<br>
-		项目成员<br>
+		<h3>项目人员组成</h3>
 		<c:forEach var="item" items="${userRole}" varStatus="status">
 			<c:if test="${not empty item.value.name}">${item.value.name}:</c:if>${item.key.name}<br>
 		</c:forEach>

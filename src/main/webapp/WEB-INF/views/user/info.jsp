@@ -22,15 +22,19 @@
     			name: {
     				required: true,
     				maxlength: 6
-    			},
-    			p:{
-    				required: "#p:visible",
-    				minlength:6
     			}
     		}
     	});
 		
     	$("#btn_save").click(function(){
+    			if($("#p").is(":visible")){
+    				$("#p").rules("add", {  
+    					 required: true,  
+    					 minlength: 6
+    				})
+    			}else{
+    				$("#p").rules("remove","required minlength")
+    			}
     			if(!validator.form()){return;}    			
 				var actionFrom=$("form");
 				var oldAction=actionFrom.attr("action");
@@ -62,7 +66,7 @@
 </head>
 
 <body>
-	<h2>系统用户</h2>
+	<h2>用户信息</h2>
 	<%@ include file="/common/message.jsp" %>	
 	
 	<form action="${ctx}/user/${userInfo.key}/info" method="post">
