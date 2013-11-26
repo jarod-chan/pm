@@ -71,11 +71,6 @@ public class SupplierQuery  extends AbstractQuerySpec<Supplier> {
 	}
 	
 	@Override
-	public String initOrderType() {
-		return "asc";
-	}
-
-	@Override
 	public void doSpec(List<Specification<Supplier>> specs) {
 		if(StringUtils.isNotBlank(this.getNo())){
 			specs.add(SupplierSpecs.noLike(this.getNo()));

@@ -39,7 +39,7 @@ public class ProjectCtl {
 	
 	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
 	public String toList(ProjectQuery query,Map<String,Object> map){
-		List<Project> projectList = projectService.query(query);
+		List<Project> projectList =this.projectService.findAll(query.getSpec(), query.getSort());
 		map.put("projectList", projectList);
 		map.put("query", query);
 		return Page.LIST;
