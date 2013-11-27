@@ -13,10 +13,10 @@ import cn.fyg.pm.infrastructure.tool.date.DateUtil;
 import cn.fyg.pm.interfaces.web.shared.query.CommonQueryRef;
 
 public class NotiQuery extends CommonQueryRef<DesignNoti> {
-	
+
 	@Override
 	public void doSpec(List<Specification<DesignNoti>> specs) {
-		if(this.getProject()!=null){
+		if (this.getProject() != null) {
 			specs.add(DesignNotiSpecs.inProject(this.getProject()));
 		}
 		if (StringUtils.isNotBlank(this.getNo())) {

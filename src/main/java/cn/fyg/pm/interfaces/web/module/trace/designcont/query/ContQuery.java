@@ -1,58 +1,49 @@
 package cn.fyg.pm.interfaces.web.module.trace.designcont.query;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
 import org.apache.commons.lang.StringUtils;
+import org.springframework.data.jpa.domain.Specification;
 
 import cn.fyg.pm.domain.model.design.designcont.DesignCont;
+import cn.fyg.pm.domain.model.design.designcont.DesignContSpecs;
 import cn.fyg.pm.domain.model.design.designcont.DesignContState;
 import cn.fyg.pm.infrastructure.tool.date.DateUtil;
-import cn.fyg.pm.interfaces.web.shared.query.CommonQuery;
+import cn.fyg.pm.interfaces.web.shared.query.CommonQueryRef;
 
-public class ContQuery extends CommonQuery<DesignCont> {
+public class ContQuery extends CommonQueryRef<DesignCont> {
 
 	@Override
-	public List<Predicate> criterias(CriteriaBuilder builder,
-			Root<DesignCont> from) {
-		List<Predicate> criterias=new ArrayList<Predicate>();
-		if(this.getProject()!=null){
-			criterias.add(builder.equal(from.get("project"), this.getProject()));
+	public void doSpec(List<Specification<DesignCont>> specs) {
+		if (this.getProject() != null) {
+			specs.add(DesignContSpecs.inProject(this.getProject()));
 		}
-		if(StringUtils.isNotBlank(this.getNo())){
-			criterias.add(builder.like(from.<String>get("no"), "%"+this.getNo().trim()+"%"));
+		if (StringUtils.isNotBlank(this.getNo())) {
+			specs.add(DesignContSpecs.noLike(this.getNo().trim()));
 		}
-		if(this.getCreatedate_beg()!=null){
-			criterias.add(builder.greaterThanOrEqualTo(from.<Date>get("createdate"), this.getCreatedate_beg()));
+		if (this.getCreatedate_beg() != null) {
+			specs.add(DesignContSpecs.createAfterDate(this.getCreatedate_beg()));
 		}
-		if(this.getCreatedate_end()!=null){
-			Date nextday=DateUtil.nextDay(this.getCreatedate_end());
-			criterias.add(builder.lessThanOrEqualTo(from.<Date>get("createdate"),nextday));
+		if (this.getCreatedate_end() != null) {
+			Date nextday = DateUtil.nextDay(this.getCreatedate_end());
+			specs.add(DesignContSpecs.createBeforeDate(nextday));
 		}
-		if(this.getState()!=null){
-			Path<Object> statePath = from.get("state");
-			mapState(builder, criterias, statePath, this.getState());
-			
+		if (this.getState() != null) {
+			mapState(specs, this.getState());
 		}
-		return criterias;
 	}
-	
-	private void mapState(CriteriaBuilder builder, List<Predicate> criterias,
-			Path<Object> statePath, String stateValue) {
-		if(stateValue.equals("ext-all")){
+
+	private void mapState(List<Specification<DesignCont>> specs,
+			String stateValue) {
+		if (stateValue.equals("ext-all")) {
 			return;
 		}
-		if(stateValue.equals("ext-notf")){
-			criterias.add(builder.notEqual(statePath, DesignContState.finish));
+		if (stateValue.equals("ext-notf")) {
+			specs.add(DesignContSpecs.notState(DesignContState.finish));
 			return;
 		}
-		criterias.add(builder.equal(statePath,DesignContState.valueOf(stateValue)));
+		specs.add(DesignContSpecs.isState(DesignContState.valueOf(stateValue)));
 	}
 
 }
