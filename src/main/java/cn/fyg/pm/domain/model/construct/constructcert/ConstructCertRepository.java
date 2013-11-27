@@ -2,14 +2,14 @@ package cn.fyg.pm.domain.model.construct.constructcert;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.Repository;
 
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
-import cn.fyg.pm.domain.shared.repositoryquery.RepositoryQuery;
 
 
-public interface ConstructCertRepository extends Repository<ConstructCert, Long>, RepositoryQuery<ConstructCert> {
+public interface ConstructCertRepository extends Repository<ConstructCert, Long>, JpaSpecificationExecutor<ConstructCert> {
 	
 	ConstructCert save(ConstructCert constructCert);
 	

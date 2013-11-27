@@ -13,7 +13,7 @@
     $(function() {
     	
     	$("#btn_new").click(function(){
-			window.open('${ctx}/user/-1/edit','_self');
+			window.open('${ctx}/user/new','_self');
 			return false;
 		});
     	
@@ -56,7 +56,6 @@
 			<th>真实姓名</th>
 			<th>公司邮箱</th>
 			<th>电话</th>
-			<th>密码</th>
 			<th>状态</th>
 			<th>操作</th>
 		</tr>
@@ -68,7 +67,6 @@
 				<td>${user.name}</td>
 				<td>${user.email}</td>
 				<td>${user.cellphone}</td>
-				<td>${user.password}</td>
 				<td>${user.enabled.name}</td>
 				<td>
 					<input type="button" value="修改"  class="btn_edit {key:'${user.key}'}">

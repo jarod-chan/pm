@@ -138,15 +138,22 @@
 
 <!-- span按钮处理 -->
 <style type="text/css">
- .span_btn{
+ .span_btn ,.span_btn_def{
  	padding: 0px 5px 0px 5px;
  	background: #C9C9C9;
  	color: #000000;
  	border: 1px #000 solid;
+ 	display: inline-block;
  }
 .span_btn_mouseon{
  	cursor: pointer;
  	background-color: #1E8EFF;
+ 	color: #FFFFFF;
+ }
+ 
+ .span_btn_mouseon_red{
+ 	cursor: pointer;
+ 	background-color: #FF0000;
  	color: #FFFFFF;
  }
 </style>
@@ -158,6 +165,14 @@
  		},
  		function () {
  			$(this).removeClass("span_btn_mouseon")
+ 		}
+  	  )
+  	   $(".span_btn_def").hover(
+		function () {
+			$(this).addClass("span_btn_mouseon_red");
+ 		},
+ 		function () {
+ 			$(this).removeClass("span_btn_mouseon_red")
  		}
   	  )
  })

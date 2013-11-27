@@ -1,13 +1,15 @@
 package cn.fyg.pm.interfaces.web.module.system.login;
 
-import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,18 +30,15 @@ import cn.fyg.pm.domain.model.contract.general.Contract;
 import cn.fyg.pm.domain.model.contract.general.ContractSpecs;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
-import cn.fyg.pm.domain.model.user.EnabledEnum;
 import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.infrastructure.tool.encrypt.Encipher;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
 
-
-
 @Controller
-@RequestMapping("/login")
 public class LoginCtl {
 	
-public static final Logger logger = LoggerFactory.getLogger(LoginCtl.class);
+	public static final Logger logger = LoggerFactory.getLogger(LoginCtl.class);
 	
 	private static final String PATH = "system/login/";
 	private interface Page {
@@ -56,36 +55,53 @@ public static final Logger logger = LoggerFactory.getLogger(LoginCtl.class);
 	ContractService contractService;
 	@Autowired
 	PjmemberService pjmemberService;
+	@Autowired
+	Encipher encipher;
 	
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String toLogin(Map<String,Object> map) {
-		List<User> users = this.userService.findByEnabled(EnabledEnum.y);
-		map.put("users", users);
 		return Page.LOGIN;
 	}
 	
-	
-	@RequestMapping(value = "", method = RequestMethod.POST)
-	public String login(LoginBean loginBean,RedirectAttributes redirectAttributes) {
-		String userKey=userService.login(loginBean.getUsername(), loginBean.getPassword());
-		if(userKey==null){
-			logger.info(String.format("key:[%s] password:[%s] login fail", loginBean.getUsername(),loginBean.getPassword()));	
+	@RequestMapping(value = "login",method=RequestMethod.POST)
+	public String dologin(LoginBean loginBean,RedirectAttributes redirectAttributes) {
+		User user = this.userService.find(loginBean.getUsername());
+		boolean loginSucess=dologin(user,loginBean);
+		if(loginSucess){
+			this.sessionUtil.setValue("user", user); //TODO 把应用状态放到cookie中
+			if(isSupplierUser(user)){
+				initContractor(user);
+			}else{
+				initCompany(user);
+			}
+			return "redirect:/fm/task";
+		}else{
+			loginBean.setPassword("");
 			redirectAttributes.addFlashAttribute("loginBean", loginBean);
-			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, info("用户名或者密码错误！"));
+			redirectAttributes.addFlashAttribute(AppConstant.MESSAGE_NAME, "用户名或者密码错误！");	
 			return "redirect:/login";
 		}
-		logger.info(String.format("key:[%s] password:[%s] login sucess", loginBean.getUsername(),loginBean.getPassword()));	
-		User user = userService.find(userKey);
-		this.sessionUtil.setValue("user", user); //TODO 把应用状态放到cookie中
-		if(isSupplierUser(user)){
-			return initContractor(user);
-		}else{
-			return initCompany(user);
-		}
-		
 	}
-
-	private String initContractor(User user) {
+	
+	private boolean dologin(User user,LoginBean loginBean){
+		if(user==null) {
+			logger.info("login fail:"+loginBean);
+			return false;
+		}
+		String password=this.encipher.encrypt(loginBean.getPassword(), user.getSalt().toString());
+		UsernamePasswordToken taken = new UsernamePasswordToken(loginBean.getUsername(), password);
+		Subject subject = SecurityUtils.getSubject();
+		try{
+			subject.login(taken);
+			return true;
+		}catch(AuthenticationException e){
+			logger.info("login fail:"+loginBean);
+		}
+		return false;
+	}
+	
+	
+	private void initContractor(User user) {
 		Supplier supplier=spmemberService.getUserSupplier(user);
 		sessionUtil.setValue("supplier", supplier);
 		Specifications<Contract> spec=Specifications.where(ContractSpecs.withSupplier(supplier));
@@ -94,7 +110,6 @@ public static final Logger logger = LoggerFactory.getLogger(LoginCtl.class);
 		if(projectList!=null && !projectList.isEmpty()){
 			sessionUtil.setValue("project", projectList.get(0));
 		}
-		return "redirect:/fm/contractor/task";
 	}
 	
 	private List<Project> getContractProject(List<Contract> supplierContract) {
@@ -111,12 +126,11 @@ public static final Logger logger = LoggerFactory.getLogger(LoginCtl.class);
 		return projectList;
 	}
 	
-	private String initCompany(User user) {
+	private void initCompany(User user) {
 		List<Project> projectList=this.pjmemberService.getUserProject(user);
 		if(projectList!=null&&!projectList.isEmpty()){
 			sessionUtil.setValue("project", projectList.get(0));
 		}
-		return "redirect:/fm/company/task";
 	}
 	
 	//判断用户是否承包人
@@ -124,12 +138,15 @@ public static final Logger logger = LoggerFactory.getLogger(LoginCtl.class);
 		return this.spmemberService.isUserAssigned(user);
 	}
 	
-	@RequestMapping(value="out", method = RequestMethod.POST)
-	public String logout(LoginBean loginBean,RedirectAttributes redirectAttributes) {
-		sessionUtil.invalidate();
-		return "redirect:/login";
+	@RequestMapping(value = "logout",method=RequestMethod.POST)
+	public String logout(){  
+        SecurityUtils.getSubject().logout();  
+        return "redirect:/login";  
+    }  
+	
+	@RequestMapping(value = "redirecthome", method = RequestMethod.GET)
+	public String redirecthome(){
+		return "redirect:/fm/task";
 	}
-
-
 
 }

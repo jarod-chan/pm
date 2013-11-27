@@ -7,9 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
-import cn.fyg.pm.domain.shared.repositoryquery.RepositoryQuery;
 
-public interface PurchaseReqRepository extends CrudRepository<PurchaseReq,Long>,JpaSpecificationExecutor<PurchaseReq>,RepositoryQuery<PurchaseReq> {
+public interface PurchaseReqRepository extends CrudRepository<PurchaseReq,Long>,JpaSpecificationExecutor<PurchaseReq>{
 	
 	List<PurchaseReq> findByPurchaseKey_ProjectAndStateOrderByIdDesc(Project project,PurchaseReqState state);
 

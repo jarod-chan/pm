@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ConstructContService;
+import cn.fyg.pm.application.common.impl.SericeQueryImpl;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContCommitVld;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContFactory;
@@ -29,11 +31,10 @@ import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.role.Role;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
-import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 import cn.fyg.pm.domain.shared.verify.Result;
 
 @Service("constructContService")
-public class ConstructContServiceImpl implements ConstructContService {
+public class ConstructContServiceImpl extends SericeQueryImpl<ConstructCont> implements ConstructContService {
 	
 	@Autowired
 	ConstructContRepository constructContRepository;
@@ -51,8 +52,8 @@ public class ConstructContServiceImpl implements ConstructContService {
 	PatternFactory<ConstructCont> businoFactory;
 	
 	@Override
-	public List<ConstructCont> findAll() {
-		return this.constructContRepository.findAll();
+	public JpaSpecificationExecutor<ConstructCont> getSpecExecutor() {
+		return this.constructContRepository;
 	}
 
 	@Override
@@ -98,11 +99,6 @@ public class ConstructContServiceImpl implements ConstructContService {
 	@Override
 	public List<ConstructCont> constructContCanBeSelected(Project project,ConstructContState state,Long constructCertId) {
 		return this.constructContRepository.findConstructContCanBeSelected(project,state,constructCertId);
-	}
-
-	@Override
-	public List<ConstructCont> query(QuerySpec<ConstructCont> querySpec) {
-		return this.constructContRepository.query(ConstructCont.class,querySpec);
 	}
 
 	@Override

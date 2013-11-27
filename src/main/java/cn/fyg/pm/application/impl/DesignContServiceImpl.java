@@ -6,10 +6,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.DesignContService;
+import cn.fyg.pm.application.common.impl.SericeQueryImpl;
 import cn.fyg.pm.domain.model.design.designcont.DesignCont;
 import cn.fyg.pm.domain.model.design.designcont.DesignContCommitVld;
 import cn.fyg.pm.domain.model.design.designcont.DesignContFactory;
@@ -26,11 +28,10 @@ import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.role.Role;
 import cn.fyg.pm.domain.model.user.User;
-import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 import cn.fyg.pm.domain.shared.verify.Result;
 
 @Service("designContService")
-public class DesignContServiceImpl implements DesignContService {
+public class DesignContServiceImpl extends SericeQueryImpl<DesignCont> implements DesignContService {
 	
 	@Autowired
 	DesignContRepository designContRepository;
@@ -45,14 +46,16 @@ public class DesignContServiceImpl implements DesignContService {
 	@Autowired
 	@Qualifier("designContNo")
 	PatternFactory<DesignCont> noFactory;
+	
+	@Override
+	public JpaSpecificationExecutor<DesignCont> getSpecExecutor() {
+		return this.designContRepository;
+	}
+
 	@Autowired
 	@Qualifier("designContBusino")
 	PatternFactory<DesignCont> businoFactory;
 
-	@Override
-	public List<DesignCont> query(QuerySpec<DesignCont> querySpec) {
-		return this.designContRepository.query(DesignCont.class, querySpec);
-	}
 
 	@Override
 	public Result verifyForCommit(DesignCont designCont) {

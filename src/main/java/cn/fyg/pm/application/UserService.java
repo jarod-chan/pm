@@ -11,13 +11,16 @@ import cn.fyg.pm.domain.model.user.User;
 
 public interface UserService {
 	
+	User create();
+	
 	User save(User user);
 	
 	void delete(String key_);
 
-	List<User> findAll();
-	
 	User find(String key);
+
+
+	List<User> findAll();
 
 	String login(String username, String password);
 	

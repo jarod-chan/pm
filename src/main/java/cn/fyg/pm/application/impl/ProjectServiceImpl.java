@@ -1,12 +1,12 @@
 package cn.fyg.pm.application.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 
 import cn.fyg.pm.application.ProjectService;
+import cn.fyg.pm.application.common.impl.SericeQueryImpl;
 import cn.fyg.pm.domain.model.nogenerator.generator.Pattern;
 import cn.fyg.pm.domain.model.nogenerator.generator.PatternFactory;
 import cn.fyg.pm.domain.model.nogenerator.look.Lock;
@@ -15,10 +15,9 @@ import cn.fyg.pm.domain.model.nogenerator.norecord.NoNotLastException;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.project.ProjectFactory;
 import cn.fyg.pm.domain.model.project.ProjectRepository;
-import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 
 @Service("projectService")
-public class ProjectServiceImpl implements ProjectService {
+public class ProjectServiceImpl  extends SericeQueryImpl<Project> implements ProjectService {
 	
 	@Autowired
 	ProjectRepository projectRepository;
@@ -30,6 +29,13 @@ public class ProjectServiceImpl implements ProjectService {
 	@Autowired
 	LockService lockService;
 	
+
+	@Override
+	public JpaSpecificationExecutor<Project> getSpecExecutor() {
+		return this.projectRepository;
+	}
+
+	
 	@Override
 	public Project save(Project project) {
 		Pattern<Project> pattern = noFactory.create(project).setEmpty(project.getId()!=null);
@@ -40,11 +46,6 @@ public class ProjectServiceImpl implements ProjectService {
 		}finally{
 			lock.unlock();
 		}
-	}
-
-	@Override
-	public List<Project> findAll() {
-		return projectRepository.findAll();
 	}
 
 	@Override
@@ -68,11 +69,6 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public Project create() {
 		return ProjectFactory.create();
-	}
-
-	@Override
-	public List<Project> query(QuerySpec<Project> querySpec) {
-		return this.projectRepository.query(Project.class, querySpec);
 	}
 
 }

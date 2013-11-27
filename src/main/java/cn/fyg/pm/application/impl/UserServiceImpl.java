@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.fyg.pm.application.UserService;
 import cn.fyg.pm.domain.model.user.EnabledEnum;
 import cn.fyg.pm.domain.model.user.User;
+import cn.fyg.pm.domain.model.user.UserFactory;
 import cn.fyg.pm.domain.model.user.UserRepository;
 
 @Service("userService")
@@ -67,6 +68,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Page<User> findAll(Specification<User> spec, Pageable pageable) {
 		return this.userRepository.findAll(spec, pageable);
+	}
+
+	@Override
+	public User create() {
+		return UserFactory.create();
 	}
 
 }

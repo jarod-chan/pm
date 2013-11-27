@@ -2,10 +2,6 @@ package cn.fyg.pm.application;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
-
 import cn.fyg.pm.application.common.CommitValidator;
 import cn.fyg.pm.application.common.ServiceQuery;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
@@ -16,28 +12,24 @@ import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
 
 
-public interface ConstructContService extends ServiceQuery<ConstructCont>,CommitValidator<ConstructCont> {
+public interface ConstructContService extends CommitValidator<ConstructCont>,ServiceQuery<ConstructCont> {
 	
-	List<ConstructCont> findAll();
+	ConstructCont create(User creater,Project project, ConstructContState state);
+	
+	ConstructCont find(Long id);
 	
 	ConstructCont save(ConstructCont constructCont);
 	
+	void delete(Long id);
+
 	void finish(Long constructContId,String userKey);
 	
-	void delete(Long id);
-	
-	ConstructCont find(Long id);
+	void invalid(Long constructContId);
 
 	ConstructCont findByConstructKey(ConstructKey constructKey);
-
-	ConstructCont create(User creater,Project project, ConstructContState state);
 
 	List<ConstructCont> constructContCanBeSelected(Project project,ConstructContState state,Long constructCertId);
 	
 	List<ConstructCont> findConstructContCanBeSelectedSupplier(Project project,Long constructCertId,Supplier supplier);
-
-	void invalid(Long constructContId);
-	
-	Page<ConstructCont> findAll(Specification<ConstructCont> spec, Pageable pageable);
 	
 }

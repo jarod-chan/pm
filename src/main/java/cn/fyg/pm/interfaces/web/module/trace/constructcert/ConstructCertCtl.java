@@ -90,18 +90,18 @@ public class ConstructCertCtl {
 	}
 	
 	@RequestMapping(value="list",method={RequestMethod.GET,RequestMethod.POST})
-	public String toList(@PathVariable("projectId")Long projectId,CertQuery certQuery,Map<String,Object> map){
+	public String toList(@PathVariable("projectId")Long projectId,CertQuery query,Map<String,Object> map){
 		Project project = new Project();
 		project.setId(projectId);
-		certQuery.setProject(project);
-		if(certQuery.getSupplier()!=null&&certQuery.getSupplier().getId()!=null){
-			Supplier supplier=this.supplierService.find(certQuery.getSupplier().getId());
-			certQuery.setSupplier(supplier);
+		query.setProject(project);
+		if(query.getSupplier()!=null&&query.getSupplier().getId()!=null){
+			Supplier supplier=this.supplierService.find(query.getSupplier().getId());
+			query.setSupplier(supplier);
 		}
-		List<ConstructCert> constructCertList = constructCertService.query(certQuery);
+		List<ConstructCert> constructCertList =this.constructCertService.findAll(query.getSpec(),query.getSort());
 		List<ConstructCertDto> ConstructCertDtoList = constructCertAssembler.create(constructCertList);
 		map.put("ConstructCertDtoList", ConstructCertDtoList);
-		map.put("query", certQuery);
+		map.put("query", query);
 		return Page.LIST;
 	}
 

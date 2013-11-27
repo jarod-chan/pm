@@ -10,13 +10,10 @@ import org.springframework.data.repository.query.Param;
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
-import cn.fyg.pm.domain.shared.repositoryquery.RepositoryQuery;
 
-public interface ConstructContRepository extends Repository<ConstructCont, Long>,JpaSpecificationExecutor<ConstructCont>, RepositoryQuery<ConstructCont> {
+public interface ConstructContRepository extends Repository<ConstructCont, Long>,JpaSpecificationExecutor<ConstructCont> {
 
 	ConstructCont save(ConstructCont constructCont);
-	
-	List<ConstructCont> findAll();
 	
 	void delete(Long id);
 

@@ -95,7 +95,7 @@ public class DesignContCtl {
 		Project project = new Project();
 		project.setId(projectId);
 		query.setProject(project);
-		List<DesignCont>  designContList= this.designContService.query(query);
+		List<DesignCont>  designContList= this.designContService.findAll(query.getSpec(), query.getSort());
 		map.put("designContList", designContList);
 		map.put("query", query);
 		return Page.LIST;

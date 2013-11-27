@@ -27,13 +27,11 @@ import cn.fyg.pm.application.OpinionService;
 import cn.fyg.pm.application.PurchaseReqService;
 import cn.fyg.pm.application.SupplierService;
 import cn.fyg.pm.application.facade.PurchaseReqFacade;
-import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.PurchaseReqItem;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqState;
-import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
@@ -84,11 +82,9 @@ public class PurchaseReqCtl {
 		Project project = new Project();
 		project.setId(projectId);
 		query.setProject(project);
-		List<PurchaseReq>  purchaseReqList= purchaseReqService.query(query);
+		List<PurchaseReq>  purchaseReqList= this.purchaseReqService.findAll(query.getSpec(), query.getSort());
 		map.put("purchaseReqList", purchaseReqList);
-		map.put("contractSpecList", ContractSpec.values());
 		map.put("query", query);
-		map.put("supplierList", supplierService.findByTypeIn(Supptype.meter));
 		return Page.LIST;
 	}
 	

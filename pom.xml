@@ -14,6 +14,7 @@
 		<java.version>1.6</java.version>
 		<junit.version>4.8.2</junit.version>
 		<activi.version>5.13</activi.version>
+		<shiro.version>1.2.2</shiro.version>
 	</properties>
 	
 	<!-- database configuration -->
@@ -340,6 +341,39 @@
 			<scope>compile</scope>
 		</dependency>
 		
+		<!--Apache Shiro所需的jar包 -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-core</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-web</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-ehcache</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>  
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>2.6.6</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.8</version>
+		</dependency>
+		
+		
 		<!-- java 发送邮件 -->
 		<dependency>
 			<groupId>javax.mail</groupId>
@@ -348,7 +382,8 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
-	
+		
+		<!-- java 时间工具包 -->
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
@@ -356,6 +391,8 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		
+		<!-- google 工具包 -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
