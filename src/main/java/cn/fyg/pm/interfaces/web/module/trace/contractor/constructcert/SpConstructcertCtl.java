@@ -3,20 +3,18 @@ package cn.fyg.pm.interfaces.web.module.trace.contractor.constructcert;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.error;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,16 +30,17 @@ import cn.fyg.pm.application.facade.ConstructCertFacade;
 import cn.fyg.pm.domain.model.construct.constructcert.CertItemOpinion;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertItem;
+import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertSpecs;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertState;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
-import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 import cn.fyg.pm.domain.shared.verify.Result;
 import cn.fyg.pm.interfaces.web.module.trace.constructcert.ConstructCertAssembler;
 import cn.fyg.pm.interfaces.web.module.trace.constructcert.ConstructCertDto;
+import cn.fyg.pm.interfaces.web.shared.component.QueryComp;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.BindTool;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
@@ -87,23 +86,12 @@ public class SpConstructcertCtl {
 		final Project project=new Project();
 		project.setId(projectId);
 		
-		QuerySpec<ConstructCert> query=new QuerySpec<ConstructCert>(){
-			@Override
-			public List<Predicate> criterias(CriteriaBuilder builder, Root<ConstructCert> from) {
-				List<Predicate> criterias=new ArrayList<Predicate>();
-				criterias.add(builder.equal(from.get("constructKey").get("project"), project));
-				criterias.add(builder.equal(from.get("constructKey").get("supplier"), supplier));
-				return criterias;
-			}
-
-			@Override
-			public List<Order> orders(CriteriaBuilder builder, Root<ConstructCert> from) {
-				List<Order> orders=new ArrayList<Order>();
-				orders.add(builder.desc(from.<Object>get("createdate")));
-				return orders;
-			}
-		};
-		List<ConstructCert> constructCertList = constructCertService.query(query);
+		QueryComp<ConstructCert> comp=new QueryComp<ConstructCert>();
+		comp.addSpec(ConstructCertSpecs.inProject(project));
+		comp.addSpec(ConstructCertSpecs.withSupplier(supplier));
+		Sort sort = new Sort(new Order(Direction.DESC,"createdate"));
+		
+		List<ConstructCert> constructCertList = this.constructCertService.findAll(comp.toSpec(),sort);
 		List<ConstructCertDto> ConstructCertDtoList = constructCertAssembler.create(constructCertList);
 		map.put("ConstructCertDtoList", ConstructCertDtoList);
 		return Page.LIST;

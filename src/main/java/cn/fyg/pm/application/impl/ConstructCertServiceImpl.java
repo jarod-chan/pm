@@ -6,10 +6,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ConstructCertService;
+import cn.fyg.pm.application.common.impl.SericeQueryRefImpl;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertCommitVld;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertFactory;
@@ -26,11 +28,10 @@ import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.role.Role;
 import cn.fyg.pm.domain.model.user.User;
-import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 import cn.fyg.pm.domain.shared.verify.Result;
 
 @Service("constructCertService")
-public class ConstructCertServiceImpl implements ConstructCertService {
+public class ConstructCertServiceImpl extends SericeQueryRefImpl<ConstructCert> implements ConstructCertService {
 	
 	@Autowired
 	ConstructCertRepository constructCertRepository;
@@ -48,6 +49,11 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 	@Autowired
 	@Qualifier("constructCertBusino")
 	PatternFactory<ConstructCert> businoFactory;
+	
+	@Override
+	public JpaSpecificationExecutor<ConstructCert> getSpecExecutor() {
+		return this.constructCertRepository;
+	}
 
 	@Override
 	public List<ConstructCert> findAll() {
@@ -98,11 +104,6 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 		return this.constructCertRepository.findByConstructKey_Project(project);
 	}
 
-	@Override
-	public List<ConstructCert> query(QuerySpec<ConstructCert> querySpec) {
-		return this.constructCertRepository.query(ConstructCert.class,querySpec);
-	}
-
 
 	@Override
 	public void finish(Long constructCertId, String userKey) {
@@ -150,6 +151,10 @@ public class ConstructCertServiceImpl implements ConstructCertService {
 		this.constructKeyRepository.save(constructKey);
 		this.constructCertRepository.save(constructCert);
 	}
+
+	
+
+
 
 
 }
