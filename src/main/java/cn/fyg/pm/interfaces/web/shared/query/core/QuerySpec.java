@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.shared.query.refactor;
+package cn.fyg.pm.interfaces.web.shared.query.core;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;

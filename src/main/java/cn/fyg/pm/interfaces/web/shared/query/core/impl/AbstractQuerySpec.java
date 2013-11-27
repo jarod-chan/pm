@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.shared.query.refactor.impl;
+package cn.fyg.pm.interfaces.web.shared.query.core.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,8 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 
-import cn.fyg.pm.interfaces.web.shared.query.refactor.Qitem;
-import cn.fyg.pm.interfaces.web.shared.query.refactor.QuerySpec;
+import cn.fyg.pm.interfaces.web.shared.query.core.Qitem;
+import cn.fyg.pm.interfaces.web.shared.query.core.QuerySpec;
 
 
 public abstract class AbstractQuerySpec<T> implements QuerySpec<T> {

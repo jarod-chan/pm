@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.DesignContService;
-import cn.fyg.pm.application.common.impl.SericeQueryRefImpl;
+import cn.fyg.pm.application.common.impl.SericeQueryImpl;
 import cn.fyg.pm.domain.model.design.designcont.DesignCont;
 import cn.fyg.pm.domain.model.design.designcont.DesignContCommitVld;
 import cn.fyg.pm.domain.model.design.designcont.DesignContFactory;
@@ -31,7 +31,7 @@ import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.verify.Result;
 
 @Service("designContService")
-public class DesignContServiceImpl extends SericeQueryRefImpl<DesignCont> implements DesignContService {
+public class DesignContServiceImpl extends SericeQueryImpl<DesignCont> implements DesignContService {
 	
 	@Autowired
 	DesignContRepository designContRepository;

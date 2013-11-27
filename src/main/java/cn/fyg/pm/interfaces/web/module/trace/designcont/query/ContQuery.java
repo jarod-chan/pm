@@ -10,9 +10,9 @@ import cn.fyg.pm.domain.model.design.designcont.DesignCont;
 import cn.fyg.pm.domain.model.design.designcont.DesignContSpecs;
 import cn.fyg.pm.domain.model.design.designcont.DesignContState;
 import cn.fyg.pm.infrastructure.tool.date.DateUtil;
-import cn.fyg.pm.interfaces.web.shared.query.CommonQueryRef;
+import cn.fyg.pm.interfaces.web.shared.query.CommonQuery;
 
-public class ContQuery extends CommonQueryRef<DesignCont> {
+public class ContQuery extends CommonQuery<DesignCont> {
 
 	@Override
 	public void doSpec(List<Specification<DesignCont>> specs) {

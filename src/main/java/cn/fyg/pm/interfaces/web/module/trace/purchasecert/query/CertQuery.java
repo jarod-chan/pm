@@ -10,9 +10,9 @@ import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCert;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertSpecs;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertState;
 import cn.fyg.pm.infrastructure.tool.date.DateUtil;
-import cn.fyg.pm.interfaces.web.shared.query.CommonQueryRef;
+import cn.fyg.pm.interfaces.web.shared.query.CommonQuery;
 
-public class CertQuery extends CommonQueryRef<PurchaseCert> {
+public class CertQuery extends CommonQuery<PurchaseCert> {
 
 	@Override
 	public void doSpec(List<Specification<PurchaseCert>> specs) {

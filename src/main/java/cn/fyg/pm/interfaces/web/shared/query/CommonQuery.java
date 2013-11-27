@@ -4,37 +4,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Root;
-
 import cn.fyg.pm.domain.model.project.Project;
-import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
-import cn.fyg.pm.interfaces.web.shared.query.refactor.Qitem;
+import cn.fyg.pm.interfaces.web.shared.query.core.Qitem;
+import cn.fyg.pm.interfaces.web.shared.query.core.impl.AbstractQuerySpec;
 
-public abstract class CommonQuery<T>  implements QuerySpec<T>{
-	
-	private String no;//编号
-	
-	private Date createdate_beg;//制单日期开始
-	
-	private Date createdate_end;//制单日期开始
-	
-	private String state;
-	
-	private String orderAttribute;//排序属性
-	
-	private String orderType;//排序方式
-	
-	private Project project;//项目
-	
-	public CommonQuery(){
-		this.state="ext-all";
-		this.orderAttribute="createdate";
-		this.orderType="desc";
-	}
-	
+public abstract class CommonQuery<T> extends AbstractQuerySpec<T> {
+
+	private String no;// 编号
+
+	private Date createdate_beg;// 制单日期开始
+
+	private Date createdate_end;// 制单日期开始
+
+	private String state;//状态
+
+	private Project project;// 项目
 	
 	public List<Qitem> getStateList(){
 		ArrayList<Qitem> arrayList = new ArrayList<Qitem>();
@@ -48,18 +32,16 @@ public abstract class CommonQuery<T>  implements QuerySpec<T>{
 		return arrayList;
 	}
 	
-	public List<Qitem> getOrderAttributeList(){
-		ArrayList<Qitem> arrayList = new ArrayList<Qitem>();
-		arrayList.add(new Qitem("no","编号"));
-		arrayList.add(new Qitem("createdate","制单日期"));
-		return arrayList;
+	@Override
+	public String initOrderAttribute() {
+		this.state="ext-all";
+		return "createdate";
 	}
-	
-	public List<Qitem> getOrderTypeList(){
-		ArrayList<Qitem> arrayList = new ArrayList<Qitem>();
-		arrayList.add(new Qitem("asc","升序"));
-		arrayList.add(new Qitem("desc","降序"));
-		return arrayList;
+
+	@Override
+	public void initOrderAttributeList(List<Qitem> attributeList) {
+		attributeList.add(new Qitem("no","编号"));
+		attributeList.add(new Qitem("createdate","制单日期"));
 	}
 
 	public String getNo() {
@@ -100,40 +82,6 @@ public abstract class CommonQuery<T>  implements QuerySpec<T>{
 
 	public void setState(String state) {
 		this.state = state;
-	}
-
-	public String getOrderAttribute() {
-		return orderAttribute;
-	}
-
-	public void setOrderAttribute(String orderAttribute) {
-		this.orderAttribute = orderAttribute;
-	}
-
-	public String getOrderType() {
-		return orderType;
-	}
-
-	public void setOrderType(String orderType) {
-		this.orderType = orderType;
-	}
-
-	@Override
-	public List<Order> orders(CriteriaBuilder builder, Root<T> from) {
-		List<Order> orders=new ArrayList<Order>();
-		String[] attrs = this.getOrderAttribute().split("\\.");
-		if(attrs.length>0){
-			Path<Object> path = from.get(attrs[0]);
-			for(int i=1,len=attrs.length;i<len;i++){
-				path=path.get(attrs[i]);
-			}
-			if(this.getOrderType().toString().equals("asc")){
-				orders.add(builder.asc(path));
-			}else{
-				orders.add(builder.desc(path));
-			}
-		}
-		return orders;
 	}
 
 }

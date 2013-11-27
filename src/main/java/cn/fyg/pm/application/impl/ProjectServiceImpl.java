@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 
 import cn.fyg.pm.application.ProjectService;
-import cn.fyg.pm.application.common.impl.SericeQueryRefImpl;
+import cn.fyg.pm.application.common.impl.SericeQueryImpl;
 import cn.fyg.pm.domain.model.nogenerator.generator.Pattern;
 import cn.fyg.pm.domain.model.nogenerator.generator.PatternFactory;
 import cn.fyg.pm.domain.model.nogenerator.look.Lock;
@@ -17,7 +17,7 @@ import cn.fyg.pm.domain.model.project.ProjectFactory;
 import cn.fyg.pm.domain.model.project.ProjectRepository;
 
 @Service("projectService")
-public class ProjectServiceImpl  extends SericeQueryRefImpl<Project> implements ProjectService {
+public class ProjectServiceImpl  extends SericeQueryImpl<Project> implements ProjectService {
 	
 	@Autowired
 	ProjectRepository projectRepository;

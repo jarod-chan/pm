@@ -9,8 +9,8 @@ import cn.fyg.pm.domain.model.supplier.CreditRank;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.supplier.SupplierSpecs;
 import cn.fyg.pm.domain.model.supplier.Supptype;
-import cn.fyg.pm.interfaces.web.shared.query.refactor.Qitem;
-import cn.fyg.pm.interfaces.web.shared.query.refactor.impl.AbstractQuerySpec;
+import cn.fyg.pm.interfaces.web.shared.query.core.Qitem;
+import cn.fyg.pm.interfaces.web.shared.query.core.impl.AbstractQuerySpec;
 
 public class SupplierQuery  extends AbstractQuerySpec<Supplier> {
 	

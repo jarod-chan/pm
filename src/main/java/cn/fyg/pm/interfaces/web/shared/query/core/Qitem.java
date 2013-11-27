@@ -1,4 +1,4 @@
-package cn.fyg.pm.interfaces.web.shared.query.refactor;
+package cn.fyg.pm.interfaces.web.shared.query.core;
 
 /**
  *选择项目

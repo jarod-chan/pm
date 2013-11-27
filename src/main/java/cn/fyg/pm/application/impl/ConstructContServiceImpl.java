@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ConstructContService;
-import cn.fyg.pm.application.common.impl.SericeQueryRefImpl;
+import cn.fyg.pm.application.common.impl.SericeQueryImpl;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContCommitVld;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContFactory;
@@ -34,7 +34,7 @@ import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.verify.Result;
 
 @Service("constructContService")
-public class ConstructContServiceImpl extends SericeQueryRefImpl<ConstructCont> implements ConstructContService {
+public class ConstructContServiceImpl extends SericeQueryImpl<ConstructCont> implements ConstructContService {
 	
 	@Autowired
 	ConstructContRepository constructContRepository;

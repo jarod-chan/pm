@@ -10,9 +10,9 @@ import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiSpecs;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiState;
 import cn.fyg.pm.infrastructure.tool.date.DateUtil;
-import cn.fyg.pm.interfaces.web.shared.query.CommonQueryRef;
+import cn.fyg.pm.interfaces.web.shared.query.CommonQuery;
 
-public class NotiQuery extends CommonQueryRef<DesignNoti> {
+public class NotiQuery extends CommonQuery<DesignNoti> {
 
 	@Override
 	public void doSpec(List<Specification<DesignNoti>> specs) {

@@ -10,9 +10,9 @@ import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertSpecs;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertState;
 import cn.fyg.pm.infrastructure.tool.date.DateUtil;
-import cn.fyg.pm.interfaces.web.shared.query.ConstructcertQueryRef;
+import cn.fyg.pm.interfaces.web.shared.query.ConstructcertQuery;
 
-public class CertQuery extends ConstructcertQueryRef<ConstructCert> {
+public class CertQuery extends ConstructcertQuery<ConstructCert> {
 
 	@Override
 	public void doSpec(List<Specification<ConstructCert>> specs) {

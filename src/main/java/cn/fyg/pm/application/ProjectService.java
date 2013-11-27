@@ -1,10 +1,10 @@
 package cn.fyg.pm.application;
 
-import cn.fyg.pm.application.common.ServiceQueryRef;
+import cn.fyg.pm.application.common.ServiceQuery;
 import cn.fyg.pm.domain.model.nogenerator.norecord.NoNotLastException;
 import cn.fyg.pm.domain.model.project.Project;
 
-public interface ProjectService extends ServiceQueryRef<Project> {
+public interface ProjectService extends ServiceQuery<Project> {
 	
 	Project create();
 	

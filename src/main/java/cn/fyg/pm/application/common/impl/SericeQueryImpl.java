@@ -8,14 +8,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import cn.fyg.pm.application.common.ServiceQueryRef;
+import cn.fyg.pm.application.common.ServiceQuery;
 
-//TODO rename
-public abstract class SericeQueryRefImpl<T> implements ServiceQueryRef<T> {
-	
-	
+public abstract class SericeQueryImpl<T> implements ServiceQuery<T> {
+
 	public abstract JpaSpecificationExecutor<T> getSpecExecutor();
-	
+
 	@Override
 	public Page<T> findAll(Specification<T> spec, Pageable pageable) {
 		JpaSpecificationExecutor<T> specExecutor = getSpecExecutor();

@@ -7,8 +7,8 @@ import org.springframework.data.jpa.domain.Specification;
 
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.project.ProjectSpecs;
-import cn.fyg.pm.interfaces.web.shared.query.refactor.Qitem;
-import cn.fyg.pm.interfaces.web.shared.query.refactor.impl.AbstractQuerySpec;
+import cn.fyg.pm.interfaces.web.shared.query.core.Qitem;
+import cn.fyg.pm.interfaces.web.shared.query.core.impl.AbstractQuerySpec;
 
 public class ProjectQuery extends AbstractQuerySpec<Project> {
 

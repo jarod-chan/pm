@@ -10,9 +10,9 @@ import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqSpecs;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqState;
 import cn.fyg.pm.infrastructure.tool.date.DateUtil;
-import cn.fyg.pm.interfaces.web.shared.query.CommonQueryRef;
+import cn.fyg.pm.interfaces.web.shared.query.CommonQuery;
 
-public class ReqQuery extends CommonQueryRef<PurchaseReq> {
+public class ReqQuery extends CommonQuery<PurchaseReq> {
 
 	@Override
 	public void doSpec(List<Specification<PurchaseReq>> specs) {

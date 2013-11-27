@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.DesignNotiService;
-import cn.fyg.pm.application.common.impl.SericeQueryRefImpl;
+import cn.fyg.pm.application.common.impl.SericeQueryImpl;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiCommitVld;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiFactory;
@@ -29,7 +29,7 @@ import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.verify.Result;
 
 @Service("designNotiService")
-public class DesignNotiServiceImpl extends SericeQueryRefImpl<DesignNoti> implements DesignNotiService {
+public class DesignNotiServiceImpl extends SericeQueryImpl<DesignNoti> implements DesignNotiService {
 
 	@Autowired
 	DesignNotiRepository designNotiRepository;

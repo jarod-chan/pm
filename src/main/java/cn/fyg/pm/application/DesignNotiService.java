@@ -1,13 +1,13 @@
 package cn.fyg.pm.application;
 
 import cn.fyg.pm.application.common.CommitValidator;
-import cn.fyg.pm.application.common.ServiceQueryRef;
+import cn.fyg.pm.application.common.ServiceQuery;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiState;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.user.User;
 
-public interface DesignNotiService extends ServiceQueryRef<DesignNoti>,
+public interface DesignNotiService extends ServiceQuery<DesignNoti>,
 		CommitValidator<DesignNoti> {
 
 	DesignNoti find(Long designNotiId);

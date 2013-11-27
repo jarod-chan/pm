@@ -11,8 +11,8 @@ import cn.fyg.pm.domain.model.contract.general.ContractSpecs;
 import cn.fyg.pm.domain.model.contract.general.ContractType;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
-import cn.fyg.pm.interfaces.web.shared.query.refactor.Qitem;
-import cn.fyg.pm.interfaces.web.shared.query.refactor.impl.AbstractQuerySpec;
+import cn.fyg.pm.interfaces.web.shared.query.core.Qitem;
+import cn.fyg.pm.interfaces.web.shared.query.core.impl.AbstractQuerySpec;
 
 public class ContractQuery extends AbstractQuerySpec<Contract>{
 	

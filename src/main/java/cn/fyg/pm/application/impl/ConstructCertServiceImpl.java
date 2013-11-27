@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.ConstructCertService;
-import cn.fyg.pm.application.common.impl.SericeQueryRefImpl;
+import cn.fyg.pm.application.common.impl.SericeQueryImpl;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCert;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertCommitVld;
 import cn.fyg.pm.domain.model.construct.constructcert.ConstructCertFactory;
@@ -31,7 +31,7 @@ import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.verify.Result;
 
 @Service("constructCertService")
-public class ConstructCertServiceImpl extends SericeQueryRefImpl<ConstructCert> implements ConstructCertService {
+public class ConstructCertServiceImpl extends SericeQueryImpl<ConstructCert> implements ConstructCertService {
 	
 	@Autowired
 	ConstructCertRepository constructCertRepository;

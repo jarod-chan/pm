@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.PurchaseCertService;
-import cn.fyg.pm.application.common.impl.SericeQueryRefImpl;
+import cn.fyg.pm.application.common.impl.SericeQueryImpl;
 import cn.fyg.pm.domain.model.nogenerator.generator.Pattern;
 import cn.fyg.pm.domain.model.nogenerator.generator.PatternFactory;
 import cn.fyg.pm.domain.model.nogenerator.look.Lock;
@@ -33,7 +33,7 @@ import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.shared.verify.Result;
 
 @Service("purchaseCertService")
-public class PurchaseCertServiceImpl extends SericeQueryRefImpl<PurchaseCert> implements PurchaseCertService {
+public class PurchaseCertServiceImpl extends SericeQueryImpl<PurchaseCert> implements PurchaseCertService {
 
 	@Autowired
 	PurchaseCertRepository purchaseCertRepository;

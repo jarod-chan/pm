@@ -10,9 +10,9 @@ import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContSpecs;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
 import cn.fyg.pm.infrastructure.tool.date.DateUtil;
-import cn.fyg.pm.interfaces.web.shared.query.ConstructcertQueryRef;
+import cn.fyg.pm.interfaces.web.shared.query.ConstructcertQuery;
 
-public class ContQuery extends ConstructcertQueryRef<ConstructCont> {
+public class ContQuery extends ConstructcertQuery<ConstructCont> {
 
 	@Override
 	public void doSpec(List<Specification<ConstructCont>> specs) {

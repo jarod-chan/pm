@@ -2,10 +2,15 @@ package cn.fyg.pm.application.common;
 
 import java.util.List;
 
-import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 
 public interface ServiceQuery<T> {
 
-	List<T> query(QuerySpec<T> querySpec);
+	Page<T> findAll(Specification<T> spec, Pageable pageable);
+
+	List<T> findAll(Specification<T> spec, Sort sort);
 
 }

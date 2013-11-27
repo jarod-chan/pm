@@ -3,7 +3,7 @@ package cn.fyg.pm.application;
 import java.util.List;
 
 import cn.fyg.pm.application.common.CommitValidator;
-import cn.fyg.pm.application.common.ServiceQueryRef;
+import cn.fyg.pm.application.common.ServiceQuery;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasekey.PurchaseKey;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
@@ -11,7 +11,7 @@ import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReqState;
 import cn.fyg.pm.domain.model.user.User;
 
-public interface PurchaseReqService extends ServiceQueryRef<PurchaseReq>,CommitValidator<PurchaseReq> {
+public interface PurchaseReqService extends ServiceQuery<PurchaseReq>,CommitValidator<PurchaseReq> {
 
 	PurchaseReq find(Long purchaseReqId);
 
