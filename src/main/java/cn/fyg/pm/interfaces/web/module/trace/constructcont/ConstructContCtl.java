@@ -99,7 +99,7 @@ public class ConstructContCtl {
 			Supplier supplier=this.supplierService.find(query.getSupplier().getId());
 			query.setSupplier(supplier);
 		}
-		List<ConstructCont> constructContList = constructContService.query(query);
+		List<ConstructCont> constructContList = this.constructContService.findAll(query.getSpec(), query.getSort());
 		map.put("constructContList", constructContList);
 		map.put("query", query);
 		return Page.LIST;

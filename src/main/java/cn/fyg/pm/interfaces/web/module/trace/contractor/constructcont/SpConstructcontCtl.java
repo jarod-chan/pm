@@ -3,20 +3,18 @@ package cn.fyg.pm.interfaces.web.module.trace.contractor.constructcont;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.error;
 import static cn.fyg.pm.interfaces.web.shared.message.Message.info;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +29,7 @@ import cn.fyg.pm.application.ProjectService;
 import cn.fyg.pm.application.facade.ConstructContFacade;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructCont;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContItem;
+import cn.fyg.pm.domain.model.construct.constructcont.ConstructContSpecs;
 import cn.fyg.pm.domain.model.construct.constructcont.ConstructContState;
 import cn.fyg.pm.domain.model.construct.constructkey.ConstructKey;
 import cn.fyg.pm.domain.model.contract.general.Contract;
@@ -38,8 +37,8 @@ import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.supplier.Supplier;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
-import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 import cn.fyg.pm.domain.shared.verify.Result;
+import cn.fyg.pm.interfaces.web.shared.component.QueryComp;
 import cn.fyg.pm.interfaces.web.shared.constant.AppConstant;
 import cn.fyg.pm.interfaces.web.shared.mvc.BindTool;
 import cn.fyg.pm.interfaces.web.shared.session.SessionUtil;
@@ -84,25 +83,13 @@ public class SpConstructcontCtl {
 		supplier.setId(supplierId);
 		final Project project=new Project();
 		project.setId(projectId);
-		//TODO 修改查询条件
-		QuerySpec<ConstructCont> query=new QuerySpec<ConstructCont>(){
-			@Override
-			public List<Predicate> criterias(CriteriaBuilder builder, Root<ConstructCont> from) {
-				List<Predicate> criterias=new ArrayList<Predicate>();
-				criterias.add(builder.equal(from.get("constructKey").get("project"), project));
-				criterias.add(builder.equal(from.get("constructKey").get("supplier"), supplier));
-				return criterias;
-			}
-
-			@Override
-			public List<Order> orders(CriteriaBuilder builder, Root<ConstructCont> from) {
-				List<Order> orders=new ArrayList<Order>();
-				orders.add(builder.desc(from.<Object>get("createdate")));
-				return orders;
-			}
-		};
+	
+		QueryComp<ConstructCont> comp=new QueryComp<ConstructCont>();
+		comp.addSpec(ConstructContSpecs.inProject(project));
+		comp.addSpec(ConstructContSpecs.withSupplier(supplier));
+		Sort sort = new Sort(new Order(Direction.DESC,"createdate"));
+		List<ConstructCont> constructContList = this.constructContService.findAll(comp.toSpec(),sort);
 		
-		List<ConstructCont> constructContList = constructContService.query(query);
 		map.put("constructContList", constructContList);
 		return Page.LIST;
 	}
