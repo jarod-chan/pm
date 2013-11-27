@@ -6,13 +6,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specifications;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.DesignNotiService;
+import cn.fyg.pm.application.common.impl.SericeQueryRefImpl;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNoti;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiCommitVld;
 import cn.fyg.pm.domain.model.design.designnoti.DesignNotiFactory;
@@ -27,11 +26,10 @@ import cn.fyg.pm.domain.model.pjmember.PjmemberRepository;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.role.Role;
 import cn.fyg.pm.domain.model.user.User;
-import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 import cn.fyg.pm.domain.shared.verify.Result;
 
 @Service("designNotiService")
-public class DesignNotiServiceImpl implements DesignNotiService {
+public class DesignNotiServiceImpl extends SericeQueryRefImpl<DesignNoti> implements DesignNotiService {
 
 	@Autowired
 	DesignNotiRepository designNotiRepository;
@@ -49,8 +47,8 @@ public class DesignNotiServiceImpl implements DesignNotiService {
 	PatternFactory<DesignNoti> businoFactory;
 	
 	@Override
-	public List<DesignNoti> query(QuerySpec<DesignNoti> querySpec) {
-		return this.designNotiRepository.query(DesignNoti.class, querySpec);
+	public JpaSpecificationExecutor<DesignNoti> getSpecExecutor() {
+		return this.designNotiRepository;
 	}
 
 	@Override
@@ -109,21 +107,9 @@ public class DesignNotiServiceImpl implements DesignNotiService {
 	}
 
 	@Override
-	public List<DesignNoti> findByProject(Project project, DesignNotiState state) {
-		return this.designNotiRepository.findByProjectAndStateOrderByIdDesc(project, state);
-	}
-
-
-	@Override
 	@Transactional
 	public void delete(Long designNotiId) {
 		this.designNotiRepository.delete(designNotiId);
-	}
-
-	@Override
-	public Page<DesignNoti> findAll(Specifications<DesignNoti> spec,
-			Pageable pageable) {
-		return this.designNotiRepository.findAll(spec, pageable);
 	}
 
 }

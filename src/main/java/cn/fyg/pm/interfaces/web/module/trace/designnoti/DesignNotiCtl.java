@@ -81,7 +81,7 @@ public class DesignNotiCtl {
 		Project project = new Project();
 		project.setId(projectId);
 		query.setProject(project);
-		List<DesignNoti>  designNotiList= this.designNotiService.query(query);
+		List<DesignNoti>  designNotiList= this.designNotiService.findAll(query.getSpec(), query.getSort());
 		map.put("designNotiList", designNotiList);
 		map.put("query", query);
 		return Page.LIST;
