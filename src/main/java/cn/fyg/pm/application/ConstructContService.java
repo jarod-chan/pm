@@ -14,24 +14,22 @@ import cn.fyg.pm.domain.model.user.User;
 
 public interface ConstructContService extends CommitValidator<ConstructCont>,ServiceQueryRef<ConstructCont> {
 	
-	List<ConstructCont> findAll();
+	ConstructCont create(User creater,Project project, ConstructContState state);
+	
+	ConstructCont find(Long id);
 	
 	ConstructCont save(ConstructCont constructCont);
 	
+	void delete(Long id);
+
 	void finish(Long constructContId,String userKey);
 	
-	void delete(Long id);
-	
-	ConstructCont find(Long id);
+	void invalid(Long constructContId);
 
 	ConstructCont findByConstructKey(ConstructKey constructKey);
-
-	ConstructCont create(User creater,Project project, ConstructContState state);
 
 	List<ConstructCont> constructContCanBeSelected(Project project,ConstructContState state,Long constructCertId);
 	
 	List<ConstructCont> findConstructContCanBeSelectedSupplier(Project project,Long constructCertId,Supplier supplier);
-
-	void invalid(Long constructContId);
 	
 }

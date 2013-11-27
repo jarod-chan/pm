@@ -57,11 +57,6 @@ public class ConstructContServiceImpl extends SericeQueryRefImpl<ConstructCont> 
 	}
 
 	@Override
-	public List<ConstructCont> findAll() {
-		return this.constructContRepository.findAll();
-	}
-
-	@Override
 	public ConstructCont save(ConstructCont constructCont) {
 		Pattern<ConstructCont> pattern = noFactory.create(constructCont).setEmpty(constructCont.getId()!=null);
 		Lock lock = lockService.getLock(pattern);
