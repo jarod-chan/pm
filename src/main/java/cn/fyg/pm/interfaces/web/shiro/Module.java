@@ -12,7 +12,8 @@ public enum Module {
 	system("system:menu",new String[]{
 			"project:menu",
 			"spmember:menu",
-			"user:menu"
+			"user:menu",
+			"user:info"
 	}),
 	supplier("supplier:menu",new String[]{
 			"supplier-contra:menu",
