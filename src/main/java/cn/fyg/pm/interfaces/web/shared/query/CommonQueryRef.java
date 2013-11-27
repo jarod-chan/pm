@@ -41,7 +41,6 @@ public abstract class CommonQueryRef<T> extends AbstractQuerySpec<T> {
 	@Override
 	public void initOrderAttributeList(List<Qitem> attributeList) {
 		attributeList.add(new Qitem("no","编号"));
-		attributeList.add(new Qitem("constructKey.supplier.id","施工承包方"));
 		attributeList.add(new Qitem("createdate","制单日期"));
 	}
 

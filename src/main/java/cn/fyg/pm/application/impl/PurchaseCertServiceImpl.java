@@ -6,10 +6,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.PurchaseCertService;
+import cn.fyg.pm.application.common.impl.SericeQueryRefImpl;
 import cn.fyg.pm.domain.model.nogenerator.generator.Pattern;
 import cn.fyg.pm.domain.model.nogenerator.generator.PatternFactory;
 import cn.fyg.pm.domain.model.nogenerator.look.Lock;
@@ -28,11 +30,10 @@ import cn.fyg.pm.domain.model.purchase.purchasereq.item.PurchaseReqItemRepositor
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 import cn.fyg.pm.domain.model.role.Role;
 import cn.fyg.pm.domain.model.user.User;
-import cn.fyg.pm.domain.shared.repositoryquery.QuerySpec;
 import cn.fyg.pm.domain.shared.verify.Result;
 
 @Service("purchaseCertService")
-public class PurchaseCertServiceImpl implements PurchaseCertService {
+public class PurchaseCertServiceImpl extends SericeQueryRefImpl<PurchaseCert> implements PurchaseCertService {
 
 	@Autowired
 	PurchaseCertRepository purchaseCertRepository;
@@ -52,10 +53,10 @@ public class PurchaseCertServiceImpl implements PurchaseCertService {
 	@Autowired
 	@Qualifier("purchaseCertBusino")
 	PatternFactory<PurchaseCert> businoFactroy;
-	
+
 	@Override
-	public List<PurchaseCert> query(QuerySpec<PurchaseCert> querySpec) {
-		return purchaseCertRepository.query(PurchaseCert.class, querySpec);
+	public JpaSpecificationExecutor<PurchaseCert> getSpecExecutor() {
+		return this.purchaseCertRepository;
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import cn.fyg.pm.application.common.ServiceQueryRef;
 
+//TODO rename
 public abstract class SericeQueryRefImpl<T> implements ServiceQueryRef<T> {
 	
 	

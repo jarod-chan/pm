@@ -27,14 +27,12 @@ import cn.fyg.pm.application.PurchaseCertService;
 import cn.fyg.pm.application.PurchaseReqService;
 import cn.fyg.pm.application.SupplierService;
 import cn.fyg.pm.application.facade.PurchaseCertFacade;
-import cn.fyg.pm.domain.model.contract.ContractSpec;
 import cn.fyg.pm.domain.model.project.Project;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCert;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertItem;
 import cn.fyg.pm.domain.model.purchase.purchasecert.PurchaseCertState;
 import cn.fyg.pm.domain.model.purchase.purchasereq.item.UptypeEnum;
 import cn.fyg.pm.domain.model.purchase.purchasereq.req.PurchaseReq;
-import cn.fyg.pm.domain.model.supplier.Supptype;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.workflow.opinion.Opinion;
 import cn.fyg.pm.domain.model.workflow.opinion.ResultEnum;
@@ -90,12 +88,10 @@ public class PurchaseCertCtl {
 		Project project = new Project();
 		project.setId(projectId);
 		query.setProject(project);
-		List<PurchaseCert>  purchaseCertList= purchaseCertService.query(query);
+		List<PurchaseCert>  purchaseCertList= this.purchaseCertService.findAll(query.getSpec(), query.getSort());
 		List<PurchaseCertDto> purchaseCertDtoList = purchaseCertAssembler.buildDto(purchaseCertList);
 		map.put("purchaseCertDtoList", purchaseCertDtoList);
-		map.put("contractSpecList", ContractSpec.values());
 		map.put("query", query);
-		map.put("supplierList", supplierService.findByTypeIn(Supptype.meter));
 		return Page.LIST;
 	}
 	
