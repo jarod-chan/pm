@@ -58,11 +58,12 @@
 		    $("#file_upload").uploadify({
 		    	buttonText    : '上传文件',
 		        swf           : '${ctx}/plu/uploadify/uploadify.swf',
-		        uploader      : '${ctx}/uploadify/upload',
+		        uploader      : '${ctx}/uploadify/upload;jsessionid=<%=session.getId()%>',
 		        queueID : 'uploadify_queue',
 		        removeTimeout : 0,
 		        height        : 15,
 		        width         : 80,
+		        debug         : false,  
 		        //返回一个错误，选择文件的时候触发
 		        onSelectError:function(file, errorCode, errorMsg){
 		            switch(errorCode) {

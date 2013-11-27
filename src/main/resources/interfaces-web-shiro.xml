@@ -39,6 +39,7 @@
 				/img/**=anon
 				/js/**=anon
 				/plu/**=anon
+				/uploadify/upload=anon
 				/** = authc
 			</value>
 		</property>
