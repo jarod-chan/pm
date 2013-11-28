@@ -18,7 +18,7 @@
 
 	<div class="content_center">
 	<div class="font_red ">
-		注意：默认密码只是临时测试用，请不要在修改。
+		注意：默认密码只是临时测试用，请不要修改。
 	</div>
 	<%@ include file="/common/message.jsp" %>
 	
