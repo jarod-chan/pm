@@ -81,6 +81,7 @@
 			<button type="button" id="btn_login">登录系统</button>
 			<button type="button" id="btn_fetchpwd">取回密码</button>
 		</div>
+		<%@ include file="../help/help.jsp" %>
 		</form>
 	</div>
 		

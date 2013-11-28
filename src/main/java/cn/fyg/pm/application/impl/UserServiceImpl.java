@@ -6,20 +6,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.fyg.pm.application.UserService;
+import cn.fyg.pm.application.common.impl.SericeQueryImpl;
 import cn.fyg.pm.domain.model.user.EnabledEnum;
 import cn.fyg.pm.domain.model.user.User;
 import cn.fyg.pm.domain.model.user.UserFactory;
 import cn.fyg.pm.domain.model.user.UserRepository;
 
 @Service("userService")
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends SericeQueryImpl<User> implements UserService {
+
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Override
+	public JpaSpecificationExecutor<User> getSpecExecutor() {
+		return this.userRepository;
+	}
+
 	
 	@Override
 	@Transactional

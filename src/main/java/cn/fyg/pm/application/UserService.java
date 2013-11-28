@@ -2,14 +2,11 @@ package cn.fyg.pm.application;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
-
+import cn.fyg.pm.application.common.ServiceQuery;
 import cn.fyg.pm.domain.model.user.EnabledEnum;
 import cn.fyg.pm.domain.model.user.User;
 
-public interface UserService {
+public interface UserService extends ServiceQuery<User> {
 	
 	User create();
 	
@@ -28,5 +25,4 @@ public interface UserService {
 
 	List<User> findByEnabled(EnabledEnum enabled);
 
-	Page<User> findAll(Specification<User> spec, Pageable pageable);
 }

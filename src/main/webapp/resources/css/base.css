@@ -19,3 +19,10 @@ h2,h3,h4,h5{
 h3{
 	margin-top:10px;
 }
+
+/* 连接按钮样式 */
+.link_btn{text-decoration: none;background-color:#C0C0C0; padding: 2px; border: 1px #000000 dotted;}
+.link_btn:link {color:#0080FF; }    /* 未被访问的链接 */
+.link_btn:visited {color:#0080FF;} /* 已被访问的链接 */
+.link_btn:hover {color:#FF0000;}   /* 鼠标指针移动到链接上 */
+.link_btn:active {color:#FF0000;}  /* 正在被点击的链接 */
